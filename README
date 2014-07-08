@@ -1,4 +1,67 @@
-RECIPES
-["core", "deployment", "devise", "email", "extras", "frontend", "gems", "git", "init", "learn_rails", "locale", "omniauth", "pages", "rails_bootstrap", "rails_devise", "rails_devise_pundit", "rails_foundation", "rails_mailinglist_signup", "rails_omniauth", "rails_signup_download", "railsapps", "readme", "roles", "setup", "tests"]
-PREFERENCES
-{:git=>true, :apps4=>"none", :announcements=>"mailinglist", :dev_webserver=>"webrick", :prod_webserver=>"passenger", :database=>"mysql", :templates=>"erb", :tests=>"rspec", :continuous_testing=>"guard", :frontend=>"foundation4", :email=>"mandrill", :authentication=>"devise", :devise_modules=>"invitable", :authorization=>"pundit", :form_builder=>"simple_form", :pages=>"users"}
+Reconman
+========================
+
+This application was generated with the rails_apps_composer gem:
+https://github.com/RailsApps/rails_apps_composer
+provided by the RailsApps Project:
+http://railsapps.github.io/
+
+________________________
+
+Recipes:
+
+* core
+* deployment
+* devise
+* email
+* extras
+* frontend
+* gems
+* git
+* init
+* learn_rails
+* locale
+* omniauth
+* pages
+* rails_bootstrap
+* rails_devise
+* rails_devise_pundit
+* rails_foundation
+* rails_mailinglist_signup
+* rails_omniauth
+* rails_signup_download
+* railsapps
+* readme
+* roles
+* setup
+* tests
+
+Preferences:
+
+* git: true
+* apps4: none
+* announcements: mailinglist
+* dev_webserver: webrick
+* prod_webserver: passenger
+* database: mysql
+* templates: erb
+* tests: rspec
+* continuous_testing: guard
+* frontend: foundation4
+* email: mandrill
+* authentication: devise
+* devise_modules: invitable
+* authorization: pundit
+* form_builder: simple_form
+* pages: users
+* locale: none
+* rvmrc: true
+* local_env_file: figaro
+* ban_spiders: true
+* jsruntime: true
+* github: true
+* deployment: capistrano3
+
+________________________
+
+License
