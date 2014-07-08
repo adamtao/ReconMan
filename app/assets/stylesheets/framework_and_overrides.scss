@@ -23,9 +23,9 @@
   }
 // create your own classes
 // to make views framework-neutral
-.column {
-  @include six-columns-centered;
-  }
+//.column {
+//  @include six-columns-centered;
+//  }
 .form {
   @include grid-column(6);
   }
@@ -40,7 +40,7 @@
 // to make views framework-neutral
 main {
   @include twelve-columns;
-  background-color: #eee;
+  //background-color: #eee;
   }
 section {
   @extend .row;

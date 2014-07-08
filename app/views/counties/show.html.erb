@@ -1,0 +1,33 @@
+<p>
+  <strong>Name:</strong>
+  <%= @county.name %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @county.state %>
+</p>
+
+<p>
+  <strong>Search url:</strong>
+  <%= @county.search_url %>
+</p>
+
+<p>
+  <strong>Search params:</strong>
+  <%= @county.search_params %>
+</p>
+
+<p>
+  <strong>Search method:</strong>
+  <%= @county.search_method %>
+</p>
+
+<p>
+  <strong>Average days to complete:</strong>
+  <%= @county.average_days_to_complete %>
+</p>
+
+<%= link_to 'Edit', edit_county_path(@county) %> |
+<%= link_to 'Destroy', @county, method: :delete, data: { confirm: 'Are you sure?' } %> |
+<%= link_to 'Back', counties_path %>

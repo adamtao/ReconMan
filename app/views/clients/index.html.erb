@@ -1,0 +1,9 @@
+<h1>Clients</h1>
+
+<%= link_to 'New Client', new_client_path, class: "small button" %>
+
+<ul>
+  <% @clients.each do |client| %>
+    <li><%= link_to client.name, client %> (<%= client.jobs.count %>)</li>
+  <% end %>
+</ul>

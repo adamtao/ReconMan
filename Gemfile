@@ -5,7 +5,7 @@ gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
-gem 'turbolinks'
+# gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
@@ -17,7 +17,8 @@ gem 'mysql2'
 gem 'pundit'
 gem 'simple_form'
 gem 'therubyracer', :platform=>:ruby
-gem 'zurb-foundation', '~> 4.3.2'
+gem 'foundation-rails'
+gem 'workflow'
 group :development do
   gem 'capistrano', '~> 3.0.1'
   gem 'capistrano-bundler'

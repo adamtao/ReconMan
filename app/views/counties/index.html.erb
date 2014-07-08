@@ -1,0 +1,30 @@
+<h1>Counties</h1>
+
+<%= link_to 'New County', new_county_path, class: "small button" %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>State</th>
+      <th>Search url</th>
+      <th>Search params</th>
+      <th>Search method</th>
+      <th>Average days to complete</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @counties.each do |county| %>
+      <tr>
+        <td><%= link_to county.name, county %></td>
+        <td><%= county.state %></td>
+        <td><%= county.search_url.present? ? 'ok' : '!' %></td>
+        <td><%= county.search_params.present? ? 'ok' : '!' %></td>
+        <td><%= county.search_method.present? ? 'ok' : '!' %></td>
+        <td><%= county.average_days_to_complete %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

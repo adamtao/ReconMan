@@ -11,7 +11,55 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140708042716) do
+ActiveRecord::Schema.define(version: 20140708154548) do
+
+  create_table "clients", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "counties", force: true do |t|
+    t.string   "name"
+    t.string   "state"
+    t.string   "search_url"
+    t.string   "search_params"
+    t.string   "search_method"
+    t.string   "average_days_to_complete"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "counties", ["state"], name: "index_counties_on_state", using: :btree
+
+  create_table "jobs", force: true do |t|
+    t.string   "name"
+    t.integer  "client_id"
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zipcode"
+    t.integer  "county_id"
+    t.datetime "last_search_at"
+    t.datetime "completed_at"
+    t.string   "old_owner"
+    t.string   "new_owner"
+    t.string   "workflow_state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "jobs", ["client_id"], name: "index_jobs_on_client_id", using: :btree
+  add_index "jobs", ["county_id"], name: "index_jobs_on_county_id", using: :btree
+
+  create_table "title_search_caches", force: true do |t|
+    t.integer  "job_id"
+    t.text     "response"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "title_search_caches", ["job_id"], name: "index_title_search_caches_on_job_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

@@ -1,0 +1,32 @@
+<h1>Jobs</h1>
+
+<%= link_to 'New Job', new_job_path, class: "small button" %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Client</th>
+      <th>Job Name</th>
+      <th>Address</th>
+      <th>County</th>
+      <th>Old owner</th>
+      <th>New owner</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @jobs.each do |job| %>
+      <tr>
+        <td><%= link_to job.client.name, job.client %></td>
+        <td><%= link_to job.name, job %></td>
+        <td><%= job.address %>, <%= job.city %> <%= job.state %>, <%= job.zipcode %></td>
+        <td><%= link_to job.county.name, job.county %></td>
+        <td><%= job.old_owner %></td>
+        <td><%= job.new_owner %></td>
+        <td><%= job.workflow_state %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
