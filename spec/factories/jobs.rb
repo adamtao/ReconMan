@@ -6,13 +6,14 @@ FactoryGirl.define do
     client_id 1
     address "MyString"
     city "MyString"
-    state "MyString"
+    state_id 1
     zipcode "MyString"
     county_id 1
-    last_search_at "2014-07-08 09:45:49"
-    completed_at "2014-07-08 09:45:49"
+    last_search_at "2014-07-08 12:49:49"
+    completed_at "2014-07-08 12:49:49"
     old_owner "MyString"
     new_owner "MyString"
     workflow_state "MyString"
+    requestor_id 1
   end
 end

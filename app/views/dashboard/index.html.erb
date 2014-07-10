@@ -1,0 +1,68 @@
+<div class="main_content">
+	<h1>Current Jobs</h1>
+
+	<table style="width: 100%">
+	  <thead>
+	    <tr>
+	      <th>Name</th>
+	      <th>Address</th>
+	      <th>State, County</th>
+	      <th>Client</th>
+	      <th>Last search</th>
+	      <th>Old owner</th>
+	      <th>New owner</th>
+	      <th>Status</th>
+	    </tr>
+	  </thead>
+
+	  <tbody>
+	    <% @jobs.each do |job| %>
+	      <tr>
+	        <td><%= link_to job.name, job %></td>
+	        <td><%= job.address %>, <%= job.city %>, <%= job.state.abbreviation %> <%= job.zipcode %></td>
+	        <td><%= link_to job.state.name, job.state %>, <%= link_to job.county.name, [job.state, job.county] %></td>
+	        <td><%= link_to job.client.name, job.client %>
+	          <%= link_to job.requestor.name, job.requestor %>
+	          (<%= job.requestor.branch.name %>)
+	        </td>
+	        <td><%= job.last_search_at %></td>
+	        <td><%= job.old_owner %></td>
+	        <td><%= job.new_owner %></td>
+	        <td><%= job.workflow_state %></td>
+	      </tr>
+	    <% end %>
+	  </tbody>
+	</table>
+
+</div>
+
+<div class="side_content">
+	<%= link_to 'New Job', new_job_path, class: "small button" %>
+
+	<hr/>
+
+	<h4>Top Clients</h4>
+
+	<ul>
+	  <% @clients.each do |client| %>
+	    <li><%= link_to client.name, client %> (<%= client.jobs.count %>)</li>
+	  <% end %>
+	</ul>
+
+	<%= link_to 'New Client', new_client_path, class: "small button" %>
+
+	<hr/>
+
+	<h4>Products</h4>
+
+	<ul>
+	    <% @products.each do |product| %>
+	      <li><%= link_to product.name, product %></li>
+	    <% end %>
+	</ul>
+
+	<%= link_to 'New Product', new_product_path, class: "small button" %>
+
+	<hr/>
+
+</div>

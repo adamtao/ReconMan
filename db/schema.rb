@@ -11,7 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140708154548) do
+ActiveRecord::Schema.define(version: 20140708192325) do
+
+  create_table "branches", force: true do |t|
+    t.string   "name"
+    t.string   "address"
+    t.string   "city"
+    t.integer  "state_id"
+    t.string   "zipcode"
+    t.string   "phone"
+    t.integer  "client_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "branches", ["client_id"], name: "index_branches_on_client_id", using: :btree
 
   create_table "clients", force: true do |t|
     t.string   "name"
@@ -21,7 +35,7 @@ ActiveRecord::Schema.define(version: 20140708154548) do
 
   create_table "counties", force: true do |t|
     t.string   "name"
-    t.string   "state"
+    t.integer  "state_id"
     t.string   "search_url"
     t.string   "search_params"
     t.string   "search_method"
@@ -30,14 +44,27 @@ ActiveRecord::Schema.define(version: 20140708154548) do
     t.datetime "updated_at"
   end
 
-  add_index "counties", ["state"], name: "index_counties_on_state", using: :btree
+  add_index "counties", ["state_id"], name: "index_counties_on_state_id", using: :btree
+
+  create_table "job_products", force: true do |t|
+    t.integer  "product_id"
+    t.integer  "job_id"
+    t.integer  "price_cents",    default: 0,     null: false
+    t.string   "price_currency", default: "USD", null: false
+    t.string   "workflow_state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "job_products", ["job_id"], name: "index_job_products_on_job_id", using: :btree
+  add_index "job_products", ["product_id"], name: "index_job_products_on_product_id", using: :btree
 
   create_table "jobs", force: true do |t|
     t.string   "name"
     t.integer  "client_id"
     t.string   "address"
     t.string   "city"
-    t.string   "state"
+    t.integer  "state_id"
     t.string   "zipcode"
     t.integer  "county_id"
     t.datetime "last_search_at"
@@ -45,21 +72,39 @@ ActiveRecord::Schema.define(version: 20140708154548) do
     t.string   "old_owner"
     t.string   "new_owner"
     t.string   "workflow_state"
+    t.integer  "requestor_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "jobs", ["client_id"], name: "index_jobs_on_client_id", using: :btree
   add_index "jobs", ["county_id"], name: "index_jobs_on_county_id", using: :btree
+  add_index "jobs", ["requestor_id"], name: "index_jobs_on_requestor_id", using: :btree
 
-  create_table "title_search_caches", force: true do |t|
-    t.integer  "job_id"
-    t.text     "response"
+  create_table "products", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "price_cents",    default: 0,     null: false
+    t.string   "price_currency", default: "USD", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "title_search_caches", ["job_id"], name: "index_title_search_caches_on_job_id", using: :btree
+  create_table "states", force: true do |t|
+    t.string   "name"
+    t.string   "abbreviation"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "title_search_caches", force: true do |t|
+    t.integer  "job_product_id"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "title_search_caches", ["job_product_id"], name: "index_title_search_caches_on_job_product_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

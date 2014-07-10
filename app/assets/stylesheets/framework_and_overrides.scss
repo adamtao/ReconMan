@@ -46,3 +46,21 @@ section {
   @extend .row;
   margin-top: 20px;
   }
+
+@mixin main_content {
+  @extend .small-12;
+  @extend .large-8;
+  @extend .columns;
+  }
+@mixin side_content {
+  @extend .small-12;
+  @extend .large-4;
+  @extend .columns;
+  }
+
+.main_content {
+  @include main_content;
+}
+.side_content {
+  @include side_content;
+}

@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Product:</strong>
+  <%= @job_product.product_id %>
+</p>
+
+<p>
+  <strong>Job:</strong>
+  <%= @job_product.job_id %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @job_product.price %>
+</p>
+
+<p>
+  <strong>Workflow state:</strong>
+  <%= @job_product.workflow_state %>
+</p>
+
+<%= link_to 'Edit', edit_job_product_path(@job_product) %> |
+<%= link_to 'Back', job_products_path %>

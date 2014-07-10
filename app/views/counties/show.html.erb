@@ -1,11 +1,8 @@
-<p>
-  <strong>Name:</strong>
-  <%= @county.name %>
-</p>
+<h1><%= @county.name %></h1>
 
 <p>
   <strong>State:</strong>
-  <%= @county.state %>
+  <%= link_to @county.state.name, @county.state %>
 </p>
 
 <p>
@@ -29,5 +26,4 @@
 </p>
 
 <%= link_to 'Edit', edit_county_path(@county) %> |
-<%= link_to 'Destroy', @county, method: :delete, data: { confirm: 'Are you sure?' } %> |
 <%= link_to 'Back', counties_path %>

@@ -2,7 +2,7 @@ class CreateCounties < ActiveRecord::Migration
   def change
     create_table :counties do |t|
       t.string :name
-      t.string :state
+      t.integer :state_id
       t.string :search_url
       t.string :search_params
       t.string :search_method
@@ -10,6 +10,6 @@ class CreateCounties < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :counties, :state
+    add_index :counties, :state_id
   end
 end

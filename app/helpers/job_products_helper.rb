@@ -1,0 +1,2 @@
+module JobProductsHelper
+end

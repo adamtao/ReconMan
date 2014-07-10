@@ -8,8 +8,7 @@ gem 'jquery-rails'
 # gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
-gem 'spring',        group: :development
-gem 'compass-rails', '~> 1.1.2'
+# gem 'compass-rails', '~> 1.1.2'
 gem 'devise'
 gem 'devise_invitable'
 gem 'figaro', '>= 1.0.0.rc1'
@@ -19,7 +18,10 @@ gem 'simple_form'
 gem 'therubyracer', :platform=>:ruby
 gem 'foundation-rails'
 gem 'workflow'
+gem 'money-rails'
+
 group :development do
+  gem 'spring'
   gem 'capistrano', '~> 3.0.1'
   gem 'capistrano-bundler'
   gem 'capistrano-rails', '~> 1.1.0'
@@ -34,10 +36,12 @@ group :development do
   gem 'rb-fsevent', :require=>false
   gem 'rb-inotify', :require=>false
 end
+
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
 end
+
 group :test do
   gem 'capybara'
   gem 'database_cleaner'

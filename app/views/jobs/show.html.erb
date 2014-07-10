@@ -1,11 +1,11 @@
 <p>
-  <strong>Job Name:</strong>
+  <strong>Name:</strong>
   <%= @job.name %>
 </p>
 
 <p>
   <strong>Client:</strong>
-  <%= link_to @job.client.name, @job.client %>
+  <%= @job.client_id %>
 </p>
 
 <p>
@@ -20,7 +20,7 @@
 
 <p>
   <strong>State:</strong>
-  <%= @job.state %>
+  <%= @job.state_id %>
 </p>
 
 <p>
@@ -30,7 +30,7 @@
 
 <p>
   <strong>County:</strong>
-  <%= link_to @job.county.name, @job.county %>
+  <%= @job.county_id %>
 </p>
 
 <p>
@@ -56,6 +56,11 @@
 <p>
   <strong>Workflow state:</strong>
   <%= @job.workflow_state %>
+</p>
+
+<p>
+  <strong>Requestor:</strong>
+  <%= @job.requestor_id %>
 </p>
 
 <%= link_to 'Edit', edit_job_path(@job) %> |

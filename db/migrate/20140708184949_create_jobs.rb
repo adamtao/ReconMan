@@ -5,7 +5,7 @@ class CreateJobs < ActiveRecord::Migration
       t.integer :client_id
       t.string :address
       t.string :city
-      t.string :state
+      t.integer :state_id
       t.string :zipcode
       t.integer :county_id
       t.datetime :last_search_at
@@ -13,10 +13,12 @@ class CreateJobs < ActiveRecord::Migration
       t.string :old_owner
       t.string :new_owner
       t.string :workflow_state
+      t.integer :requestor_id
 
       t.timestamps
     end
     add_index :jobs, :client_id
     add_index :jobs, :county_id
+    add_index :jobs, :requestor_id
   end
 end

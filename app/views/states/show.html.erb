@@ -1,0 +1,22 @@
+
+<p>
+  <strong>Name:</strong>
+  <%= @state.name %>
+</p>
+
+<p>
+  <strong>Abbreviation:</strong>
+  <%= @state.abbreviation %>
+</p>
+
+<%= link_to 'Edit', edit_state_path(@state) %> |
+<%= link_to 'Destroy', @state, method: :delete, data: { confirm: 'Are you sure?' } %> |
+<%= link_to 'Back', states_path %>
+
+<h3>Counties</h3>
+
+<ul>
+	<% @state.counties.each do |county| %>
+	<li><%= link_to county.name, [@state, county] %></li>
+	<% end %>
+</ul>

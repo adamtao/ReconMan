@@ -5,10 +5,11 @@
 <table>
   <thead>
     <tr>
-      <th>Client</th>
-      <th>Job Name</th>
+      <th>Name</th>
       <th>Address</th>
-      <th>County</th>
+      <th>State, County</th>
+      <th>Client</th>
+      <th>Last search</th>
       <th>Old owner</th>
       <th>New owner</th>
       <th>Status</th>
@@ -18,10 +19,14 @@
   <tbody>
     <% @jobs.each do |job| %>
       <tr>
-        <td><%= link_to job.client.name, job.client %></td>
         <td><%= link_to job.name, job %></td>
-        <td><%= job.address %>, <%= job.city %> <%= job.state %>, <%= job.zipcode %></td>
-        <td><%= link_to job.county.name, job.county %></td>
+        <td><%= job.address %>, <%= job.city %>, <%= job.state.abbreviation %> <%= job.zipcode %></td>
+        <td><%= link_to job.state.name, job.state %>, <%= link_to job.county.name, [job.state, job.county] %></td>
+        <td><%= link_to job.client.name, job.client %>
+          <%= link_to job.requestor.name, job.requestor %>
+          (<%= job.requestor.branch.name %>)
+        </td>
+        <td><%= job.last_search_at %></td>
         <td><%= job.old_owner %></td>
         <td><%= job.new_owner %></td>
         <td><%= job.workflow_state %></td>
@@ -29,4 +34,5 @@
     <% end %>
   </tbody>
 </table>
+
 
