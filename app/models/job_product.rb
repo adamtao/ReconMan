@@ -18,11 +18,42 @@ class JobProduct < ActiveRecord::Base
 	belongs_to :job 
 	belongs_to :product
 
-	has_many :title_search_caches
+	has_many :title_search_caches, class_name: "TitleSearchCache"
 
 	monetize :price_cents
 
 	validates :price_cents, presence: true
 	validates :job, presence: true
 	validates :product, presence: true
+
+	def name
+		self.product.name
+	end
+
+	# TODO: Make sure the auto-tracking can handle POST and GET
+	def search
+		return false if self.search_url.blank?
+
+		uri = URI.parse(self.search_url)
+		http = Net::HTTP.new(uri.host, uri.port)
+		request = Net::HTTP::Get.new(uri.request_uri)
+		if ENV['TRACKING_USER_AGENT']
+			request["User-Agent"] = ENV['TRACKING_USER_AGENT']
+		end
+		response = http.request(request)
+
+		log_search_results(response) if response.success?
+	end
+
+	def log_search_results(response)
+		TitleSearchCache.create({
+			content: response.content,
+			job_product_id: self.id
+		})
+	end
+
+
+	def search_changed?
+		title_search_caches.last && title_search_caches.last.change_detected?
+	end
 end

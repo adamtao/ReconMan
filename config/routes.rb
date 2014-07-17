@@ -8,9 +8,12 @@ Rails.application.routes.draw do
 
   resources :clients do 
     resources :branches
+    resources :client_products
   end
   resources :jobs do
-    resources :job_products
+    resources :job_products do
+      resources :title_search_caches
+    end
   end
 
   root to: 'dashboard#index'

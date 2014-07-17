@@ -1,10 +1,11 @@
 class JobProductsController < ApplicationController
+  before_action :set_job
   before_action :set_job_product, only: [:show, :edit, :update, :destroy]
 
   # GET /job_products
   # GET /job_products.json
   def index
-    @job_products = JobProduct.all
+    @job_products = @job.job_products
   end
 
   # GET /job_products/1
@@ -14,7 +15,7 @@ class JobProductsController < ApplicationController
 
   # GET /job_products/new
   def new
-    @job_product = JobProduct.new
+    @job_product = JobProduct.new(job: @job)
   end
 
   # GET /job_products/1/edit
@@ -25,10 +26,10 @@ class JobProductsController < ApplicationController
   # POST /job_products.json
   def create
     @job_product = JobProduct.new(job_product_params)
-
+    @job_product.job = @job
     respond_to do |format|
       if @job_product.save
-        format.html { redirect_to @job_product, notice: 'Job product was successfully created.' }
+        format.html { redirect_to @job, notice: 'Job product was successfully created.' }
         format.json { render :show, status: :created, location: @job_product }
       else
         format.html { render :new }
@@ -42,7 +43,7 @@ class JobProductsController < ApplicationController
   def update
     respond_to do |format|
       if @job_product.update(job_product_params)
-        format.html { redirect_to @job_product, notice: 'Job product was successfully updated.' }
+        format.html { redirect_to [@job, @job_product], notice: 'Job product was successfully updated.' }
         format.json { render :show, status: :ok, location: @job_product }
       else
         format.html { render :edit }
@@ -56,12 +57,17 @@ class JobProductsController < ApplicationController
   def destroy
     @job_product.destroy
     respond_to do |format|
-      format.html { redirect_to job_products_url, notice: 'Job product was successfully destroyed.' }
+      format.html { redirect_to @job, notice: 'Job product was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
+
+    def set_job
+      @job = Job.find(params[:job_id])
+    end
+    
     # Use callbacks to share common setup or constraints between actions.
     def set_job_product
       @job_product = JobProduct.find(params[:id])

@@ -1,31 +1,23 @@
-<h1>Listing job_products</h1>
+<h1>Listing job products</h1>
+<%= link_to 'New Job product', new_job_job_product_path(@job) %>
 
 <table>
   <thead>
     <tr>
       <th>Product</th>
-      <th>Job</th>
       <th>Price</th>
       <th>Workflow state</th>
-      <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @job_products.each do |job_product| %>
       <tr>
-        <td><%= job_product.product_id %></td>
-        <td><%= job_product.job_id %></td>
+        <td><%= link_to job_product.product.name, [@job, job_product] %></td>
         <td><%= job_product.price %></td>
         <td><%= job_product.workflow_state %></td>
-        <td><%= link_to 'Show', job_product %></td>
-        <td><%= link_to 'Edit', edit_job_product_path(job_product) %></td>
-        <td><%= link_to 'Destroy', job_product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Job product', new_job_product_path %>

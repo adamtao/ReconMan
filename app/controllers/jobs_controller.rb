@@ -15,6 +15,9 @@ class JobsController < ApplicationController
   # GET /jobs/new
   def new
     @job = Job.new
+    if params[:client_id]
+      @job.client_id = params[:client_id]
+    end
   end
 
   # GET /jobs/1/edit
@@ -69,6 +72,7 @@ class JobsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def job_params
-      params.require(:job).permit(:name, :client_id, :address, :city, :state_id, :zipcode, :county_id, :last_search_at, :completed_at, :old_owner, :new_owner, :workflow_state, :requestor_id)
+      params.require(:job).permit(:name, :client_id, :address, :city, :state_id, :zipcode, :county_id, :completed_at, :old_owner, :new_owner, :requestor_id)
     end
+
 end

@@ -1,39 +1,59 @@
-<p>
-  <strong>Branch Name:</strong>
-  <%= @branch.name %>
-</p>
+<div class="main_content">
+  <h1><%= @branch.name %> <small>a branch of <%= link_to @client.name, @client %></small></h1>
 
-<p>
-  <strong>Client:</strong>
-  <%= @branch.client.name %>
-</p>
+  <dl class="sub-nav">
+    <dd><%= link_to 'Edit', edit_client_branch_path(@client, @branch) %></dd>
+    <dd><%= link_to 'Delete', [@client, @branch], method: :delete, data: { confirm: 'Are you sure?' } %></dd>
+    <dd><%= link_to 'Back', @client %></dd>
+  </dl>
 
-<p>
-  <strong>Address:</strong>
-  <%= @branch.address %>
-</p>
+  <h3>Jobs <small><%= link_to 'new job', new_job_path(client_id: @client.id) %></small></h3>
 
-<p>
-  <strong>City:</strong>
-  <%= @branch.city %>
-</p>
+  <table style="width: 100%">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>State, County</th>
+        <th>Requestor</th>
+        <th>Status</th>
+      </tr>
+    </thead>
 
-<p>
-  <strong>State:</strong>
-  <%= @branch.state.name %>
-</p>
-
-<p>
-  <strong>Zipcode:</strong>
-  <%= @branch.zipcode %>
-</p>
-
-<p>
-  <strong>Phone:</strong>
-  <%= @branch.phone %>
-</p>
-
+    <tbody>
+      <% @branch.jobs.each do |job| %>
+        <tr>
+          <td><%= link_to job.name, job %></td>
+          <td><%= job.address %>, <%= job.city %>, <%= job.state.abbreviation %> <%= job.zipcode %></td>
+          <td><%= link_to job.state.name, job.state %>, <%= link_to job.county.name, [job.state, job.county] %></td>
+          <td><%= link_to job.requestor.name, job.requestor %>
+          </td>
+          <td><%= job.workflow_state %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
 
-<%= link_to 'Edit', edit_branch_path(@branch) %> |
-<%= link_to 'Back', branches_path %>
+</div>
+
+<div class="side_content">
+  <h4 class="subheader">Address:</h4>
+  <p><%= @branch.address %><br/>
+    <%= @branch.city %>,
+    <%= @branch.state.name %>
+    <%= @branch.zipcode %>
+  </p>
+
+  <p>
+    <%= @branch.phone %>
+  </p>
+  <hr/>
+
+  <h4 class="subheader">Users <small><%= link_to 'new user', new_user_path %></small></h4>
+  <ul>
+    <% @branch.users.each do |user| %>
+    <li><%= link_to user.email, user %></li>
+    <% end %>
+  </ul>
+</div>

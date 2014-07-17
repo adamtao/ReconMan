@@ -15,7 +15,8 @@ class Job < ActiveRecord::Base
 	belongs_to :county
 	belongs_to :state
 	belongs_to :requestor, class_name: "User", foreign_key: :requestor_id
-	has_many :products
+	has_many :job_products
+	has_many :products, through: :job_products
 	has_many :title_search_caches
 
 	validates :client, presence: true
@@ -23,5 +24,19 @@ class Job < ActiveRecord::Base
 	validates :county, presence: true
 	validates :state, presence: true
 	validates :name, presence: true, uniqueness: { scope: :client }
+
+	after_create :create_default_products
+
+	monetize :total_price_cents
+
+	def create_default_products
+		Product.where(default: true).each do |product|
+			self.job_products << JobProduct.new(product: product, price: self.client.product_price(product))
+		end
+	end
+
+	def total_price_cents
+		job_products.inject(0){|total,jp| total += jp.price_cents}
+	end
 
 end

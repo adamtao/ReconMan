@@ -1,10 +1,11 @@
 class BranchesController < ApplicationController
+  before_action :set_client
   before_action :set_branch, only: [:show, :edit, :update, :destroy]
 
   # GET /branches
   # GET /branches.json
   def index
-    @branches = Branch.all
+    @branches = @client.branches
   end
 
   # GET /branches/1
@@ -14,7 +15,7 @@ class BranchesController < ApplicationController
 
   # GET /branches/new
   def new
-    @branch = Branch.new
+    @branch = Branch.new(client: @client)
   end
 
   # GET /branches/1/edit
@@ -25,10 +26,10 @@ class BranchesController < ApplicationController
   # POST /branches.json
   def create
     @branch = Branch.new(branch_params)
-
+    @branch.client = @client
     respond_to do |format|
       if @branch.save
-        format.html { redirect_to @branch, notice: 'Branch was successfully created.' }
+        format.html { redirect_to [@client, @branch], notice: 'Branch was successfully created.' }
         format.json { render :show, status: :created, location: @branch }
       else
         format.html { render :new }
@@ -42,7 +43,7 @@ class BranchesController < ApplicationController
   def update
     respond_to do |format|
       if @branch.update(branch_params)
-        format.html { redirect_to @branch, notice: 'Branch was successfully updated.' }
+        format.html { redirect_to [@client, @branch], notice: 'Branch was successfully updated.' }
         format.json { render :show, status: :ok, location: @branch }
       else
         format.html { render :edit }
@@ -56,12 +57,17 @@ class BranchesController < ApplicationController
   def destroy
     @branch.destroy
     respond_to do |format|
-      format.html { redirect_to branches_url, notice: 'Branch was successfully destroyed.' }
+      format.html { redirect_to @client, notice: 'Branch was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
+
+    def set_client
+      @client = Client.find(params[:client_id])
+    end
+    
     # Use callbacks to share common setup or constraints between actions.
     def set_branch
       @branch = Branch.find(params[:id])

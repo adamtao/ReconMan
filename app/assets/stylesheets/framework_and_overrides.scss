@@ -9,6 +9,13 @@
   font-weight: normal;
   color: white;
   padding: 0 15px; }
+.top-bar {
+  margin-bottom: rem-calc(20);
+}
+
+.sub-nav {
+  background: #EEE;
+}
 
 // THESE ARE EXAMPLES YOU CAN MODIFY
 // create mixins using Foundation classes
@@ -60,7 +67,25 @@ section {
 
 .main_content {
   @include main_content;
+  table {
+    width: 100%
+  }
 }
 .side_content {
   @include side_content;
+}
+
+.column_6 {
+  @extend .large-6;
+  @extend .small-12;
+  @extend .columns;
+}
+
+.hint {
+  display: block;
+  font-size: emCalc(12px);
+  color: #777;
+  font-style: oblique;
+  margin-top: -8px;
+  margin-bottom: 10px;
 }

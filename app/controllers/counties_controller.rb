@@ -1,10 +1,11 @@
 class CountiesController < ApplicationController
+  before_action :set_state
   before_action :set_county, only: [:show, :edit, :update, :destroy]
 
   # GET /counties
   # GET /counties.json
   def index
-    @counties = County.all
+    @counties = @state.counties
   end
 
   # GET /counties/1
@@ -14,7 +15,7 @@ class CountiesController < ApplicationController
 
   # GET /counties/new
   def new
-    @county = County.new
+    @county = County.new(state: @state)
   end
 
   # GET /counties/1/edit
@@ -25,10 +26,10 @@ class CountiesController < ApplicationController
   # POST /counties.json
   def create
     @county = County.new(county_params)
-
+    @county.state = @state
     respond_to do |format|
       if @county.save
-        format.html { redirect_to @county, notice: 'County was successfully created.' }
+        format.html { redirect_to [@state, @county], notice: 'County was successfully created.' }
         format.json { render :show, status: :created, location: @county }
       else
         format.html { render :new }
@@ -42,7 +43,7 @@ class CountiesController < ApplicationController
   def update
     respond_to do |format|
       if @county.update(county_params)
-        format.html { redirect_to @county, notice: 'County was successfully updated.' }
+        format.html { redirect_to [@state, @county], notice: 'County was successfully updated.' }
         format.json { render :show, status: :ok, location: @county }
       else
         format.html { render :edit }
@@ -56,12 +57,17 @@ class CountiesController < ApplicationController
   def destroy
     @county.destroy
     respond_to do |format|
-      format.html { redirect_to counties_url, notice: 'County was successfully destroyed.' }
+      format.html { redirect_to @state, notice: 'County was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
+
+    def set_state
+      @state = State.find(params[:state_id])
+    end
+    
     # Use callbacks to share common setup or constraints between actions.
     def set_county
       @county = County.find(params[:id])

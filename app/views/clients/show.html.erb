@@ -1,8 +1,78 @@
-<p>
-  <strong>Name:</strong>
-  <%= @client.name %>
-</p>
+<div class="main_content">
+	<h1><%= @client.name %></h1>
 
-<%= link_to 'Edit', edit_client_path(@client) %> |
-<%= link_to 'Destroy', @client, method: :delete, data: { confirm: 'Are you sure?' } %> |
-<%= link_to 'Back', clients_path %>
+<dl class="sub-nav">
+	<dd><%= link_to 'Edit', edit_client_path(@client) %></dd>
+	<dd><%= link_to 'Delete', @client, method: :delete, data: { confirm: 'Are you sure?' } %></dd>
+	<dd><%= link_to 'Back', clients_path %></dd>
+</dl>
+
+	<h3>Jobs <small><%= link_to 'new job', new_job_path(client_id: @client.id) %></small></h3>
+
+	<table>
+	  <thead>
+	    <tr>
+	      <th>Name</th>
+	      <th>Address</th>
+	      <th>State, County</th>
+	      <th>Requestor</th>
+	      <th>Status</th>
+	    </tr>
+	  </thead>
+
+	  <tbody>
+	    <% @client.jobs.each do |job| %>
+	      <tr>
+	        <td><%= link_to job.name, job %></td>
+	        <td><%= job.address %>, <%= job.city %>, <%= job.state.abbreviation %> <%= job.zipcode %></td>
+	        <td><%= link_to job.state.name, job.state %>, <%= link_to job.county.name, [job.state, job.county] %></td>
+	        <td><%= link_to job.requestor.name, job.requestor %>
+	          <% if job.requestor.branch %>(<%= job.requestor.branch.name %>)<% end %>
+	        </td>
+	        <td><%= job.workflow_state %></td>
+	      </tr>
+	    <% end %>
+	  </tbody>
+	</table>
+
+
+</div>
+
+<div class="side_content">
+	<h4 class="subheader">Branches <small><%= link_to 'new branch', new_client_branch_path(@client) %></small></h4>
+	<ul>
+		<% @client.branches.each do |branch| %>
+		<li><%= link_to branch.name, [@client, branch] %></li>
+		<% end %>
+	</ul>
+
+	<hr/>
+
+	<h4 class="subheader">Users <small><%= link_to 'new user', new_user_path %></small></h4>
+	<ul>
+		<% @client.users.each do |user| %>
+		<li><%= link_to user.email, user %></li>
+		<% end %>
+	</ul>
+
+	<hr/>
+
+	<h4 class="subheader">Pricing</h4>
+	<table>
+		<tr>
+			<th>Product</th>
+			<th>Std. Price</th>
+			<th>Client Price</th>
+		</tr>
+		<% Product.limit(10).each do |product| %>
+		<% cp = @client.client_products.find_or_initialize_by(product_id: product.id) %>
+		<tr>
+			<td><%= product.name %></td>
+			<td><% unless (product.price == @client.product_price(product)) %><i><%= product.price %></i><% end %></td>
+			<td><%= link_to @client.product_price(product), cp.new_record? ? new_client_client_product_path(@client, product_id: product) : [@client, cp] %></td>
+		</tr>
+		<% end %>
+	</table>
+
+	<p><i>Use the top menu to edit <%= link_to "standard pricing", products_path %>.</i></p>
+</div>

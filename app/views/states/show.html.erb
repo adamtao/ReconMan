@@ -1,19 +1,18 @@
+<h1><%= @state.name %></h1>
 
-<p>
-  <strong>Name:</strong>
-  <%= @state.name %>
-</p>
+<dl class="sub-nav">
+	<dd><%= link_to 'Edit', edit_state_path(@state) %></dd>
+	<dd><%= link_to 'Delete', @state, method: :delete, data: { confirm: 'Are you sure?' } %></dd>
+	<dd><%= link_to 'Back', states_path %></dd>
+</dl>
 
 <p>
   <strong>Abbreviation:</strong>
   <%= @state.abbreviation %>
 </p>
 
-<%= link_to 'Edit', edit_state_path(@state) %> |
-<%= link_to 'Destroy', @state, method: :delete, data: { confirm: 'Are you sure?' } %> |
-<%= link_to 'Back', states_path %>
 
-<h3>Counties</h3>
+<h3>Counties <small><%= link_to "new county", new_state_county_path(@state) %></small></h3>
 
 <ul>
 	<% @state.counties.each do |county| %>

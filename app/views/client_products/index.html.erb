@@ -1,0 +1,23 @@
+<h1>Listing Client Products</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @client_products.each do |client_product| %>
+      <tr>
+        <td><%= link_to client_product.product.name, [@client, client_product] %></td>
+        <td><%= client_product.price %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Client product', new_client_client_product_path(@client) %>

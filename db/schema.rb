@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140708192325) do
+ActiveRecord::Schema.define(version: 20140717184049) do
 
   create_table "branches", force: true do |t|
     t.string   "name"
@@ -26,6 +26,18 @@ ActiveRecord::Schema.define(version: 20140708192325) do
   end
 
   add_index "branches", ["client_id"], name: "index_branches_on_client_id", using: :btree
+
+  create_table "client_products", force: true do |t|
+    t.integer  "client_id"
+    t.integer  "product_id"
+    t.integer  "price_cents",    default: 0,     null: false
+    t.string   "price_currency", default: "USD", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "client_products", ["client_id"], name: "index_client_products_on_client_id", using: :btree
+  add_index "client_products", ["product_id"], name: "index_client_products_on_product_id", using: :btree
 
   create_table "clients", force: true do |t|
     t.string   "name"
@@ -54,6 +66,8 @@ ActiveRecord::Schema.define(version: 20140708192325) do
     t.string   "workflow_state"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "last_search_at"
+    t.string   "search_url"
   end
 
   add_index "job_products", ["job_id"], name: "index_job_products_on_job_id", using: :btree
@@ -67,7 +81,6 @@ ActiveRecord::Schema.define(version: 20140708192325) do
     t.integer  "state_id"
     t.string   "zipcode"
     t.integer  "county_id"
-    t.datetime "last_search_at"
     t.datetime "completed_at"
     t.string   "old_owner"
     t.string   "new_owner"
@@ -84,10 +97,12 @@ ActiveRecord::Schema.define(version: 20140708192325) do
   create_table "products", force: true do |t|
     t.string   "name"
     t.text     "description"
-    t.integer  "price_cents",    default: 0,     null: false
-    t.string   "price_currency", default: "USD", null: false
+    t.integer  "price_cents",     default: 0,     null: false
+    t.string   "price_currency",  default: "USD", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "default"
+    t.boolean  "performs_search"
   end
 
   create_table "states", force: true do |t|
@@ -133,8 +148,10 @@ ActiveRecord::Schema.define(version: 20140708192325) do
     t.integer  "invited_by_id"
     t.string   "invited_by_type"
     t.integer  "invitations_count",      default: 0
+    t.integer  "branch_id"
   end
 
+  add_index "users", ["branch_id"], name: "index_users_on_branch_id", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
   add_index "users", ["invitations_count"], name: "index_users_on_invitations_count", using: :btree

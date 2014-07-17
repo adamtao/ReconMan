@@ -1,16 +1,13 @@
 <div class="main_content">
 	<h1>Current Jobs</h1>
 
-	<table style="width: 100%">
+	<table>
 	  <thead>
 	    <tr>
 	      <th>Name</th>
 	      <th>Address</th>
 	      <th>State, County</th>
 	      <th>Client</th>
-	      <th>Last search</th>
-	      <th>Old owner</th>
-	      <th>New owner</th>
 	      <th>Status</th>
 	    </tr>
 	  </thead>
@@ -21,13 +18,9 @@
 	        <td><%= link_to job.name, job %></td>
 	        <td><%= job.address %>, <%= job.city %>, <%= job.state.abbreviation %> <%= job.zipcode %></td>
 	        <td><%= link_to job.state.name, job.state %>, <%= link_to job.county.name, [job.state, job.county] %></td>
-	        <td><%= link_to job.client.name, job.client %>
-	          <%= link_to job.requestor.name, job.requestor %>
-	          (<%= job.requestor.branch.name %>)
+	        <td><%= link_to job.requestor.name, job.requestor %>
+	        	/ <%= link_to job.client.name, job.client %>
 	        </td>
-	        <td><%= job.last_search_at %></td>
-	        <td><%= job.old_owner %></td>
-	        <td><%= job.new_owner %></td>
 	        <td><%= job.workflow_state %></td>
 	      </tr>
 	    <% end %>
@@ -41,7 +34,7 @@
 
 	<hr/>
 
-	<h4>Top Clients</h4>
+	<h4 class="subheader">Clients <small><%= link_to 'new client', new_client_path %></small></h4>
 
 	<ul>
 	  <% @clients.each do |client| %>
@@ -49,11 +42,10 @@
 	  <% end %>
 	</ul>
 
-	<%= link_to 'New Client', new_client_path, class: "small button" %>
 
 	<hr/>
 
-	<h4>Products</h4>
+	<h4 class="subheader">Products <small><%= link_to 'new product', new_product_path %></small></h4>
 
 	<ul>
 	    <% @products.each do |product| %>
@@ -61,7 +53,7 @@
 	    <% end %>
 	</ul>
 
-	<%= link_to 'New Product', new_product_path, class: "small button" %>
+	
 
 	<hr/>
 

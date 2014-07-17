@@ -3,13 +3,13 @@
 
   <div class="form-inputs">
     <%= f.input :name, label: "Job Name" %>
-    <%= f.association :client %>
-    <%= f.association :requestor %>
+    <%= f.association :client, collection: all_clients %>
+    <%= f.association :requestor, collection: all_clients, as: :grouped_select, group_method: :users %>
     <%= f.input :address %>
     <%= f.input :city %>
-    <%= f.association :state %>
+    <%= f.association :state, collection: all_states %>
     <%= f.input :zipcode %>
-    <%= f.association :county %>
+    <%= f.association :county, collection: all_states, as: :grouped_select, group_method: :counties %>
     <%= f.input :old_owner %>
     <%= f.input :new_owner %>
   </div>

@@ -1,9 +1,14 @@
-<h1>Clients</h1>
+<div class="main_content">
+	<h1>Clients</h1>
 
-<%= link_to 'New Client', new_client_path, class: "small button" %>
+	<ul>
+	  <% @clients.each do |client| %>
+	    <li><%= link_to client.name, client %> (<%= client.jobs.count %>)</li>
+	  <% end %>
+	</ul>
+</div>
 
-<ul>
-  <% @clients.each do |client| %>
-    <li><%= link_to client.name, client %> (<%= client.jobs.count %>)</li>
-  <% end %>
-</ul>
+<div class="side_content">
+	<h4 class="subheader">New Client:</h4>
+	<%= render 'form' %>
+</div>

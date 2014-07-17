@@ -1,18 +1,17 @@
-<p>
-  <strong>Name:</strong>
-  <%= @product.name %>
-</p>
+<h1><%= @product.name %></h1>
 
-<p>
-  <strong>Description:</strong>
-  <%= @product.description %>
-</p>
+<dl class="sub-nav">
+	<dd><%= link_to 'Edit', edit_product_path(@product) %></dd>
+	<dd><%= link_to 'Delete', @product, method: :delete, data: { confirm: 'Are you sure?' } %></dd>
+	<dd><%= link_to 'Back', products_path %></dd>
+</dl>
 
 <p>
   <strong>Price:</strong>
   <%= @product.price %>
 </p>
 
-<%= link_to 'Edit', edit_product_path(@product) %> |
-<%= link_to 'Destroy', @product, method: :delete, data: { confirm: 'Are you sure?' } %> |
-<%= link_to 'Back', products_path %>
+<p>
+  <%= @product.description %>
+</p>
+

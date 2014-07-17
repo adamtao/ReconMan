@@ -1,68 +1,92 @@
-<p>
-  <strong>Name:</strong>
-  <%= @job.name %>
-</p>
+<div class="main_content">
+  <h1>Job:
+    <%= @job.name %>
+  </h1>
 
-<p>
-  <strong>Client:</strong>
-  <%= @job.client_id %>
-</p>
+  <dl class="sub-nav">
+    <dd><%= link_to 'Edit', edit_job_path(@job) %></dd>
+    <dd><%= link_to 'Delete', @job, method: :delete, data: { confirm: 'Are you sure?' } %></dd>
+    <dd><%= link_to 'Back', jobs_path %></dd>
+  </dl>
 
-<p>
-  <strong>Address:</strong>
-  <%= @job.address %>
-</p>
+  <div class="column_6">
+    <h3 class="subheader">Property Info</h3>
+      <p><strong>Address:</strong></p>
+      <p>
+        <%= @job.address %><br/>
+        <%= @job.city %>,
+        <%= link_to @job.state.name, @job.state %>
+        <%= @job.zipcode %><br/>
+        <%= link_to "#{@job.county.name} County", [@job.state, @job.county] %>
+      </p>
 
-<p>
-  <strong>City:</strong>
-  <%= @job.city %>
-</p>
+    <h4 class="subheader">Owner Details</h4>
+    <p>
+      <strong>Old owner:</strong>
+      <%= @job.old_owner %>
+    </p>
 
-<p>
-  <strong>State:</strong>
-  <%= @job.state_id %>
-</p>
+    <p>
+      <strong>New owner:</strong>
+      <%= @job.new_owner %>
+    </p>
 
-<p>
-  <strong>Zipcode:</strong>
-  <%= @job.zipcode %>
-</p>
 
-<p>
-  <strong>County:</strong>
-  <%= @job.county_id %>
-</p>
+    <h3>Status</h3>
 
-<p>
-  <strong>Last search at:</strong>
-  <%= @job.last_search_at %>
-</p>
+    <p>
+      <strong>Completed at:</strong>
+      <%= @job.completed_at %>
+    </p>
+  </div>
 
-<p>
-  <strong>Completed at:</strong>
-  <%= @job.completed_at %>
-</p>
+  <div class="column_6">
 
-<p>
-  <strong>Old owner:</strong>
-  <%= @job.old_owner %>
-</p>
+    <h3 class="subheader">Products &amp; Services</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Product/Service</th>
+          <th>Price</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @job.job_products.each do |job_product| %>
+        <tr>
+          <td><%= link_to job_product.name, [@job, job_product] %></td>
+          <td><%= job_product.price %></td>
+          <td><%= job_product.workflow_state %>
+            <% if job_product.search_changed? %>
+              CHANGE FOUND
+            <% end %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>total</td>
+          <td><%= @job.total_price %></td>
+          <td><%= @job.workflow_state %></td>
+        </tr>
+      </tfoot>
+    </table>
+    <%= link_to "add product/service", new_job_job_product_path(@job) %>
+  </div>
 
-<p>
-  <strong>New owner:</strong>
-  <%= @job.new_owner %>
-</p>
+</div>
 
-<p>
-  <strong>Workflow state:</strong>
-  <%= @job.workflow_state %>
-</p>
+<div class="side_content">
+  <h3 class="subheader">Client</h3>
+  <p>
+    <strong>Requestor:</strong>
+    <%= link_to @job.requestor.name, @job.requestor %>
+  </p>
 
-<p>
-  <strong>Requestor:</strong>
-  <%= @job.requestor_id %>
-</p>
+  <p>
+    <strong>Client:</strong>
+    <%= link_to @job.client.name, @job.client %>
+  </p>
 
-<%= link_to 'Edit', edit_job_path(@job) %> |
-<%= link_to 'Destroy', @job, method: :delete, data: { confirm: 'Are you sure?' } %> |
-<%= link_to 'Back', jobs_path %>
+</div>
