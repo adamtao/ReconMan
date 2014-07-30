@@ -48,7 +48,7 @@
 
 	<hr/>
 
-	<h4 class="subheader">Users <small><%= link_to 'new user', new_user_path %></small></h4>
+	<h4 class="subheader">Users <small><%= link_to 'new user', new_client_user_path(@client) %></small></h4>
 	<ul>
 		<% @client.users.each do |user| %>
 		<li><%= link_to user.email, user %></li>
@@ -68,7 +68,7 @@
 		<% cp = @client.client_products.find_or_initialize_by(product_id: product.id) %>
 		<tr>
 			<td><%= product.name %></td>
-			<td><% unless (product.price == @client.product_price(product)) %><i><%= product.price %></i><% end %></td>
+			<td><i><%= product.price %></i></td>
 			<td><%= link_to @client.product_price(product), cp.new_record? ? new_client_client_product_path(@client, product_id: product) : [@client, cp] %></td>
 		</tr>
 		<% end %>

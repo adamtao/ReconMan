@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  enum role: [:user, :admin, :client, :manager]
+  enum role: [:admin, :client, :manager, :processor]
   after_initialize :set_default_role, :if => :new_record?
 
   has_many :requested_jobs, :class_name => "Job", :foreign_key => "requestor_id"
@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   validates :name, presence: true
 
   def set_default_role
-    self.role ||= :user
+    self.role ||= :processor
   end
 
   # Include default devise modules. Others available are:

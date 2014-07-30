@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :clients do 
     resources :branches
     resources :client_products
+    resources :users
   end
   resources :jobs do
     resources :job_products do
