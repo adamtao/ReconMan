@@ -24,7 +24,7 @@
             / <%= link_to job.client.name, job.client %>
         </td>
         <td><%=l job.created_at.to_date, format: :short %></td>
-        <td><%=l job.dashboard_product.due_on, format: :short %></td>
+        <td><% if job.dashboard_product && job.dashboard_product.due_on.present? %><%=l job.dashboard_product.due_on, format: :short %><% end %></td>
         <td><%= job.workflow_state %></td>
       </tr>
     <% end %>
