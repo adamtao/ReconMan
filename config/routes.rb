@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'reports/index' => 'reports#index', as: :reports_index
+
   resources :states do 
     resources :counties
   end

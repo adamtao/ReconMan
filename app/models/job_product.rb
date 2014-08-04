@@ -36,6 +36,18 @@ class JobProduct < ActiveRecord::Base
 		self.product.name
 	end
 
+	def county
+		self.job.county
+	end
+
+	def late?
+		self.due_on.to_date < Date.today
+	end
+
+	def quick_search_url
+		self.search_url.present? ? self.search_url : self.county.search_url
+	end
+
 	# TODO: Make sure the auto-tracking can handle POST and GET
 	def search
 		return false if self.search_url.blank?
@@ -57,7 +69,6 @@ class JobProduct < ActiveRecord::Base
 			job_product_id: self.id
 		})
 	end
-
 
 	def search_changed?
 		title_search_caches.last && title_search_caches.last.change_detected?
