@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140717184049) do
+ActiveRecord::Schema.define(version: 20140801231907) do
 
   create_table "branches", force: true do |t|
     t.string   "name"
@@ -68,13 +68,13 @@ ActiveRecord::Schema.define(version: 20140717184049) do
     t.datetime "updated_at"
     t.datetime "last_search_at"
     t.string   "search_url"
+    t.date     "due_on"
   end
 
   add_index "job_products", ["job_id"], name: "index_job_products_on_job_id", using: :btree
   add_index "job_products", ["product_id"], name: "index_job_products_on_product_id", using: :btree
 
   create_table "jobs", force: true do |t|
-    t.string   "name"
     t.integer  "client_id"
     t.string   "address"
     t.string   "city"
@@ -88,10 +88,12 @@ ActiveRecord::Schema.define(version: 20140717184049) do
     t.integer  "requestor_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "parcel_number"
   end
 
   add_index "jobs", ["client_id"], name: "index_jobs_on_client_id", using: :btree
   add_index "jobs", ["county_id"], name: "index_jobs_on_county_id", using: :btree
+  add_index "jobs", ["parcel_number"], name: "index_jobs_on_parcel_number", using: :btree
   add_index "jobs", ["requestor_id"], name: "index_jobs_on_requestor_id", using: :btree
 
   create_table "products", force: true do |t|
@@ -110,6 +112,7 @@ ActiveRecord::Schema.define(version: 20140717184049) do
     t.string   "abbreviation"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "due_within_days"
   end
 
   create_table "title_search_caches", force: true do |t|

@@ -8,7 +8,7 @@
 	<h5 class="subheader">Requested Jobs</h5>
 	<ul>
 		<% @user.requested_jobs.order("created_at DESC").limit(100).each do |job| %>
-		<li><%= link_to "#{I18n.l(job.created_at, format: :short)} #{job.name}", job %></li>
+		<li><%= link_to "#{I18n.l(job.created_at, format: :short)} #{job.parcel_number}", job %></li>
 		<% end %>
 	</ul>
 <% end %>

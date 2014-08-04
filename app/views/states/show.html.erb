@@ -11,6 +11,16 @@
   <%= @state.abbreviation %>
 </p>
 
+<% if @state.due_within_days.present? %>
+	<p>
+		Reconveyances are due within <strong><%= @state.due_within_days %></strong> days.
+	</p>
+<% else %>
+	<p>
+		Reconveyance due date is unknown. Please <%= link_to "edit the state", edit_state_path(@state) %> to provide this information.
+	</p>
+<% end %>
+
 
 <h3>Counties <small><%= link_to "new county", new_state_county_path(@state) %></small></h3>
 

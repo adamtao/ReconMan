@@ -23,6 +23,11 @@
   @extend .small-12;
   @extend .columns;
   }
+@mixin six-columns {
+  @extend .small-12;
+  @extend .large-6;
+  @extend .columns;
+}
 @mixin six-columns-centered {
   @extend .small-6;
   @extend .columns;
@@ -30,9 +35,9 @@
   }
 // create your own classes
 // to make views framework-neutral
-//.column {
-//  @include six-columns-centered;
-//  }
+.column {
+  @include six-columns-centered;
+  }
 .form {
   @include grid-column(6);
   }
@@ -53,7 +58,9 @@ section {
   @extend .row;
   margin-top: 20px;
   }
-
+.form-actions {
+  @extend .row;
+}
 @mixin main_content {
   @extend .small-12;
   @extend .large-8;
@@ -76,8 +83,14 @@ section {
 }
 
 .column_6 {
-  @extend .large-6;
-  @extend .small-12;
+  @include six-columns;
+}
+.column_6_centered {
+  @include six-columns;
+  @extend .large-offset-3;
+}
+.column_12 {
+  @extend .large-12;
   @extend .columns;
 }
 
@@ -90,6 +103,6 @@ section {
   margin-bottom: 10px;
 }
 
-input.radio_buttons {
+input.radio_buttons, input.boolean {
   margin-right: 6px;
 }

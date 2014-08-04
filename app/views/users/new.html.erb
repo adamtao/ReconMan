@@ -1,6 +1,10 @@
-<h1>New User</h1>
+<h1 class="text-center">New User</h1>
 
-<p>Use this form to manually create a user on the system.</p>
+<div class="row">
+	<div class="large-12 columns">
+		<p class="text-center">Use this form to manually create a user on the system.</p>
+	</div>
+</div>
 
 <%= render (@client) ? 'client_user_form' : 'form' %>
 

@@ -23,20 +23,24 @@ class Job < ActiveRecord::Base
 	validates :requestor, presence: true
 	validates :county, presence: true
 	validates :state, presence: true
-	validates :name, presence: true, uniqueness: { scope: :client }
+	validates :parcel_number, presence: true
 
 	after_create :create_default_products
 
 	monetize :total_price_cents
 
 	def create_default_products
-		Product.where(default: true).each do |product|
+		Product.defaults.each do |product|
 			self.job_products << JobProduct.new(product: product, price: self.client.product_price(product))
 		end
 	end
 
 	def total_price_cents
 		job_products.inject(0){|total,jp| total += jp.price_cents}
+	end
+
+	def dashboard_product
+		self.job_products.where(product_id: Product.defaults.first.id).first
 	end
 
 end

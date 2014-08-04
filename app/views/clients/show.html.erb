@@ -12,10 +12,11 @@
 	<table>
 	  <thead>
 	    <tr>
-	      <th>Name</th>
-	      <th>Address</th>
+	      <th>Parcel</th>
 	      <th>State, County</th>
 	      <th>Requestor</th>
+	      <th>Created</th>
+	      <th>Due</th>
 	      <th>Status</th>
 	    </tr>
 	  </thead>
@@ -23,12 +24,13 @@
 	  <tbody>
 	    <% @client.jobs.each do |job| %>
 	      <tr>
-	        <td><%= link_to job.name, job %></td>
-	        <td><%= job.address %>, <%= job.city %>, <%= job.state.abbreviation %> <%= job.zipcode %></td>
+	        <td><%= link_to job.parcel_number, job %></td>
 	        <td><%= link_to job.state.name, job.state %>, <%= link_to job.county.name, [job.state, job.county] %></td>
 	        <td><%= link_to job.requestor.name, job.requestor %>
 	          <% if job.requestor.branch %>(<%= job.requestor.branch.name %>)<% end %>
 	        </td>
+          <td><%=l job.created_at.to_date, format: :short %></td>
+          <td><%=l job.dashboard_product.due_on, format: :short %></td>
 	        <td><%= job.workflow_state %></td>
 	      </tr>
 	    <% end %>
@@ -48,7 +50,7 @@
 
 	<hr/>
 
-	<h4 class="subheader">Users <small><%= link_to 'new user', new_client_user_path(@client) %></small></h4>
+	<h4 class="subheader">Employees <small><%= link_to 'new user', new_client_user_path(@client) %></small></h4>
 	<ul>
 		<% @client.users.each do |user| %>
 		<li><%= link_to user.email, user %></li>
@@ -69,10 +71,9 @@
 		<tr>
 			<td><%= product.name %></td>
 			<td><i><%= product.price %></i></td>
-			<td><%= link_to @client.product_price(product), cp.new_record? ? new_client_client_product_path(@client, product_id: product) : [@client, cp] %></td>
+			<td><%= link_to @client.product_price(product), cp.new_record? ? new_client_client_product_path(@client, product_id: product) : edit_client_client_product_path(@client, cp) %></td>
 		</tr>
 		<% end %>
 	</table>
 
-	<p><i>Use the top menu to edit <%= link_to "standard pricing", products_path %>.</i></p>
 </div>

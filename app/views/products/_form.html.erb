@@ -1,15 +1,29 @@
 <%= simple_form_for(@product) do |f| %>
-  <%= f.error_notification %>
-
-  <div class="form-inputs">
-    <%= f.input :name %>
-    <%= f.input :description %>
-    <%= f.input :price %>
-    <%= f.input :default, label: "All new jobs should have this product added by default." %>
-    <%= f.input :performs_search, label: "This service involves performing a recurring web search." %>
+  <div class="row">
+    <%= f.error_notification %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
-  </div>
+  <div class="row"><div class="column_6_centered">
+
+    <div class="form-inputs">
+      <div class="row">
+        <div class="large-8 columns">
+          <%= f.input :name %>
+        </div>
+        <div class="large-4 columns">
+          <%= f.input :price %>
+        </div>
+      </div>
+      <%= f.input :description %>
+      
+      <%= f.input :default, label: "All new jobs should have this product added by default." %>
+      <%= f.input :performs_search, label: "This service involves performing a recurring web search." %>
+    </div>
+
+    <div class="form-actions">
+      <div class="column_6">
+        <%= f.button :submit %>
+      </div>
+    </div>
+  </div></div>
 <% end %>

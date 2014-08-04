@@ -34,7 +34,7 @@ class ClientProductsController < ApplicationController
     @client_product.client = @client
     respond_to do |format|
       if @client_product.save
-        format.html { redirect_to [@client, @client_product], notice: 'Client product was successfully created.' }
+        format.html { redirect_to @client, notice: 'Custom price was successfully created.' }
         format.json { render :show, status: :created, location: @client_product }
       else
         format.html { render :new }
@@ -48,7 +48,7 @@ class ClientProductsController < ApplicationController
   def update
     respond_to do |format|
       if @client_product.update(client_product_params)
-        format.html { redirect_to [@client, @client_product], notice: 'Client product was successfully updated.' }
+        format.html { redirect_to @client, notice: 'Custom price was successfully updated.' }
         format.json { render :show, status: :ok, location: @client_product }
       else
         format.html { render :edit }
@@ -62,7 +62,7 @@ class ClientProductsController < ApplicationController
   def destroy
     @client_product.destroy
     respond_to do |format|
-      format.html { redirect_to @client, notice: 'Client product was successfully destroyed.' }
+      format.html { redirect_to @client, notice: 'Custom price was successfully deleted.' }
       format.json { head :no_content }
     end
   end

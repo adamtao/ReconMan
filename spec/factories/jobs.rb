@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :job do
-    name "MyString"
+    parcel_number "MyString"
     client
     address "MyString"
     city "MyString"

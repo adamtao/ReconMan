@@ -10,5 +10,19 @@
 
 <div class="side_content">
 	<h4 class="subheader">New Client:</h4>
-	<%= render 'form' %>
+	<%= simple_form_for(@client) do |f| %>
+	  <%= f.error_notification %>
+
+		<div class="row collapse">
+			<div class="large-8 small-8 columns">
+	    		<%= f.input :name, label: false, placeholder: "Client name" %>
+	    	</div>
+	    	<div class="large-4 small-4 columns">
+				<%= f.button :submit, class: "postfix button" %>
+			</div>
+	    </div>
+	  </div>
+
+	<% end %>
+
 </div>

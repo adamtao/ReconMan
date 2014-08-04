@@ -1,5 +1,7 @@
 <%= simple_form_for([@job, @job_product]) do |f| %>
-  <%= f.error_notification %>
+  <div class="row">
+    <%= f.error_notification %>
+  </div>
 
   <div class="form-inputs">
     <%= f.association :product, 
@@ -11,11 +13,16 @@
     			] 
     		} 
     	 %>
+    <% unless f.object.new_record? %>
+      <%= f.input :due_on %>
+    <% end %>
     <%= f.input :price, hint: "#{@job.client.name} pricing loads automatically when you select/change a product." %>
     <%= f.input :search_url, input_html: { data: { product: Product.where(performs_search: true).first.id }} %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit %>
+    <div class="column_6">
+      <%= f.button :submit %>
+    </div>
   </div>
 <% end %>

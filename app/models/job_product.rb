@@ -26,6 +26,12 @@ class JobProduct < ActiveRecord::Base
 	validates :job, presence: true
 	validates :product, presence: true
 
+	before_create :determine_due_date
+
+	def determine_due_date
+		self.due_on = Date.today.advance(days: self.job.state.due_within_days)
+	end
+
 	def name
 		self.product.name
 	end

@@ -12,10 +12,11 @@
   <table style="width: 100%">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Address</th>
+        <th>Parcel</th>
         <th>State, County</th>
         <th>Requestor</th>
+        <th>Created</th>
+        <th>Due</th>
         <th>Status</th>
       </tr>
     </thead>
@@ -23,11 +24,12 @@
     <tbody>
       <% @branch.jobs.each do |job| %>
         <tr>
-          <td><%= link_to job.name, job %></td>
-          <td><%= job.address %>, <%= job.city %>, <%= job.state.abbreviation %> <%= job.zipcode %></td>
+          <td><%= link_to job.parcel_number, job %></td>
           <td><%= link_to job.state.name, job.state %>, <%= link_to job.county.name, [job.state, job.county] %></td>
           <td><%= link_to job.requestor.name, job.requestor %>
           </td>
+          <td><%=l job.created_at.to_date, format: :short %></td>
+          <td><%=l job.dashboard_product.due_on, format: :short %></td>
           <td><%= job.workflow_state %></td>
         </tr>
       <% end %>

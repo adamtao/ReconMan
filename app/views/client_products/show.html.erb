@@ -4,10 +4,15 @@
 </p>
 
 <p>
+	<strong>Client:</strong>
+	<%= @client.name %>
+</p>
+
+<p>
   <strong>Price:</strong>
   <%= @client_product.price %>
 </p>
 
-<%= link_to 'Edit', edit_client_job_product_path(@client, @client_product) %> |
+<%= link_to 'Edit', edit_client_client_product_path(@client, @client_product) %> |
 <%= link_to 'Delete', [@client, @client_product], method: :delete, data: { confirm: 'Are you sure?' } %> |
 <%= link_to 'Back', @client %>

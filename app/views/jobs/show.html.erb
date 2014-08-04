@@ -1,6 +1,6 @@
 <div class="main_content">
-  <h1>Job:
-    <%= @job.name %>
+  <h1>Parcel Number:
+    <%= @job.parcel_number %>
   </h1>
 
   <dl class="sub-nav">
@@ -35,9 +35,20 @@
     <h3>Status</h3>
 
     <p>
-      <strong>Completed at:</strong>
-      <%= @job.completed_at %>
+      <strong>Created:</strong>
+      <%=l @job.created_at.to_date, format: :short %>
     </p>
+    <p>
+      <strong>Due:</strong>
+      <%=l @job.dashboard_product.due_on, format: :short %>
+    </p>
+
+    <% if @job.completed_at.present? %>
+    <p>
+      <strong>Completed at:</strong>
+      <%=l @job.completed_at, format: :short %>
+    </p>
+    <% end %>
   </div>
 
   <div class="column_6">

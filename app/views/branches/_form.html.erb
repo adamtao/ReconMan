@@ -1,16 +1,46 @@
 <%= simple_form_for([@client, @branch]) do |f| %>
-  <%= f.error_notification %>
+  <div class="row">
+    <%= f.error_notification %>
+  </div>
+
+  <div class="row"><div class="column_6_centered">
 
   <div class="form-inputs">
-    <%= f.input :name %>
-    <%= f.input :address %>
-    <%= f.input :city %>
-    <%= f.association :state %>
-    <%= f.input :zipcode %>
-    <%= f.input :phone %>
+    <div class="row">
+      <div class="column_12">
+        <%= f.input :name, label: "Branch name" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column_12">
+        <%= f.input :phone %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column_12">
+        <%= f.input :address %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column_12">
+        <%= f.input :city %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-7 small-8 columns">
+        <%= f.association :state %>
+      </div>
+      <div class="large-5 small-4 columns">
+        <%= f.input :zipcode %>
+      </div>
+    </div>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit %>
+    <div class="column_6">
+      <%= f.button :submit %>
+    </div>
   </div>
+
+  </div></div>
 <% end %>
