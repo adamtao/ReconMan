@@ -1,13 +1,18 @@
-<div class="main_content">
-  <h1>Parcel Number:
-    <%= @job.parcel_number %>
-  </h1>
+<div class="container">
+  <div class="large-6 columns">
+    <h1>Parcel Number:
+      <%= @job.parcel_number %>
+    </h1>
+  </div>
+  <div class="large-6 columns text-right">
+    <br/>
+    <%= link_to 'Edit Job', edit_job_path(@job), class: "tiny button" %>
+    <%= link_to 'Delete', @job, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
+  </div>
+</div>
 
-  <dl class="sub-nav">
-    <dd><%= link_to 'Edit', edit_job_path(@job) %></dd>
-    <dd><%= link_to 'Delete', @job, method: :delete, data: { confirm: 'Are you sure?' } %></dd>
-    <dd><%= link_to 'Back', jobs_path %></dd>
-  </dl>
+<div class="container">
+<div class="main_content">
 
   <div class="column_6">
     <h3 class="subheader">Property Info</h3>
@@ -66,7 +71,7 @@
         <% @job.job_products.each do |job_product| %>
         <tr>
           <td><%= link_to job_product.name, [@job, job_product] %></td>
-          <td><%= job_product.price %></td>
+          <td><%=humanized_money_with_symbol job_product.price %></td>
           <td><%= job_product.workflow_state %>
             <% if job_product.search_changed? %>
               CHANGE FOUND
@@ -100,4 +105,5 @@
     <%= link_to @job.client.name, @job.client %>
   </p>
 
+</div>
 </div>

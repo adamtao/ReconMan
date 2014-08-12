@@ -1,3 +1,31 @@
+$dark-gray: #575757;
+$medium-gray: #a8a8a8;
+$light-gray: #d0d0d0;
+
+$body-bg: #FFF;
+$body-font-color: $dark-gray;
+$body-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$body-font-weight: 300;
+
+
+$header-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$header-font-weight: 400;
+// $header-font-style: normal;
+$header-font-color: $dark-gray;
+// $header-line-height: 1.4;
+$header-top-margin: .4em;
+// $header-bottom-margin: .5em;
+// $header-text-rendering: optimizeLegibility;
+
+// Heading font sizes
+
+$h1-font-size: emCalc(38px);
+$h2-font-size: emCalc(26px);
+$h3-font-size: emCalc(21px);
+$h4-font-size: emCalc(18px);
+$h5-font-size: emCalc(15px);
+$h6-font-size: 1em;
+
 // import the CSS framework
 @import "foundation";
 
@@ -15,6 +43,19 @@
 
 .sub-nav {
   background: #EEE;
+}
+
+table {
+  border-radius: 8px;
+  tbody tr td {
+    line-height: rem-calc(16);
+    padding: rem-calc(5) rem-calc(1);
+    input[type=checkbox] {
+      margin-top: rem-calc(2);
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
 }
 
 // THESE ARE EXAMPLES YOU CAN MODIFY

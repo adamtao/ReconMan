@@ -24,6 +24,8 @@ group :production do
 end
 
 group :development do
+  gem 'bazaar' # for generating test data
+  gem 'forgery' # for generating test data
   gem 'mysql2'
   gem 'spring'
   gem 'capistrano', '~> 3.0.1'

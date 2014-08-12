@@ -6,7 +6,7 @@
   <thead>
     <tr>
       <th>Parcel</th>
-      <th>State, County</th>
+      <th>County</th>
       <th>Client</th>
       <th>Created</th>
       <th>Due</th>
@@ -18,7 +18,7 @@
     <% @jobs.each do |job| %>
       <tr>
         <td><%= link_to job.parcel_number, job %></td>
-        <td><%= link_to job.state.name, job.state %>, <%= link_to job.county.name, [job.state, job.county] %></td>
+        <td><%= link_to job.county.name, [job.state, job.county] %>, <%= link_to job.state.abbreviation, job.state %></td>
         <td><%= link_to job.requestor.name, job.requestor %>
             / <%= link_to job.client.name, job.client %>
         </td>

@@ -73,4 +73,12 @@ class JobProduct < ActiveRecord::Base
 	def search_changed?
 		title_search_caches.last && title_search_caches.last.change_detected?
 	end
+
+	# When this product is complete, mark the parent job complete unless
+	# it has other incomplete products
+	def mark_complete
+		unless self.job.job_products.where.not(id: self.id, workflow_state: 'complete').count > 0
+			self.job.mark_complete!
+		end
+	end
 end

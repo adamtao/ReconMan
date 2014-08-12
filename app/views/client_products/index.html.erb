@@ -12,7 +12,7 @@
     <% @client_products.each do |client_product| %>
       <tr>
         <td><%= link_to client_product.product.name, [@client, client_product] %></td>
-        <td><%= client_product.price %></td>
+        <td><%=humanized_money_with_symbol client_product.price %></td>
       </tr>
     <% end %>
   </tbody>

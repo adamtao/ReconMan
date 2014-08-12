@@ -1,50 +1,121 @@
+<div class="container">
+  <div class="large-6 columns">
+    <h1>Current Jobs</h1>
+  </div>
+  <div class="large-6 columns text-right">
+    <br/>
+    <%= link_to 'New Job', new_job_path, class: "tiny button" %>
+  </div>
+</div>
+
+<div class="container">
 <div class="main_content">
-	<h1>Current Jobs</h1>
+	
 
 	<table>
 	  <thead>
 	    <tr>
+	      <th>R</th>
 	      <th>Parcel</th>
-	      <th>State, County</th>
+	      <th>County</th>
 	      <th>Client</th>
 	      <th>Created</th>
 	      <th>Due</th>
-	      <th colspan="2">Reconveyance</th>
+	      <th>Status</th>
 	    </tr>
 	  </thead>
 
 	  <tbody>
-	    <% @jobs.each do |job| %>
+	    <% @current_jobs.each do |job| %>
 	      <tr id="job_<%= job.id %>">
+	        <td class="text-center">
+	        	<% if job.dashboard_product %>
+        		<%= check_box_tag job.dashboard_product.id, 
+        				job.dashboard_product.id, 
+	        			job.dashboard_product.complete?, 
+	        			class: job.dashboard_product.complete? ? 'incompleter' : 'completer',
+	        			data: {
+	        				job: job.id,
+	        				job_product: job.dashboard_product.id,
+	        			} %>
+	        	<% end %>
+	        </td>
 	        <td><%= link_to job.parcel_number, job %></td>
-	        <td><%= link_to job.state.name, job.state %>, <%= link_to job.county.name, [job.state, job.county] %></td>
+	        <td><%= link_to job.county.name, [job.state, job.county] %>, <%= link_to job.state.abbreviation, job.state %></td>
 	        <td><%= link_to job.requestor.name, job.requestor %>
 	        	/ <%= link_to job.client.name, job.client %>
 	        </td>
-          	<td><%=l job.created_at.to_date, format: :short %></td>
+          	<td class="text-center"><%=l job.created_at.to_date, format: :short %></td>
           	<% if job.dashboard_product %>
-	          	<td <% if job.dashboard_product.late? %>class="late"<% end %>>
+	          	<td class="text-center <% if job.dashboard_product.late? %>late<% end %>">
 	          		<% if job.dashboard_product.due_on.present? %>
 	          			<%=l job.dashboard_product.due_on, format: :short %>
 	          		<% end %>
 	          	</td>
-		        <td>
-	        		<%= check_box_tag job.dashboard_product.id, 
-	        				job.dashboard_product.id, 
-		        			job.dashboard_product.complete?, 
-		        			class: job.dashboard_product.complete? ? 'incompleter' : 'completer',
-		        			data: {
-		        				job: job.id,
-		        				job_product: job.dashboard_product.id,
-		        			} %>
-		        </td>
-		        <td>
+
+		        <td class="text-center">
+		        	<%= job.dashboard_product.workflow_state %>
 		        	<% if !!(job.dashboard_product.quick_search_url) %>
-		        		<%= link_to "search", job.dashboard_product.quick_search_url, target: "_blank" %>
+		        		 | <%= link_to "search", job.dashboard_product.quick_search_url, target: "_blank" %>
 		        	<% end %>
 		        </td>
 		    <% else %>
-		    	<td colspan="3" class="text-center"><i>(reconveyance n/a)</i></td>
+		    	<td colspan="2" class="text-center"><i>(reconveyance n/a)</i></td>
+		    <% end %>
+	      </tr>
+	    <% end %>
+	  </tbody>
+	</table>
+
+	<h3 class="subheader">Recently Completed Jobs</h3>
+
+	<table>
+	  <thead>
+	    <tr>
+	      <th>R</th>
+	      <th>Parcel</th>
+	      <th>County</th>
+	      <th>Client</th>
+	      <th>Created</th>
+	      <th>Due</th>
+	      <th>Completed</th>
+	    </tr>
+	  </thead>
+
+	  <tbody>
+	    <% @completed_jobs.each do |job| %>
+	      <tr id="job_<%= job.id %>">
+	        <td class="text-center">
+	        	<% if job.dashboard_product %>
+        		<%= check_box_tag job.dashboard_product.id, 
+        				job.dashboard_product.id, 
+	        			job.dashboard_product.complete?, 
+	        			class: job.dashboard_product.complete? ? 'incompleter' : 'completer',
+	        			data: {
+	        				job: job.id,
+	        				job_product: job.dashboard_product.id,
+	        			} %>
+	        	<% end %>
+	        </td>
+	        <td><%= link_to job.parcel_number, job %></td>
+	        <td><%= link_to job.county.name, [job.state, job.county] %>, <%= link_to job.state.abbreviation, job.state %></td>
+	        <td><%= link_to job.requestor.name, job.requestor %>
+	        	/ <%= link_to job.client.name, job.client %>
+	        </td>
+          	<td class="text-center"><%=l job.created_at.to_date, format: :short %></td>
+          	<% if job.dashboard_product %>
+	          	<td class="text-center">
+	          		<% if job.dashboard_product.due_on.present? %>
+	          			<%=l job.dashboard_product.due_on, format: :short %>
+	          		<% end %>
+	          	</td>
+
+		        <td class="text-center"><% unless job.completed_at.blank? %>
+		        	<%= l job.completed_at.to_date, format: :short %>
+		        	<% end %>
+		        </td>
+		    <% else %>
+		    	<td colspan="2" class="text-center"><i>(reconveyance n/a)</i></td>
 		    <% end %>
 	      </tr>
 	    <% end %>
@@ -54,10 +125,7 @@
 </div>
 
 <div class="side_content">
-	<%= link_to 'New Job', new_job_path, class: "small button" %>
-
-	<hr/>
-
+	
 	<h4 class="subheader">Clients <small><%= link_to 'new client', new_client_path %></small></h4>
 
 	<ul>
@@ -73,12 +141,11 @@
 
 	<ul>
 	    <% @products.each do |product| %>
-	      <li><%= link_to product.name, product %></li>
+	      <li><%= link_to product.name, product %> (<%= humanized_money_with_symbol product.price %>)</li>
 	    <% end %>
 	</ul>
 
-	
-
 	<hr/>
 
+</div>
 </div>

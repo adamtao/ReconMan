@@ -2,9 +2,6 @@ class Job < ActiveRecord::Base
 	include Workflow
 	workflow do
 		state :new do
-			event :search, :transitions_to => :open
-		end
-		state :open do
 			event :mark_complete, :transitions_to => :complete
 		end
 		state :complete
@@ -15,7 +12,7 @@ class Job < ActiveRecord::Base
 	belongs_to :county
 	belongs_to :state
 	belongs_to :requestor, class_name: "User", foreign_key: :requestor_id
-	has_many :job_products
+	has_many :job_products, dependent: :destroy
 	has_many :products, through: :job_products
 	has_many :title_search_caches
 
@@ -41,6 +38,11 @@ class Job < ActiveRecord::Base
 
 	def dashboard_product
 		self.job_products.where(product_id: Product.defaults.first.id).first
+	end
+
+	def mark_complete
+		self.completed_at = Time.zone.now
+		self.save
 	end
 
 end

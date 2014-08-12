@@ -1,31 +1,34 @@
-<h1><%= @state.name %></h1>
+<div class="container">
+  <div class="large-6 columns">
+    <h1><%= @state.name %></h1>
+  </div>
+  <div class="large-6 columns text-right">
+    <br/>
+    <%= link_to 'Edit State', edit_state_path(@state), class: "tiny button" %>
+    <%= link_to 'Delete', @state, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
+  </div>
+</div>
 
-<dl class="sub-nav">
-	<dd><%= link_to 'Edit', edit_state_path(@state) %></dd>
-	<dd><%= link_to 'Delete', @state, method: :delete, data: { confirm: 'Are you sure?' } %></dd>
-	<dd><%= link_to 'Back', states_path %></dd>
-</dl>
+<div class="container">
+	<div class="main_content">
 
-<p>
-  <strong>Abbreviation:</strong>
-  <%= @state.abbreviation %>
-</p>
-
-<% if @state.due_within_days.present? %>
-	<p>
-		Reconveyances are due within <strong><%= @state.due_within_days %></strong> days.
-	</p>
-<% else %>
-	<p>
-		Reconveyance due date is unknown. Please <%= link_to "edit the state", edit_state_path(@state) %> to provide this information.
-	</p>
-<% end %>
+		<% if @state.due_within_days.present? %>
+			<p>
+				Reconveyances are due within <strong><%= @state.due_within_days %></strong> days.
+			</p>
+		<% else %>
+			<p>
+				Reconveyance due date is unknown. Please <%= link_to "edit the state", edit_state_path(@state) %> to provide this information.
+			</p>
+		<% end %>
 
 
-<h3>Counties <small><%= link_to "new county", new_state_county_path(@state) %></small></h3>
+		<h3>Counties <small><%= link_to "new county", new_state_county_path(@state) %></small></h3>
 
-<ul>
-	<% @state.counties.each do |county| %>
-	<li><%= link_to county.name, [@state, county] %></li>
-	<% end %>
-</ul>
+		<ul>
+			<% @state.counties.each do |county| %>
+			<li><%= link_to county.name, [@state, county] %></li>
+			<% end %>
+		</ul>
+	</div>
+</div>

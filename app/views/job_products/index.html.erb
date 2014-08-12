@@ -14,7 +14,7 @@
     <% @job_products.each do |job_product| %>
       <tr>
         <td><%= link_to job_product.product.name, [@job, job_product] %></td>
-        <td><%= job_product.price %></td>
+        <td><%=humanized_money_with_symbol job_product.price %></td>
         <td><%= job_product.workflow_state %></td>
       </tr>
     <% end %>

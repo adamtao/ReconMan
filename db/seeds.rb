@@ -91,15 +91,15 @@ s = State.find_by_name('Alabama')
 "Chilton",         "De Kalb",         "Lauderdale",      "Morgan",          "Washington",     
 "Choctaw",         "Elmore",          "Lawrence",        "Perry",           "Wilcox",         
 "Clarke",          "Escambia",        "Lee",             "Pickens",         "Winston",        
-"Clay",            "Etowah"].each {|c| County.create(state: s, name: c)}                 
+"Clay",            "Etowah"].each {|c| County.find_or_create_by!(state: s, name: c)}                 
 
 s = State.find_by_name('Alaska')
-["1st (SE)",        "2nd (NW)",        "3rd (SC)",        "4th (C)"].each {|c| County.create(state: s, name: c)}
+["1st (SE)",        "2nd (NW)",        "3rd (SC)",        "4th (C)"].each {|c| County.find_or_create_by!(state: s, name: c)}
 
 s = State.find_by_name('Arizona')
 ["Apache",          "Gila",            "La Paz",          "Navajo",          "Santa Cruz",
 "Cochise",         "Graham",          "Maricopa",        "Pima",            "Yavapai",
-"Coconino",        "Greenlee",        "Mohave",          "Pinal",           "Yuma "].each {|c| County.create(state: s, name: c)}
+"Coconino",        "Greenlee",        "Mohave",          "Pinal",           "Yuma "].each {|c| County.find_or_create_by!(state: s, name: c)}
 
 s = State.find_by_name('Arkansas')
 ["Arkansas",        "Craighead",       "Howard",          "Miller",          "Randolph",       
@@ -116,7 +116,7 @@ s = State.find_by_name('Arkansas')
 "Cleburne",        "Grant",           "Logan",           "Polk",            "Washington",     
 "Cleveland",       "Greene",          "Lonoke",          "Pope",            "White",          
 "Columbia",        "Hempstead",       "Madison",         "Prairie",         "Woodruff",       
-"Conway",          "Hot Spring",      "Marion",          "Pulaski",         "Yell"].each {|c| County.create(state: s, name: c)}           
+"Conway",          "Hot Spring",      "Marion",          "Pulaski",         "Yell"].each {|c| County.find_or_create_by!(state: s, name: c)}           
 
 s = State.find_by_name('California')
 ["Alameda",         "Imperial",        "Modoc",           "San Diego",       "Solano",         
@@ -130,7 +130,7 @@ s = State.find_by_name('California')
 "El Dorado",       "Marin",           "Riverside",       "Shasta",          "Ventura",        
 "Fresno",          "Mariposa",        "Sacramento",      "Sierra",          "Yolo",           
 "Glenn",           "Mendocino",       "San Benito",      "Siskiyou",        "Yuba",           
-"Humboldt",        "Merced",          "San Bernardino"].each {|c| County.create(state: s, name: c)}          
+"Humboldt",        "Merced",          "San Bernardino"].each {|c| County.find_or_create_by!(state: s, name: c)}          
 
 s = State.find_by_name('Colorado')
 ["Adams",           "Custer",          "Hinsdale",        "Mineral",         "Rio Blanco",     
@@ -146,14 +146,14 @@ s = State.find_by_name('Colorado')
 "Clear Creek",     "Garfield",        "Las Animas",      "Pitkin",          "Washington",     
 "Conejos",         "Gilpin",          "Lincoln",         "Prowers",         "Weld",           
 "Costilla",        "Grand",           "Logan",           "Pueblo",          "Yuma",           
-"Crowley",         "Gunnison",        "Mesa"].each {|c| County.create(state: s, name: c)}    	              
+"Crowley",         "Gunnison",        "Mesa"].each {|c| County.find_or_create_by!(state: s, name: c)}    	              
 
 s = State.find_by_name('Connecticut')
 ["Fairfield",       "Litchfield",      "New Haven",       "Tolland",         "Windham",        
-"Hartford",        "Middlesex",       "New London"].each {|c| County.create(state: s, name: c)}              
+"Hartford",        "Middlesex",       "New London"].each {|c| County.find_or_create_by!(state: s, name: c)}              
 
 s = State.find_by_name('Delaware')
-["Kent",            "New Castle",      "Sussex"].each {|c| County.create(state: s, name: c)}          
+["Kent",            "New Castle",      "Sussex"].each {|c| County.find_or_create_by!(state: s, name: c)}          
 
 s = State.find_by_name('Florida')
 ["Alachua",         "Dixie",           "Hillsborough",    "Marion",          "Santa Rosa",     
@@ -169,7 +169,7 @@ s = State.find_by_name('Florida')
 "Collier",         "Hardee",          "Liberty",         "Pinellas",        "Wakulla",        
 "Columbia",        "Hendry",          "Madison",         "Polk",            "Walton",         
 "Miami-Dade",      "Hernando",        "Manatee",         "Putnam",          "Washington",     
-"DeSoto",          "Highlands"].each {|c| County.create(state: s, name: c)}               
+"DeSoto",          "Highlands"].each {|c| County.find_or_create_by!(state: s, name: c)}               
 
 s = State.find_by_name('Georgia')
 ["Appling",         "Cobb",            "Grady",           "McDuffie",        "Sumter",         
@@ -203,10 +203,10 @@ s = State.find_by_name('Georgia')
 "Clarke",          "Gilmer",          "Lumpkin",         "Seminole",        "Wilkes",         
 "Clay",            "Glascock",        "Macon",           "Spalding",        "Wilkinson",      
 "Clayton",         "Glynn",           "Madison",         "Stephens",        "Worth",          
-"Clinch",          "Gordon",          "Marion",          "Stewart"].each {|c| County.create(state: s, name: c)}                 
+"Clinch",          "Gordon",          "Marion",          "Stewart"].each {|c| County.find_or_create_by!(state: s, name: c)}                 
 
 s = State.find_by_name('Hawaii')
-["Hawaii",          "Honolulu",        "Kalawao",         "Kauai",           "Maui"].each {|c| County.create(state: s, name: c)}           
+["Hawaii",          "Honolulu",        "Kalawao",         "Kauai",           "Maui"].each {|c| County.find_or_create_by!(state: s, name: c)}           
 
 s = State.find_by_name('Idaho')
 ["Ada",             "Bonneville",      "Custer",          "Kootenai",        "Owyhee",         
@@ -217,7 +217,7 @@ s = State.find_by_name('Idaho')
 "Bingham",         "Caribou",         "Gooding",         "Madison",         "Twin Falls",     
 "Blaine",          "Cassia",          "Idaho",           "Minidoka",        "Valley",         
 "Boise",           "Clark",           "Jefferson",       "Nez Perce",       "Washington",     
-"Bonner",          "Clearwater",      "Jerome",          "Oneida"].each {|c| County.create(state: s, name: c)}               
+"Bonner",          "Clearwater",      "Jerome",          "Oneida"].each {|c| County.find_or_create_by!(state: s, name: c)}               
 
 s = State.find_by_name('Illinois')
 ["Adams",           "DuPage",          "Jo Daviess",      "McHenry",         "Sangamon",       
@@ -240,7 +240,7 @@ s = State.find_by_name('Illinois')
 "Cumberland",      "Jackson",         "Mason",           "Richland",        "Williamson",     
 "DeKalb",          "Jasper",          "Massac",          "Rock Island",     "Winnebago",      
 "DeWitt",          "Jefferson",       "McDonough",       "Saline",          "Woodford",       
-"Douglas",         "Jersey"].each {|c| County.create(state: s, name: c)}          
+"Douglas",         "Jersey"].each {|c| County.find_or_create_by!(state: s, name: c)}          
 
 s = State.find_by_name('Indiana')
 ["Adams",           "Elkhart",         "Jefferson",       "Noble",           "Starke",         
@@ -261,7 +261,7 @@ s = State.find_by_name('Indiana')
 "Dearborn",        "Huntington",      "Montgomery",      "Shelby",          "Wells",          
 "Decatur",         "Jackson",         "Morgan",          "Spencer",         "White",          
 "Delaware",        "Jasper",          "Newton",          "St. Joseph",      "Whitley",        
-"Dubois",          "Jay"].each {|c| County.create(state: s, name: c)}                     
+"Dubois",          "Jay"].each {|c| County.find_or_create_by!(state: s, name: c)}                     
 
 s = State.find_by_name('Iowa')
 ["Adair",           "Clay",            "Hancock",         "Madison",         "Sac",            
@@ -283,7 +283,7 @@ s = State.find_by_name('Iowa')
 "Cerro Gordo",     "Greene",          "Linn",            "Polk",            "Woodbury",       
 "Cherokee",        "Grundy",          "Louisa",          "Pottawattamie",   "Worth",          
 "Chickasaw",       "Guthrie",         "Lucas",           "Poweshiek",       "Wright",         
-"Clarke",          "Hamilton",        "Lyon",            "Ringgold"].each {|c| County.create(state: s, name: c)}        
+"Clarke",          "Hamilton",        "Lyon",            "Ringgold"].each {|c| County.find_or_create_by!(state: s, name: c)}        
 
 s = State.find_by_name('Kansas')
 ["Allen",           "Doniphan",        "Jackson",         "Morris",          "Saline",         
@@ -306,7 +306,7 @@ s = State.find_by_name('Kansas')
 "Cowley",          "Harper",          "Meade",           "Riley",           "Wichita",        
 "Crawford",        "Harvey",          "Miami",           "Rooks",           "Wilson",         
 "Decatur",         "Haskell",         "Mitchell",        "Rush",            "Woodson",        
-"Dickinson",       "Hodgeman",        "Montgomery",      "Russell",         "Wyandotte"].each {|c| County.create(state: s, name: c)}            
+"Dickinson",       "Hodgeman",        "Montgomery",      "Russell",         "Wyandotte"].each {|c| County.find_or_create_by!(state: s, name: c)}            
 
 s = State.find_by_name('Kentucky')
 ["Adair",           "Clark",           "Harrison",        "Madison",         "Perry",          
@@ -332,7 +332,7 @@ s = State.find_by_name('Kentucky')
 "Carroll",         "Greenup",         "Lincoln",         "Oldham",          "Webster",        
 "Carter",          "Hancock",         "Livingston",      "Owen",            "Whitley",        
 "Casey",           "Hardin",          "Logan",           "Owsley",          "Wolfe",          
-"Christian",       "Harlan",          "Lyon",            "Pendleton",       "Woodford"].each {|c| County.create(state: s, name: c)}      
+"Christian",       "Harlan",          "Lyon",            "Pendleton",       "Woodford"].each {|c| County.find_or_create_by!(state: s, name: c)}      
 
 s = State.find_by_name('Louisiana')
 ["Acadia",          "Claiborne",       "Jefferson Davis", "Rapides",         "Tangipahoa",     
@@ -347,25 +347,25 @@ s = State.find_by_name('Louisiana')
 "Calcasieu",       "Iberia",          "Orleans",         "St. Martin",      "W. Carroll",   
 "Caldwell",        "Iberville",       "Ouachita",        "St. Mary",        "W. Feliciana", 
 "Cameron",         "Jackson",         "Plaquemines",     "St. Tammany",     "Winn",           
-"Catahoula",       "Jefferson",       "Pointe Coupee",   "St. John the Baptist"].each {|c| County.create(state: s, name: c)}         
+"Catahoula",       "Jefferson",       "Pointe Coupee",   "St. John the Baptist"].each {|c| County.find_or_create_by!(state: s, name: c)}         
 
 s = State.find_by_name('Maine')
 ["Androscoggin",    "Hancock",         "Lincoln",         "Piscataquis",     "Waldo",          
 "Aroostook",       "Kennebec",        "Oxford",          "Sagadahoc",       "Washington",     
 "Cumberland",      "Knox",            "Penobscot",       "Somerset",        "York",           
-"Franklin"].each {|c| County.create(state: s, name: c)}                
+"Franklin"].each {|c| County.find_or_create_by!(state: s, name: c)}                
 
 s = State.find_by_name('Maryland')
 ["Allegany",        "Caroline",        "Frederick",       "Montgomery",      "Talbot",         
 "Anne Arundel",    "Carroll",         "Garrett",         "Prince George's", "Washington",     
 "Baltimore",       "Cecil",           "Harford",         "Queen Anne's",    "Wicomico",       
 "Baltimore City",  "Charles",         "Howard",          "Somerset",        "Worcester",      
-"Calvert",         "Dorchester",      "Kent",            "St. Mary's"].each {|c| County.create(state: s, name: c)}             
+"Calvert",         "Dorchester",      "Kent",            "St. Mary's"].each {|c| County.find_or_create_by!(state: s, name: c)}             
 
 s = State.find_by_name('Massachusetts')
 ["Barnstable",      "Dukes",           "Hampden",         "Nantucket",       "Suffolk",        
 "Berkshire",       "Essex",           "Hampshire",       "Norfolk",         "Worcester",     
-"Bristol",         "Franklin",        "Middlesex",       "Plymouth"].each {|c| County.create(state: s, name: c)}
+"Bristol",         "Franklin",        "Middlesex",       "Plymouth"].each {|c| County.find_or_create_by!(state: s, name: c)}
 
 s = State.find_by_name('Michigan')      
 ["Alcona",          "Clare",           "Iosco",           "Marquette",       "Oscoda",         
@@ -384,7 +384,7 @@ s = State.find_by_name('Michigan')
 "Cass",            "Houghton",        "Luce",            "Ogemaw",          "Washtenaw",      
 "Charlevoix",      "Huron",           "Mackinac",        "Ontonagon",       "Wayne",          
 "Cheboygan",       "Ingham",          "Macomb",          "Osceola",         "Wexford",        
-"Chippewa",        "Ionia",           "Manistee"].each {|c| County.create(state: s, name: c)}              
+"Chippewa",        "Ionia",           "Manistee"].each {|c| County.find_or_create_by!(state: s, name: c)}              
 
 s = State.find_by_name('Minnesota')
 ["Aitkin",          "Dakota",          "Lake of the Woods", "Norman",          "Sibley",         
@@ -404,7 +404,7 @@ s = State.find_by_name('Minnesota')
 "Clearwater",      "Kanabec",         "Murray",            "Roseau",          "Winona",         
 "Cook",            "Kandiyohi",       "Nicollet",          "Scott",           "Wright",         
 "Cottonwood",      "Kittson",         "Nobles",            "Sherburne",       "Yellow Medicine",
-"Crow Wing",       "Koochiching"].each {|c| County.create(state: s, name: c)}
+"Crow Wing",       "Koochiching"].each {|c| County.find_or_create_by!(state: s, name: c)}
 
 s = State.find_by_name('Mississippi')
 ["Adams",           "Forrest",         "Kemper",          "Newton",          "Sunflower",      
@@ -423,7 +423,7 @@ s = State.find_by_name('Mississippi')
 "Coahoma",         "Jasper",          "Monroe",          "Simpson",         "Winston",        
 "Copiah",          "Jefferson",       "Montgomery",      "Smith",           "Yalobusha",      
 "Covington",       "Jefferson Davis", "Neshoba",         "Stone",           "Yazoo",          
-"DeSoto",          "Jones"].each {|c| County.create(state: s, name: c)}                   
+"DeSoto",          "Jones"].each {|c| County.find_or_create_by!(state: s, name: c)}                   
 
 s = State.find_by_name('Missouri')
 ["Adair",           "Clay",            "Iron",            "Montgomery"      "Schuyler",       
@@ -448,7 +448,7 @@ s = State.find_by_name('Missouri')
 "Cedar",           "Hickory",         "Miller",          "Ray"             "Wayne",          
 "Chariton",        "Holt",            "Mississippi",     "Reynolds"        "Webster",        
 "Christian",       "Howard",          "Moniteau",        "Ripley"          "Worth",          
-"Clark",           "Howell",          "Monroe",          "Saline"          "Wright"].each {|c| County.create(state: s, name: c)}         
+"Clark",           "Howell",          "Monroe",          "Saline"          "Wright"].each {|c| County.find_or_create_by!(state: s, name: c)}         
 
 s = State.find_by_name('Montana')
 ["Beaverhead",      "Fallon",          "Lake",            "Petroleum",       "Sheridan",       
@@ -462,7 +462,7 @@ s = State.find_by_name('Montana')
 "Custer",          "Hill",            "Missoula",        "Roosevelt",       "Wheatland",      
 "Daniels",         "Jefferson",       "Musselshell",     "Rosebud",         "Wibaux",         
 "Dawson",          "Judith Basin",    "Park",            "Sanders",         "Yellowstone",    
-"Deer Lodge"].each {|c| County.create(state: s, name: c)}              
+"Deer Lodge"].each {|c| County.find_or_create_by!(state: s, name: c)}              
 
 s = State.find_by_name('Nebraska')
 ["Adams",           "Cuming",          "Greeley",         "Loup",            "Saline",         
@@ -483,24 +483,24 @@ s = State.find_by_name('Nebraska')
 "Cherry",          "Garden",          "Knox",            "Red Willow",      "Webster",        
 "Cheyenne",        "Garfield",        "Lancaster",       "Richardson",      "Wheeler",        
 "Clay",            "Gosper",          "Lincoln",         "Rock",            "York",           
-"Colfax",          "Grant",           "Logan"].each {|c| County.create(state: s, name: c)}                   
+"Colfax",          "Grant",           "Logan"].each {|c| County.find_or_create_by!(state: s, name: c)}                   
 
 s = State.find_by_name('Nevada')
 ["Churchill",      "Esmeralda",       "Lander",          "Mineral",         "Storey",         
 "Clark",           "Eureka",          "Lincoln",         "Nye",             "Washoe",         
 "Douglas",         "Humboldt",        "Lyon",            "Pershing",        "White Pine",     
-"Elko"].each {|c| County.create(state: s, name: c)}                    
+"Elko"].each {|c| County.find_or_create_by!(state: s, name: c)}                    
 
 s = State.find_by_name('New Hampshire')
 ["Belknap",         "Cheshire",        "Grafton",         "Merrimack",       "Strafford",      
-"Carroll",         "Coos",            "Hillsborough",    "Rockingham",      "Sullivan"].each {|c| County.create(state: s, name: c)}       
+"Carroll",         "Coos",            "Hillsborough",    "Rockingham",      "Sullivan"].each {|c| County.find_or_create_by!(state: s, name: c)}       
 
 s = State.find_by_name('New Jersey')
 ["Atlantic",        "Cumberland",      "Hunterdon",       "Morris",          "Somerset",       
 "Bergen",          "Essex",           "Mercer",          "Ocean",           "Sussex",         
 "Burlington",      "Gloucester",      "Middlesex",       "Passaic",         "Union",          
 "Camden",          "Hudson",          "Monmouth",        "Salem",           "Warren",         
-"Cape May"].each {|c| County.create(state: s, name: c)}                
+"Cape May"].each {|c| County.find_or_create_by!(state: s, name: c)}                
 
 s = State.find_by_name('New Mexico')
 ["Bernalillo",      "Dona Ana",        "Lincoln",         "Rio Arriba",      "Sierra",         
@@ -509,7 +509,7 @@ s = State.find_by_name('New Mexico')
 "Cibola",          "Guadalupe",       "McKinley",        "San Miguel",      "Torrance",       
 "Colfax",          "Harding",         "Mora",            "Sandoval",        "Union",          
 "Curry",           "Hidalgo",         "Otero",           "Santa Fe",        "Valencia",       
-"De Baca",         "Lea",             "Quay"].each {|c| County.create(state: s, name: c)}                    
+"De Baca",         "Lea",             "Quay"].each {|c| County.find_or_create_by!(state: s, name: c)}                    
 
 s = State.find_by_name('New York')
 ["Albany",          "Dutchess",        "Madison",         "Otsego",          "Steuben",        
@@ -524,7 +524,7 @@ s = State.find_by_name('New York')
 "Clinton",         "Jefferson",       "Orange",          "Seneca",          "Westchester",    
 "Columbia",        "Kings",           "Orleans",         "St. Lawrence",    "Wyoming",        
 "Cortland",        "Lewis",           "Oswego",          "Richmond",        "Yates",          
-"Delaware",        "Livingston"].each {|c| County.create(state: s, name: c)}
+"Delaware",        "Livingston"].each {|c| County.find_or_create_by!(state: s, name: c)}
 
 s = State.find_by_name('North Carolina')
 ["Alamance",        "Chowan",          "Guilford",        "Mitchell",        "Rutherford",     
@@ -546,7 +546,7 @@ s = State.find_by_name('North Carolina')
 "Caswell",         "Gates",           "Madison",         "Richmond",        "Wilkes",         
 "Catawba",         "Graham",          "Martin",          "Robeson",         "Wilson",         
 "Chatham",         "Granville",       "McDowell",        "Rockingham",      "Yadkin",         
-"Cherokee",        "Greene",          "Mecklenburg",     "Rowan",           "Yancey"].each {|c| County.create(state: s, name: c)}                 
+"Cherokee",        "Greene",          "Mecklenburg",     "Rowan",           "Yancey"].each {|c| County.find_or_create_by!(state: s, name: c)}                 
 
 s = State.find_by_name('North Dakota')
 ["Adams",           "Divide",          "LaMoure",         "Pembina",         "Slope",          
@@ -559,7 +559,7 @@ s = State.find_by_name('North Dakota')
 "Burleigh",        "Grant",           "Morton",          "Sargent",         "Ward",           
 "Cass",            "Griggs",          "Mountrail",       "Sheridan",        "Wells",          
 "Cavalier",        "Hettinger",       "Nelson",          "Sioux",           "Williams",       
-"Dickey",          "Kidder",          "Oliver"].each {|c| County.create(state: s, name: c)}          
+"Dickey",          "Kidder",          "Oliver"].each {|c| County.find_or_create_by!(state: s, name: c)}          
 
 s = State.find_by_name('Ohio')
 ["Adams",           "Darke",           "Hocking",         "Miami",           "Sandusky",       
@@ -579,7 +579,7 @@ s = State.find_by_name('Ohio')
 "Columbiana",      "Hardin",          "Marion",          "Putnam",          "Williams",       
 "Coshocton",       "Harrison",        "Medina",          "Richland",        "Wood",           
 "Crawford",        "Henry",           "Meigs",           "Ross",            "Wyandot",        
-"Cuyahoga",        "Highland",        "Mercer"].each {|c| County.create(state: s, name: c)}
+"Cuyahoga",        "Highland",        "Mercer"].each {|c| County.find_or_create_by!(state: s, name: c)}
 
 s = State.find_by_name('Oklahoma')
 ["Adair",           "Cotton",          "Jackson",        "McCurtain",       "Pottawatomie",   
@@ -597,7 +597,7 @@ s = State.find_by_name('Oklahoma')
 "Cimarron",        "Harmon",          "Marshall",       "Payne",           "Washita",        
 "Cleveland",       "Harper",          "Mayes",          "Pittsburg",       "Woods",          
 "Coal",            "Haskell",         "McClain",        "Pontotoc",        "Woodward",       
-"Comanche",        "Hughes"].each {|c| County.create(state: s, name: c)}                  
+"Comanche",        "Hughes"].each {|c| County.find_or_create_by!(state: s, name: c)}                  
 
 s = State.find_by_name('Oregon')
 ["Baker",           "Deschutes",       "Jefferson",       "Malheur",         "Umatilla",       
@@ -607,7 +607,7 @@ s = State.find_by_name('Oregon')
 "Columbia",        "Harney",          "Lane",            "Polk",            "Washington",     
 "Coos",            "Hood River",      "Lincoln",         "Sherman",         "Wheeler",        
 "Crook",           "Jackson",         "Linn",            "Tillamook",       "Yamhill",        
-"Curry"].each {|c| County.create(state: s, name: c)}           
+"Curry"].each {|c| County.find_or_create_by!(state: s, name: c)}           
 
 s = State.find_by_name('Pennsylvania')
 ["Adams",           "Chester",         "Fulton",          "McKean",          "Snyder",         
@@ -623,11 +623,11 @@ s = State.find_by_name('Pennsylvania')
 "Cambria",         "Erie",            "Lehigh",          "Pike",            "Westmoreland",   
 "Cameron",         "Fayette",         "Luzerne",         "Potter",          "Wyoming",        
 "Carbon",          "Forest",          "Lycoming",        "Schuylkill",      "York",           
-"Centre",          "Franklin"].each {|c| County.create(state: s, name: c)}                
+"Centre",          "Franklin"].each {|c| County.find_or_create_by!(state: s, name: c)}                
 
 s = State.find_by_name('Rhode Island')
 ["Bristol",         "Kent",            "Newport",         "Providence",      
-	"Washington"].each {|c| County.create(state: s, name: c)}             
+	"Washington"].each {|c| County.find_or_create_by!(state: s, name: c)}             
 
 s = State.find_by_name('South Carolina')
 ["Abbeville",       "Cherokee",        "Fairfield",       "Lancaster",       "Orangeburg",     
@@ -639,7 +639,7 @@ s = State.find_by_name('South Carolina')
 "Beaufort",        "Dillon",          "Horry",           "McCormick",       "Union",          
 "Berkeley",        "Dorchester",      "Jasper",          "Newberry",        "Williamsburg",   
 "Calhoun",         "Edgefield",       "Kershaw",         "Oconee",          "York",           
-"Charleston"].each {|c| County.create(state: s, name: c)}              
+"Charleston"].each {|c| County.find_or_create_by!(state: s, name: c)}              
 
 s = State.find_by_name('South Dakota')
 ["Aurora",          "Corson",          "Hamlin",          "Lincoln",         "Roberts",        
@@ -655,7 +655,7 @@ s = State.find_by_name('South Dakota')
 "Charles Mix",     "Grant",           "Kingsbury",       "Pennington",      "Walworth",       
 "Clark",           "Gregory",         "Lake",            "Perkins",         "Yankton",        
 "Clay",            "Haakon",          "Lawrence",        "Potter",          "Ziebach",        
-"Codington"].each {|c| County.create(state: s, name: c)}       
+"Codington"].each {|c| County.find_or_create_by!(state: s, name: c)}       
 
 s = State.find_by_name('Tennessee')
 ["Anderson",        "DeKalb",          "Henderson",       "Maury",           "Sequatchie",     
@@ -676,7 +676,7 @@ s = State.find_by_name('Tennessee')
 "Coffee",          "Hardeman",        "Macon",           "Roane",           "Weakley",        
 "Crockett",        "Hardin",          "Madison",         "Robertson",       "White",          
 "Cumberland",      "Hawkins",         "Marion",          "Rutherford",      "Williamson",     
-"Davidson",        "Haywood",         "Marshall",        "Scott",           "Wilson"].each {|c| County.create(state: s, name: c)}        
+"Davidson",        "Haywood",         "Marshall",        "Scott",           "Wilson"].each {|c| County.find_or_create_by!(state: s, name: c)}        
 
 s = State.find_by_name('Texas')
 ["Anderson",        "Crane",           "Hartley",         "Madison",         "San Patricio",   
@@ -729,7 +729,7 @@ s = State.find_by_name('Texas')
 "Concho",          "Hardeman",        "Llano",           "Rusk",            "Young",          
 "Cooke",           "Hardin",          "Loving",          "Sabine",          "Zapata",         
 "Coryell",         "Harris",          "Lubbock",         "San Augustine",   "Zavala",         
-"Cottle",          "Harrison",        "Lynn",            "San Jacinto"].each {|c| County.create(state: s, name: c)}     
+"Cottle",          "Harrison",        "Lynn",            "San Jacinto"].each {|c| County.find_or_create_by!(state: s, name: c)}     
 
 s = State.find_by_name('Utah')
 ["Beaver",          "Duchesne",        "Kane",            "San Juan",        "Utah",           
@@ -737,14 +737,14 @@ s = State.find_by_name('Utah')
 "Cache",           "Garfield",        "Morgan",          "Sevier",          "Washington",     
 "Carbon",          "Grand",           "Piute",           "Summit",          "Wayne",          
 "Daggett",         "Iron",            "Rich",            "Tooele",          "Weber",          
-"Davis",           "Juab",            "Salt Lake",       "Uintah"].each {|c| County.create(state: s, name: c)}        
+"Davis",           "Juab",            "Salt Lake",       "Uintah"].each {|c| County.find_or_create_by!(state: s, name: c)}        
 
 s = State.find_by_name('Vermont')
 ["Addison",         "Chittenden",      "Grand Isle",      "Orleans",         "Windham",        
 "Bennington",      "Essex",           "Lamoille",        "Rutland",         "Windsor",        
-"Caledonia",       "Franklin",        "Orange",          "Washington"].each {|c| County.create(state: s, name: c)}      
+"Caledonia",       "Franklin",        "Orange",          "Washington"].each {|c| County.find_or_create_by!(state: s, name: c)}      
 
-s = State.find_by_name('Virgina')
+s = State.find_by_name('Virginia')
 ["Accomack",        "Charlotte",       "Greene",          "Mecklenburg",     "Roanoke",        
 "Albemarle",       "Chesterfield",    "Greensville",     "Middlesex",       "Rockbridge",     
 "Alleghany",       "Clarke",          "Halifax",         "Montgomery",      "Rockingham",     
@@ -763,7 +763,7 @@ s = State.find_by_name('Virgina')
 "Campbell",        "Giles",           "Louisa",          "Prince William",  "Westmoreland",   
 "Caroline",        "Gloucester",      "Lunenburg",       "Pulaski",         "Wise",           
 "Carroll",         "Goochland",       "Madison",         "Rappahannock",    "Wythe",          
-"Charles City",    "Grayson",         "Mathews",         "Richmond",        "York"].each {|c| County.create(state: s, name: c)}           
+"Charles City",    "Grayson",         "Mathews",         "Richmond",        "York"].each {|c| County.find_or_create_by!(state: s, name: c)}           
 
 s = State.find_by_name('Washington')
 ["Adams",           "Douglas",         "King",            "Pacific",         "Stevens",        
@@ -773,9 +773,9 @@ s = State.find_by_name('Washington')
 "Clallam",         "Grant",           "Lewis",           "Skagit",          "Whatcom",        
 "Clark",           "Grays Harbor",    "Lincoln",         "Skamania",        "Whitman",        
 "Columbia",        "Island",          "Mason",           "Snohomish",       "Yakima",
-"Cowlitz",         "Jefferson",       "Okanogan",        "Spokane"].each {|c| County.create(state: s, name: c)}         
+"Cowlitz",         "Jefferson",       "Okanogan",        "Spokane"].each {|c| County.find_or_create_by!(state: s, name: c)}         
 
-s = State.find_by_name('West Virgina')
+s = State.find_by_name('West Virginia')
 ["Barbour",         "Grant",           "Logan",           "Nicholas",        "Summers",        
 "Berkeley",        "Greenbrier",      "Marion",          "Ohio",            "Taylor",         
 "Boone",           "Hampshire",       "Marshall",        "Pendleton",       "Tucker",         
@@ -786,7 +786,7 @@ s = State.find_by_name('West Virgina')
 "Clay",            "Jefferson",       "Mingo",           "Raleigh",         "Wetzel",         
 "Doddridge",       "Kanawha",         "Monongalia",      "Randolph",        "Wirt",           
 "Fayette",         "Lewis",           "Monroe",          "Ritchie",         "Wood",           
-"Gilmer",          "Lincoln",         "Morgan",          "Roane",           "Wyoming"].each {|c| County.create(state: s, name: c)}        
+"Gilmer",          "Lincoln",         "Morgan",          "Roane",           "Wyoming"].each {|c| County.find_or_create_by!(state: s, name: c)}        
 
 s = State.find_by_name('Wisconsin')
 ["Adams",           "Douglas",         "Kewaunee",        "Outagamie",       "Sheboygan",      
@@ -803,27 +803,22 @@ s = State.find_by_name('Wisconsin')
 "Crawford",        "Jackson",         "Monroe",          "Sauk",            "Waushara",       
 "Dane",            "Jefferson",       "Oconto",          "Sawyer",          "Winnebago",      
 "Dodge",           "Juneau",          "Oneida",          "Shawano",         "Wood",           
-"Door",            "Kenosha"].each {|c| County.create(state: s, name: c)}         
+"Door",            "Kenosha"].each {|c| County.find_or_create_by!(state: s, name: c)}         
 
 s = State.find_by_name('Wyoming')
 ["Albany",          "Crook",           "Laramie",         "Platte",          "Teton",          
 "Big Horn",        "Fremont",         "Lincoln",         "Sheridan",        "Uinta",          
 "Campbell",        "Goshen",          "Natrona",         "Sublette",        "Washakie",       
 "Carbon",          "Hot Springs",     "Niobrara",        "Sweetwater",      "Weston",         
-"Converse",        "Johnson",         "Park"].each {|c| County.create(state: s, name: c)}            
+"Converse",        "Johnson",         "Park"].each {|c| County.find_or_create_by!(state: s, name: c)}            
         
 
-puts "LOADING TEST CLIENTS AND BRANCHES"
-
-c = Client.find_or_create_by(name: "Barackas Title & Bakery")
-b = Branch.find_or_create_by(name: "Van", client: c, state: State.find_by_name('Utah'))
-
-user = User.find_or_create_by!(email: "mr.t@barackas.com", branch_id: b.id, name: "Mr. T") do |user|
-    user.password = "password"
-    user.password_confirmation = "password"
-    user.confirm!
-    user.client!
-  end
-
-
+if Rails.env.development?
+  puts "==============================="
+  puts "Now you can load test clients, jobs, etc. with this command:"
+  puts ""
+  puts "  rake testdata:reload  "
+  puts ""
+  puts "==============================="
+end
 
