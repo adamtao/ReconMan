@@ -12,36 +12,25 @@ class Completer
 	constructor: (checkbox) ->
 		@checkbox = $(checkbox)
 		@job_id = @checkbox.data('job') 
-		@product_id = @checkbox.data('job_product')
+		@product_id = @checkbox.data('job-product')
 		@checkbox.click () =>
-			# if @checkbox.hasClass('completer') then @complete() else @uncomplete()
+			if @checkbox.hasClass('completer') then @complete() else @uncomplete()
 			@update_database()
 
 	update_database: ->
 		$.ajax "/jobs/#{@job_id}/job_products/#{@product_id}/toggle.js"
 
-	# complete: ->
-	# 	@checkbox.removeClass('completer').addClass('incompleter')
-	# 	$("#task_row_#{@task_id}").fadeOut 'fast', ->
-	# 		$(@).find('input').prop("checked", true)
-	# 		if $(@).is('li')
-	# 			$(@).find('i').hide()
-	# 			$(@).find('.assigned').html('Completed: just now')
-	# 			$(@).prependTo('ul#completed-tasks').fadeIn('fast')
-	# 		else
-	# 			$(@).find('td.date').html('just now')
-	# 			$(@).prependTo('table#completed-tasks tbody').show()
+	complete: ->
+		@checkbox.removeClass('completer').addClass('incompleter')
+		$("tr#job_#{@job_id}").fadeOut 'fast', ->
+			$(@).find('input').prop("checked", true)
+			$(@).find('td:last').html('just now')
+			$(@).prependTo('table#completed-jobs tbody').fadeIn().effect("highlight")
 	
-	# uncomplete: ->
-	# 	@checkbox.removeClass('incompleter').addClass('completer')
-	# 	$("#task_row_#{@task_id}").fadeOut 'fast', ->
-	# 		$(@).find('input').prop("checked", false)
-	# 		if $(@).is('li')
-	# 			$(@).find('i').show()
-	# 			label = if w == 'Unassigned' then "<span class='alert round label'>#{w}</span>" else "Assigned to: #{w}"
-	# 			$(@).find('.assigned').html(label)
-	# 			$(@).prependTo('ul#incomplete-tasks').fadeIn('fast')			
-	# 		else
-	# 			$(@).find('td.date').html(d)
-	# 			$(@).prependTo('table#incomplete-tasks tbody').show()		
+	uncomplete: ->
+		@checkbox.removeClass('incompleter').addClass('completer')
+		$("tr#job_#{@job_id}").fadeOut 'fast', ->
+			$(@).find('input').prop("checked", false)
+			$(@).find('td:last').html('re-opened')
+			$(@).prependTo('table#incomplete-jobs tbody').fadeIn().effect("highlight")
 		

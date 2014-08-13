@@ -11,6 +11,8 @@ class ClientsController < ApplicationController
   # GET /clients/1
   # GET /clients/1.json
   def show
+    @current_jobs = @client.jobs.where.not(workflow_state: "complete").joins(:job_products).order("job_products.due_on DESC").limit(100)
+    @completed_jobs = @client.jobs.where(workflow_state: "complete").order("completed_at DESC").limit(25)
   end
 
   # GET /clients/new

@@ -2,9 +2,11 @@ class Job < ActiveRecord::Base
 	include Workflow
 	workflow do
 		state :new do
-			event :mark_complete, :transitions_to => :complete
+			event :mark_complete, transitions_to: :complete
 		end
-		state :complete
+		state :complete do
+			event :re_open, transitions_to: :new
+		end
 		state :canceled
 	end
 
@@ -42,6 +44,11 @@ class Job < ActiveRecord::Base
 
 	def mark_complete
 		self.completed_at = Time.zone.now
+		self.save
+	end
+
+	def re_open
+		self.completed_at = nil
 		self.save
 	end
 

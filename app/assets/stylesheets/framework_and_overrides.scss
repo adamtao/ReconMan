@@ -7,7 +7,6 @@ $body-font-color: $dark-gray;
 $body-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 $body-font-weight: 300;
 
-
 $header-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 $header-font-weight: 400;
 // $header-font-style: normal;
@@ -25,6 +24,15 @@ $h3-font-size: emCalc(21px);
 $h4-font-size: emCalc(18px);
 $h5-font-size: emCalc(15px);
 $h6-font-size: 1em;
+
+// $paragraph-font-family: inherit;
+$paragraph-font-weight: 300;
+// $paragraph-font-size: 1em;
+// $paragraph-line-height: 1.6;
+// $paragraph-margin-bottom: emCalc(20px);
+// $paragraph-aside-font-size: emCalc(14px);
+// $paragraph-aside-line-height: 1.35;
+// $paragraph-aside-font-style: italic;
 
 // import the CSS framework
 @import "foundation";
@@ -46,7 +54,7 @@ $h6-font-size: 1em;
 }
 
 table {
-  border-radius: 8px;
+  border-radius: 4px;
   tbody tr td {
     line-height: rem-calc(16);
     padding: rem-calc(5) rem-calc(1);
@@ -57,7 +65,9 @@ table {
     }
   }
 }
-
+.button {
+  @extend .radius;
+}
 // THESE ARE EXAMPLES YOU CAN MODIFY
 // create mixins using Foundation classes
 @mixin twelve-columns {
@@ -121,6 +131,9 @@ section {
 }
 .side_content {
   @include side_content;
+  table {
+    width: 100%
+  }
 }
 
 .column_6 {
@@ -134,11 +147,18 @@ section {
   @extend .large-12;
   @extend .columns;
 }
-
+.panel {
+  @extend .radius;
+  ul {
+    li {
+      font-size: emCalc(14px);
+    }
+  }
+}
 .hint {
   display: block;
   font-size: emCalc(12px);
-  color: #777;
+  color: $medium-gray;
   font-style: oblique;
   margin-top: -8px;
   margin-bottom: 10px;
@@ -146,4 +166,16 @@ section {
 
 input.radio_buttons, input.boolean {
   margin-right: 6px;
+}
+
+.smaller {
+  font-weight: 300;
+  font-size: emCalc(13px);
+  line-height: emCalc(17px);
+  color: $dark-gray;
+}
+@media only screen and (min-width: 680px) {
+  span.hide-for-small {
+    display: inline !important;
+  }
 }

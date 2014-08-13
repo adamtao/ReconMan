@@ -10,107 +10,52 @@
 </div>
 
 <div class="container">
-<div class="main_content">
+	<div class="main_content">
+		<h3>Current Jobs <small><%= link_to 'new job', new_job_path(client_id: @client.id) %></small></h3>
+		<%= render 'shared/jobs' %>
+	</div>
 
-	<h3>Jobs <small><%= link_to 'new job', new_job_path(client_id: @client.id) %></small></h3>
+	<div class="side_content">
 
-	<table>
-	  <thead>
-	    <tr>
-    	  <th class="text-center">R</th>
-	      <th>Parcel</th>
-	      <th>County</th>
-	      <th>Requestor</th>
-	      <th class="text-center">Created</th>
-	      <th class="text-center">Due</th>
-	      <th class="text-center">Status</th>
-	    </tr>
-	  </thead>
+		<h3>Pricing for <%= @client.name %> </h3>
+		<table>
+			<thead>
+				<tr>
+					<th>Product</th>
+					<th>Standard</th>
+					<th>Client Price</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% Product.limit(10).each do |product| %>
+				<% cp = @client.client_products.find_or_initialize_by(product_id: product.id) %>
+				<tr>
+					<td><%= product.name %></td>
+					<td class="text-right"><i><%=humanized_money_with_symbol product.price %></i></td>
+					<td class="text-right"><%= link_to humanized_money_with_symbol(@client.product_price(product)), cp.new_record? ? new_client_client_product_path(@client, product_id: product) : edit_client_client_product_path(@client, cp) %></td>
+				</tr>
+				<% end %>
+			</tbody>
+		</table>
 
-	  <tbody>
-	    <% @client.jobs.each do |job| %>
-	      <tr>
-	      	<td class="text-center">
-				<% if job.dashboard_product %>
-	        		<%= check_box_tag job.dashboard_product.id, 
-	        				job.dashboard_product.id, 
-		        			job.dashboard_product.complete?, 
-		        			class: job.dashboard_product.complete? ? 'incompleter' : 'completer',
-		        			data: {
-		        				job: job.id,
-		        				job_product: job.dashboard_product.id,
-		        			} %>
-		        <% end %>
-	      	</td>
-	        <td><%= link_to job.parcel_number, job %></td>
-	        <td><%= link_to job.county.name, [job.state, job.county] %>, <%= link_to job.state.abbreviation, job.state %></td>
-	        <td><%= link_to job.requestor.name, job.requestor %>
-	          <% if job.requestor.branch %>(<%= job.requestor.branch.name %>)<% end %>
-	        </td>
-            <td class="text-center"><%=l job.created_at.to_date, format: :short %></td>
-          	<% if job.dashboard_product %>
-	          	<td class="text-center <% if job.dashboard_product.late? %>late<% end %>">
-	          		<% if job.dashboard_product.due_on.present? %>
-	          			<%=l job.dashboard_product.due_on, format: :short %>
-	          		<% end %>
-	          	</td>
-		        <td class="text-center">
-		        	<%= job.dashboard_product.workflow_state %>
-		        	<% if !!(job.dashboard_product.quick_search_url) %>
-		        		| <%= link_to "search", job.dashboard_product.quick_search_url, target: "_blank" %>
-		        	<% end %>
-		        </td>
-		    <% else %>
-		    	<td colspan="2" class="text-center"><i>(reconveyance n/a)</i></td>
-		    <% end %>
-	      </tr>
-	    <% end %>
-	  </tbody>
-	</table>
+		<div class="panel">
+			<h4 class="subheader">Branches <small><%= link_to 'new branch', new_client_branch_path(@client) %></small></h4>
+			<ul>
+				<% @client.branches.each do |branch| %>
+				<li><%= link_to branch.name, [@client, branch] %></li>
+				<% end %>
+			</ul>
 
+		</div>
 
-</div>
+		<div class="panel">
+			<h4 class="subheader">Employees <small><%= link_to 'new employee', new_client_user_path(@client) %></small></h4>
+			<ul>
+				<% @client.users.each do |user| %>
+				<li><%= link_to user.name, user %></li>
+				<% end %>
+			</ul>
+		</div>
 
-<div class="side_content">
-
-	<h4 class="subheader">Branches <small><%= link_to 'new branch', new_client_branch_path(@client) %></small></h4>
-	<ul>
-		<% @client.branches.each do |branch| %>
-		<li><%= link_to branch.name, [@client, branch] %></li>
-		<% end %>
-	</ul>
-
-	<hr/>
-
-	<h4 class="subheader">Employees <small><%= link_to 'new user', new_client_user_path(@client) %></small></h4>
-	<ul>
-		<% @client.users.each do |user| %>
-		<li><%= link_to user.email, user %></li>
-		<% end %>
-	</ul>
-
-	<hr/>
-
-	<h4 class="subheader">Pricing</h4>
-	<table>
-		<thead>
-			<tr>
-				<th>Product</th>
-				<th>Std. Price</th>
-				<th>Client Price</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% Product.limit(10).each do |product| %>
-			<% cp = @client.client_products.find_or_initialize_by(product_id: product.id) %>
-			<tr>
-				<td><%= product.name %></td>
-				<td class="text-right"><i><%=humanized_money_with_symbol product.price %></i></td>
-				<td class="text-right"><%= link_to humanized_money_with_symbol(@client.product_price(product)), cp.new_record? ? new_client_client_product_path(@client, product_id: product) : edit_client_client_product_path(@client, cp) %></td>
-			</tr>
-			<% end %>
-		</tbody>
-	</table>
-
-</div>
+	</div>
 </div>

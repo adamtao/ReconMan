@@ -11,6 +11,8 @@ class BranchesController < ApplicationController
   # GET /branches/1
   # GET /branches/1.json
   def show
+    @current_jobs = @branch.jobs.where.not(workflow_state: "complete").joins(:job_products).order("job_products.due_on DESC").limit(100)
+    @completed_jobs = @branch.jobs.where(workflow_state: "complete").order("completed_at DESC").limit(25)
   end
 
   # GET /branches/new

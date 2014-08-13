@@ -1,6 +1,6 @@
 class JobProductsController < ApplicationController
   before_action :set_job
-  before_action :set_job_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_job_product, only: [:show, :edit, :update, :toggle, :destroy]
 
   # GET /job_products
   # GET /job_products.json
@@ -49,6 +49,15 @@ class JobProductsController < ApplicationController
         format.html { render :edit }
         format.json { render json: @job_product.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  # GET /job/id/job_products/id/toggle.js
+  def toggle
+    @job_product.toggle!
+    respond_to do |format|
+      format.html { redirect_to @job, notice: "#{@job_product.product.name} for this job is complete." }
+      format.js { render nothing: true }
     end
   end
 

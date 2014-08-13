@@ -41,7 +41,7 @@ namespace :testdata do
 				1..(3 - branches).times do 
 					city = Forgery::Address.city
 					client.branches << Branch.new(
-						name: "#{client.name.split(" ").map {|name| name[0].chr }.join.upcase} #{city}", 
+						name: "#{client.name.split(" ").map {|name| name[0].chr }[0,2].join.upcase} #{city}", 
 						address: Forgery::Address.street_address,
 						city: city,
 						state: states_with_counties.sample,
@@ -71,11 +71,11 @@ namespace :testdata do
 				end
 			end
 		end
-		puts "Loading up Open Jobs"
+		puts "Loading up New Jobs"
 		puts "============================="
-		open_jobs = Job.where.not(workflow_state: 'complete').count
-		if open_jobs < 10
-			(10 - open_jobs).times do
+		new_jobs = Job.where.not(workflow_state: 'new').count
+		if new_jobs < 5
+			(10 - new_jobs).times do
 				user = User.where.not(branch_id: nil).sample
 				puts "Creating a job on behalf of #{user.name} of #{user.branch.client.name}/#{user.branch.name}"
 				Job.create!(
@@ -90,6 +90,30 @@ namespace :testdata do
 					new_owner: Forgery::Name.full_name,
 					parcel_number: Forgery::CreditCard.number[2,3] + "-" + Forgery::CreditCard.number[6,5]
 				)
+			end
+		end
+
+		puts "Loading up Open Jobs"
+		puts "============================="
+		open_jobs = Job.where.not(workflow_state: 'new').count
+		if open_jobs < 15
+			(15 - open_jobs).times do
+				user = User.where.not(branch_id: nil).sample
+				puts "Creating a job on behalf of #{user.name} of #{user.branch.client.name}/#{user.branch.name}"
+				job = Job.create!(
+					requestor: user,
+					client: user.branch.client,
+					address: Forgery::Address.street_address,
+					city: Forgery::Address.city,
+					state: user.branch.state,
+					zipcode: Forgery::Address.zip,
+					county: user.branch.state.counties.sample,
+					old_owner: Forgery::Name.full_name,
+					new_owner: Forgery::Name.full_name,
+					parcel_number: Forgery::CreditCard.number[2,3] + "-" + Forgery::CreditCard.number[6,5]
+				)
+				reconveyance = job.dashboard_product
+				reconveyance.search!
 			end
 		end
 

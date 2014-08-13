@@ -2,16 +2,18 @@ class JobProduct < ActiveRecord::Base
 	include Workflow
 	workflow do
 		state :new do
-			event :search, :transitions_to => :open
+			event :search, transitions_to: :in_progress
 		end
-		state :open do
-			event :change_in_cached_response, :transitions_to => :needs_review
-			event :mark_complete, :transitions_to => :complete
+		state :in_progress do
+			event :change_in_cached_response, transitions_to: :needs_review
+			event :mark_complete, transitions_to: :complete
 		end
 		state :needs_review do 
-			event :mark_complete, :transitions_to => :complete
+			event :mark_complete, transitions_to: :complete
 		end
-		state :complete
+		state :complete do 
+			event :re_open, transitions_to: :in_progress
+		end
 		state :canceled
 	end
 
@@ -78,7 +80,20 @@ class JobProduct < ActiveRecord::Base
 	# it has other incomplete products
 	def mark_complete
 		unless self.job.job_products.where.not(id: self.id, workflow_state: 'complete').count > 0
-			self.job.mark_complete!
+			self.job.mark_complete! if self.job.can_mark_complete?
+		end
+	end
+
+	def re_open
+		self.job.re_open! if self.job.can_re_open?
+	end
+
+	# Quick way to complete/un-complete, by convention, invokes the last action for the current state
+	def toggle!
+		if self.can_mark_complete? 
+			self.mark_complete! 
+		elsif self.can_re_open?
+			self.re_open!
 		end
 	end
 end

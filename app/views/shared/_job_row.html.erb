@@ -1,0 +1,70 @@
+<tr id="job_<%= job.id %>">
+
+  <td class="text-center">
+  	<% if job.dashboard_product %>
+      <% if job.dashboard_product.can_mark_complete? %>
+    		<%= check_box_tag job.dashboard_product.id, 
+    				job.dashboard_product.id, 
+      			job.dashboard_product.complete?, 
+      			class: 'completer',
+      			data: {
+      				job: job.id,
+      				job_product: job.dashboard_product.id,
+      			} %>
+      <% elsif job.dashboard_product.complete? %>
+        <%= check_box_tag job.dashboard_product.id, 
+            job.dashboard_product.id, 
+              job.dashboard_product.complete?, 
+              class: 'incompleter',
+              data: {
+                job: job.id,
+                job_product: job.dashboard_product.id,
+              } %>
+      <% end %>
+  	<% end %>
+  </td>
+  
+  <td><%= link_to job.parcel_number, job %></td>
+  
+  <td class="hide-for-small">
+    <%= link_to job.county.name, [job.state, job.county] %>, <%= link_to job.state.abbreviation, job.state %>
+  </td>
+  
+  <td><%= link_to job.requestor.name, job.requestor %>
+  	<% if show_client_name %>
+  	<span class="hide-for-small"> / <%= link_to job.client.name, job.client %></span>
+  	<% elsif show_branch_name %>
+  	<span class="hide-for-small">(<%= job.requestor.branch.name %>)</span>
+  	<% end %>
+  </td>
+	
+  <td class="text-center hide-for-small">
+    <%=l job.created_at.to_date, format: :short %>
+  </td>
+	
+  <% if job.dashboard_product %>
+  	<td class="text-center <% if job.dashboard_product.late? %>late<% end %>">
+  		<% if job.dashboard_product.due_on.present? %>
+  			<%=l job.dashboard_product.due_on, format: :short %>
+  		<% end %>
+  	</td>
+
+    <td class="text-center">
+      <% if job.dashboard_product.complete? %>
+        <% unless job.completed_at.blank? %>
+            <%= l job.completed_at.to_date, format: :short %>
+        <% end %>
+      <% else %>
+      	<%= job.dashboard_product.workflow_state.humanize.downcase %>
+      	<% if !!(job.dashboard_product.quick_search_url) %>
+      		 | <%= link_to "search", job.dashboard_product.quick_search_url, target: "_blank" %>
+      	<% end %>
+      <% end %>
+    </td>
+
+  <% else %>
+  	<td colspan="2" class="text-center">
+      <i>(reconveyance n/a)</i>
+    </td>
+  <% end %>
+</tr>

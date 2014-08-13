@@ -14,7 +14,7 @@
     		} 
     	 %>
     <% unless f.object.new_record? %>
-      <%= f.input :due_on %>
+      <%= f.input :due_on, as: :string, input_html: { class: 'datepicker' } %>
     <% end %>
     <%= f.input :price, hint: "#{@job.client.name} pricing loads automatically when you select/change a product." %>
     <%= f.input :search_url, input_html: { data: { product: Product.where(performs_search: true).first.id }} %>
