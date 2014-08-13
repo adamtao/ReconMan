@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require foundation
 //= require_tree .
+//= require vendor/modernizr
+
 $(function() {
   $(document).foundation();
 });

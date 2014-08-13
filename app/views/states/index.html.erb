@@ -1,6 +1,15 @@
-<h1>States</h1>
+<div class="container">
+	<div class="large-6 columns">
+		<h1>States</h1>
+	</div>
+	<div class="large-6 columns text-right">
+		<br/>
+		<%= link_to 'New State', new_state_path, class: "tiny button" %>
+	</div>
+</div>
 
-<%= link_to 'New State', new_state_path, class: "small button" %>
+<div class="container">
+<div class="main_content">
 
 <ul>
   <% @states.each do |state| %>
@@ -10,3 +19,5 @@
   <% end %>
 </ul>
 
+</div>
+</div>

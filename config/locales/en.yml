@@ -21,3 +21,15 @@
 
 en:
   hello: "Hello world"
+  date:
+    formats:
+      default: "%Y-%m-%d"
+      short: "%b %d"
+      long: "%B %d, %Y"
+      month_day: "%b %d"
+      blog_month_day: "%B %d"
+      mmddyy: "%m/%d/%y"
+
+  time:
+    formats:
+      log: "%b %d, %Y, %I:%M %p"

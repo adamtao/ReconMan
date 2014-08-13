@@ -41,17 +41,17 @@
 
     <p>
       <strong>Created:</strong>
-      <%=l @job.created_at.to_date, format: :short %>
+      <%=l @job.created_at.to_date, format: :long %>
     </p>
     <p>
       <strong>Due:</strong>
-      <%=l @job.dashboard_product.due_on, format: :short %>
+      <%=l @job.dashboard_product.due_on, format: :long %>
     </p>
 
     <% if @job.completed_at.present? %>
     <p>
       <strong>Completed at:</strong>
-      <%=l @job.completed_at, format: :short %>
+      <%=l @job.completed_at, format: :long %>
     </p>
     <% end %>
   </div>
