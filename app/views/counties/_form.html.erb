@@ -2,17 +2,15 @@
   <div class="row">
     <%= f.error_notification %>
   </div>
+	
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :search_url, label: "Title Search URL", placeholder: "http://" %>
+  </div>
 
-	<div class="row"><div class="column_6_centered">
-	  <div class="form-inputs">
-	    <%= f.input :name %>
-	    <%= f.input :search_url %>
-	  </div>
-
-	  <div class="form-actions">
-	    <div class="column_6">
-	      <%= f.button :submit %>
-	    </div>
-	  </div>
-	</div></div>
+  <div class="form-actions row">
+  	<div class="large-12 columns">
+      <%= f.button :submit %>
+  	</div>
+  </div>
 <% end %>

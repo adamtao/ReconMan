@@ -1,8 +1,8 @@
 <div class="container">
-	<div class="large-6 columns">
+	<div class="large-7 small-7 columns">
 		<h1><%= @county.name %></h1>
 	</div>
-	<div class="large-6 columns text-right">
+	<div class="large-5 small-5 columns text-right">
 		<br/>
 		<%= link_to 'Edit County', edit_state_county_path(@state, @county), class: "tiny button" %>
 		<%= link_to 'Delete', [@state, @county], method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>

@@ -1,10 +1,10 @@
 <div class="container">
-  <div class="large-6 columns">
+  <div class="large-7 small-7 columns">
     <h1>Parcel Number:
       <%= @job.parcel_number %>
     </h1>
   </div>
-  <div class="large-6 columns text-right">
+  <div class="large-5 small-5 columns text-right">
     <br/>
     <%= link_to 'Edit Job', edit_job_path(@job), class: "tiny button" %>
     <%= link_to 'Delete', @job, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
@@ -14,51 +14,9 @@
 <div class="container">
 <div class="main_content">
 
-  <div class="column_6">
-    <h3 class="subheader">Property Info</h3>
-      <p><strong>Address:</strong></p>
-      <p>
-        <%= @job.address %><br/>
-        <%= @job.city %>,
-        <%= link_to @job.state.name, @job.state %>
-        <%= @job.zipcode %><br/>
-        <%= link_to "#{@job.county.name} County", [@job.state, @job.county] %>
-      </p>
-
-    <h4 class="subheader">Owner Details</h4>
-    <p>
-      <strong>Old owner:</strong>
-      <%= @job.old_owner %>
-    </p>
-
-    <p>
-      <strong>New owner:</strong>
-      <%= @job.new_owner %>
-    </p>
-
-
-    <h3>Status</h3>
-
-    <p>
-      <strong>Created:</strong>
-      <%=l @job.created_at.to_date, format: :long %>
-    </p>
-    <p>
-      <strong>Due:</strong>
-      <%=l @job.dashboard_product.due_on, format: :long %>
-    </p>
-
-    <% if @job.completed_at.present? %>
-    <p>
-      <strong>Completed at:</strong>
-      <%=l @job.completed_at, format: :long %>
-    </p>
-    <% end %>
-  </div>
-
-  <div class="column_6">
-
-    <h3 class="subheader">Products &amp; Services</h3>
+    <h3 class="subheader">Products &amp; Services 
+      <small><%= link_to "add product/service", new_job_job_product_path(@job), class: "success" %></small>
+    </h3>
     <table>
       <thead>
         <tr>
@@ -88,22 +46,66 @@
         </tr>
       </tfoot>
     </table>
-    <%= link_to "add product/service", new_job_job_product_path(@job) %>
+    
+
+
+    <h3>Status</h3>
+
+    <p>
+      <strong>Created:</strong>
+      <%=l @job.created_at.to_date, format: :long %>
+    </p>
+    <p>
+      <strong>Due:</strong>
+      <%=l @job.dashboard_product.due_on, format: :long %>
+    </p>
+
+    <% if @job.completed_at.present? %>
+    <p>
+      <strong>Completed at:</strong>
+      <%=l @job.completed_at, format: :long %>
+    </p>
+    <% end %>
+
+
   </div>
 
-</div>
+  <div class="side_content">
 
-<div class="side_content">
-  <h3 class="subheader">Client</h3>
-  <p>
-    <strong>Requestor:</strong>
-    <%= link_to @job.requestor.name, @job.requestor %>
-  </p>
+    <div class="panel">
+      <h3 class="subheader">Property Info</h3>
+        <p><strong>Address:</strong></p>
+        <p>
+          <%= @job.address %><br/>
+          <%= @job.city %>,
+          <%= link_to @job.state.name, @job.state %>
+          <%= @job.zipcode %><br/>
+          <%= link_to "#{@job.county.name} County", [@job.state, @job.county] %>
+        </p>
 
-  <p>
-    <strong>Client:</strong>
-    <%= link_to @job.client.name, @job.client %>
-  </p>
+      <h4 class="subheader">Owner Details</h4>
+      <p>
+        <strong>Old owner:</strong>
+        <%= @job.old_owner %>
+      </p>
 
-</div>
+      <p>
+        <strong>New owner:</strong>
+        <%= @job.new_owner %>
+      </p>
+    </div>
+
+    <div class="panel">
+      <h3 class="subheader">Client</h3>
+      <p>
+        <strong>Requestor:</strong>
+        <%= link_to @job.requestor.name, @job.requestor %>
+      </p>
+
+      <p>
+        <strong>Client:</strong>
+        <%= link_to @job.client.name, @job.client %>
+      </p>
+    </div>
+  </div>
 </div>

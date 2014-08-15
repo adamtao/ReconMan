@@ -1,22 +1,38 @@
-<h1>Products</h1>
+<div class="container">
+  <div class="large-7 columns">
+    <h1>Products</h1>
+  </div>
+  <div class="large-5 columns text-right">
+  </div>
+</div>
 
-<%= link_to 'New Product', new_product_path, class: "small button" %>
+<div class="container">
+  <div class="large-7 columns">
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Default Price</th>
-    </tr>
-  </thead>
+    <table style="width: 100%">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th class="text-right">Default Price</th>
+        </tr>
+      </thead>
 
-  <tbody>
-    <% @products.each do |product| %>
-      <tr>
-        <td><%= link_to product.name, product %></td>
-        <td><%=humanized_money_with_symbol product.price %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <tbody>
+        <% @products.each do |product| %>
+          <tr>
+            <td><%= link_to product.name, product %></td>
+            <td class="text-right"><%=humanized_money_with_symbol product.price %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
 
+  </div>
+
+  <div class="large-5 columns">
+    <div class="panel">
+      <h3 class="subheader">New Product/Service</h3>
+      <%= render 'form' %>
+    </div>
+  </div>
+</div>

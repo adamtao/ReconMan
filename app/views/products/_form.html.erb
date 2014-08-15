@@ -3,8 +3,6 @@
     <%= f.error_notification %>
   </div>
 
-  <div class="row"><div class="column_6_centered">
-
     <div class="form-inputs">
       <div class="row">
         <div class="large-8 columns">
@@ -14,16 +12,19 @@
           <%= f.input :price %>
         </div>
       </div>
-      <%= f.input :description %>
+      <div class="row">
+        <div class="large-12 columns">
+          <%= f.input :description %>
       
-      <%= f.input :default, label: "All new jobs should have this product added by default." %>
-      <%= f.input :performs_search, label: "This service involves performing a recurring web search." %>
+          <%= f.input :default, label: "All new jobs should have this product added by default." %>
+          <%= f.input :performs_search, label: "This service involves performing a recurring web search." %>
+        </div>
+      </div>
     </div>
 
-    <div class="form-actions">
+    <div class="form-actions row">
       <div class="column_6">
         <%= f.button :submit %>
       </div>
     </div>
-  </div></div>
 <% end %>

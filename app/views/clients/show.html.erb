@@ -1,9 +1,10 @@
 <div class="container">
-	<div class="large-6 columns">
+	<div class="large-7 small-7 columns">
 		<h1><%= @client.name %></h1>
 	</div>
-	<div class="large-6 columns text-right">
+	<div class="large-5 small-5 columns text-right">
 		<br/>
+		<%= link_to 'New Job', new_job_path(client_id: @client.id), class: "tiny success button" %>
 		<%= link_to 'Edit Client', edit_client_path(@client), class: "tiny button" %>
 		<%= link_to 'Delete', @client, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
 	</div>
@@ -11,7 +12,7 @@
 
 <div class="container">
 	<div class="main_content">
-		<h3>Current Jobs <small><%= link_to 'new job', new_job_path(client_id: @client.id) %></small></h3>
+		<h3>Current Jobs <small><%= link_to 'new job', new_job_path(client_id: @client.id), class: "success" %></small></h3>
 		<%= render 'shared/jobs' %>
 	</div>
 

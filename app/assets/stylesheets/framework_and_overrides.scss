@@ -53,6 +53,15 @@ $paragraph-font-weight: 300;
   background: #EEE;
 }
 
+@mixin success-link {
+  color: $success-color;
+  font-weight: 400;
+}
+
+a.success { @include success-link; }
+#incomplete-jobs a.job { @include success-link; }
+#completed-jobs td { font-size: 80%; }
+
 table {
   border-radius: 4px;
   tbody tr td {

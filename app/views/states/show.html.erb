@@ -1,8 +1,8 @@
 <div class="container">
-  <div class="large-6 columns">
+  <div class="large-7 small-7 columns">
     <h1><%= @state.name %></h1>
   </div>
-  <div class="large-6 columns text-right">
+  <div class="large-5 small-5 columns text-right">
     <br/>
     <%= link_to 'Edit State', edit_state_path(@state), class: "tiny button" %>
     <%= link_to 'Delete', @state, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
@@ -15,6 +15,7 @@
 		<% if @state.due_within_days.present? %>
 			<p>
 				Reconveyances are due within <strong><%= @state.due_within_days %></strong> days.
+				<small><%= link_to "edit", edit_state_path(@state) %></small>
 			</p>
 		<% else %>
 			<p>
@@ -23,12 +24,24 @@
 		<% end %>
 
 
-		<h3>Counties <small><%= link_to "new county", new_state_county_path(@state) %></small></h3>
+		<h3>Counties</h3>
 
-		<ul>
-			<% @state.counties.each do |county| %>
-			<li><%= link_to county.name, [@state, county] %></li>
-			<% end %>
-		</ul>
+		<% @state.counties.all.in_groups(3, false) do |group| %>
+			<div class="large-4 small-4 columns">
+				<ul>
+					<% group.each do |county| %>
+						<% if county.is_a?(County) %>
+						<li><%= link_to county.name, [@state, county] %></li>
+						<% end %>
+					<% end %>
+				</ul>
+			</div>
+		<% end %>
+	</div>
+	<div class="side_content">
+		<div class="panel">
+			<h3 class="subheader">New County</h3>
+			<%= render "counties/form" %>
+		</div>
 	</div>
 </div>

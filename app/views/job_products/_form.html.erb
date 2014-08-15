@@ -3,6 +3,7 @@
     <%= f.error_notification %>
   </div>
 
+<div class="row"><div class="column_6_centered">
   <div class="form-inputs">
     <%= f.association :product, 
     	collection: Product.all.map{ |p| 
@@ -25,4 +26,5 @@
       <%= f.button :submit %>
     </div>
   </div>
+</div></div>
 <% end %>
