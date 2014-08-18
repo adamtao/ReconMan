@@ -11,6 +11,8 @@ class CountiesController < ApplicationController
   # GET /counties/1
   # GET /counties/1.json
   def show
+    @current_jobs = @county.jobs.where.not(workflow_state: "complete").joins(:job_products).order("job_products.due_on DESC").limit(100)
+    @completed_jobs = @county.jobs.where(workflow_state: "complete").order("completed_at DESC").limit(25)
   end
 
   # GET /counties/new
@@ -75,6 +77,9 @@ class CountiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def county_params
-      params.require(:county).permit(:name, :state_id, :search_url, :search_params, :search_method, :average_days_to_complete)
+      params.require(:county).permit(:name, :state_id, :search_url, :search_params, :search_method, 
+        :average_days_to_complete, :phone, :fax, :webpage, :contact_name, :contact_phone, :contact_email, 
+        :assessor_webpage, :zip_codes, :co_fee_schedule, :simplifile, :s_contact_name, :s_contact_phone, 
+        :s_contact_email)
     end
 end

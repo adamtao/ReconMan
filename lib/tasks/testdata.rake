@@ -155,7 +155,7 @@ namespace :testdata do
 	end
 
 	def states_with_counties
-		State.all.select{|s| s if s.counties.count > 0}
+		State.active.select{|s| s if s.counties.count > 0}
 	end
 
 end

@@ -1,6 +1,8 @@
 <div class="container">
 	<div class="large-7 small-7 columns">
-		<h1><%= @county.name %></h1>
+		<h1><%= @county.name %> 
+			<small>a county of <%= link_to @county.state.name, @county.state %></small>
+		</h1>
 	</div>
 	<div class="large-5 small-5 columns text-right">
 		<br/>
@@ -9,21 +11,72 @@
 	</div>
 </div>
 
-<div class="container">
 <div class="main_content">
-	<p>
-	  <strong>State:</strong>
-	  <%= link_to @county.state.name, @county.state %>
+	<% if @county.phone.present? || @county.fax.present? %>
+	<p>Phone: <%= @county.phone %>
+		<% if @county.fax.present? %>
+		Fax: <%= @county.fax %>
+		<% end %>
 	</p>
+	<% end %>
 
+	<% if @county.average_days_to_complete.present? %>
 	<p>
-	  <strong>Search url:</strong>
-	  <%= @county.search_url %>
-	</p>
-
-	<p>
-	  <strong>Average days to complete:</strong>
+	  <strong>Calculated average days to complete reconveyance:</strong>
 	  <%= @county.average_days_to_complete %>
 	</p>
+	<% end %>
+
+	<% if @county.contact_name %>
+	<h5 class="subheader">Contact: <%= @county.contact_name %></h5>
+	<p>
+		<% if @county.contact_email.present? %>
+		Email: <%= mail_to @county.contact_email, @county.contact_email %>
+		<% end %>
+		<% if @county.contact_phone.present? %>
+		Phone: <%= @county.contact_phone %>
+		<% end %>
+	</p>
+	<% end %>
+
+	<p>Co-fee schedule? <%= @county.co_fee_schedule? ? "yes" : "no" %></p>
+	<p>Simplifile? <%= @county.simplifile? ? "yes" : "no" %></p>
+
+	<% if @county.s_contact_name %>
+	<h5 class="subheader">Simplifile Contact: <%= @county.s_contact_name %></h5>
+	<p>
+		<% if @county.s_contact_email.present? %>
+		Email: <%= mail_to @county.s_contact_email, @county.s_contact_email %>
+		<% end %>
+		<% if @county.s_contact_phone.present? %>
+		Phone: <%= @county.s_contact_phone %>
+		<% end %>
+	</p>
+	<% end %>	
+
+	<h3>Current Jobs</h3>
+	<%= render 'shared/jobs' %>	
 </div>
+
+<div class="side_content">
+	<div class="panel">
+		<h3 class="subheader">Links</h3>
+		<ul>
+			<% if @county.webpage.present? %>
+			<li> <%= link_to "County webpage", @county.webpage, target: "_blank" %></li>
+			<% end %>
+
+			<% if @county.search_url.present? %>
+			<li> <%= link_to "Title search", @county.search_url, target: "_blank" %></li>
+			<% end %>
+
+			<% if @county.assessor_webpage.present? %>
+			<li> <%= link_to "Assessor webpage", @county.assessor_webpage, target: "_blank" %></li>
+			<% end %>
+		</ul>
+	</div>
+	<div class="panel">
+		<h3 class="subheader">Zipcodes</h3>
+		<%= @county.zip_codes %>
+	</div>
 </div>

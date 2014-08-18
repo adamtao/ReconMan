@@ -12,5 +12,10 @@ class ApplicationController < ActionController::Base
   	@all_states ||= State.order("name").all
   end
   helper_method :all_states
+
+  def active_states
+    @active_states ||= State.active
+  end
+  helper_method :active_states
   
 end

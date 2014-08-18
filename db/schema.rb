@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140801231907) do
+ActiveRecord::Schema.define(version: 20140816225643) do
 
   create_table "branches", force: true do |t|
     t.string   "name"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20140801231907) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "headquarters"
   end
 
   add_index "branches", ["client_id"], name: "index_branches_on_client_id", using: :btree
@@ -43,6 +44,12 @@ ActiveRecord::Schema.define(version: 20140801231907) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "client_type"
+    t.string   "website"
+    t.string   "billing_address"
+    t.string   "billing_city"
+    t.integer  "billing_state_id"
+    t.string   "billing_zipcode"
   end
 
   create_table "counties", force: true do |t|
@@ -54,6 +61,19 @@ ActiveRecord::Schema.define(version: 20140801231907) do
     t.string   "average_days_to_complete"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "phone"
+    t.string   "fax"
+    t.string   "webpage"
+    t.string   "contact_name"
+    t.string   "contact_phone"
+    t.string   "contact_email"
+    t.string   "assessor_webpage"
+    t.text     "zip_codes"
+    t.boolean  "co_fee_schedule"
+    t.boolean  "simplifile"
+    t.string   "s_contact_name"
+    t.string   "s_contact_phone"
+    t.string   "s_contact_email"
   end
 
   add_index "counties", ["state_id"], name: "index_counties_on_state_id", using: :btree
@@ -89,6 +109,16 @@ ActiveRecord::Schema.define(version: 20140801231907) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "parcel_number"
+    t.string   "escrow_number"
+    t.date     "close_on"
+    t.string   "beneficiary_name"
+    t.integer  "payoff_amount_cents",      default: 0,     null: false
+    t.string   "payoff_amount_currency",   default: "USD", null: false
+    t.string   "beneficiary_account"
+    t.string   "underwriter_name"
+    t.boolean  "short_sale"
+    t.string   "file_type"
+    t.string   "parcel_legal_description"
   end
 
   add_index "jobs", ["client_id"], name: "index_jobs_on_client_id", using: :btree
@@ -113,6 +143,7 @@ ActiveRecord::Schema.define(version: 20140801231907) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "due_within_days"
+    t.boolean  "active"
   end
 
   create_table "title_search_caches", force: true do |t|
@@ -152,6 +183,9 @@ ActiveRecord::Schema.define(version: 20140801231907) do
     t.string   "invited_by_type"
     t.integer  "invitations_count",      default: 0
     t.integer  "branch_id"
+    t.boolean  "primary_contact"
+    t.boolean  "billing_contact"
+    t.string   "phone"
   end
 
   add_index "users", ["branch_id"], name: "index_users_on_branch_id", using: :btree

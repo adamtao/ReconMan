@@ -73,6 +73,7 @@ State.create([
   { :name => 'Wisconsin', :abbreviation => 'WI'},
   { :name => 'Wyoming', :abbreviation => 'WY'}
 ])
+State.where(abbreviation: %w(AZ CA CO ID MT NB ND NM NV OK OR SD TX UT WA WY)).update_all(active: true)
 
 puts 'COUNTIES'
 

@@ -6,6 +6,9 @@ class State < ActiveRecord::Base
 
 	after_initialize :load_defaults
 
+	scope :active, -> { where(active: true).order('UPPER(name)') }
+	scope :inactive, -> { where("active IS NULL OR active = 0").order('UPPER(name)') }
+
 	def self.due_within_options
 		[30, 60, 90]
 	end

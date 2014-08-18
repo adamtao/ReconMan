@@ -4,6 +4,7 @@
   </div>
   <div class="large-5 small-5 columns text-right">
     <br/>
+    <%= link_to 'New County', new_state_county_path(@state), class: "tiny success button" %>
     <%= link_to 'Edit State', edit_state_path(@state), class: "tiny button" %>
     <%= link_to 'Delete', @state, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
   </div>
@@ -23,8 +24,9 @@
 			</p>
 		<% end %>
 
+		<p>This state is <strong><%= "not" unless @state.active? %> active.</strong></p>
 
-		<h3>Counties</h3>
+		<h3>Counties <small><%= link_to 'new county', new_state_county_path(@state), class: "success" %></small></h3>
 
 		<% @state.counties.all.in_groups(3, false) do |group| %>
 			<div class="large-4 small-4 columns">
@@ -39,9 +41,6 @@
 		<% end %>
 	</div>
 	<div class="side_content">
-		<div class="panel">
-			<h3 class="subheader">New County</h3>
-			<%= render "counties/form" %>
-		</div>
+
 	</div>
 </div>

@@ -4,11 +4,80 @@
   </div>
 	
   <div class="form-inputs">
-    <%= f.input :name %>
-    <%= f.input :search_url, label: "Title Search URL", placeholder: "http://" %>
+    <div class="row">
+      <div class="column_6">
+        <%= f.input :name %>
+      </div>
+      <div class="column_6">
+        <%#= f.association :state %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column_6">
+        <%= f.input :phone %>
+      </div>
+      <div class="column_6">
+        <%= f.input :fax %>
+      </div>
+    </div>
+
+    <fieldset>
+      <legend>County Links</legend>
+        <%= f.input :webpage, label: "County webpage", as: :url, placeholder: "http://" %>
+        <%= f.input :search_url, label: "Title Search URL", as: :url, placeholder: "http://" %>
+        <%= f.input :assessor_webpage, as: :url, placeholder: "http://" %>
+    </fieldset>
+
+    <fieldset>
+      <legend>Contact Details</legend>
+      <div class="row">
+        <div class="column_6">
+          <%= f.input :contact_name %>
+        </div>
+        <div class="column_6">
+          
+        </div>
+      </div>
+      <div class="row">
+        <div class="column_6">
+          <%= f.input :contact_phone %>
+        </div>
+        <div class="column_6">
+          <%= f.input :contact_email %>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="panel">
+      <%= f.input :zip_codes, hint: "Comma separated list" %>
+    </div>
+
+    <%= f.input :co_fee_schedule %>
+
+    <fieldset>
+      <legend>Simplifile</legend>
+      <%= f.input :simplifile %>
+      <div class="row">
+        <div class="column_6">
+          <%= f.input :s_contact_name, label: "Contact name" %>
+        </div>
+        <div class="column_6">
+          
+        </div>
+      </div>
+      <div class="row">
+        <div class="column_6">
+          <%= f.input :s_contact_phone, label: "Phone" %>
+        </div>
+        <div class="column_6">
+          <%= f.input :s_contact_email, label: "Email", as: :email %>
+        </div>
+      </div>
+    </fieldset>
+    
   </div>
 
-  <div class="form-actions row">
+  <div class="form-actions">
   	<div class="large-12 columns">
       <%= f.button :submit %>
   	</div>

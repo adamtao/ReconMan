@@ -8,6 +8,9 @@
       <div class="column_6">
         <%= f.input :parcel_number %>
       </div>
+      <div class="column_6">
+        <%= f.input :parcel_legal_description, label: "Legal Description" %>
+      </div>
     </div>
     <div class="row">
       <div class="column_6">
@@ -30,20 +33,51 @@
     </div>
     <div class="row">
       <div class="column_6">
-        <%= f.association :state, collection: all_states %>
+        <%= f.association :state, collection: active_states %>
       </div>
       <div class="column_6">
-        <%= f.association :county, collection: all_states, as: :grouped_select, group_method: :counties %>
+        <%= f.association :county, collection: active_states, as: :grouped_select, group_method: :counties %>
       </div>
     </div>
     <div class="row">
       <div class="column_6">
-        <%= f.input :old_owner %>
-      </div>
-      <div class="column_6">
-        <%= f.input :new_owner %>
+        <%= f.input :new_owner, label: "Buyer" %>
       </div>
     </div>
+    <div class="row">
+      <div class="column_6">
+        <%= f.input :beneficiary_name %>
+      </div>
+      <div class="column_6">
+        <%= f.input :beneficiary_account %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column_6">
+        <%= f.input :escrow_number %>
+      </div>
+      <div class="column_6">
+        <%= f.input :payoff_amount %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column_6">
+        <%= f.input :underwriter_name %>
+      </div>
+      <div class="column_6">
+        <%= f.input :close_on, label: "Close Date", as: :string, input_html: { class: 'datepicker' } %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column_6">
+        <%= f.input :file_type %>      
+      </div>
+      <div class="column_6">
+        <br/>
+        <%= f.input :short_sale %>
+      </div>
+    </div>
+
   </div>
 
   <div class="form-actions">

@@ -27,6 +27,7 @@ class Job < ActiveRecord::Base
 	after_create :create_default_products
 
 	monetize :total_price_cents
+	monetize :payoff_amount_cents
 
 	def create_default_products
 		Product.defaults.each do |product|

@@ -6,6 +6,7 @@
   </div>
   <div class="large-5 small-5 columns text-right">
     <br/>
+    <%= link_to "Add product/service", new_job_job_product_path(@job), class: "tiny success button" %>
     <%= link_to 'Edit Job', edit_job_path(@job), class: "tiny button" %>
     <%= link_to 'Delete', @job, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
   </div>
@@ -13,52 +14,61 @@
 
 <div class="container">
 <div class="main_content">
-
+    <p>Parcel description: <%= @job.parcel_legal_description %></p>
+    
     <h3 class="subheader">Products &amp; Services 
       <small><%= link_to "add product/service", new_job_job_product_path(@job), class: "success" %></small>
     </h3>
     <table>
-      <thead>
-        <tr>
-          <th>Product/Service</th>
-          <th>Price</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
         <% @job.job_products.each do |job_product| %>
         <tr>
-          <td><%= link_to job_product.name, [@job, job_product] %></td>
-          <td><%=humanized_money_with_symbol job_product.price %></td>
-          <td><%= job_product.workflow_state %>
+          <th><%= job_product.name %></th>
+          <td class="text-right"><%=humanized_money_with_symbol job_product.price %></td>
+        </tr>
+        <tr><td colspan="2">
+          <%= job_product.workflow_state %>
             <% if job_product.search_changed? %>
               CHANGE FOUND
             <% end %>
-          </td>
-        </tr>
+            <% if job_product.product.performs_search %>
+            <h3 class="subheader">Search results</h3>
+
+              <% if job_product.search_url.blank? %>
+              <p>
+                <i>Please perform a manual search, then copy and paste the resulting <b>URL</b>
+                  <%= link_to "here", edit_job_job_product_path(@job, job_product) %>
+                  to enable automated search updates.</i>
+              </p>
+
+                <h5>Here's the info you'll need for the search:</h5>
+
+                <% if @job.county.search_url.present? %>
+                  <p>County URL: <%= link_to @job.county.search_url, @job.county.search_url, target: "_blank" %></p>
+                <% else %>
+                  <p>County URL: (not provided) <%= link_to 'edit county', edit_state_county_path(@job.state, @job.county) %></p>
+                <% end %>
+
+              <% else %>
+              <p>
+                <strong>Search URL:</strong>
+                <%= job_product.search_url %>
+              </p>
+              <% end %>
+
+              <ul>
+                <% job_product.title_search_caches.reverse.each do |tsc| %>
+                <li><%= link_to tsc.created_at, [@job, job_product, tsc] %> <% if tsc.change_detected? %>CHANGE DETECTED<% end %></li>
+                <% end %>
+              </ul>
+
+            <% end %>
+        </td></tr>
         <% end %>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td>total</td>
-          <td><%= @job.total_price %></td>
-          <td><%= @job.workflow_state %></td>
-        </tr>
-      </tfoot>
-    </table>
-    
 
-
-    <h3>Status</h3>
-
-    <p>
-      <strong>Created:</strong>
-      <%=l @job.created_at.to_date, format: :long %>
-    </p>
-    <p>
-      <strong>Due:</strong>
-      <%=l @job.dashboard_product.due_on, format: :long %>
-    </p>
+        <tr><th class="text-right" colspan="2">
+          total: <%= humanized_money_with_symbol @job.total_price %>
+        </th></tr>
+      </table>
 
     <% if @job.completed_at.present? %>
     <p>
@@ -67,14 +77,20 @@
     </p>
     <% end %>
 
-
   </div>
 
   <div class="side_content">
-
+    <p>This job was requested by 
+        <%= link_to @job.requestor.name, @job.requestor %>
+        of
+        <%= link_to @job.client.name, @job.client %>
+        on
+        <%=l @job.created_at.to_date, format: :long %>.
+        The due date is 
+        <%=l @job.dashboard_product.due_on, format: :long %>.
+    </p>
     <div class="panel">
       <h3 class="subheader">Property Info</h3>
-        <p><strong>Address:</strong></p>
         <p>
           <%= @job.address %><br/>
           <%= @job.city %>,
@@ -82,30 +98,43 @@
           <%= @job.zipcode %><br/>
           <%= link_to "#{@job.county.name} County", [@job.state, @job.county] %>
         </p>
-
-      <h4 class="subheader">Owner Details</h4>
-      <p>
-        <strong>Old owner:</strong>
-        <%= @job.old_owner %>
-      </p>
-
-      <p>
-        <strong>New owner:</strong>
-        <%= @job.new_owner %>
-      </p>
     </div>
 
-    <div class="panel">
-      <h3 class="subheader">Client</h3>
-      <p>
-        <strong>Requestor:</strong>
-        <%= link_to @job.requestor.name, @job.requestor %>
-      </p>
-
-      <p>
-        <strong>Client:</strong>
-        <%= link_to @job.client.name, @job.client %>
-      </p>
+      <h4 class="subheader">Transaction Details</h4>
+      <table>
+        <tr>
+          <td>Buyer</td><td><%= @job.new_owner %></td>
+        </tr>
+        <tr>
+          <td>Beneficiary</td><td><%= @job.beneficiary_name %></td>
+        </tr>
+        <tr>
+          <td>Ben. Account</td><td><%= @job.beneficiary_account %></td>
+        </tr>
+        <tr>
+          <td>Escrow Num</td><td><%= @job.escrow_number %></td>
+        </tr>
+        <tr>
+          <td>Payoff Amt.</td><td><%= humanized_money_with_symbol @job.payoff_amount %></td>
+        </tr>
+        <tr>
+          <td>Underwriter</td><td><%= @job.underwriter_name %></td>
+        </tr>
+        <tr>
+          <td>Close Date</td><td>
+            <% if @job.close_on.present? && @job.close_on.is_a?(Date) %>
+              <%= l @job.close_on, format: :long %><br/>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td>File Type</td><td><%= @job.file_type %></td>
+        </tr>
+        <tr>
+          <td>Short Sale?</td><td><%= @job.short_sale? ? "yes" : "no" %></td>
+        </tr>
+      </table>
     </div>
+
   </div>
 </div>

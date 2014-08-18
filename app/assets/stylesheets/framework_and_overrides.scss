@@ -1,7 +1,7 @@
 $dark-gray: #575757;
 $medium-gray: #a8a8a8;
 $light-gray: #d0d0d0;
-
+$primary-color: #3a4d81;
 $body-bg: #FFF;
 $body-font-color: $dark-gray;
 $body-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
@@ -34,6 +34,8 @@ $paragraph-font-weight: 300;
 // $paragraph-aside-line-height: 1.35;
 // $paragraph-aside-font-style: italic;
 
+$topbar-bg: $primary-color;
+
 // import the CSS framework
 @import "foundation";
 
@@ -59,7 +61,7 @@ $paragraph-font-weight: 300;
 }
 
 a.success { @include success-link; }
-#incomplete-jobs a.job { @include success-link; }
+#incomplete-jobs a.job { @include success-link; border-bottom: 1px dotted $success-color; }
 #completed-jobs td { font-size: 80%; }
 
 table {

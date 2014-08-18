@@ -1,6 +1,10 @@
 <div class="container">
   <div class="large-7 small-7 columns">
-    <h1><%= @branch.name %> <small>a branch of <%= link_to @client.name, @client %></small></h1>
+    <h1><%= @branch.name %> 
+      <small><% if @branch.headquarters? %>headquarters for <% else %> a branch of <% end %>
+        <%= link_to @client.name, @client %>
+      </small>
+    </h1>
   </div>
   <div class="large-5 small-5 columns text-right">
     <br/>
