@@ -21,24 +21,45 @@
     </h3>
     <table>
         <% @job.job_products.each do |job_product| %>
-        <tr>
-          <th><%= job_product.name %></th>
-          <td class="text-right"><%=humanized_money_with_symbol job_product.price %></td>
-        </tr>
+        <thead>
+          <tr>
+            <th><%= job_product.name %> &nbsp;
+              <small>Status: <%= job_product.workflow_state.humanize %></small>
+
+            </th>
+            <td class="text-right"><%=humanized_money_with_symbol job_product.price %></td>
+          </tr>
+        </thead>
         <tr><td colspan="2">
-          <%= job_product.workflow_state %>
-            <% if job_product.search_changed? %>
-              CHANGE FOUND
-            <% end %>
+            <div class="row"><div class="large-12 columns">
             <% if job_product.product.performs_search %>
-            <h3 class="subheader">Search results</h3>
+              <h3 class="subheader">Title search results</h3>
+
+              <% if job_product.search_changed? %>
+              <div>
+                <span class="alert label radius">POSSIBLE CHANGE DETECTED</span>
+              </div>
+              <% end %>
 
               <% if job_product.search_url.blank? %>
               <p>
                 <i>Please perform a manual search, then copy and paste the resulting <b>URL</b>
-                  <%= link_to "here", edit_job_job_product_path(@job, job_product) %>
-                  to enable automated search updates.</i>
+                  below to enable automated search updates and advance this job.</i>
               </p>
+
+              <%= simple_form_for [@job, job_product] do |f| %>
+
+              <div class="row collapse">
+                <div class="large-10 small-8 columns">
+                  <%= f.input :search_url, label: false, as: :url, placeholder: 'http://' %>
+                </div>
+                <div class="large-2 small-4 columns">
+                  <%= f.button :submit, "Save", class: "small button postfix" %>
+                </div>
+              </div>
+
+              <% end %>
+
 
                 <h5>Here's the info you'll need for the search:</h5>
 
@@ -49,25 +70,36 @@
                 <% end %>
 
               <% else %>
-              <p>
-                <strong>Search URL:</strong>
-                <%= job_product.search_url %>
-              </p>
+                <p>
+                  <strong>Search URL:</strong>
+                  <%= link_to job_product.search_url, job_product.search_url, target: "_blank" %>
+                </p>
+
+                <!-- For future use, show cached search results when desired -->
+                <div class="hidden">
+                  <ul>
+                    <% job_product.title_search_caches.reverse.each do |tsc| %>
+                    <li><%= link_to tsc.created_at, [@job, job_product, tsc] %> <% if tsc.change_detected? %>CHANGE DETECTED<% end %></li>
+                    <% end %>
+                  </ul>
+                </div>
               <% end %>
 
-              <ul>
-                <% job_product.title_search_caches.reverse.each do |tsc| %>
-                <li><%= link_to tsc.created_at, [@job, job_product, tsc] %> <% if tsc.change_detected? %>CHANGE DETECTED<% end %></li>
-                <% end %>
-              </ul>
-
             <% end %>
+
+            <% if job_product.can_mark_complete? %>
+              <%= link_to 'Mark Complete', toggle_job_job_product_path(@job, job_product), method: :post, class: "small success button" %>
+            <% end %>
+
+          </div></div>
         </td></tr>
         <% end %>
 
-        <tr><th class="text-right" colspan="2">
-          total: <%= humanized_money_with_symbol @job.total_price %>
-        </th></tr>
+        <tfoot>
+          <tr><th class="text-right" colspan="2">
+            total: <%= humanized_money_with_symbol @job.total_price %>
+          </th></tr>
+        </tfoot>
       </table>
 
     <% if @job.completed_at.present? %>
@@ -103,35 +135,36 @@
       <h4 class="subheader">Transaction Details</h4>
       <table>
         <tr>
-          <td>Buyer</td><td><%= @job.new_owner %></td>
+          <td>Buyer</td><td><strong><%= @job.new_owner %></strong></td>
         </tr>
         <tr>
-          <td>Beneficiary</td><td><%= @job.beneficiary_name %></td>
+          <td>Beneficiary</td><td><strong><%= @job.beneficiary_name %></strong></td>
         </tr>
         <tr>
-          <td>Ben. Account</td><td><%= @job.beneficiary_account %></td>
+          <td>Ben. Account</td><td><strong><%= @job.beneficiary_account %></strong></td>
         </tr>
         <tr>
-          <td>Escrow Num</td><td><%= @job.escrow_number %></td>
+          <td>Escrow Num</td><td><strong><%= @job.escrow_number %></strong></td>
         </tr>
         <tr>
-          <td>Payoff Amt.</td><td><%= humanized_money_with_symbol @job.payoff_amount %></td>
+          <td>Payoff Amt.</td><td><strong><%= humanized_money_with_symbol @job.payoff_amount %></strong></td>
         </tr>
         <tr>
-          <td>Underwriter</td><td><%= @job.underwriter_name %></td>
+          <td>Underwriter</td><td><strong><%= @job.underwriter_name %></strong></td>
         </tr>
         <tr>
-          <td>Close Date</td><td>
+          <td>Close Date</td><td><strong>
             <% if @job.close_on.present? && @job.close_on.is_a?(Date) %>
               <%= l @job.close_on, format: :long %><br/>
             <% end %>
+            </strong>
           </td>
         </tr>
         <tr>
-          <td>File Type</td><td><%= @job.file_type %></td>
+          <td>File Type</td><td><strong><%= @job.file_type %></strong></td>
         </tr>
         <tr>
-          <td>Short Sale?</td><td><%= @job.short_sale? ? "yes" : "no" %></td>
+          <td>Short Sale?</td><td><strong><%= @job.short_sale? ? "yes" : "no" %></strong></td>
         </tr>
       </table>
     </div>

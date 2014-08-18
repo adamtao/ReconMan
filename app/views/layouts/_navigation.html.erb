@@ -11,6 +11,18 @@
   </div>
   <div class="top-bar-section">
 	  <ul class="right">
+	  	<li class="has-form">
+	  		<%= search_form_for @q, url: jobs_path do |f| %>
+	  		<div class="row collapse">
+	  			<div class="large-8 small-9 columns">
+	  				<%= f.search_field :parcel_number_cont, placeholder: 'Parcel #' %>
+	  			</div>
+	  			<div class="large-4 small-3 columns">
+	  				<%= f.submit "search", class: "button expand" %>
+	  			</div>
+	  		</div>
+	  		<% end %>
+	  	</li>
 	  	<% if user_signed_in? %>
 	  <li><%= link_to 'Edit account', edit_user_registration_path %></li>
 	  <li><%= link_to 'Sign out', destroy_user_session_path, :method=>'delete' %></li>

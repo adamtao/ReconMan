@@ -1,3 +1,15 @@
+GIT
+  remote: git://github.com/activerecord-hackery/ransack.git
+  revision: 5a3458a598140f7d6cd53b459d28a7c7c56bf633
+  branch: rails-4.1
+  specs:
+    ransack (1.2.4)
+      actionpack (>= 4.0)
+      activerecord (>= 4.0)
+      activesupport (>= 4.0)
+      i18n
+      polyamorous (~> 1.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -154,8 +166,10 @@ GEM
       mini_portile (= 0.6.0)
     orm_adapter (0.5.0)
     pg (0.17.1)
+    polyamorous (1.1.0)
+      activerecord (>= 3.0)
     polyglot (0.3.5)
-    pry (0.10.0)
+    pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
@@ -304,6 +318,7 @@ DEPENDENCIES
   rails (= 4.1.4)
   rails_12factor
   rails_layout
+  ransack!
   rb-fchange
   rb-fsevent
   rb-inotify

@@ -34,7 +34,64 @@ $paragraph-font-weight: 300;
 // $paragraph-aside-line-height: 1.35;
 // $paragraph-aside-font-style: italic;
 
-$topbar-bg: $primary-color;
+/* Background color for the top bar */
+$topbar-bg: lighten($light-gray, 14%);
+
+/* Height and margin */
+$topbar-height: 48px;
+$topbar-margin-bottom: rem-calc(30);
+
+/* Control Input height for top bar */
+$topbar-input-height: 2.45em;
+
+/* Controlling the styles for the title in the top bar */
+//$topbar-title-weight: bold;
+//$topbar-title-font-size: rem-calc(17);
+
+/* Style the top bar dropdown elements */
+//$topbar-dropdown-bg: #222;
+$topbar-dropdown-link-color: $medium-gray;
+//$topbar-dropdown-link-bg: #333;
+//$topbar-dropdown-toggle-size: 5px;
+$topbar-dropdown-toggle-color: $medium-gray;
+//$topbar-dropdown-toggle-alpha: 0.5;
+
+/* Set the link colors and styles for top-level nav */
+$topbar-link-color: $dark-gray;
+//$topbar-link-color-hover: #fff;
+//$topbar-link-color-active: #fff;
+//$topbar-link-color-active-hover: #fff;
+//$topbar-link-weight: normal;
+//$topbar-link-font-size: rem-calc(13);
+//$topbar-link-hover-lightness: -10%; // Darken by 10%
+//$topbar-link-bg-color-hover: #555555;
+$topbar-link-bg-hover: $primary-color;
+//$topbar-link-bg-active: $primary-color;
+//$topbar-link-bg-active-hover: scale-color($primary-color, $lightness: -14%);
+//$topbar-link-font-family: $body-font-family;
+//
+$topbar-dropdown-label-color: #555;
+//$topbar-dropdown-label-text-transform: uppercase;
+//$topbar-dropdown-label-font-weight: bold;
+//$topbar-dropdown-label-font-size: rem-calc(10);
+
+/* Top menu icon styles */
+//$topbar-menu-link-transform: uppercase;
+//$topbar-menu-link-font-size: rem-calc(13);
+//$topbar-menu-link-weight: bold;
+$topbar-menu-link-color: $medium-gray;
+$topbar-menu-icon-color: $medium-gray;
+//$topbar-menu-link-color-toggled: #888;
+//$topbar-menu-icon-color-toggled: #888;
+
+/* Transitions and breakpoint styles */
+//$topbar-transition-speed: 300ms;
+//$topbar-breakpoint: #{lower-bound($medium-range)} !default; // Change to 9999px for always mobile layout
+//$topbar-media-query: $medium-up !default;
+
+/* Divider Styles */
+//$topbar-divider-border-bottom: solid 1px  scale-color($topbar-bg-color, $lightness: 13%);
+//$topbar-divider-border-top: solid 1px scale-color($topbar-bg-color, $lightness: -50%);
 
 // import the CSS framework
 @import "foundation";
@@ -50,11 +107,9 @@ $topbar-bg: $primary-color;
 .top-bar {
   margin-bottom: rem-calc(20);
 }
-
-.sub-nav {
-  background: #EEE;
+li.has-form form {
+  padding-top: 2px;
 }
-
 @mixin success-link {
   color: $success-color;
   font-weight: 400;
@@ -77,7 +132,7 @@ table {
   }
 }
 .button {
-  @extend .radius;
+  //@extend .radius;
 }
 // THESE ARE EXAMPLES YOU CAN MODIFY
 // create mixins using Foundation classes
@@ -106,10 +161,7 @@ table {
 .form-centered {
   @include six-columns-centered;
   }
-.submit {
-  @extend .button;
-  @extend .radius;
-  }
+
 // apply styles to HTML elements
 // to make views framework-neutral
 main {
@@ -122,6 +174,10 @@ section {
   }
 .form-actions {
   @extend .row;
+}
+label.boolean {
+  line-height: rem-calc(6px);
+  margin-bottom: 10px;
 }
 @mixin main_content {
   @extend .small-12;

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     resources :job_products do
       member do 
         get :toggle
+        post :toggle
       end
       resources :title_search_caches
     end

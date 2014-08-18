@@ -4,7 +4,14 @@ class JobsController < ApplicationController
   # GET /jobs
   # GET /jobs.json
   def index
-    @jobs = Job.all
+    @q = Job.search(params[:q])
+    @jobs = @q.result(distinct: true)
+    if @jobs.length == 1
+      redirect_to @jobs.first
+    else
+      @current_jobs = @jobs.where.not(workflow_state: "complete").joins(:job_products).limit(100)
+      @completed_jobs = @jobs.where(workflow_state: "complete").limit(25)
+    end
   end
 
   # GET /jobs/1

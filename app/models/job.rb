@@ -10,7 +10,7 @@ class Job < ActiveRecord::Base
 		state :canceled
 	end
 
-	belongs_to :client
+	belongs_to :client, touch: true
 	belongs_to :county
 	belongs_to :state
 	belongs_to :requestor, class_name: "User", foreign_key: :requestor_id

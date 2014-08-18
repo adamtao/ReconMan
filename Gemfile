@@ -17,6 +17,7 @@ gem 'therubyracer', :platform=>:ruby
 gem 'foundation-rails'
 gem 'workflow'
 gem 'money-rails'
+gem 'ransack', github: 'activerecord-hackery/ransack', branch: 'rails-4.1'
 
 # Heroku gems...
 group :production do

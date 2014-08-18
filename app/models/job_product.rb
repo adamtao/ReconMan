@@ -28,7 +28,14 @@ class JobProduct < ActiveRecord::Base
 	validates :job, presence: true
 	validates :product, presence: true
 
+	after_save :advance_state
 	before_create :determine_due_date
+
+	def advance_state
+		if search_url_changed? && self.can_search?
+			self.search!
+		end
+	end
 
 	def determine_due_date
 		self.due_on = Date.today.advance(days: self.job.state.due_within_days)
@@ -51,23 +58,27 @@ class JobProduct < ActiveRecord::Base
 	end
 
 	# TODO: Make sure the auto-tracking can handle POST and GET
+	# TODO: Run search in background process
 	def search
 		return false if self.search_url.blank?
+		begin
+			uri = URI.parse(self.search_url)
+			http = Net::HTTP.new(uri.host, uri.port)
+			request = Net::HTTP::Get.new(uri.request_uri)
+			if ENV['TRACKING_USER_AGENT']
+				request["User-Agent"] = ENV['TRACKING_USER_AGENT']
+			end
+			response = http.request(request)
 
-		uri = URI.parse(self.search_url)
-		http = Net::HTTP.new(uri.host, uri.port)
-		request = Net::HTTP::Get.new(uri.request_uri)
-		if ENV['TRACKING_USER_AGENT']
-			request["User-Agent"] = ENV['TRACKING_USER_AGENT']
+			log_search_results(response) if response.kind_of? Net::HTTPSuccess
+		rescue # something bad happened, ignore for now
+			false
 		end
-		response = http.request(request)
-
-		log_search_results(response) if response.success?
 	end
 
 	def log_search_results(response)
 		TitleSearchCache.create({
-			content: response.content,
+			content: response.body,
 			job_product_id: self.id
 		})
 	end

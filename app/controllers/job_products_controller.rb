@@ -43,7 +43,7 @@ class JobProductsController < ApplicationController
   def update
     respond_to do |format|
       if @job_product.update(job_product_params)
-        format.html { redirect_to [@job, @job_product], notice: 'Job product was successfully updated.' }
+        format.html { redirect_to @job, notice: 'Job product was successfully updated.' }
         format.json { render :show, status: :ok, location: @job_product }
       else
         format.html { render :edit }
@@ -56,7 +56,7 @@ class JobProductsController < ApplicationController
   def toggle
     @job_product.toggle!
     respond_to do |format|
-      format.html { redirect_to @job, notice: "#{@job_product.product.name} for this job is complete." }
+      format.html { redirect_to @job, notice: "The #{@job_product.product.name} for this job is complete." }
       format.js { render nothing: true }
     end
   end
@@ -84,6 +84,6 @@ class JobProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def job_product_params
-      params.require(:job_product).permit(:product_id, :job_id, :price, :workflow_state)
+      params.require(:job_product).permit(:product_id, :price, :search_url)
     end
 end

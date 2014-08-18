@@ -5,8 +5,8 @@
 jQuery ->
 
 	show_url_field = ->
-		search_url_field = $("#job_product_search_url")
-		selected_product_id = parseInt($("#job_product_product_id option").filter(':selected').val())
+		search_url_field = $("form#new_job_product #job_product_search_url")
+		selected_product_id = parseInt($("form#new_job_product #job_product_product_id option").filter(':selected').val())
 		if selected_product_id == parseInt(search_url_field.data('product'))
 			search_url_field.parent().show() 
 		else
