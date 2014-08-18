@@ -143,7 +143,7 @@ ActiveRecord::Schema.define(version: 20140816225643) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "due_within_days"
-    t.boolean  "active"
+    t.boolean  "active",          default: false
   end
 
   create_table "title_search_caches", force: true do |t|
