@@ -22,9 +22,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(create_params) 
     @user.skip_confirmation!
-    # authorize @user
+    authorize @user
     if @user.save
-      @user.confirm!
       if @user.branch
         redirect_to @user.branch.client, notice: "#{@user.name} created."
       else

@@ -1,4 +1,5 @@
 class Client < ActiveRecord::Base
+	include Ownable
 	has_many :jobs, dependent: :destroy
 	has_many :branches, dependent: :destroy
 	has_many :users, through: :branches

@@ -3,10 +3,16 @@
 </td>
 <td>
   <%= form_for(user) do |f| %>
-    <%= f.select(:role, User.roles.keys.map {|role| [role.titleize,role]}) %>
-    <%= f.submit 'Change Role', :class => 'button-xs' %>
+  	<div class="row collapse">
+  		<div class="large-8 small-8 columns">
+    		<%= f.select(:role, User.roles.keys.map {|role| [role.titleize,role]}) %>
+    	</div>
+    	<div class="large-4 small-4 columns">
+    		<%= f.submit 'Change Role', :class => 'tiny button' %>
+    	</div>
+    </div>
   <% end %>
 </td>
 <td>
-  <%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'button-xs') unless user == current_user %>
+  <%= link_to(image_tag('trash.gif', alt: "X"), user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete) unless user == current_user %>
 </td>

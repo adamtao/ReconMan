@@ -27,6 +27,7 @@ class JobProductsController < ApplicationController
   def create
     @job_product = JobProduct.new(job_product_params)
     @job_product.job = @job
+    @job_product.creator = current_user
     respond_to do |format|
       if @job_product.save
         format.html { redirect_to @job, notice: 'Job product was successfully created.' }
@@ -41,6 +42,7 @@ class JobProductsController < ApplicationController
   # PATCH/PUT /job_products/1
   # PATCH/PUT /job_products/1.json
   def update
+    @job_product.modifier = current_user
     respond_to do |format|
       if @job_product.update(job_product_params)
         format.html { redirect_to @job, notice: 'Job product was successfully updated.' }

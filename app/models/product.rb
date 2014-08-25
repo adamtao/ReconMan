@@ -1,4 +1,5 @@
 class Product < ActiveRecord::Base
+	include Ownable
 	has_many :job_products
 	monetize :price_cents
 

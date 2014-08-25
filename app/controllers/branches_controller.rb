@@ -29,6 +29,7 @@ class BranchesController < ApplicationController
   def create
     @branch = Branch.new(branch_params)
     @branch.client = @client
+    @branch.creator = current_user
     respond_to do |format|
       if @branch.save
         format.html { redirect_to [@client, @branch], notice: 'Branch was successfully created.' }
@@ -43,6 +44,7 @@ class BranchesController < ApplicationController
   # PATCH/PUT /branches/1
   # PATCH/PUT /branches/1.json
   def update
+    @branch.modifier = current_user
     respond_to do |format|
       if @branch.update(branch_params)
         format.html { redirect_to [@client, @branch], notice: 'Branch was successfully updated.' }

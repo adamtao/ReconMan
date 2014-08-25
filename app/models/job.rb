@@ -1,4 +1,5 @@
 class Job < ActiveRecord::Base
+	include Ownable
 	include Workflow
 	workflow do
 		state :new do
@@ -31,7 +32,11 @@ class Job < ActiveRecord::Base
 
 	def create_default_products
 		Product.defaults.each do |product|
-			self.job_products << JobProduct.new(product: product, price: self.client.product_price(product))
+			self.job_products << JobProduct.new(
+				creator: self.creator,
+				product: product, 
+				price: self.client.product_price(product)
+			)
 		end
 	end
 

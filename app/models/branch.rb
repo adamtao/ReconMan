@@ -1,9 +1,10 @@
 class Branch < ActiveRecord::Base
+	include Ownable
 	belongs_to :client
 	belongs_to :state
 	has_many :users, dependent: :destroy
 
-  validates :client, presence: true
+  	validates :client, presence: true
 	validates :name, presence: true, uniqueness: { scope: :client }
 
 	def jobs

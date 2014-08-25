@@ -1,4 +1,5 @@
 class JobProduct < ActiveRecord::Base
+	include Ownable
 	include Workflow
 	workflow do
 		state :new do

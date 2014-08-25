@@ -24,12 +24,29 @@ namespace :testdata do
 	end
 
 	def generate_data
+		puts "Loading up internal employees"
+		employees = User.where(role: User.roles["processor"])
+		existing_users = employees.count
+		if existing_users < 5
+			1..(5 - existing_users).times do 
+				name = Forgery::Name.full_name
+				pw = Forgery(:basic).password(:at_least => 7, :at_most => 10)
+				employees << User.find_or_create_by!(email: "#{name.parameterize}@#{Rails.application.secrets.domain_name}", name: name) do |user|
+			        user.password = pw
+			        user.password_confirmation = pw
+			        # user.confirm!
+			        user.processor!
+			      end
+				puts "Created User: #{User.last.name}"
+			end
+		end
 		puts "Loading up clients"
 		puts "============================="
 		existing_clients = Client.all.count
 		if existing_clients < 10
 			1..(10 - existing_clients).times do 
-				Client.create(name: "#{Bazaar.object.to_s.titleize} #{['Co.', 'Inc.', 'LLC'].sample}")
+				Client.create(name: "#{Bazaar.object.to_s.titleize} #{['Co.', 'Inc.', 'LLC'].sample}",
+					creator: employees.sample)
 				puts "Created Client: #{Client.last.name}"
 			end
 		end
@@ -46,7 +63,8 @@ namespace :testdata do
 						city: city,
 						state: states_with_counties.sample,
 						zipcode: Forgery::Address.zip,
-						phone: Forgery::Address.phone
+						phone: Forgery::Address.phone,
+						creator: employees.sample
 					)
 					puts "Created #{client.name} Branch: #{client.branches.last.name}"
 				end
@@ -64,7 +82,7 @@ namespace :testdata do
 				        user.password = pw
 				        user.password_confirmation = pw
 				        user.branch_id = branch.id
-				        user.confirm!
+				        # user.confirm!
 				        user.client!
 				      end
 					puts "Created #{branch.client.name} (#{branch.name}) user: #{User.last.name} #{User.last.email}"
@@ -88,7 +106,8 @@ namespace :testdata do
 					county: user.branch.state.counties.sample,
 					old_owner: Forgery::Name.full_name,
 					new_owner: Forgery::Name.full_name,
-					parcel_number: Forgery::CreditCard.number[2,3] + "-" + Forgery::CreditCard.number[6,5]
+					parcel_number: Forgery::CreditCard.number[2,3] + "-" + Forgery::CreditCard.number[6,5],
+					creator: employees.sample
 				)
 			end
 		end
@@ -110,7 +129,9 @@ namespace :testdata do
 					county: user.branch.state.counties.sample,
 					old_owner: Forgery::Name.full_name,
 					new_owner: Forgery::Name.full_name,
-					parcel_number: Forgery::CreditCard.number[2,3] + "-" + Forgery::CreditCard.number[6,5]
+					parcel_number: Forgery::CreditCard.number[2,3] + "-" + Forgery::CreditCard.number[6,5],
+					creator: employees.sample,
+					modifier: employees.sample
 				)
 				reconveyance = job.dashboard_product
 				reconveyance.search!
@@ -135,7 +156,9 @@ namespace :testdata do
 					old_owner: Forgery::Name.full_name,
 					new_owner: Forgery::Name.full_name,
 					created_at: 4.weeks.ago,
-					parcel_number: Forgery::CreditCard.number[2,3] + "-" + Forgery::CreditCard.number[6,5]
+					parcel_number: Forgery::CreditCard.number[2,3] + "-" + Forgery::CreditCard.number[6,5],
+					creator: employees.sample,
+					modifier: employees.sample
 				)
 				reconveyance = job.dashboard_product
 				reconveyance.search!

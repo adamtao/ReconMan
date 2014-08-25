@@ -32,6 +32,7 @@ class ClientProductsController < ApplicationController
   def create
     @client_product = ClientProduct.new(client_product_params)
     @client_product.client = @client
+    @client_product.creator = current_user
     respond_to do |format|
       if @client_product.save
         format.html { redirect_to @client, notice: 'Custom price was successfully created.' }
@@ -46,6 +47,7 @@ class ClientProductsController < ApplicationController
   # PATCH/PUT /client_products/1
   # PATCH/PUT /client_products/1.json
   def update
+    @client_product.modifier = current_user
     respond_to do |format|
       if @client_product.update(client_product_params)
         format.html { redirect_to @client, notice: 'Custom price was successfully updated.' }
