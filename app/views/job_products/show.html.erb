@@ -27,6 +27,7 @@
   <%= @job_product.workflow_state %>
 </p>
 
+<%= render 'shared/ownable_stats', item: @job_product %>
 
 <% if @job_product.product.performs_search %>
 <h3 class="subheader">Search results</h3>

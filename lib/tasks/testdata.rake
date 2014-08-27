@@ -25,7 +25,7 @@ namespace :testdata do
 
 	def generate_data
 		puts "Loading up internal employees"
-		employees = User.where(role: User.roles["processor"])
+		employees = User.processors
 		existing_users = employees.count
 		if existing_users < 5
 			1..(5 - existing_users).times do 

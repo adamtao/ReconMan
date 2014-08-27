@@ -25,12 +25,20 @@
           <tr>
             <th><%= job_product.name %> &nbsp;
               <small>Status: <%= job_product.workflow_state.humanize %></small>
-
             </th>
+            <td class="text-center">
+              Worker: 
+                <%= job_product.worker.name if job_product.worker_id.present? %> 
+                &nbsp;
+                <%= link_to job_product.worker_id.present? ? 'edit' : 'none', 
+                      edit_job_job_product_path(@job, job_product), 
+                      class: 'assign-task', 
+                      data: { job_product_id: job_product.id } %>
+            </td>
             <td class="text-right"><%=humanized_money_with_symbol job_product.price %></td>
           </tr>
         </thead>
-        <tr><td colspan="2">
+        <tr><td colspan="3">
             <div class="row"><div class="large-12 columns">
             <% if job_product.product.performs_search %>
               <h3 class="subheader">Title search results</h3>
@@ -66,7 +74,7 @@
                 <% if @job.county.search_url.present? %>
                   <p>County URL: <%= link_to @job.county.search_url, @job.county.search_url, target: "_blank" %></p>
                 <% else %>
-                  <p>County URL: (not provided) <%= link_to 'edit county', edit_state_county_path(@job.state, @job.county) %></p>
+                  <p>County URL: (not provided) <%= link_to "edit #{@job.county.name.downcase} county", edit_state_county_path(@job.state, @job.county) %></p>
                 <% end %>
 
               <% else %>
@@ -96,7 +104,7 @@
         <% end %>
 
         <tfoot>
-          <tr><th class="text-right" colspan="2">
+          <tr><th class="text-right" colspan="3">
             total: <%= humanized_money_with_symbol @job.total_price %>
           </th></tr>
         </tfoot>
@@ -109,6 +117,8 @@
     </p>
     <% end %>
 
+    <%= render 'shared/ownable_stats', item: @job %>
+
   </div>
 
   <div class="side_content">
@@ -119,7 +129,7 @@
         on
         <%=l @job.created_at.to_date, format: :long %>.
         The due date is 
-        <%=l @job.dashboard_product.due_on, format: :long %>.
+        <strong><%=l @job.dashboard_product.due_on, format: :long %></strong>.
     </p>
     <div class="panel">
       <h3 class="subheader">Property Info</h3>

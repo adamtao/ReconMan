@@ -1,0 +1,15 @@
+<div class="smaller">
+
+  Created: <%=l item.created_at, format: :long %> 
+  <% if item.is_ownable? && item.creator %>
+    by <%= item.creator.name %>
+  <% end %>
+
+  <% if item.updated_at.present? %>
+    <br/> Updated: <%= l item.updated_at, format: :long %>
+    <% if item.is_ownable? && item.modifier %>
+      by <%= item.modifier.name %>
+    <% end %>
+  <% end %>
+
+</div>

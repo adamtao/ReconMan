@@ -20,6 +20,7 @@ class JobProduct < ActiveRecord::Base
 
 	belongs_to :job 
 	belongs_to :product
+	belongs_to :worker, class_name: "User", foreign_key: :worker_id
 
 	has_many :title_search_caches, class_name: "TitleSearchCache"
 
@@ -28,6 +29,7 @@ class JobProduct < ActiveRecord::Base
 	validates :price_cents, presence: true
 	validates :job, presence: true
 	validates :product, presence: true
+	validates :worker, presence: true
 
 	after_save :advance_state
 	before_create :determine_due_date

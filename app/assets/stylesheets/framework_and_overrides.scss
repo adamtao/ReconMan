@@ -130,6 +130,11 @@ table {
       padding-bottom: 0;
     }
   }
+  thead {
+    a {
+      font-weight: 300;
+    }
+  }
 }
 .button {
   //@extend .radius;

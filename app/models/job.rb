@@ -30,10 +30,32 @@ class Job < ActiveRecord::Base
 	monetize :total_price_cents
 	monetize :payoff_amount_cents
 
+	def self.dashboard_jobs(options)
+		default_options = {limit: 100, complete: false, user: User.new}
+		options = default_options.merge options
+		user = options[:user]
+
+		case options[:complete]
+		when true
+			if user.completed_job_ids.length > 0
+				where(id: user.completed_job_ids).limit(options[:limit])
+			else
+				where(workflow_state: "complete").order("completed_at DESC").limit(options[:limit])
+			end
+		when false
+  		if user.current_job_ids.length > 0
+  			where(id: user.current_job_ids)
+  		else 
+  			where.not(workflow_state: "complete").joins(:job_products).order("job_products.due_on DESC").limit(options[:limit])
+  		end
+		end
+	end
+
 	def create_default_products
 		Product.defaults.each do |product|
 			self.job_products << JobProduct.new(
 				creator: self.creator,
+				worker: self.creator,
 				product: product, 
 				price: self.client.product_price(product)
 			)

@@ -1,18 +1,16 @@
-# TODO: re-enable authentication/authorization, in fact add it to all controllers
-
 class UsersController < ApplicationController
-  #before_filter :authenticate_user!
-  #after_action :verify_authorized
+  before_filter :authenticate_user!
+  after_action :verify_authorized
 
   def index
     @users = User.all
-    # authorize User
+    authorize User
   end
 
   # Only called from parent client
   def new
     @user = User.new
-    # authorize @user
+    authorize @user
     if params[:client_id]
       @client = Client.find(params[:client_id])
       @user.role = :client
@@ -39,12 +37,12 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    # authorize @user
+    authorize @user
   end
 
   def update
     @user = User.find(params[:id])
-    # authorize @user
+    authorize @user
     if @user.update_attributes(secure_params)
       redirect_to users_path, :notice => "User updated."
     else
@@ -54,7 +52,7 @@ class UsersController < ApplicationController
 
   def destroy
     user = User.find(params[:id])
-    # authorize user
+    authorize user
     user.destroy
     redirect_to users_path, :notice => "User deleted."
   end
