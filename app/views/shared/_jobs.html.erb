@@ -1,6 +1,11 @@
 <%
-	show_client_name = !!(@current_jobs.pluck(:client_id).uniq.length > 1)
-	show_branch_name = !!(@current_jobs.map{|j| j.requestor.branch_id}.uniq.length > 1)
+  begin
+  	show_client_name = !!(@current_jobs.pluck(:client_id).uniq.length > 1)
+  	show_branch_name = !!(@current_jobs.map{|j| j.requestor.branch_id}.uniq.length > 1)
+  rescue
+    show_client_name = true
+    show_branch_name = false
+  end
 %>
 
 <table id="incomplete-jobs">
@@ -17,8 +22,10 @@
   </thead>
 
   <tbody>
-    <% @current_jobs.each do |job| %>
-    	<%= render 'shared/job_row', job: job, show_client_name: show_client_name, show_branch_name: show_branch_name %>
+    <% if @current_jobs %>
+      <% @current_jobs.each do |job| %>
+      	<%= render 'shared/job_row', job: job, show_client_name: show_client_name, show_branch_name: show_branch_name %>
+      <% end %>
     <% end %>
   </tbody>
 </table>
@@ -43,8 +50,10 @@
   </thead>
 
   <tbody>
-    <% @completed_jobs.each do |job| %>
-      <%= render 'shared/job_row', job: job, show_client_name: show_client_name, show_branch_name: show_branch_name %>
+    <% if @completed_jobs %>
+      <% @completed_jobs.each do |job| %>
+        <%= render 'shared/job_row', job: job, show_client_name: show_client_name, show_branch_name: show_branch_name %>
+      <% end %>
     <% end %>
   </tbody>
 </table>

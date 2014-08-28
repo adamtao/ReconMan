@@ -1,17 +1,23 @@
-<h1><%= @product.name %></h1>
+<div class="container">
+	<div class="large-7 small-7 columns">
+		<h1><%= @product.name %></h1>
+	</div>
+	<div class="large-5 small-5 columns text-right">
+		<br/>
+		<%= link_to 'Edit', edit_product_path(@product), class: "tiny button" %>
+		<%= link_to 'Delete', @product, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
+	</div>
+</div>
 
-<dl class="sub-nav">
-	<dd><%= link_to 'Edit', edit_product_path(@product) %></dd>
-	<dd><%= link_to 'Delete', @product, method: :delete, data: { confirm: 'Are you sure?' } %></dd>
-</dl>
+<div class="main_content">
+	<p>
+	  Standard Price:
+	  <%=humanized_money_with_symbol @product.price %>
+	</p>
 
-<p>
-  <strong>Price:</strong>
-  <%=humanized_money_with_symbol @product.price %>
-</p>
+	<p>
+	  <%= @product.description %>
+	</p>
 
-<p>
-  <%= @product.description %>
-</p>
-
-<%= render 'shared/ownable_stats', item: @product %>
+	<%= render 'shared/ownable_stats', item: @product %>
+</div>

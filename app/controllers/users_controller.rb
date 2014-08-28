@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   after_action :verify_authorized
 
   def index
-    @users = User.all
+    @users = User.order("name").all
     authorize User
   end
 
@@ -37,6 +37,19 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    authorize @user
+    if @user.client?
+      @current_jobs = @user.requested_jobs.where.not(workflow_state: 'complete').joins(:job_products).order("job_products.due_on ASC").limit(100)
+      @completed_jobs = @user.requested_jobs.where(workflow_state: 'complete').order("updated_at DESC").limit(25)
+    elsif @user.processor?
+      @current_jobs = Job.dashboard_jobs(user: @user, fallback_to_all: false, complete: false, limit: 100)
+      @completed_jobs = Job.dashboard_jobs(user: @user, fallback_to_all: false, complete: true, limit: 25)
+    end
+  end
+
+  def edit
+    @user = User.find(params[:id])
+    @client = (@user.client) ? @user.client : Client.new
     authorize @user
   end
 

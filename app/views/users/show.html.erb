@@ -1,14 +1,27 @@
-<h3><%= @user.name if @user.name %></h3>
-<p>Email: <%= @user.email if @user.email %></p>
-<p>Role: <%= @user.role if @user.role %></p>
-<% if @user.branch %>
-	<p>Client: <%= link_to @user.branch.client.name, @user.branch.client %></p>
-	<p>Branch: <%= link_to @user.branch.name, [@user.branch.client, @user.branch] %></p>
+<div class="container">
+	<div class="large-7 small-7 columns">
+		<h1><%= @user.name ? @user.name : "Unnamed User" %></h1>
+	</div>
+	<div class="large-5 small-5 columns text-right">
+		<br/>
+		<%= link_to 'Edit User', edit_user_path(@user), class: "tiny button" %>
+		<%= link_to 'Delete', @user, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
+	</div>
+</div>
 
-	<h5 class="subheader">Requested Jobs</h5>
-	<ul>
-		<% @user.requested_jobs.order("created_at DESC").limit(100).each do |job| %>
-		<li><%= link_to "#{I18n.l(job.created_at, format: :short)} #{job.parcel_number}", job %></li>
-		<% end %>
-	</ul>
-<% end %>
+<div class="main_content">
+	<p>Email: <%= mail_to(@user.email, @user.email) if @user.email %></p>
+	<p>Role: <%= @user.role if @user.role %></p>
+
+	<% if @user.client? %>
+		<p>Client: <%= link_to @user.branch.client.name, @user.branch.client %></p>
+		<p>Branch: <%= link_to @user.branch.name, [@user.branch.client, @user.branch] %></p>
+
+		<h3 class="subheader">Current Requested Jobs</h5>
+		<%= render 'shared/jobs' %>
+
+	<% elsif @user.processor? %>
+		<h3 class="subheader">Current Assigned Jobs</h3>
+		<%= render 'shared/jobs' %>
+	<% end %>
+</div>

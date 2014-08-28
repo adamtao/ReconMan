@@ -25,7 +25,7 @@
 		<%= f.input :primary_contact, label: "Primary contact for #{@client.name}" %>
 		<%= f.input :billing_contact, label: "Billing contact for #{@client.name}" %>
 		<div class="panel">
-			<%= f.input :password, label: "Initial password" %>
+			<%= f.input :password, label: @user.new_record? ? "Initial password" : "New password" %>
 			<%= f.input :password_confirmation %>
 		</div>
 	</div>

@@ -10,20 +10,17 @@
 </div>
 
 <div class="main_content">
-  <div class="row">
-    <h2>Users</h2>
 
-      <table>
-        <tbody>
-          <% @users.each do |user| %>
-            <tr>
-              <%= render user %>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+    <table>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <%= render user %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
 
-  </div>
 </div>
 
 <div class="side_content">

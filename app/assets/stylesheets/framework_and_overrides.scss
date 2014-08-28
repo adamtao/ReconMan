@@ -166,7 +166,18 @@ table {
 .form-centered {
   @include six-columns-centered;
   }
-
+.miniform {
+  margin: 0; padding: 0;
+  select, input {
+    font-size: rem-calc(12px);
+    margin: 0;
+    padding: 2px;
+    height: rem-calc(28px);
+  }
+  .tiny.button {
+    padding-top: 7px;
+  }
+}
 // apply styles to HTML elements
 // to make views framework-neutral
 main {

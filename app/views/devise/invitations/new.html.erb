@@ -1,17 +1,21 @@
 <div class="row"><div class="column_6_centered">
-	<h2><%= t "devise.invitations.new.header" %></h2>
+	<h1 class="text-center"><%= t "devise.invitations.new.header" %></h1>
 
 	<%= simple_form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f| %>
 	  <%= devise_error_messages! %>
 
 	  <div class="form-inputs">
-		<% resource.class.invite_key_fields.each do |field| -%>
-		  <%= f.input field %>
-		<% end -%>
-	  </div>
+		<p>After submitting this form, an email will be sent to the address
+		below with an invitation link. Clicking on the link will
+		allow the recipient to create an account on this system.</p>
 
-	  <div class="form-actions">
-	  	<div class="column_6">
+		<div class="panel">
+			<% resource.class.invite_key_fields.each do |field| -%>
+			  <%= f.input field %>
+			<% end -%>
+
+			<%= f.input :role, collection: User.roles.keys.map {|role| [role.titleize,role]}, as: :radio_buttons %>
+
 	    	<%= f.button :submit, t("devise.invitations.new.submit_button") %>
 	    </div>
 	  </div>

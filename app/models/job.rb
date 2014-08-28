@@ -31,7 +31,7 @@ class Job < ActiveRecord::Base
 	monetize :payoff_amount_cents
 
 	def self.dashboard_jobs(options)
-		default_options = {limit: 100, complete: false, user: User.new}
+		default_options = {limit: 100, complete: false, user: User.new, fallback_to_all: true}
 		options = default_options.merge options
 		user = options[:user]
 
@@ -39,14 +39,18 @@ class Job < ActiveRecord::Base
 		when true
 			if user.completed_job_ids.length > 0
 				where(id: user.completed_job_ids).limit(options[:limit])
-			else
+			elsif options[:fallback_to_all]
 				where(workflow_state: "complete").order("completed_at DESC").limit(options[:limit])
+			else
+				nil
 			end
 		when false
   		if user.current_job_ids.length > 0
   			where(id: user.current_job_ids)
-  		else 
-  			where.not(workflow_state: "complete").joins(:job_products).order("job_products.due_on DESC").limit(options[:limit])
+  		elsif options[:fallback_to_all]
+  			where.not(workflow_state: "complete").joins(:job_products).order("job_products.due_on ASC").limit(options[:limit])
+  		else
+  			nil
   		end
 		end
 	end

@@ -1,8 +1,8 @@
 <td>
-  <%= link_to user.email, user %>
+  <%= link_to user.name ? user.name : user.email, user %>
 </td>
 <td>
-  <%= form_for(user) do |f| %>
+  <%= form_for user, html: { class: 'miniform' } do |f| %>
   	<div class="row collapse">
   		<div class="large-8 small-8 columns">
     		<%= f.select(:role, User.roles.keys.map {|role| [role.titleize,role]}) %>
@@ -13,6 +13,6 @@
     </div>
   <% end %>
 </td>
-<td>
+<td style="padding-left: 16px;">
   <%= link_to(image_tag('trash.gif', alt: "X"), user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete) unless user == current_user %>
 </td>

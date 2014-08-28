@@ -9,7 +9,7 @@
   		<%= f.input :email %>
   		<%= f.input :role, collection: User.roles.keys.map {|role| [role.titleize,role]}, as: :radio_buttons %>
     <div class="panel">
-      <%= f.input :password, label: "Initial password" %>
+      <%= f.input :password, label: @user.new_record? ? "Initial password" : "New password" %>
       <%= f.input :password_confirmation %>
     </div>
   	</div>
