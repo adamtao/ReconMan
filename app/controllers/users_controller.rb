@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(create_params) 
+    @user = User.new(secure_params) 
     # @user.skip_confirmation!
     authorize @user
     if @user.save
@@ -73,10 +73,6 @@ class UsersController < ApplicationController
   private
 
   def secure_params
-    params.require(:user).permit(:role)
-  end
-
-  def create_params
     params.require(:user).permit(:name, :email, :role, :branch_id, :password, :password_confirmation, 
       :primary_contact, :billing_contact, :phone)
   end
