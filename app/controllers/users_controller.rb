@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(create_params) 
-    @user.skip_confirmation!
+    # @user.skip_confirmation!
     authorize @user
     if @user.save
       if @user.branch

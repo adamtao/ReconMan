@@ -98,7 +98,7 @@ Rails.application.configure do
 
   # Be sure to set these on heroku with this command:
   #   heroku config:add KEY=value
-  config.middleware.use '::Rack::Auth::Basic' do |u, p|
-    [u, p] == [ENV['STAGING_USER'], ENV['STAGING_PASSWORD']]
-  end
+  # config.middleware.use '::Rack::Auth::Basic' do |u, p|
+  #   [u, p] == [ENV['STAGING_USER'], ENV['STAGING_PASSWORD']]
+  # end
 end
