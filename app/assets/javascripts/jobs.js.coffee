@@ -32,15 +32,18 @@ jQuery ->
 
 		handle_change: =>
 			$(@primary).change =>
-				primary_selected = $("#{ @primary } option").filter(':selected').text()
-				escaped_selected = primary_selected.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g, '\\$1')
-				options_to_show = $(@all_dependent_options).filter("optgroup[label=#{ escaped_selected }]").html()
-				if options_to_show
-					$(@dependent).html(options_to_show)
-					@hidden_container.show()
-				else
-					$(@dependent).empty()
-					@hidden_container.hide()
+				@filter_results()
+
+		filter_results: =>
+			primary_selected = $("#{ @primary } option").filter(':selected').text()
+			escaped_selected = primary_selected.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g, '\\$1')
+			options_to_show = $(@all_dependent_options).filter("optgroup[label=#{ escaped_selected }]").html()
+			if options_to_show
+				$(@dependent).html(options_to_show)
+				@hidden_container.show()
+			else
+				$(@dependent).empty()
+				@hidden_container.hide()
 
 		setup_hidden_container: =>
 			@hidden_container = $(@dependent).parent()
