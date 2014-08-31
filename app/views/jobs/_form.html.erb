@@ -17,7 +17,9 @@
         <%= f.association :client, collection: all_clients %>
       </div>
       <div class="column_6">
-        <%= f.association :requestor, collection: all_clients, as: :grouped_select, group_method: :users %>
+        <%= f.association :requestor, collection: all_clients, 
+          as: :grouped_select, group_method: :users, 
+          label_method: :name, value_method: :id %>
       </div>
     </div>
     <div class="row">
