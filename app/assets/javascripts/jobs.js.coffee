@@ -28,6 +28,7 @@ jQuery ->
 		constructor: (@primary, @dependent) ->
 			@all_dependent_options = $(@dependent).html()
 			@setup_hidden_container()
+			primary_selected = $("#{ @primary } option").filter(':selected').text()
 			@handle_change()
 
 		handle_change: =>
@@ -51,4 +52,6 @@ jQuery ->
 
 	# Instantiate the related options filters
 	new OptionFilter('#job_state_id', '#job_county_id')
-	new OptionFilter('#job_client_id', '#job_requestor_id')
+	r_filter = new OptionFilter('#job_client_id', '#job_requestor_id')
+
+	r_filter.filter_results()
