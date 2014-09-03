@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'zipcodes/:id' => 'zipcodes#show'
+
   root to: 'dashboard#index'
   devise_for :users, :skip => [:registrations]                                          
     as :user do

@@ -14,13 +14,18 @@
     <%= f.input :client_type %>
     <%= f.input :website, as: :url, placeholder: "http://" %>
     <%= f.input :billing_address %>
-    <%= f.input :billing_city %>
+    
     <div class="row">
-      <div class="large-7 small-8 columns">
-        <%= f.association :billing_state %>
+      <div class="large-3 small-4 columns">
+        <%= f.input :billing_zipcode, label: "Zipcode" %>
       </div>
-      <div class="large-5 small-4 columns">
-        <%= f.input :billing_zipcode %>
+      <div class="large-9 small-8 columns">
+        <%= f.input :billing_city, label: "City" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-6 small-6 columns">
+        <%= f.association :billing_state, label: "State" %>
       </div>
     </div>
   </div>

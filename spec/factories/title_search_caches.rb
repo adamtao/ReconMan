@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :title_search_cach, :class => 'TitleSearchCache' do
-    job_product_id 1
+    job_product
     content "MyText"
   end
 end

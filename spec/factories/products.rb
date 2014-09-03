@@ -4,6 +4,6 @@ FactoryGirl.define do
   factory :product do
     name "MyString"
     description "MyText"
-    price ""
+    price_cents 1995
   end
 end

@@ -813,6 +813,8 @@ s = State.find_by_name('Wyoming')
 "Carbon",          "Hot Springs",     "Niobrara",        "Sweetwater",      "Weston",         
 "Converse",        "Johnson",         "Park"].each {|c| County.find_or_create_by!(state: s, name: c)}            
         
+puts "LOADING ZIPCODE DATABASE"
+Zipcode.import_from_csv(Rails.root.join('db', 'zip_code_database.csv'))
 
 if Rails.env.development?
   puts "==============================="

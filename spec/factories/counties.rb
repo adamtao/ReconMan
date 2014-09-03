@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :county do
     name "MyString"
-    state_id 1
+    state
     search_url "MyString"
     search_params "MyString"
     search_method "MyString"

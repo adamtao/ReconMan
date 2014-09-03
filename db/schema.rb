@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140827193933) do
+ActiveRecord::Schema.define(version: 20140903165206) do
 
   create_table "branches", force: true do |t|
     t.string   "name"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20140827193933) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "headquarters",   default: false
+    t.boolean  "headquarters"
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
   end
@@ -78,8 +78,8 @@ ActiveRecord::Schema.define(version: 20140827193933) do
     t.string   "contact_email"
     t.string   "assessor_webpage"
     t.text     "zip_codes"
-    t.boolean  "co_fee_schedule",          default: false
-    t.boolean  "simplifile",               default: false
+    t.boolean  "co_fee_schedule"
+    t.boolean  "simplifile"
     t.string   "s_contact_name"
     t.string   "s_contact_phone"
     t.string   "s_contact_email"
@@ -131,7 +131,7 @@ ActiveRecord::Schema.define(version: 20140827193933) do
     t.string   "payoff_amount_currency",   default: "USD", null: false
     t.string   "beneficiary_account"
     t.string   "underwriter_name"
-    t.boolean  "short_sale",               default: false
+    t.boolean  "short_sale"
     t.string   "file_type"
     t.string   "parcel_legal_description"
     t.integer  "created_by_id"
@@ -152,8 +152,8 @@ ActiveRecord::Schema.define(version: 20140827193933) do
     t.string   "price_currency",  default: "USD", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "default",         default: false
-    t.boolean  "performs_search", default: false
+    t.boolean  "default"
+    t.boolean  "performs_search"
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
   end
@@ -177,12 +177,12 @@ ActiveRecord::Schema.define(version: 20140827193933) do
   add_index "title_search_caches", ["job_product_id"], name: "index_title_search_caches_on_job_product_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "",    null: false
+    t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
+    t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -204,8 +204,8 @@ ActiveRecord::Schema.define(version: 20140827193933) do
     t.string   "invited_by_type"
     t.integer  "invitations_count",      default: 0
     t.integer  "branch_id"
-    t.boolean  "primary_contact",        default: false
-    t.boolean  "billing_contact",        default: false
+    t.boolean  "primary_contact"
+    t.boolean  "billing_contact"
     t.string   "phone"
   end
 
@@ -215,5 +215,28 @@ ActiveRecord::Schema.define(version: 20140827193933) do
   add_index "users", ["invitations_count"], name: "index_users_on_invitations_count", using: :btree
   add_index "users", ["invited_by_id"], name: "index_users_on_invited_by_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "zipcodes", force: true do |t|
+    t.string   "zipcode"
+    t.string   "zip_type"
+    t.string   "primary_city"
+    t.text     "acceptable_cities"
+    t.text     "unacceptable_cities"
+    t.string   "state"
+    t.string   "county"
+    t.string   "timezone"
+    t.text     "area_codes"
+    t.float    "latitude",             limit: 24
+    t.float    "longitude",            limit: 24
+    t.string   "world_region"
+    t.string   "country"
+    t.boolean  "decommissioned"
+    t.integer  "estimated_population"
+    t.text     "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "zipcodes", ["zipcode"], name: "index_zipcodes_on_zipcode", using: :btree
 
 end

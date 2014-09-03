@@ -7,6 +7,9 @@ jQuery ($) ->
 	$('input.completer').prop("checked", false).each -> new Completer(@) 
 	$('input.incompleter').prop("checked", true).each -> new Completer(@)
 
+
+# Marks an open job 'complete' and moves it down to the completed jobs list
+#
 class Completer
 
 	constructor: (checkbox) ->

@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :client_product do
-    client_id 1
-    product_id 1
-    price ""
+    client
+    product
+    price_cents 1995
   end
 end

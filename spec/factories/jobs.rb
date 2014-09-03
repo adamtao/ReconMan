@@ -9,8 +9,7 @@ FactoryGirl.define do
     state
     zipcode "MyString"
     county
-    old_owner "MyString"
     new_owner "MyString"
-    requestor_id 1
+    requestor
   end
 end

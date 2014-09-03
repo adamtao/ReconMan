@@ -5,9 +5,9 @@ FactoryGirl.define do
     name "MyString"
     address "MyString"
     city "MyString"
-    state_id 1
+    state
     zipcode "MyString"
     phone "MyString"
-    client_id 1
+    client
   end
 end

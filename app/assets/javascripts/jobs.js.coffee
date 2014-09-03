@@ -3,6 +3,13 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 jQuery ->
 
+	$('.datepicker').datepicker
+		inline: true
+		numberOfMonths: 2
+		showButtonPanel: true	
+		dateFormat: "DD, MM d, yy"
+		constrainInput: true
+
 	# Automatically shows/hides options from a dependent html select based
 	# on the selected option of another.
 	#
@@ -51,7 +58,7 @@ jQuery ->
 			@hidden_container.hide() unless $("#{ @primary } option").filter(':selected').val() > 0
 
 	# Instantiate the related options filters
-	new OptionFilter('#job_state_id', '#job_county_id')
+	#new OptionFilter('#job_state_id', '#job_county_id')
 	r_filter = new OptionFilter('#job_client_id', '#job_requestor_id')
 
-	r_filter.filter_results()
+	r_filter.filter_results() if $('#job_client_id').val() > 0

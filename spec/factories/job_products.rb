@@ -2,9 +2,8 @@
 
 FactoryGirl.define do
   factory :job_product do
-    product_id 1
-    job_id 1
-    price ""
-    workflow_state "MyString"
+    product
+    job
+    price_cents 1995
   end
 end

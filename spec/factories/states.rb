@@ -3,6 +3,6 @@
 FactoryGirl.define do
   factory :state do
     name "MyString"
-    abbreviation "MyString"
+    abbreviation "MS"
   end
 end
