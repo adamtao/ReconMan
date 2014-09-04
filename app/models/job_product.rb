@@ -41,11 +41,8 @@ class JobProduct < ActiveRecord::Base
 	end
 
 	def determine_due_date
-		if self.job.close_on.present?
-			self.due_on = self.job.close_on.advance(days: self.job.state.due_within_days)
-		else
-			self.due_on = Date.today.advance(days: self.job.state.due_within_days)
-		end
+		ref = self.job.close_on.present? ? self.job.close_on : Date.today
+		self.due_on = ref.advance(days: self.job.state.due_within_days)
 	end
 
 	def name

@@ -18,7 +18,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   def self.processors
-    where(role: User.roles["processor"]).order("name")
+    processor_roles = [roles["processor"], roles["admin"]]
+    where(role: processor_roles).where.not(name: nil).order("name")
   end
 
   def client
