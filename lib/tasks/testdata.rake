@@ -106,7 +106,7 @@ namespace :testdata do
 					county: user.branch.state.counties.sample,
 					old_owner: Forgery::Name.full_name,
 					new_owner: Forgery::Name.full_name,
-					parcel_number: Forgery::CreditCard.number[2,3] + "-" + Forgery::CreditCard.number[6,5],
+					file_number: Forgery::CreditCard.number[2,3] + "-" + Forgery::CreditCard.number[6,5],
 					creator: employees.sample
 				)
 			end
@@ -129,7 +129,7 @@ namespace :testdata do
 					county: user.branch.state.counties.sample,
 					old_owner: Forgery::Name.full_name,
 					new_owner: Forgery::Name.full_name,
-					parcel_number: Forgery::CreditCard.number[2,3] + "-" + Forgery::CreditCard.number[6,5],
+					file_number: Forgery::CreditCard.number[2,3] + "-" + Forgery::CreditCard.number[6,5],
 					creator: employees.sample,
 					modifier: employees.sample
 				)
@@ -156,7 +156,7 @@ namespace :testdata do
 					old_owner: Forgery::Name.full_name,
 					new_owner: Forgery::Name.full_name,
 					created_at: 4.weeks.ago,
-					parcel_number: Forgery::CreditCard.number[2,3] + "-" + Forgery::CreditCard.number[6,5],
+					file_number: Forgery::CreditCard.number[2,3] + "-" + Forgery::CreditCard.number[6,5],
 					creator: employees.sample,
 					modifier: employees.sample
 				)

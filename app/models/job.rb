@@ -66,6 +66,14 @@ class Job < ActiveRecord::Base
 		end
 	end
 
+	def link_name
+		file_number.present? ? file_number : deed_or_parcel_number
+	end
+
+	def deed_or_parcel_number
+		deed_of_trust_number.present? ? deed_of_trust_number : parcel_number
+	end
+
 	def total_price_cents
 		job_products.inject(0){|total,jp| total += jp.price_cents}
 	end

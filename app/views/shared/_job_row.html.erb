@@ -24,7 +24,7 @@
   	<% end %>
   </td>
   
-  <td><%= link_to job.file_number || job.deed_of_trust_number || job.parcel_number, job, class: "job" %></td>
+  <td><%= link_to job.link_name, job, class: "job" %></td>
   
   <td class="hide-for-small">
     <%= link_to job.county.name, [job.state, job.county] %>, <%= link_to job.state.abbreviation, job.state %>
