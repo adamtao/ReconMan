@@ -71,6 +71,7 @@ class StatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def state_params
-      params.require(:state).permit(:name, :abbreviation, :due_within_days, :active)
+      params.require(:state).permit(:name, :abbreviation, :active, :time_to_notify_days, :time_to_dispute_days, :due_within_days,
+        :can_force_reconveyance, :allow_sub_of_trustee, :record_reconveyance_request)
     end
 end

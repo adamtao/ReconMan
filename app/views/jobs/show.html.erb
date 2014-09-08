@@ -1,8 +1,6 @@
 <div class="container">
   <div class="large-7 small-7 columns">
-    <h1>Parcel Number:
-      <%= @job.parcel_number %>
-    </h1>
+    <h1>File Number: <%= @job.file_number %></h1>
   </div>
   <div class="large-5 small-5 columns text-right">
     <br/>
@@ -14,6 +12,8 @@
 
 <div class="container">
 <div class="main_content">
+    <p>Deed of Trust Number: <%= @job.deed_of_trust_number %></p>
+    <p>Parcel Number: <%= @job.parcel_number %></p>
     <p>Parcel description: <%= @job.parcel_legal_description %></p>
     
     <h3 class="subheader">Products &amp; Services 
@@ -145,6 +145,9 @@
       <h4 class="subheader">Transaction Details</h4>
       <table>
         <tr>
+          <td>Seller</td><td><strong><%= @job.old_owner %></strong></td>
+        </tr>
+        <tr>
           <td>Buyer</td><td><strong><%= @job.new_owner %></strong></td>
         </tr>
         <tr>
@@ -152,9 +155,6 @@
         </tr>
         <tr>
           <td>Ben. Account</td><td><strong><%= @job.beneficiary_account %></strong></td>
-        </tr>
-        <tr>
-          <td>Escrow Num</td><td><strong><%= @job.escrow_number %></strong></td>
         </tr>
         <tr>
           <td>Payoff Amt.</td><td><strong><%= humanized_money_with_symbol @job.payoff_amount %></strong></td>
