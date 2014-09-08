@@ -13,17 +13,6 @@
 <div class="container">
 	<div class="main_content">
 
-		<% if @state.due_within_days.present? %>
-			<p>
-				Reconveyances are due within <strong><%= @state.due_within_days %></strong> days.
-				<small><%= link_to "edit", edit_state_path(@state) %></small>
-			</p>
-		<% else %>
-			<p>
-				Reconveyance due date is unknown. Please <%= link_to "edit the state", edit_state_path(@state) %> to provide this information.
-			</p>
-		<% end %>
-
 		<p>This state is <strong><%= "not" unless @state.active? %> active.</strong></p>
 
 		<h3>Counties <small><%= link_to 'new county', new_state_county_path(@state), class: "success" %></small></h3>
@@ -41,6 +30,45 @@
 		<% end %>
 	</div>
 	<div class="side_content">
+		<div class="panel">
+			<h4 class="subheader">Due dates</h4>
+			<table>
+				<tbody>
+					<tr>
+						<th>Time to notify</th>
+						<td><%= @state.time_to_notify_days %> days</td>
+					</tr>
+					<tr>
+						<th>Time to dispute</th>
+						<td><%= @state.time_to_dispute_days %> days</td>
+					</tr>
+					<tr>
+						<th>Time to record</th>
+						<td><%= @state.time_to_record_days %> days</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th>Total</th>
+						<td><%= @state.due_within_days %> days</td>
+					</tr>
+				</tfoot>
+			</table>
 
+			<table>
+				<tr>
+					<th>Reconveyance request needs to be recorded?</th>
+					<td><%= @state.record_reconveyance_request? ? "Yes" : "No" %></td>
+				</tr>
+				<tr>
+					<th>Eligible for forced reconveyance?</th>
+					<td><%= @state.can_force_reconveyance? ? "Yes" : "No" %></td>
+				</tr>
+				<tr>
+					<th>Allow sub of trustee?</th>
+					<td><%= @state.allow_sub_of_trustee? ? "Yes" : "No" %></td>
+				</tr>
+			</table>
+		</div>
 	</div>
 </div>

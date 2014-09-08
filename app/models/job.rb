@@ -23,7 +23,7 @@ class Job < ActiveRecord::Base
 	validates :requestor, presence: true
 	validates :county, presence: true
 	validates :state, presence: true
-	validates :parcel_number, presence: true
+	validates :file_number, presence: true
 
 	after_create :create_default_products
 

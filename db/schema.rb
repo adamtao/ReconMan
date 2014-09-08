@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140903165206) do
+ActiveRecord::Schema.define(version: 20140907224203) do
 
   create_table "branches", force: true do |t|
     t.string   "name"
@@ -124,11 +124,11 @@ ActiveRecord::Schema.define(version: 20140903165206) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "parcel_number"
-    t.string   "escrow_number"
+    t.string   "file_number"
     t.date     "close_on"
     t.string   "beneficiary_name"
-    t.integer  "payoff_amount_cents",      default: 0,     null: false
-    t.string   "payoff_amount_currency",   default: "USD", null: false
+    t.integer  "payoff_amount_cents",      default: 0,          null: false
+    t.string   "payoff_amount_currency",   default: "USD",      null: false
     t.string   "beneficiary_account"
     t.string   "underwriter_name"
     t.boolean  "short_sale"
@@ -136,6 +136,9 @@ ActiveRecord::Schema.define(version: 20140903165206) do
     t.string   "parcel_legal_description"
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
+    t.string   "deed_of_trust_number"
+    t.string   "developer"
+    t.string   "job_type",                 default: "tracking"
   end
 
   add_index "jobs", ["client_id"], name: "index_jobs_on_client_id", using: :btree
@@ -163,8 +166,13 @@ ActiveRecord::Schema.define(version: 20140903165206) do
     t.string   "abbreviation"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "due_within_days"
-    t.boolean  "active",          default: false
+    t.integer  "time_to_record_days"
+    t.boolean  "active",                      default: false
+    t.integer  "time_to_notify_days",         default: 30
+    t.integer  "time_to_dispute_days",        default: 30
+    t.boolean  "can_force_reconveyance",      default: true
+    t.boolean  "allow_sub_of_trustee",        default: false
+    t.boolean  "record_reconveyance_request", default: false
   end
 
   create_table "title_search_caches", force: true do |t|

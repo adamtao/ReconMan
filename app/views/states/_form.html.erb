@@ -14,9 +14,18 @@
       </div>
       <div class="row">
         <div class="large-12 columns">
-          <%= f.input :due_within_days, 
-          	label: "Reconveyances are due within X days", 
+          <%= f.input :time_to_notify_days, 
+          	label: "Days to request reconveyance", 
           	collection: State.due_within_options %>
+          <%= f.input :time_to_dispute_days, 
+            label: "Days to dispute reconveyance (from notification)", 
+            collection: State.due_within_options %>
+          <%= f.input :time_to_record_days, 
+            label: "Days to record reconveyance (from time to dispute)", 
+            collection: State.due_within_options %>
+          <%= f.input :record_reconveyance_request %>
+          <%= f.input :can_force_reconveyance, label: "Eligible for forced reconveyance" %>
+          <%= f.input :allow_sub_of_trustee %>
           <%= f.input :active %>
         </div>
       </div>
