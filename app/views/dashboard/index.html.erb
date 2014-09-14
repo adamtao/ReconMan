@@ -6,7 +6,9 @@
   </div>
   <div class="large-4 small-5 columns text-right">
     <br/>
-    <%= link_to 'New Job', new_job_path, class: "tiny success button" %>
+    New: 
+    <%= link_to 'Tracking Job', new_job_path(job_type: :tracking), class: "tiny success button" %>
+    <%= link_to 'Search Job', new_job_path(job_type: :search), class: "tiny success button" %>
   </div>
 </div>
 

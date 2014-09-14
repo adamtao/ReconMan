@@ -1,0 +1,30 @@
+<%= f.input :product_id, as: :hidden %>
+<%= f.input :_destroy, as: :hidden %>
+<div class="panel">
+	<div class="row">
+		<div class="column_6">
+			<%= f.input :deed_of_trust_number %>
+		</div>
+	</div>
+
+	<div class="row">
+	  <div class="column_6">
+	    <%= f.input :beneficiary_name, label: "Lender" %>
+	  </div>
+	  <div class="large-3 small-6 columns">
+	    <%= f.input :beneficiary_account %>
+	  </div>
+	  <div class="large-3 small-6 columns">
+	    <%= f.input :payoff_amount %>
+	  </div>
+	</div>
+
+	<div class="row">
+		<div class="column_6">
+			Recording Number: _____________
+		</div>
+		<div class="column_6">
+			Recording Date: _____________
+		</div>
+	</div>
+</div>

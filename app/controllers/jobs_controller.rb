@@ -25,6 +25,10 @@ class JobsController < ApplicationController
     if params[:client_id]
       @job.client_id = params[:client_id]
     end
+    if params[:job_type]
+      @job.job_type = params[:job_type]
+    end
+    @job.job_products.build
   end
 
   # GET /jobs/1/edit

@@ -12,9 +12,6 @@
 
 <div class="container">
 <div class="main_content">
-    <p>Deed of Trust Number: <%= @job.deed_of_trust_number %></p>
-    <p>Parcel Number: <%= @job.parcel_number %></p>
-    <p>Parcel description: <%= @job.parcel_legal_description %></p>
     
     <h3 class="subheader">Products &amp; Services 
       <small><%= link_to "add product/service", new_job_job_product_path(@job), class: "success" %></small>
@@ -34,12 +31,47 @@
                       edit_job_job_product_path(@job, job_product), 
                       class: 'assign-task', 
                       data: { job_product_id: job_product.id } %>
+
             </td>
             <td class="text-right"><%=humanized_money_with_symbol job_product.price %></td>
           </tr>
         </thead>
         <tr><td colspan="3">
-            <div class="row"><div class="large-12 columns">
+            <div class="row">
+              <div class="large-12 columns">
+
+            <table>
+              <% if @job.job_type == 'tracking' %>
+              <tr>
+                <td>Deed of Trust Number</td>
+                <td><%= job_product.deed_of_trust_number %></td>
+              </tr>
+              <tr>
+                <td>Beneficiary</td>
+                <td><strong><%= job_product.beneficiary_name %></strong></td>
+              </tr>
+              <tr>
+                <td>Beneficiary Account</td>
+                <td><strong><%= job_product.beneficiary_account %></strong></td>
+              </tr>
+              <tr>
+                <td>Payoff Amt.</td>
+                <td><strong><%= humanized_money_with_symbol job_product.payoff_amount %></strong></td>
+              </tr>
+              <% end %>
+              <% if @job.job_type == 'search' %>
+              <tr>
+                <td>Parcel Number</td>
+                <td><%= job_product.parcel_number %></td>
+              </tr>
+              <tr>
+                <td>Parcel description</td>
+                <td><%= job_product.parcel_legal_description %></td>
+              </tr>
+
+              <% end %>
+            </table>
+
             <% if job_product.product.performs_search %>
               <h3 class="subheader">Title search results</h3>
 
@@ -122,7 +154,7 @@
   </div>
 
   <div class="side_content">
-    <p>This job was requested by 
+    <p>This <%= @job.job_type.humanize.downcase %> job was requested by 
         <%= link_to @job.requestor.name, @job.requestor %>
         of
         <%= link_to @job.client.name, @job.client %>
@@ -142,42 +174,24 @@
         </p>
     </div>
 
-      <h4 class="subheader">Transaction Details</h4>
-      <table>
-        <tr>
-          <td>Seller</td><td><strong><%= @job.old_owner %></strong></td>
-        </tr>
-        <tr>
-          <td>Buyer</td><td><strong><%= @job.new_owner %></strong></td>
-        </tr>
-        <tr>
-          <td>Beneficiary</td><td><strong><%= @job.beneficiary_name %></strong></td>
-        </tr>
-        <tr>
-          <td>Ben. Account</td><td><strong><%= @job.beneficiary_account %></strong></td>
-        </tr>
-        <tr>
-          <td>Payoff Amt.</td><td><strong><%= humanized_money_with_symbol @job.payoff_amount %></strong></td>
-        </tr>
-        <tr>
-          <td>Underwriter</td><td><strong><%= @job.underwriter_name %></strong></td>
-        </tr>
-        <tr>
-          <td>Close Date</td><td><strong>
-            <% if @job.close_on.present? && @job.close_on.is_a?(Date) %>
-              <%= l @job.close_on, format: :long %><br/>
-            <% end %>
-            </strong>
-          </td>
-        </tr>
-        <tr>
-          <td>File Type</td><td><strong><%= @job.file_type %></strong></td>
-        </tr>
-        <tr>
-          <td>Short Sale?</td><td><strong><%= @job.short_sale? ? "yes" : "no" %></strong></td>
-        </tr>
-      </table>
-    </div>
+    <table>
+      <tr>
+        <td>Seller</td><td><strong><%= @job.old_owner %></strong></td>
+      </tr>
+      <tr>
+        <td>Buyer</td><td><strong><%= @job.new_owner %></strong></td>
+      </tr>
+      <tr>
+        <td>Close Date</td><td><strong>
+          <% if @job.close_on.present? && @job.close_on.is_a?(Date) %>
+            <%= l @job.close_on, format: :long %><br/>
+          <% end %>
+          </strong>
+        </td>
+      </tr>
+    </table>
 
   </div>
+
+</div>
 </div>

@@ -18,7 +18,7 @@
 		  		<%= search_form_for @q, url: jobs_path do |f| %>
 		  		<div class="row collapse">
 		  			<div class="large-8 small-9 columns">
-		  				<%= f.search_field :parcel_number_cont, placeholder: 'Parcel #' %>
+		  				<%= f.search_field :file_number_cont, placeholder: 'File #' %>
 		  			</div>
 		  			<div class="large-4 small-3 columns">
 		  				<%= f.submit "search", class: "button expand" %>

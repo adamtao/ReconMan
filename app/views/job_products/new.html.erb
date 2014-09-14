@@ -1,6 +1,6 @@
 <h1 class="text-center">Add A Product/Service</h1>
 <% if @job %>
-	<h3 class="subheader text-center">To <%= @job.client.name %> Job, Parcel: <%= @job.parcel_number %></h3>
+	<h3 class="subheader text-center">To <%= @job.client.name %> Job, File Num: <%= @job.file_number %></h3>
 <% end %>
 <%= render 'form' %>
 

@@ -25,10 +25,11 @@ class Job < ActiveRecord::Base
 	validates :state, presence: true
 	validates :file_number, presence: true
 
-	after_create :create_default_products
+	# after_create :create_default_products # no longer doing this, instead creating tasks inline
 
 	monetize :total_price_cents
-	monetize :payoff_amount_cents
+
+	accepts_nested_attributes_for :job_products, reject_if: :all_blank
 
 	def self.dashboard_jobs(options)
 		default_options = {limit: 100, complete: false, user: User.new, fallback_to_all: true}
@@ -55,29 +56,35 @@ class Job < ActiveRecord::Base
 		end
 	end
 
-	def create_default_products
-		Product.defaults.each do |product|
-			self.job_products << JobProduct.new(
-				creator: self.creator,
-				worker: self.creator,
-				product: product, 
-				price: self.client.product_price(product)
-			)
-		end
-	end
+	# def create_default_products
+	# 	Product.defaults.each do |product|
+	# 		self.job_products << JobProduct.new(
+	# 			creator: self.creator,
+	# 			worker: self.creator,
+	# 			product: product, 
+	# 			price: self.client.product_price(product)
+	# 		)
+	# 	end
+	# end
 
 	def link_name
 		file_number.present? ? file_number : deed_or_parcel_number
 	end
 
 	def deed_or_parcel_number
-		deed_of_trust_number.present? ? deed_of_trust_number : parcel_number
+		begin
+			dashboard_product.deed_of_trust_number.present? ? dashboard_product.deed_of_trust_number : dashboard_product.parcel_number
+		rescue
+			"unknown #{self.id}"
+		end
 	end
 
 	def total_price_cents
 		job_products.inject(0){|total,jp| total += jp.price_cents}
 	end
 
+	# TODO: revisit the dashboard_product selector to choose from tracking, search, special jobs
+	#
 	def dashboard_product
 		self.job_products.where(product_id: Product.defaults.first.id).first
 	end

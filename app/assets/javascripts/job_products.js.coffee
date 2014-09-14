@@ -24,3 +24,14 @@ jQuery ->
 	set_price()
 
 	$('#job_product_product_id').change -> set_price()
+
+	$('form').on 'click', '.remove_fields', (event) ->
+		$(@).prev('input[type=hidden]').val('1')
+		$(@).closest('div.row').hide()
+		event.preventDefault()
+
+	$('form').on 'click', '.add_fields', (event) ->
+		time = new Date().getTime()
+		regexp = new RegExp($(@).data('id'), 'g')
+		$(@).closest('div.row').before($(@).data('fields').replace(regexp, time))
+		event.preventDefault()

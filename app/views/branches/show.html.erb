@@ -27,7 +27,7 @@
       <h4 class="subheader">Branch Address:</h4>
       <p><%= @branch.address %><br/>
         <%= @branch.city %>,
-        <%= @branch.state.name %>
+        <%= @branch.state.name if @branch.state %>
         <%= @branch.zipcode %>
       </p>
 

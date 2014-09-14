@@ -13,7 +13,7 @@
 	<p>Email: <%= mail_to(@user.email, @user.email) if @user.email %></p>
 	<p>Role: <%= @user.role if @user.role %></p>
 
-	<% if @user.client? %>
+	<% if @user.client? && @user.branch.present? %>
 		<p>Client: <%= link_to @user.branch.client.name, @user.branch.client %></p>
 		<p>Branch: <%= link_to @user.branch.name, [@user.branch.client, @user.branch] %></p>
 

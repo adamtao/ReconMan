@@ -24,7 +24,8 @@ class JobProduct < ActiveRecord::Base
 
 	has_many :title_search_caches, class_name: "TitleSearchCache"
 
-	monetize :price_cents
+	monetize :price_cents, allow_nil: true
+	monetize :payoff_amount_cents, allow_nil: true
 
 	validates :price_cents, presence: true
 	validates :job, presence: true
