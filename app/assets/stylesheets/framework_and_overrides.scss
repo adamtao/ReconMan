@@ -49,9 +49,9 @@ $topbar-input-height: 2.45em;
 //$topbar-title-font-size: rem-calc(17);
 
 /* Style the top bar dropdown elements */
-//$topbar-dropdown-bg: #222;
-$topbar-dropdown-link-color: $medium-gray;
-//$topbar-dropdown-link-bg: #333;
+$topbar-dropdown-bg: lighten($medium-gray, 10%);
+$topbar-dropdown-link-color: $dark-gray;
+$topbar-dropdown-link-bg: lighten($medium-gray, 20%);
 //$topbar-dropdown-toggle-size: 5px;
 $topbar-dropdown-toggle-color: $medium-gray;
 //$topbar-dropdown-toggle-alpha: 0.5;
@@ -92,6 +92,7 @@ $topbar-menu-icon-color: $medium-gray;
 /* Divider Styles */
 //$topbar-divider-border-bottom: solid 1px  scale-color($topbar-bg-color, $lightness: 13%);
 //$topbar-divider-border-top: solid 1px scale-color($topbar-bg-color, $lightness: -50%);
+
 
 // import the CSS framework
 @import "foundation";

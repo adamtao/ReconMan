@@ -55,7 +55,7 @@
       <br/>
       <%= f.button :submit %>
       <% if @job.new_record? %>
-      <%= f.submit 'Save & New' %>
+        <%= f.button :submit, 'Save & New Job', class: "secondary" %>
       <% end %>
     </div>
   </div>

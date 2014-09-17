@@ -27,8 +27,10 @@ class JobsController < ApplicationController
     end
     if params[:job_type]
       @job.job_type = params[:job_type]
+      @job.default_products.each do |p|
+        @job.job_products << JobProduct.new(product_id: p.id)
+      end
     end
-    @job.job_products.build
   end
 
   # GET /jobs/1/edit
@@ -40,9 +42,19 @@ class JobsController < ApplicationController
   def create
     @job = Job.new(job_params)
     @job.creator = current_user
+    @job.job_products.each do |jp| 
+      jp.creator = current_user
+      jp.worker ||= current_user
+    end
     respond_to do |format|
       if @job.save
-        format.html { redirect_to @job, notice: 'Job was successfully created.' }
+        format.html { 
+          if params[:commit].to_s.match(/save.*new/i)
+            redirect_to new_job_path(client_id: @job.client_id, job_type: @job.job_type), notice: 'Job was successfully created. Create another one below...' 
+          else
+            redirect_to @job, notice: 'Job was successfully created.' 
+          end
+        }
         format.json { render :show, status: :created, location: @job }
       else
         format.html { render :new }
@@ -87,7 +99,20 @@ class JobsController < ApplicationController
       params.require(:job).permit(:parcel_number, 
         :client_id, :address, :city, :state_id, :zipcode, :county_id, :old_owner, :new_owner, :requestor_id,
         :file_number, :close_on, :beneficiary_name, :payoff_amount, :beneficiary_account, :underwriter_name,
-        :short_sale, :file_type, :parcel_legal_description, :deed_of_trust_number, :developer)
+        :short_sale, :file_type, :parcel_legal_description, :deed_of_trust_number, :developer, 
+        job_products_attributes: [
+          :product_id, 
+          :_destroy, 
+          :deed_of_trust_number, 
+          :beneficiary_name, 
+          :beneficiary_account,
+          :payoff_amount,
+          :developer,
+          :price,
+          :parcel_number,
+          :parcel_legal_description
+          ]
+        )
     end
 
 end

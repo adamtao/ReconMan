@@ -13,9 +13,10 @@ puts 'CREATED ADMIN USER: ' << user.email
 puts 'CREATING DEFAULT PRODUCTS & SERVICES'
 
 Product.create([
-	{ name: "Reconveyance Tracking", creator: user, price: 19.95, default: true, performs_search: true},
+	{ name: "Reconveyance Tracking", creator: user, price: 19.95, job_type: 'tracking', performs_search: true},
 	{ name: "Title Defect Clearing", creator: user, price: 19.95 },
-	{ name: "Documentation", creator: user, price: 19.95 }
+	{ name: "Documentation", creator: user, price: 19.95 }, 
+  { name: "Title Search", creator: user, price: 12.95, job_type: 'search', performs_search: true }
 ])
 
 puts 'LOADING STATES'

@@ -3,7 +3,7 @@
     <%= f.error_notification %>
   </div>
 
-<div class="row"><div class="column_6_centered">
+<div class="row"><div class="large-8 columns large-offset-2">
   <div class="form-inputs">
     <%= f.association :product, 
     	collection: Product.all.map{ |p| 
@@ -19,8 +19,18 @@
     <% end %>
     <%= f.association :worker, collection: User.processors %>
     <%= f.input :price, hint: "#{@job.client.name} pricing loads automatically when you select/change a product." %>
-    <%= render "#{@job.job_type}_fields", f: f %>
-    <%= f.input :search_url, input_html: { data: { product: Product.where(performs_search: true).first.id }} %>
+
+    <% Job.job_types.each do |jt| %>
+      <% if Product.where(job_type: jt.to_s).length > 0 %>
+        <div class="product-specific-fields" data-products="<%= Product.where(job_type: jt.to_s).pluck(:id).join(',') %>">
+          <%= render "#{jt.to_s}_fields", f: f %>
+        </div>
+      <% end %>
+    <% end %>
+
+    <%= f.input :search_url, input_html: { 
+          data: { products: Product.where(performs_search: true).pluck(:id).join(',') }
+        } %>
   </div>
 
   <div class="form-actions">

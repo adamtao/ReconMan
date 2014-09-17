@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140913170211) do
+ActiveRecord::Schema.define(version: 20140917180824) do
 
   create_table "branches", force: true do |t|
     t.string   "name"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20140913170211) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "headquarters",   default: false
+    t.boolean  "headquarters"
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
   end
@@ -78,8 +78,8 @@ ActiveRecord::Schema.define(version: 20140913170211) do
     t.string   "contact_email"
     t.string   "assessor_webpage"
     t.text     "zip_codes"
-    t.boolean  "co_fee_schedule",          default: false
-    t.boolean  "simplifile",               default: false
+    t.boolean  "co_fee_schedule"
+    t.boolean  "simplifile"
     t.string   "s_contact_name"
     t.string   "s_contact_phone"
     t.string   "s_contact_email"
@@ -134,7 +134,7 @@ ActiveRecord::Schema.define(version: 20140913170211) do
     t.string   "file_number"
     t.date     "close_on"
     t.string   "underwriter_name"
-    t.boolean  "short_sale",       default: false
+    t.boolean  "short_sale"
     t.string   "file_type"
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
@@ -154,11 +154,14 @@ ActiveRecord::Schema.define(version: 20140913170211) do
     t.string   "price_currency",  default: "USD", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "default",         default: false
-    t.boolean  "performs_search", default: false
+    t.boolean  "default"
+    t.boolean  "performs_search"
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
+    t.string   "job_type"
   end
+
+  add_index "products", ["job_type"], name: "index_products_on_job_type", using: :btree
 
   create_table "states", force: true do |t|
     t.string   "name"
@@ -184,12 +187,12 @@ ActiveRecord::Schema.define(version: 20140913170211) do
   add_index "title_search_caches", ["job_product_id"], name: "index_title_search_caches_on_job_product_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "",    null: false
+    t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
+    t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -211,8 +214,8 @@ ActiveRecord::Schema.define(version: 20140913170211) do
     t.string   "invited_by_type"
     t.integer  "invitations_count",      default: 0
     t.integer  "branch_id"
-    t.boolean  "primary_contact",        default: false
-    t.boolean  "billing_contact",        default: false
+    t.boolean  "primary_contact"
+    t.boolean  "billing_contact"
     t.string   "phone"
   end
 

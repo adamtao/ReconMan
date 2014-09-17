@@ -15,8 +15,9 @@
       <div class="row">
         <div class="large-12 columns">
           <%= f.input :description %>
-      
-          <%= f.input :default, label: "All new jobs should have this product added by default." %>
+          <%= f.input :job_type, as: :select, label: "Default product for this job type",
+                collection: Job.job_types.map {|t| [t.to_s.titleize,t]} %>
+          <%#= f.input :default, label: "All new jobs should have this product added by default." %>
           <%= f.input :performs_search, label: "This service involves performing a recurring web search." %>
         </div>
       </div>

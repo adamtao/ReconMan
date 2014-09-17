@@ -1,5 +1,5 @@
 <%# navigation styled for Zurb Foundation 4 %>
-<nav class="top-bar">
+<nav class="top-bar" data-topbar role="navigation">
   <ul class="title-area">
     <li class="name"><%= link_to image_tag("logo-sm.png", alt: 'Reconveyance Experts'), root_path %></li>
     <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
@@ -26,8 +26,8 @@
 		  		</div>
 		  		<% end %>
 		  	</li>
-			<li><%= link_to 'Edit account', edit_user_registration_path %></li>
-			<li><%= link_to 'Sign out', destroy_user_session_path, :method=>'delete' %></li>
+			<li><%= link_to 'Account', edit_user_registration_path %></li>
+			<li><%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %></li>
 		<% else %>
 			<li><%= link_to 'Sign in', new_user_session_path %></li>
 			<!-- <li><%#= link_to 'Register', new_user_registration_path %></li> -->

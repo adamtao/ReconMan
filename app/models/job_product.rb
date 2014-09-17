@@ -33,7 +33,7 @@ class JobProduct < ActiveRecord::Base
 	validates :worker, presence: true
 
 	after_save :advance_state
-	before_create :determine_due_date
+	before_create :determine_due_date, :set_price
 
 	def advance_state
 		if search_url_changed? && self.can_search?
@@ -44,6 +44,10 @@ class JobProduct < ActiveRecord::Base
 	def determine_due_date
 		ref = self.job.close_on.present? ? self.job.close_on : Date.today
 		self.due_on = ref.advance(days: self.job.state.due_within_days)
+	end
+
+	def set_price
+		self.price ||= self.job.client.product_price(self.product)
 	end
 
 	def name

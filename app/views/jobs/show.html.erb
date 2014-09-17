@@ -91,7 +91,8 @@
 
               <div class="row collapse">
                 <div class="large-10 small-8 columns">
-                  <%= f.input :search_url, label: false, as: :url, placeholder: 'http://' %>
+                  <%= f.input :search_url, label: false, 
+                        as: :url, placeholder: 'http://' %>
                 </div>
                 <div class="large-2 small-4 columns">
                   <%= f.button :submit, "Save", class: "small button postfix" %>
@@ -160,8 +161,10 @@
         <%= link_to @job.client.name, @job.client %>
         on
         <%=l @job.created_at.to_date, format: :long %>.
+        <% if @job.dashboard_product && @job.dashboard_product.due_on.present? %>
         The due date is 
         <strong><%=l @job.dashboard_product.due_on, format: :long %></strong>.
+        <% end %>
     </p>
     <div class="panel">
       <h3 class="subheader">Property Info</h3>

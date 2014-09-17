@@ -6,7 +6,4 @@ class Product < ActiveRecord::Base
 	validates :name, presence: true, uniqueness: true
 	validates :price_cents, presence: true
 
-	def self.defaults
-		where(default: true)
-	end
 end

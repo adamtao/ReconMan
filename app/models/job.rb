@@ -15,7 +15,7 @@ class Job < ActiveRecord::Base
 	belongs_to :county
 	belongs_to :state
 	belongs_to :requestor, class_name: "User", foreign_key: :requestor_id
-	has_many :job_products, dependent: :destroy
+	has_many :job_products, dependent: :destroy, inverse_of: :job
 	has_many :products, through: :job_products
 	has_many :title_search_caches
 
@@ -30,6 +30,10 @@ class Job < ActiveRecord::Base
 	monetize :total_price_cents
 
 	accepts_nested_attributes_for :job_products, reject_if: :all_blank
+
+	def self.job_types 
+		[:tracking, :search, :special] 
+	end
 
 	def self.dashboard_jobs(options)
 		default_options = {limit: 100, complete: false, user: User.new, fallback_to_all: true}
@@ -56,17 +60,6 @@ class Job < ActiveRecord::Base
 		end
 	end
 
-	# def create_default_products
-	# 	Product.defaults.each do |product|
-	# 		self.job_products << JobProduct.new(
-	# 			creator: self.creator,
-	# 			worker: self.creator,
-	# 			product: product, 
-	# 			price: self.client.product_price(product)
-	# 		)
-	# 	end
-	# end
-
 	def link_name
 		file_number.present? ? file_number : deed_or_parcel_number
 	end
@@ -83,10 +76,22 @@ class Job < ActiveRecord::Base
 		job_products.inject(0){|total,jp| total += jp.price_cents}
 	end
 
-	# TODO: revisit the dashboard_product selector to choose from tracking, search, special jobs
-	#
+	# Base on the 'job_type', determine which default product type to build when
+	# initializing a new job
+	def default_products
+		@default_products ||= Product.where(job_type: self.job_type.to_s)
+	end
+
+	def default_product_id
+		if self.default_products.length > 0
+			self.default_products.first.id
+		else
+			Product.all.length > 0 ? Product.first.id : nil
+		end		
+	end
+
 	def dashboard_product
-		self.job_products.where(product_id: Product.defaults.first.id).first
+		@dashboard_product ||= self.job_products.where(product_id: default_product_id).first
 	end
 
 	def mark_complete
