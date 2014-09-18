@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140917180824) do
+ActiveRecord::Schema.define(version: 20140918163045) do
 
   create_table "branches", force: true do |t|
     t.string   "name"
@@ -109,6 +109,8 @@ ActiveRecord::Schema.define(version: 20140917180824) do
     t.string   "payoff_amount_currency",   default: "USD", null: false
     t.string   "beneficiary_account"
     t.string   "parcel_legal_description"
+    t.string   "new_deed_of_trust_number"
+    t.date     "recorded_on"
   end
 
   add_index "job_products", ["created_by_id"], name: "index_job_products_on_created_by_id", using: :btree

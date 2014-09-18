@@ -1,6 +1,5 @@
-<%= f.input :product_id, as: :hidden %>
-<%= f.input :_destroy, as: :hidden %>
-<div class="panel">
+<div class="panel item-fields">
+	<%= f.input :product_id, as: :hidden %>
 	<div class="row">
 		<div class="column_6">
 			<%= f.input :deed_of_trust_number %>
@@ -19,12 +18,13 @@
 	  </div>
 	</div>
 
-	<div class="row" style="display: none">
-		<div class="column_6">
-			Recording Number: _____________
-		</div>
-		<div class="column_6">
-			Recording Date: _____________
-		</div>
-	</div>
+	<%= render 'job_products/finalize_fields', f: f %>
+
+	<% unless @job.job_products.first == f.object %>
+		<%= f.input :_destroy, as: :hidden, input_html: {class: 'deleter'} %>
+		<%= link_to '#', class: 'remove_fields' do %>
+			<%= image_tag 'delete.png', alt: "[-]" %>
+			remove item
+		<% end %>
+	<% end %>
 </div>

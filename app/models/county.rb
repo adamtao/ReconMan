@@ -5,4 +5,7 @@ class County < ActiveRecord::Base
   validates :state, presence: true
 	validates :name, presence: true, uniqueness: { scope: :state }
 
+	def offline_search?
+		!self.search_url.present?
+	end
 end

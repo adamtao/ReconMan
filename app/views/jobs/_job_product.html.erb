@@ -1,0 +1,25 @@
+<dd class="accordion-navigation">
+  <a href="#job_product<%= job_product.id %>">
+    <div class="row">
+      <div class="large-8 small-9 columns"><%= job_product.name %></div>
+      <div class="large-4 small-3 columns text-right"><%= humanized_money_with_symbol job_product.price %></div>
+    </div>
+  </a>
+
+  <div id="job_product<%= job_product.id %>" class="content active">
+
+  <div class="text-right">
+    <p>
+      Status: <%= job_product.workflow_state.humanize %><br/>
+      Worker: 
+        <%= job_product.worker.name if job_product.worker_id.present? %> 
+        <%= link_to job_product.worker_id.present? ? 'edit' : 'none', 
+              edit_job_job_product_path(job_product.job, job_product), 
+              class: 'assign-task', 
+              data: { job_product_id: job_product.id } %>
+    </p>
+  </div>
+
+  <%= render 'job_products/summary', job_product: job_product %>
+
+</dd>

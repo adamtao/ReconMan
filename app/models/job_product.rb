@@ -1,9 +1,18 @@
 class JobProduct < ActiveRecord::Base
 	include Ownable
 	include Workflow
+
 	workflow do
 		state :new do
 			event :search, transitions_to: :in_progress
+			event :offline_search, transitions_to: :to_be_searched_manually
+			event :process_manually, transitions_to: :to_be_processed_manually
+		end
+		state :to_be_searched_manually do
+			event :mark_complete, transitions_to: :complete
+		end
+		state :to_be_processed_manually do 
+			event :mark_complete, transitions_to: :complete
 		end
 		state :in_progress do
 			event :change_in_cached_response, transitions_to: :needs_review
@@ -38,6 +47,13 @@ class JobProduct < ActiveRecord::Base
 	def advance_state
 		if search_url_changed? && self.can_search?
 			self.search!
+		elsif self.job.county.offline_search? && self.can_offline_search?
+			self.offline_search!
+		elsif !self.product.performs_search? && self.can_process_manually?
+			self.process_manually!
+		elsif (new_deed_of_trust_number_changed? && new_deed_of_trust_number.present?) && self.can_mark_complete?
+			self.recorded_on ||= Date.today
+			self.mark_complete!
 		end
 	end
 
@@ -47,7 +63,7 @@ class JobProduct < ActiveRecord::Base
 	end
 
 	def set_price
-		self.price ||= self.job.client.product_price(self.product)
+		self.price = self.job.client.product_price(self.product)
 	end
 
 	def name

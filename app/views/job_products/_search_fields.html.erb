@@ -1,12 +1,14 @@
-<%= f.input :product_id, as: :hidden %>
-<%= f.input :_destroy, as: :hidden %>
-<div class="row">
-  <div class="column_6">
-    <%= f.input :parcel_number %>
-  </div>
-  <div class="column_6">
-    <%= f.input :parcel_legal_description, label: "Legal Description" %>
-  </div>
-</div>
+<div class="panel item-fields">
+	<%= f.input :product_id, as: :hidden %>
+	<%= f.input :_destroy, as: :hidden %>
+	<div class="row">
+	  <div class="column_6">
+	    <%= f.input :parcel_number %>
+	  </div>
+	  <div class="column_6">
+	    <%= f.input :parcel_legal_description, label: "Legal Description" %>
+	  </div>
+	</div>
 
-<%= f.input :developer %>
+	<%= f.input :developer %>
+</div>

@@ -1,6 +1,6 @@
 <div class="container">
   <div class="large-8 small-7 columns">
-    <h1><%= @job_product.product.name %> <small>for parcel: <%= @job_product.job.parcel_number %></small></h1>
+    <h1><%= @job_product.product.name %> <small>for file: <%= @job_product.job.file_number %></small></h1>
   </div>
   <div class="large-4 small-5 columns text-right">
     <br/>
@@ -9,60 +9,25 @@
   </div>
 </div>
 
-<div class="container">
 <div class="main_content">
 
-<p>
-	<strong>Created:</strong>
-	<%= l @job_product.created_at.to_date, format: :long %>
-</p>
-
-<p>
-	<strong>Due Date:</strong>
-	<%=l @job_product.due_on, format: :long %>
-</p>
-
-<p>
-  <strong>Status:</strong>
-  <%= @job_product.workflow_state %>
-</p>
-
-<%= render 'shared/ownable_stats', item: @job_product %>
-
-<% if @job_product.product.performs_search %>
-<h3 class="subheader">Search results</h3>
-
-	<% if @job_product.search_url.blank? %>
 	<p>
-		<i>Please perform a manual search, then copy and paste the resulting <b>URL</b>
-			<%= link_to "here", edit_job_job_product_path(@job, @job_product) %>
-			to enable automated search updates.</i>
+		<strong>Created:</strong>
+		<%= l @job_product.created_at.to_date, format: :long %>
 	</p>
 
-	<div class="panel">
-		<h5>Here's the info you'll need for the search:</h5>
-		<p>Owners: changing from <%= @job.old_owner %> to <%= @job.new_owner %></p>
-		<p>Address: <%= @job.address %>, <%= @job.city %>, <%= @job.state.name %> <%= @job.zipcode %>
-		   (County: <%= link_to @job.county.name, [@job.state, @job.county] %>)</p>
-		<% if @job.county.search_url.present? %>
-			<p>County URL: <%= link_to @job.county.search_url, @job.county.search_url, target: "_blank" %></p>
-		<% else %>
-			<p>County URL: (not provided) <%= link_to 'edit county', edit_state_county_path(@job.state, @job.county) %></p>
-		<% end %>
-	</div>
-
-	<% else %>
 	<p>
-		<strong>Search URL:</strong>
-		<%= @job_product.search_url %>
+		<strong>Due Date:</strong>
+		<%=l @job_product.due_on, format: :long %>
 	</p>
-	<% end %>
 
-	<ul>
-		<% @job_product.title_search_caches.reverse.each do |tsc| %>
-		<li><%= link_to tsc.created_at, [@job, @job_product, tsc] %> <% if tsc.change_detected? %>CHANGE DETECTED<% end %></li>
-		<% end %>
-	</ul>
+	<p>
+	  <strong>Status:</strong>
+	  <%= @job_product.workflow_state %>
+	</p>
 
-<% end %>
+	<%= render 'summary', job_product: @job_product %>
+
+	<%= render 'shared/ownable_stats', item: @job_product %>
+
 </div>

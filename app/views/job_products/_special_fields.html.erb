@@ -1,0 +1,30 @@
+<div class="panel item-fields">
+	<%= f.input :product_id, as: :hidden %>
+	<div class="row">
+		<div class="column_6">
+			<%= f.input :deed_of_trust_number %>
+		</div>
+	</div>
+
+	<div class="row">
+	  <div class="column_6">
+	    <%= f.input :beneficiary_name, label: "Lender/Beneficiary" %>
+	  </div>
+	  <div class="large-3 small-6 columns">
+	    <%= f.input :beneficiary_account %>
+	  </div>
+	  <div class="large-3 small-6 columns">
+	    <%= f.input :payoff_amount %>
+	  </div>
+	</div>
+
+	<%= render 'job_products/finalize_fields', f: f %>
+
+	<% unless @job.job_products.first == f.object %>
+		<%= f.input :_destroy, as: :hidden, input_html: {class: 'deleter'} %>
+		<%= link_to '#', class: 'remove_fields' do %>
+			<%= image_tag 'delete.png', alt: "[-]" %>
+			remove item
+		<% end %>
+	<% end %>
+</div>

@@ -10,191 +10,77 @@
   </div>
 </div>
 
-<div class="container">
 <div class="main_content">
     
-    <h3 class="subheader">Products &amp; Services 
-      <small><%= link_to "add product/service", new_job_job_product_path(@job), class: "success" %></small>
-    </h3>
-    <table>
-        <% @job.job_products.each do |job_product| %>
-        <thead>
-          <tr>
-            <th><%= job_product.name %> &nbsp;
-              <small>Status: <%= job_product.workflow_state.humanize %></small>
-            </th>
-            <td class="text-center">
-              Worker: 
-                <%= job_product.worker.name if job_product.worker_id.present? %> 
-                &nbsp;
-                <%= link_to job_product.worker_id.present? ? 'edit' : 'none', 
-                      edit_job_job_product_path(@job, job_product), 
-                      class: 'assign-task', 
-                      data: { job_product_id: job_product.id } %>
+  <h3 class="subheader">Products &amp; Services 
+    <small><%= link_to "add product/service", new_job_job_product_path(@job), class: "success" %></small>
+  </h3>
 
-            </td>
-            <td class="text-right"><%=humanized_money_with_symbol job_product.price %></td>
-          </tr>
-        </thead>
-        <tr><td colspan="3">
-            <div class="row">
-              <div class="large-12 columns">
+  <dl class="accordion" data-accordion>
+    <% @job.job_products.each do |job_product| %>
+      <%= render 'job_product', job_product: job_product %>
+    <% end %>
+    <dd>
+      <div class="row">
+        <div class="large-12 columns text-right">
+          <strong>total: <%= humanized_money_with_symbol @job.total_price %></strong>
+        </div>
+      </div>
+    </dd>
+  </dl>
 
-            <table>
-              <% if @job.job_type == 'tracking' %>
-              <tr>
-                <td>Deed of Trust Number</td>
-                <td><%= job_product.deed_of_trust_number %></td>
-              </tr>
-              <tr>
-                <td>Beneficiary</td>
-                <td><strong><%= job_product.beneficiary_name %></strong></td>
-              </tr>
-              <tr>
-                <td>Beneficiary Account</td>
-                <td><strong><%= job_product.beneficiary_account %></strong></td>
-              </tr>
-              <tr>
-                <td>Payoff Amt.</td>
-                <td><strong><%= humanized_money_with_symbol job_product.payoff_amount %></strong></td>
-              </tr>
-              <% end %>
-              <% if @job.job_type == 'search' %>
-              <tr>
-                <td>Parcel Number</td>
-                <td><%= job_product.parcel_number %></td>
-              </tr>
-              <tr>
-                <td>Parcel description</td>
-                <td><%= job_product.parcel_legal_description %></td>
-              </tr>
-
-              <% end %>
-            </table>
-
-            <% if job_product.product.performs_search %>
-              <h3 class="subheader">Title search results</h3>
-
-              <% if job_product.search_changed? %>
-              <div>
-                <span class="alert label radius">POSSIBLE CHANGE DETECTED</span>
-              </div>
-              <% end %>
-
-              <% if job_product.search_url.blank? %>
-              <p>
-                <i>Please perform a manual search, then copy and paste the resulting <b>URL</b>
-                  below to enable automated search updates and advance this job.</i>
-              </p>
-
-              <%= simple_form_for [@job, job_product] do |f| %>
-
-              <div class="row collapse">
-                <div class="large-10 small-8 columns">
-                  <%= f.input :search_url, label: false, 
-                        as: :url, placeholder: 'http://' %>
-                </div>
-                <div class="large-2 small-4 columns">
-                  <%= f.button :submit, "Save", class: "small button postfix" %>
-                </div>
-              </div>
-
-              <% end %>
-
-
-                <h5>Here's the info you'll need for the search:</h5>
-
-                <% if @job.county.search_url.present? %>
-                  <p>County URL: <%= link_to @job.county.search_url, @job.county.search_url, target: "_blank" %></p>
-                <% else %>
-                  <p>County URL: (not provided) <%= link_to "edit #{@job.county.name.downcase} county", edit_state_county_path(@job.state, @job.county) %></p>
-                <% end %>
-
-              <% else %>
-                <p>
-                  <strong>Search URL:</strong>
-                  <%= link_to job_product.search_url, job_product.search_url, target: "_blank" %>
-                </p>
-
-                <!-- For future use, show cached search results when desired -->
-                <div class="hidden">
-                  <ul>
-                    <% job_product.title_search_caches.reverse.each do |tsc| %>
-                    <li><%= link_to tsc.created_at, [@job, job_product, tsc] %> <% if tsc.change_detected? %>CHANGE DETECTED<% end %></li>
-                    <% end %>
-                  </ul>
-                </div>
-              <% end %>
-
-            <% end %>
-
-            <% if job_product.can_mark_complete? %>
-              <%= link_to 'Mark Complete', toggle_job_job_product_path(@job, job_product), method: :post, class: "small success button" %>
-            <% end %>
-
-          </div></div>
-        </td></tr>
-        <% end %>
-
-        <tfoot>
-          <tr><th class="text-right" colspan="3">
-            total: <%= humanized_money_with_symbol @job.total_price %>
-          </th></tr>
-        </tfoot>
-      </table>
-
-    <% if @job.completed_at.present? %>
+  <% if @job.completed_at.present? %>
     <p>
       <strong>Completed at:</strong>
       <%=l @job.completed_at, format: :long %>
     </p>
-    <% end %>
+  <% end %>
 
-    <%= render 'shared/ownable_stats', item: @job %>
+  <br/>
+  <%= render 'shared/ownable_stats', item: @job %>
 
+</div>
+
+<div class="side_content">
+  <p>This <%= @job.job_type.humanize.downcase %> job was requested by 
+      <%= link_to @job.requestor.name, @job.requestor %>
+      of
+      <%= link_to @job.client.name, @job.client %>
+      on
+      <%=l @job.created_at.to_date, format: :long %>.
+      <% if @job.dashboard_product && @job.dashboard_product.due_on.present? %>
+      The due date is 
+      <strong><%=l @job.dashboard_product.due_on, format: :long %></strong>.
+      <% end %>
+  </p>
+
+  <div class="panel">
+    <h3 class="subheader">Property Info</h3>
+      <p>
+        <%= @job.address %><br/>
+        <%= @job.city %>,
+        <%= link_to @job.state.name, @job.state %>
+        <%= @job.zipcode %><br/>
+        <%= link_to "#{@job.county.name} County", [@job.state, @job.county] %>
+      </p>
   </div>
 
-  <div class="side_content">
-    <p>This <%= @job.job_type.humanize.downcase %> job was requested by 
-        <%= link_to @job.requestor.name, @job.requestor %>
-        of
-        <%= link_to @job.client.name, @job.client %>
-        on
-        <%=l @job.created_at.to_date, format: :long %>.
-        <% if @job.dashboard_product && @job.dashboard_product.due_on.present? %>
-        The due date is 
-        <strong><%=l @job.dashboard_product.due_on, format: :long %></strong>.
+  <table>
+    <tr>
+      <td>Seller</td><td><strong><%= @job.old_owner %></strong></td>
+    </tr>
+    <tr>
+      <td>Buyer</td><td><strong><%= @job.new_owner %></strong></td>
+    </tr>
+    <tr>
+      <td>Close Date</td><td><strong>
+        <% if @job.close_on.present? && @job.close_on.is_a?(Date) %>
+          <%= l @job.close_on, format: :long %><br/>
         <% end %>
-    </p>
-    <div class="panel">
-      <h3 class="subheader">Property Info</h3>
-        <p>
-          <%= @job.address %><br/>
-          <%= @job.city %>,
-          <%= link_to @job.state.name, @job.state %>
-          <%= @job.zipcode %><br/>
-          <%= link_to "#{@job.county.name} County", [@job.state, @job.county] %>
-        </p>
-    </div>
-
-    <table>
-      <tr>
-        <td>Seller</td><td><strong><%= @job.old_owner %></strong></td>
-      </tr>
-      <tr>
-        <td>Buyer</td><td><strong><%= @job.new_owner %></strong></td>
-      </tr>
-      <tr>
-        <td>Close Date</td><td><strong>
-          <% if @job.close_on.present? && @job.close_on.is_a?(Date) %>
-            <%= l @job.close_on, format: :long %><br/>
-          <% end %>
-          </strong>
-        </td>
-      </tr>
-    </table>
-
-  </div>
+        </strong>
+      </td>
+    </tr>
+  </table>
 
 </div>
-</div>
+

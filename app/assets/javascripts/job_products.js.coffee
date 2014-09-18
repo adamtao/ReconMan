@@ -45,8 +45,8 @@ jQuery ->
 	$('#job_product_product_id').change -> set_price()
 
 	$('form').on 'click', '.remove_fields', (event) ->
-		$(@).prev('input[type=hidden]').val('1')
-		$(@).closest('div.row').hide()
+		$(@).closest('div.item-fields').find('input[type=hidden].deleter').val('1')
+		$(@).closest('div.item-fields').hide()
 		event.preventDefault()
 
 	$('form').on 'click', '.add_fields', (event) ->

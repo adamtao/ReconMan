@@ -1,0 +1,10 @@
+<% unless f.object.new_record? %>
+	<div class="row">
+		<div class="column_6">
+			<%= f.input :new_deed_of_trust_number %>
+		</div>
+		<div class="column_6">
+			<%= f.input :recorded_on, as: :string, input_html: { class: 'datepicker' } %>
+		</div>
+	</div>
+<% end %>

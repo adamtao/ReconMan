@@ -48,6 +48,7 @@ class JobsController < ApplicationController
     end
     respond_to do |format|
       if @job.save
+        @job.job_products.each{ |jp| jp.set_price }
         format.html { 
           if params[:commit].to_s.match(/save.*new/i)
             redirect_to new_job_path(client_id: @job.client_id, job_type: @job.job_type), notice: 'Job was successfully created. Create another one below...' 
