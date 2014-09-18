@@ -10,6 +10,6 @@ class ClientProduct < ActiveRecord::Base
 	after_initialize :load_price
 
 	def load_price
-		self.price_cents = self.product.price_cents if self.new_record? && self.product.present?
+		self.price_cents = self.product.price_cents if self.new_record? && self.product.present? && self.price_cents <= 0
 	end
 end

@@ -86,6 +86,16 @@ class JobProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def job_product_params
-      params.require(:job_product).permit(:product_id, :price, :search_url)
+      params.require(:job_product).permit(:product_id, :search_url, 
+          :deed_of_trust_number, 
+          :beneficiary_name, 
+          :beneficiary_account,
+          :payoff_amount,
+          :developer,
+          :price,
+          :parcel_number,
+          :parcel_legal_description,
+          :new_deed_of_trust_number,
+          :recorded_on)
     end
 end

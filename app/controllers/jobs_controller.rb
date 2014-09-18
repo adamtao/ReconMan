@@ -111,7 +111,9 @@ class JobsController < ApplicationController
           :developer,
           :price,
           :parcel_number,
-          :parcel_legal_description
+          :parcel_legal_description,
+          :new_deed_of_trust_number,
+          :recorded_on
           ]
         )
     end
