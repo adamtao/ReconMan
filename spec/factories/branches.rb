@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :branch do
-    name "MyString"
+    sequence(:name) {|b| "Branch ##{b}"}
     address "MyString"
     city "MyString"
     state

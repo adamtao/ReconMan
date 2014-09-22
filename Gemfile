@@ -27,8 +27,6 @@ group :production do
 end
 
 group :development do
-  gem 'bazaar' # for generating test data
-  gem 'forgery' # for generating test data
   gem 'mysql2'
   gem 'spring'
   # Not using capistrano, since using heroku
@@ -48,6 +46,8 @@ group :development do
 end
 
 group :development, :test do
+  gem 'bazaar' # for generating test data
+  gem 'forgery' # for generating test data
   gem 'factory_girl_rails'
   gem 'rspec-rails'
 end

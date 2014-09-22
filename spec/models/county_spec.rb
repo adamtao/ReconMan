@@ -1,5 +1,11 @@
-require 'rails_helper'
+describe County do
 
-RSpec.describe County, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before(:each) do 
+  	@county = FactoryGirl.build(:county) 
+  end
+
+  subject { @county }
+
+  it { should respond_to(:offline_search?) }
+
 end

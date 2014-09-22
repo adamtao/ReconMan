@@ -5,5 +5,7 @@ FactoryGirl.define do
     name "MyString"
     description "MyText"
     price_cents 1995
+    performs_search false
+    job_type 'tracking'
   end
 end

@@ -2,6 +2,14 @@
 
 FactoryGirl.define do
   factory :client do
-    name "MyString"
+    sequence(:name) {|c| "Client ##{c}"}
+		# client_type
+		# website
+		# billing_address
+		# billing_city
+		# billing_state_id
+		# billing_zipcode
+		# created_by_id
+		# modified_by_id
   end
 end

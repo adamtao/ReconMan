@@ -1,5 +1,11 @@
-require 'rails_helper'
+describe Product do
 
-RSpec.describe Product, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before(:each) do 
+  	@product = FactoryGirl.build(:product) 
+  end
+
+  subject { @product }
+
+  it { should respond_to(:price) }
+
 end
