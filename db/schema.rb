@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140918163045) do
+ActiveRecord::Schema.define(version: 20140923154658) do
 
   create_table "branches", force: true do |t|
     t.string   "name"
@@ -60,6 +60,18 @@ ActiveRecord::Schema.define(version: 20140918163045) do
 
   add_index "clients", ["created_by_id"], name: "index_clients_on_created_by_id", using: :btree
   add_index "clients", ["modified_by_id"], name: "index_clients_on_modified_by_id", using: :btree
+
+  create_table "comments", force: true do |t|
+    t.text     "message"
+    t.integer  "user_id"
+    t.integer  "related_id"
+    t.string   "related_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "comments", ["related_id", "related_type"], name: "index_comments_on_related_id_and_related_type", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "counties", force: true do |t|
     t.string   "name"

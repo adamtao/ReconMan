@@ -19,6 +19,7 @@ gem 'workflow'
 gem 'money-rails'
 gem 'ransack', github: 'activerecord-hackery/ransack', branch: 'rails-4.1'
 gem "rabl"
+gem "RedCloth"
 
 # Heroku gems...
 group :production do

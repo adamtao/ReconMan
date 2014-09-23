@@ -83,3 +83,4 @@ pickle-email-*.html
 /config/application.yml
 
 /bin/guard
+/bin/rspec

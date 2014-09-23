@@ -1,6 +1,9 @@
 class Job < ActiveRecord::Base
+	include RelatedCountyState
 	include Ownable
+	include Commentable
 	include Workflow
+
 	workflow do
 		state :new do
 			event :mark_complete, transitions_to: :complete
@@ -12,17 +15,12 @@ class Job < ActiveRecord::Base
 	end
 
 	belongs_to :client, touch: true
-	belongs_to :county
-	belongs_to :state
 	belongs_to :requestor, class_name: "User", foreign_key: :requestor_id
 	has_many :job_products, dependent: :destroy, inverse_of: :job
 	has_many :products, through: :job_products
-	has_many :title_search_caches
 
 	validates :client, presence: true
 	validates :requestor, presence: true
-	validates :county, presence: true
-	validates :state, presence: true
 	validates :file_number, presence: true
 
 	# after_create :create_default_products # no longer doing this, instead creating tasks inline

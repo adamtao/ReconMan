@@ -1,5 +1,6 @@
 class Branch < ActiveRecord::Base
 	include Ownable
+	
 	belongs_to :client
 	belongs_to :state
 	has_many :users, dependent: :destroy

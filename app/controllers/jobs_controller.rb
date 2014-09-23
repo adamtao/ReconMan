@@ -17,6 +17,7 @@ class JobsController < ApplicationController
   # GET /jobs/1
   # GET /jobs/1.json
   def show
+    @comment = Comment.new(related_type: "Job", related_id: @job.id)
   end
 
   # GET /jobs/new

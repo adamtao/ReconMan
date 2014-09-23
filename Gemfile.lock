@@ -13,6 +13,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    RedCloth (4.2.9)
     actionmailer (4.1.6)
       actionpack (= 4.1.6)
       actionview (= 4.1.6)
@@ -260,6 +261,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  RedCloth
   bazaar
   capybara
   coffee-rails (~> 4.0.0)

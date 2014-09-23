@@ -1,0 +1,23 @@
+<br/>
+<h3 class="subheader">Comments</h3>
+
+<% item.comments.each do |comment| %>
+<div>
+	<h6><i>From: <%= comment.user.name %></i> <small><%=l comment.created_at, format: :short %></small></h6>
+
+	<%=raw textilize(comment.message) %>
+
+	<% if comment.user == current_user && item.comments.last == comment %>
+	<div>
+		<%= link_to 'Edit Comment', edit_comment_path(comment), class: "tiny secondary button" %>
+		<%= link_to 'Delete Comment', comment, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
+	</div>
+	<% end %>
+
+</div>
+<hr/>
+<% end %>
+
+<div class="panel">
+	<%= render 'comments/form' %>
+</div>

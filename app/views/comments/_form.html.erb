@@ -1,0 +1,8 @@
+<%= simple_form_for @comment do |f| %>
+
+	<%= f.input :related_id, as: :hidden %>
+	<%= f.input :related_type, as: :hidden %>
+	<%= f.input :message, label: "Comment" %>
+	<%= f.button :submit, "Save Comment" %>
+
+<% end %>

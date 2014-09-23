@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :comments
+
   get 'reports/index' => 'reports#index', as: :reports_index
 
   resources :states do 

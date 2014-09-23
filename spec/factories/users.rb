@@ -12,5 +12,9 @@ FactoryGirl.define do
     	role 'client'
     end
 
+    trait :processor do
+      role 'processor'
+    end
+
   end
 end

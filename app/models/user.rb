@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 
   has_many :tasks, class_name: "JobProduct", foreign_key: :worker_id
   has_many :requested_jobs, class_name: "Job", foreign_key: :requestor_id
+  has_many :comments
   belongs_to :branch # (if user works for a Client)
 
   validates :name, presence: true
