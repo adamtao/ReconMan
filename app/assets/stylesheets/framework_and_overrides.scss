@@ -251,7 +251,10 @@ label.boolean {
 input.radio_buttons, input.boolean {
   margin-right: 6px;
 }
-
+dl.accordion dd.accordion-navigation {
+  border: 1px solid $medium-gray;
+  margin-bottom: 11px !important;
+}
 .smaller {
   font-weight: 300;
   font-size: emCalc(13px);

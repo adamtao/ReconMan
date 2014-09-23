@@ -45,15 +45,17 @@ class JobProduct < ActiveRecord::Base
 	before_create :determine_due_date, :set_price
 
 	def advance_state
-		if search_url_changed? && self.can_search?
-			self.search!
-		elsif self.job.county.offline_search? && self.can_offline_search?
-			self.offline_search!
-		elsif !self.product.performs_search? && self.can_process_manually?
-			self.process_manually!
-		elsif (new_deed_of_trust_number_changed? && new_deed_of_trust_number.present?) && self.can_mark_complete?
-			self.recorded_on ||= Date.today
-			self.mark_complete!
+		unless self.workflow_state_changed? # skip these rules if an unsaved change in state is present
+			if search_url_changed? && self.can_search?
+				self.search!
+			elsif self.job.county.offline_search? && self.can_offline_search?
+				self.offline_search!
+			elsif !self.product.performs_search? && self.can_process_manually?
+				self.process_manually!
+			elsif (new_deed_of_trust_number_changed? && new_deed_of_trust_number.present?) && self.can_mark_complete?
+				self.recorded_on ||= Date.today
+				self.mark_complete!
+			end
 		end
 	end
 
@@ -115,7 +117,7 @@ class JobProduct < ActiveRecord::Base
 	# When this product is complete, mark the parent job complete unless
 	# it has other incomplete products
 	def mark_complete
-		unless self.job.job_products.where.not(id: self.id, workflow_state: 'complete').count > 0
+		unless self.job.open_products.where.not(id: self.id).count > 0
 			self.job.mark_complete! if self.job.can_mark_complete?
 		end
 	end

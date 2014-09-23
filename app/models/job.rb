@@ -92,6 +92,10 @@ class Job < ActiveRecord::Base
 		@dashboard_product ||= self.job_products.where(product_id: default_product_id).first
 	end
 
+	def open_products
+		@open_products ||= self.job_products.where.not(workflow_state: 'complete')
+	end
+
 	def mark_complete
 		self.completed_at = Time.zone.now
 		self.save

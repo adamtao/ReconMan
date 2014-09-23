@@ -1,8 +1,12 @@
 <%= simple_form_for @comment do |f| %>
 
+  <div class="row">
+    <%= f.error_notification %>
+  </div>
+
 	<%= f.input :related_id, as: :hidden %>
 	<%= f.input :related_type, as: :hidden %>
-	<%= f.input :message, label: "Comment" %>
+	<%= f.input :message, label: "Comment", input_html: { rows: 6 } %>
 	<%= f.button :submit, "Save Comment" %>
 
 <% end %>

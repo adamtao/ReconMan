@@ -17,8 +17,8 @@
   </h3>
 
   <dl class="accordion" data-accordion>
-    <% @job.job_products.each do |job_product| %>
-      <%= render 'job_product', job_product: job_product %>
+    <% @job.job_products.each_with_index do |job_product,i| %>
+      <%= render 'job_product', job_product: job_product, i: i %>
     <% end %>
     <dd>
       <div class="row">
@@ -37,9 +37,9 @@
   <% end %>
 
   <br/>
-  <%= render 'shared/ownable_stats', item: @job %>
-
   <%= render 'shared/comments_with_form', item: @job %> 
+
+  <%= render 'shared/ownable_stats', item: @job %>
 
 </div>
 

@@ -36,17 +36,75 @@ describe JobProduct do
   	expect(@job_product.late?).to be true
   end
 
-  it "should toggle its status"
-  it "#mark_complete should complete itself"
-  it "#mark_complete should complete parent without more open tasks"
-  it "#mark_complete should NOT complete parent with more open tasks"
-  it "should reopen itself and parent job"
+  describe "workflow state: new" do
 
-  it "should advance its state" # need complicated setups here
+  	it "should not toggle its status" do 
+  		@job_product.workflow_state = "new"
+  		@job_product.save!
+  		@job_product.toggle!
+  		expect(@job_product.current_state).to eq("new")
+  	end
 
-  it "should perform automated search" # later, when implementing cached search results
-  it "should log search results" # later, when implementing cached search results
-  it "should determine is search changed" # later, when implementing cached search results
+  end
+
+  describe "workflow state: in progress" do
+
+  	before(:each) do 
+  		@job_product.workflow_state = 'in_progress'
+  		@job_product.save!
+  	end
+
+	  it "should toggle its status" do 
+	  	@job_product.toggle!
+	  	expect(@job_product.current_state).to eq("complete")
+	  	@job_product.toggle!
+	  	expect(@job_product.current_state).to eq("in_progress")
+	  end
+
+	  describe "#mark_complete!" do
+
+	  	before(:each) do 
+	  		@job = @job_product.job
+	  		@job.workflow_state = 'new'
+	  		@job.save!
+	  	end
+
+		  it "should complete itself" do 
+		  	@job_product.mark_complete!
+		  	expect(@job_product.current_state).to eq("complete")
+		  end
+
+		  it "should complete parent without more open tasks" do 
+		  	@job_product.mark_complete!
+		  	expect(@job_product.job.current_state).to eq("complete")
+		  end
+
+		  it "should NOT complete parent with more open tasks" do 
+		  	job = @job_product.job
+		  	FactoryGirl.create(:job_product, job: job)
+		  	@job_product.mark_complete!
+		  	expect(job.current_state).not_to eq("complete")
+		  end
+		end
+
+	  it "#re_open! should reopen itself and parent job" do 
+  		@job_product.workflow_state = 'in_progress'
+  		@job_product.save!
+  		job = @job_product.job
+  		job.workflow_state = 'new'
+  		job.save!
+  		@job_product.mark_complete!
+  		@job_product.re_open!
+  		expect(@job_product.current_state).to eq('in_progress')
+  		expect(job.current_state).to eq('new')
+	  end
+
+	  it "should advance its state" # need complicated setups here
+	end
+
+  # it "should perform automated search" # later, when implementing cached search results
+  # it "should log search results" # later, when implementing cached search results
+  # it "should determine is search changed" # later, when implementing cached search results
 
 end
 
@@ -66,23 +124,3 @@ __END__
 		end
 	end
 
-	# When this product is complete, mark the parent job complete unless
-	# it has other incomplete products
-	def mark_complete
-		unless self.job.job_products.where.not(id: self.id, workflow_state: 'complete').count > 0
-			self.job.mark_complete! if self.job.can_mark_complete?
-		end
-	end
-
-	def re_open
-		self.job.re_open! if self.job.can_re_open?
-	end
-
-	# Quick way to complete/un-complete, by convention, invokes the last action for the current state
-	def toggle!
-		if self.can_mark_complete? 
-			self.mark_complete! 
-		elsif self.can_re_open?
-			self.re_open!
-		end
-	end

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :comments
+  resources :comments, only: [:new, :create, :edit, :update, :destroy]
 
   get 'reports/index' => 'reports#index', as: :reports_index
 
