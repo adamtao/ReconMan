@@ -1,16 +1,40 @@
 # Feature: Search tracking job product
 #   As a processor
-#   I want to complete a JobProduct
-feature 'Search tracking job product' do
+#   I want to record a search performed
+feature 'Record search for job product' do
 	before(:each) do
 		@me = sign_in_as_processor
-		@job = FactoryGirl.create(:job, job_type: 'tracking')
+		@product = FactoryGirl.create(:product, performs_search: true, job_type: 'tracking')
 	end
 
-	after(:each) do
-		Warden.test_reset!
+	# Scenario: Processor performs and records a search
+	# 	Given I have a tracking job for a county with ONLINE tracking
+	#   When I provide the search URL
+	#   Then I see the job product is "In progress"
+	scenario 'processor records search' do 
+		county = FactoryGirl.create(:county, search_url: "http://foo.bar.com/")
+		@job = FactoryGirl.create(:job, job_type: 'tracking', county: county)
+		@job_product = FactoryGirl.create(:job_product,
+			job: @job,
+			product: @product,
+			workflow_state: 'new')
+		visit job_path(@job)
+		fill_in 'job_product_search_url', with: 'http://yomama.lvh.me'
+		click_on 'Save'
+		expect(page).to have_content("status: In progress")
 	end
 
-	scenario 'record search url' # advance state
+	# Scenario: Offline job automatically moves to in_progress
+	# 	Given I have a tracking job for a county with OFFLINE tracking
+	#   Then I see the job product is "To be searched manually"
+	scenario 'offline job moves to in_progress' do 
+		county = FactoryGirl.create(:county, search_url: nil)
+		@job = FactoryGirl.create(:job, job_type: 'tracking', county: county)
+		@job_product = FactoryGirl.create(:job_product,
+			job: @job,
+			product: @product)
+		visit job_path(@job)
+		expect(page).to have_content("status: To be searched manually")
+	end
 
 end

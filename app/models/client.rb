@@ -12,11 +12,11 @@ class Client < ActiveRecord::Base
 		self.client_products.find_or_initialize_by(product_id: product.id).price
 	end
 
-	# TODO: get the billing contact
 	def billing_contact
+		users.where(billing_contact: true).first
 	end
 
-	# TODO: get the primary contact
 	def primary_contact
+		users.where(primary_contact: true).first
 	end
 end

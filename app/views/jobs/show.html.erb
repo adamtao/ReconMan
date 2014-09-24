@@ -4,9 +4,11 @@
   </div>
   <div class="large-5 small-5 columns text-right">
     <br/>
-    <%= link_to "Add product/service", new_job_job_product_path(@job), class: "tiny success button" %>
-    <%= link_to 'Edit Job', edit_job_path(@job), class: "tiny button" %>
-    <%= link_to 'Delete', @job, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
+    <ul class="button-group">
+      <li><%= link_to "Add product/service", new_job_job_product_path(@job), class: "tiny success button" %></li>
+      <li><%= link_to 'Edit Job', edit_job_path(@job), class: "tiny button" %></li>
+    </ul>
+    
   </div>
 </div>
 
@@ -83,6 +85,12 @@
       </td>
     </tr>
   </table>
+
+    <% if current_user.admin? %>
+      <div class="text-right">
+        <%= link_to 'Delete', @job, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
+      </div>
+    <% end %>
 
 </div>
 

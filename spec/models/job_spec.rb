@@ -1,5 +1,111 @@
-require 'rails_helper'
+describe Job do
 
-RSpec.describe Job, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+	before(:all) do 
+		Product.delete_all
+		@tracking_product = FactoryGirl.create(:product, job_type: 'tracking', performs_search: true)
+		@search_product   = FactoryGirl.create(:product, job_type: 'search', performs_search: true)
+		@special_product  = FactoryGirl.create(:product, job_type: 'special', performs_search: false)
+	end
+
+	describe "general functions" do
+	  before(:each) {	@job = FactoryGirl.build(:job, job_products_attributes: FactoryGirl.build(:job_product).attributes) }
+
+	  subject { @job }
+	  it { should respond_to(:dashboard_product) }
+	  it { should respond_to(:link_name) }
+	  it { should respond_to(:deed_or_parcel_number) }
+	  it { should respond_to(:total_price_cents) }
+
+	  it "#mark_complete! should record the completion date" do 
+	  	@job.save!
+	  	@job.mark_complete!
+	  	expect(@job.completed_at).not_to be nil
+	  	expect(@job.current_state).to eq("complete")
+	  end 
+
+	  it '#re_open should open a closed job' do 
+	  	@job.save!
+	  	@job.mark_complete!
+	  	@job.re_open!
+	  	expect(@job.completed_at).to be nil
+	  	expect(@job.current_state).to eq("new")
+	  end
+
+	  it ".dashboard_jobs should include job" do 
+	  	@job.save!
+	  	expect(Job.dashboard_jobs(user: FactoryGirl.create(:user), complete: false)).to include(@job)
+	  end
+
+	  it "should have open job_products (tasks)" do 
+	  	@job.save!
+	  	expect(@job.open_products.length).to be > 0
+	  	expect(@job.open_products.first).to be_instance_of(JobProduct)
+	  end
+	end
+  
+  describe "tracking job_type" do
+  	before(:all) { @job = FactoryGirl.build(:job, job_type: 'tracking')	}
+
+  	it "should initialize with a tracking job_product" do
+  		expect(@job.default_products).to include(@tracking_product)
+  		expect(@job.default_product_id).to eq(@tracking_product.id)
+  	end
+
+	  it "#dashboard_product should return one job_product (task)" do 
+	  	setup_job_with_job_products(@job)
+	  	expect(@job.dashboard_product).to be_instance_of(JobProduct)
+	  	expect(@job.dashboard_product.product).to eq(@tracking_product)
+	  end
+  end 
+
+  describe "search job_type" do 
+  	before(:all) { @job = FactoryGirl.build(:job, job_type: 'search')	}
+
+  	it "should initialize with a search job_product" do
+  		expect(@job.default_products).to include(@search_product)
+  		expect(@job.default_product_id).to eq(@search_product.id)
+  	end
+
+	  it "#dashboard_product should return one job_product (task)" do 
+	  	setup_job_with_job_products(@job)
+	  	expect(@job.dashboard_product).to be_instance_of(JobProduct)
+	  	expect(@job.dashboard_product.product).to eq(@search_product)
+	  end
+  end
+
+  describe "special job_type" do 
+  	before(:all) { @job = FactoryGirl.build(:job, job_type: 'special')	}
+
+  	it "should initialize with a special job_product" do
+  		expect(@job.default_products).to include(@special_product)
+  		expect(@job.default_product_id).to eq(@special_product.id)
+  	end
+
+	  it "#dashboard_product should return one job_product (task)" do 
+	  	setup_job_with_job_products(@job)
+	  	expect(@job.dashboard_product).to be_instance_of(JobProduct)
+	  	expect(@job.dashboard_product.product).to eq(@special_product)
+	  end
+  end
+
+  def setup_job_with_job_products(job)
+  	job.initialize_job_products
+  	job.job_products.each do |jp|
+  		jp.worker = FactoryGirl.build(:user)
+  	end
+  	job.save!  	
+  end
+
 end
+
+__END__
+
+	def mark_complete
+		self.completed_at = Time.zone.now
+		self.save
+	end
+
+	def re_open
+		self.completed_at = nil
+		self.save
+	end

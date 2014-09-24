@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :county do
-    name "CountyName"
+    sequence(:name) { |n| "County #{n}" }
     state
     # search_url "http://foo.bar/"
     # search_params "MyString"

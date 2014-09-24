@@ -88,6 +88,12 @@ class Job < ActiveRecord::Base
 		end		
 	end
 
+	def initialize_job_products
+    self.default_products.each do |p|
+      self.job_products << JobProduct.new(product_id: p.id)
+    end		
+	end
+
 	def dashboard_product
 		@dashboard_product ||= self.job_products.where(product_id: default_product_id).first
 	end

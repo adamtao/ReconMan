@@ -28,9 +28,7 @@ class JobsController < ApplicationController
     end
     if params[:job_type]
       @job.job_type = params[:job_type]
-      @job.default_products.each do |p|
-        @job.job_products << JobProduct.new(product_id: p.id)
-      end
+      @job.initialize_job_products
     end
   end
 

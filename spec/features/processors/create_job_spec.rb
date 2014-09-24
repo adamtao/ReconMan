@@ -13,10 +13,6 @@ feature 'Create job' do
 		visit root_path
 	end
 
-	after(:each) do
-		Warden.test_reset!
-	end
-
 	# Scenario: Create a new tracking job
 	#   Given I click on the "New Tracking Job" button
 	#   When I complete the form

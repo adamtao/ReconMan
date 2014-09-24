@@ -6,10 +6,11 @@
   </div>
   <div class="large-4 small-5 columns text-right">
     <br/>
-    New: 
+    <ul class="button-group">
 	<% Job.job_types.each do |t| %>
-	<%= link_to "#{t.to_s.titleize} Job", new_job_path(job_type: t), class: "tiny success button" %>
+		<li><%= link_to "+ #{t.to_s.titleize} Job", new_job_path(job_type: t), class: "tiny success button" %></li>
 	<% end %>
+	</ul>
   </div>
 </div>
 

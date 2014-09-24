@@ -9,10 +9,6 @@ feature 'Comment on a Job' do
 		@job = FactoryGirl.create(:job)
 	end
 
-	after(:each) do
-		Warden.test_reset!
-	end
-
 	# Scenario: Processor posts a comment
 	# 	Given I complete the comment form
 	#   When I submit the form

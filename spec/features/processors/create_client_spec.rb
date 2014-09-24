@@ -8,16 +8,11 @@ feature 'Create client' do
 		visit new_client_path
 	end
 
-	after(:each) do
-		Warden.test_reset!
-	end
-
 	# Scenario: Client cannot be created with invalid data
 	# 	Given I leave the new client form blank
 	#   When I submit the form
 	#   Then I see an invalid client message
 	scenario 'incomplete form' do
-		
 		click_button 'Create Client'
 		expect(page).to have_content 'Please review the problems below'
 	end

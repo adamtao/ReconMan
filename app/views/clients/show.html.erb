@@ -4,12 +4,13 @@
 	</div>
 	<div class="large-5 small-5 columns text-right">
 		<br/>
-		New:
+		<ul class="button-group">
 		<% Job.job_types.each do |t| %>
-		<%= link_to "#{t.to_s.titleize} Job", new_job_path(client_id: @client.id, job_type: t), 
-				class: "tiny success button" %>
+			<li><%= link_to "+ #{t.to_s.titleize} Job", new_job_path(client_id: @client.id, job_type: t), 
+				class: "tiny success button" %></li>
 		<% end %>
-		<%= link_to 'Edit Client', edit_client_path(@client), class: "tiny button" %>
+			<li><%= link_to 'Edit Client', edit_client_path(@client), class: "tiny button" %></li>
+		</ul>
 	</div>
 </div>
 

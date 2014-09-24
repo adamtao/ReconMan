@@ -12,10 +12,6 @@ feature 'Complete job product' do
 			workflow_state: 'in_progress')
 	end
 
-	after(:each) do
-		Warden.test_reset!
-	end
-
 	# Scenario: Complete a job by completing its only job product
 	# 	Given I complete a job product
 	#   And it is the only one for the job

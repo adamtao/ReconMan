@@ -45,17 +45,15 @@ class JobProduct < ActiveRecord::Base
 	before_create :determine_due_date, :set_price
 
 	def advance_state
-		unless self.workflow_state_changed? # skip these rules if an unsaved change in state is present
-			if search_url_changed? && self.can_search?
-				self.search!
-			elsif self.job.county.offline_search? && self.can_offline_search?
-				self.offline_search!
-			elsif !self.product.performs_search? && self.can_process_manually?
-				self.process_manually!
-			elsif (new_deed_of_trust_number_changed? && new_deed_of_trust_number.present?) && self.can_mark_complete?
-				self.recorded_on ||= Date.today
-				self.mark_complete!
-			end
+		if search_url_changed? && self.can_search?
+			self.search!
+		elsif !self.product.performs_search? && self.can_process_manually?
+			self.process_manually!
+		elsif self.job.county.offline_search? && self.can_offline_search?
+			self.offline_search!
+		elsif (new_deed_of_trust_number_changed? && new_deed_of_trust_number.present?) && self.can_mark_complete?
+			self.recorded_on ||= Date.today
+			self.mark_complete!
 		end
 	end
 

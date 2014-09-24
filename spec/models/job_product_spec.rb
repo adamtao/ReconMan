@@ -1,7 +1,7 @@
 describe JobProduct do
 
 	before(:all) do
-		@product = FactoryGirl.create(:product)
+		@product = FactoryGirl.create(:product, performs_search: true)
 		@client = FactoryGirl.create(:client)
 		@state = FactoryGirl.create(:state)
 		@job = FactoryGirl.create(:job, client: @client, state: @state)
@@ -36,16 +36,60 @@ describe JobProduct do
   	expect(@job_product.late?).to be true
   end
 
-  describe "workflow state: new" do
+  describe "product requiring search" do 
+	  describe "workflow state: new" do
 
-  	it "should not toggle its status" do 
-  		@job_product.workflow_state = "new"
-  		@job_product.save!
-  		@job_product.toggle!
-  		expect(@job_product.current_state).to eq("new")
-  	end
+	  	describe "county has online search" do
 
-  end
+	  		before(:all) do 
+	  			@job.county = FactoryGirl.create(:county, state: @state, search_url: "http://foo.bar.com")
+	  		end
+
+		  	it "should not toggle its status" do 
+		  		@job_product.workflow_state = "new"
+		  		@job_product.save!
+		  		expect(@job_product.current_state).to eq("new")
+		  		@job_product.toggle!
+		  		expect(@job_product.current_state).to eq("new")
+		  	end
+
+		  	it "advances to in_progress when search_url is provided" do 
+		  		@job_product.search_url = "http://test.me"
+		  		@job_product.save!
+		  		expect(@job_product.current_state).to eq("in_progress")
+		  	end
+
+		  end
+
+		  describe "county has offline search" do 
+
+		  	before(:all) do 
+	  			@job.county = FactoryGirl.create(:county, state: @state, search_url: nil)
+	  			@job.save!
+	  		end
+
+				it "automatically advances to offline search status" do
+					@job_product.save!
+					expect(@job_product.current_state).to eq("to_be_searched_manually")
+				end
+				
+			end
+
+		end
+	end
+
+	describe "non-search product" do 
+
+		before(:all) do 
+			@other_product = FactoryGirl.create(:product, performs_search: false)
+			@other_job_product = FactoryGirl.build(:job_product, job: @job, product: @other_product)
+		end
+
+		it "automatically advances to process manually status" do 
+			@other_job_product.save!
+			expect(@other_job_product.current_state).to eq("to_be_processed_manually")
+		end
+	end
 
   describe "workflow state: in progress" do
 
@@ -99,7 +143,6 @@ describe JobProduct do
   		expect(job.current_state).to eq('new')
 	  end
 
-	  it "should advance its state" # need complicated setups here
 	end
 
   # it "should perform automated search" # later, when implementing cached search results
@@ -107,20 +150,4 @@ describe JobProduct do
   # it "should determine is search changed" # later, when implementing cached search results
 
 end
-
-
-__END__
-
-	def advance_state
-		if search_url_changed? && self.can_search?
-			self.search!
-		elsif self.job.county.offline_search? && self.can_offline_search?
-			self.offline_search!
-		elsif !self.product.performs_search? && self.can_process_manually?
-			self.process_manually!
-		elsif (new_deed_of_trust_number_changed? && new_deed_of_trust_number.present?) && self.can_mark_complete?
-			self.recorded_on ||= Date.today
-			self.mark_complete!
-		end
-	end
 
