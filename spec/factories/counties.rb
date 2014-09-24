@@ -2,12 +2,12 @@
 
 FactoryGirl.define do
   factory :county do
-    name "MyString"
+    name "CountyName"
     state
-    search_url "MyString"
-    search_params "MyString"
-    search_method "MyString"
-    average_days_to_complete "MyString"
+    # search_url "http://foo.bar/"
+    # search_params "MyString"
+    # search_method "MyString"
+    # average_days_to_complete "45"
 		# phone
 		# fax
 		# webpage

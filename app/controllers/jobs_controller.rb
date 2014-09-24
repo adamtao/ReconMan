@@ -101,7 +101,7 @@ class JobsController < ApplicationController
       params.require(:job).permit(:parcel_number, 
         :client_id, :address, :city, :state_id, :zipcode, :county_id, :old_owner, :new_owner, :requestor_id,
         :file_number, :close_on, :beneficiary_name, :payoff_amount, :beneficiary_account, :underwriter_name,
-        :short_sale, :file_type, :parcel_legal_description, :deed_of_trust_number, :developer, 
+        :short_sale, :file_type, :job_type, :parcel_legal_description, :deed_of_trust_number, :developer, 
         job_products_attributes: [
           :product_id, 
           :_destroy, 

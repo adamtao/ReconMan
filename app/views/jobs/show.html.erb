@@ -11,7 +11,7 @@
 </div>
 
 <div class="main_content">
-    
+  <p>Job Status: <%= @job.workflow_state.titleize %></p>
   <h3 class="subheader">Products &amp; Services 
     <small><%= link_to "add product/service", new_job_job_product_path(@job), class: "success" %></small>
   </h3>

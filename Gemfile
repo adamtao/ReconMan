@@ -17,7 +17,7 @@ gem 'therubyracer', :platform=>:ruby
 gem 'foundation-rails', '5.4.3.1' # 5.4.4.0 is having sass compile issues
 gem 'workflow'
 gem 'money-rails'
-gem 'ransack', github: 'activerecord-hackery/ransack', branch: 'rails-4.1'
+gem 'ransack' #, github: 'activerecord-hackery/ransack', branch: 'rails-4.1'
 gem "rabl"
 gem "RedCloth"
 
