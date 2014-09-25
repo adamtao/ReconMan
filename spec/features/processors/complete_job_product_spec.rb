@@ -1,7 +1,11 @@
+include Warden::Test::Helpers
+Warden.test_mode!
+
 # Feature: Complete job product
 #   As a processor
 #   I want to complete a JobProduct
 feature 'Complete job product' do
+
 	before(:each) do
 		@me = sign_in_as_processor
 		@product = FactoryGirl.create(:product, performs_search: true, job_type: 'tracking')
@@ -11,6 +15,10 @@ feature 'Complete job product' do
 			product: @product,
 			workflow_state: 'in_progress')
 	end
+
+  after(:each) do
+    Warden.test_reset!
+  end
 
 	# Scenario: Complete a job by completing its only job product
 	# 	Given I complete a job product

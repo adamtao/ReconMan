@@ -45,6 +45,9 @@ class JobProductsController < ApplicationController
     @job_product.modifier = current_user
     respond_to do |format|
       if @job_product.update(job_product_params)
+        if params[:commit].to_s.match(/defect/i)
+          @job_product.mark_defect!
+        end
         format.html { redirect_to @job, notice: 'Job product was successfully updated.' }
         format.json { render :show, status: :ok, location: @job_product }
       else

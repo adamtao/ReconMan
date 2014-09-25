@@ -1,3 +1,6 @@
+include Warden::Test::Helpers
+Warden.test_mode!
+
 # Feature: Search tracking job product
 #   As a processor
 #   I want to record a search performed
@@ -6,6 +9,10 @@ feature 'Record search for job product' do
 		@me = sign_in_as_processor
 		@product = FactoryGirl.create(:product, performs_search: true, job_type: 'tracking')
 	end
+
+  after(:each) do
+    Warden.test_reset!
+  end
 
 	# Scenario: Processor performs and records a search
 	# 	Given I have a tracking job for a county with ONLINE tracking

@@ -86,6 +86,9 @@
         <%= render 'job_products/finalize_fields', f: f %>
         <div class="row"><div class="large-12 columns">
           <%= f.submit 'Mark Complete', class: "small success button" %>
+          <% if job_product.can_mark_defect? %>
+          <%= f.button :submit, "Mark Defect", class: "small alert button" %>
+          <% end %>
         </div></div>
       <% end %>
     </div>

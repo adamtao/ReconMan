@@ -76,6 +76,7 @@ describe JobProduct do
 			end
 
 		end
+
 	end
 
 	describe "non-search product" do 
@@ -104,6 +105,23 @@ describe JobProduct do
 	  	@job_product.toggle!
 	  	expect(@job_product.current_state).to eq("in_progress")
 	  end
+
+    describe "#mark_defect!" do
+
+    	before(:each) do 
+    		@defect_job = FactoryGirl.create(:job, client: @client, state: @state)
+    		@defect_job_product = FactoryGirl.create(:job_product, job: @defect_job, product: @product, workflow_state: 'in_progress')
+    		@defect_job.job_products << @defect_job_product
+    		@defect_job.save!
+    	end
+
+      it "should create a defect clearance job when marked 'defect'" do
+        b = @defect_job.job_products.length
+        @defect_job_product.mark_defect!
+        @defect_job.reload
+        expect(@defect_job.job_products.length).to eq(b+1)
+      end
+    end
 
 	  describe "#mark_complete!" do
 
@@ -142,6 +160,8 @@ describe JobProduct do
   		expect(@job_product.current_state).to eq('in_progress')
   		expect(job.current_state).to eq('new')
 	  end
+
+
 
 	end
 

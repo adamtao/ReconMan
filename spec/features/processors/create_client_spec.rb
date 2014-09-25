@@ -1,3 +1,6 @@
+include Warden::Test::Helpers
+Warden.test_mode!
+
 # Feature: Create client
 #   As a processor
 #   I want to create a new Client
@@ -7,6 +10,10 @@ feature 'Create client' do
 		sign_in_as_processor
 		visit new_client_path
 	end
+
+  after(:each) do
+    Warden.test_reset!
+  end
 
 	# Scenario: Client cannot be created with invalid data
 	# 	Given I leave the new client form blank

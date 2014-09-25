@@ -8,16 +8,21 @@ class JobProduct < ActiveRecord::Base
 			event :offline_search, transitions_to: :to_be_searched_manually
 			event :process_manually, transitions_to: :to_be_processed_manually
 		end
+    state :defect do
+      event :clear, transitions_to: :new
+    end
 		state :to_be_searched_manually do
 			event :mark_complete, transitions_to: :complete
-		end
+	    event :mark_defect, transitions_to: :defect
+	  end
 		state :to_be_processed_manually do 
 			event :mark_complete, transitions_to: :complete
 		end
 		state :in_progress do
 			event :change_in_cached_response, transitions_to: :needs_review
 			event :mark_complete, transitions_to: :complete
-		end
+      event :mark_defect, transitions_to: :defect
+	 	end
 		state :needs_review do 
 			event :mark_complete, transitions_to: :complete
 		end
@@ -120,6 +125,10 @@ class JobProduct < ActiveRecord::Base
 		end
 	end
 
+  def mark_defect
+    self.job.add_defect_clearance(self.worker)
+  end
+  
 	def re_open
 		self.job.re_open! if self.job.can_re_open?
 	end

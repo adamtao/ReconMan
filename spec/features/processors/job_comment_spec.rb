@@ -1,3 +1,6 @@
+include Warden::Test::Helpers
+Warden.test_mode!
+
 # Feature: Create client
 #   As a processor
 #   I want to add a comment to a Job
@@ -8,6 +11,10 @@ feature 'Comment on a Job' do
 		# Setup a client, job, job_product
 		@job = FactoryGirl.create(:job)
 	end
+
+  after(:each) do
+    Warden.test_reset!
+  end
 
 	# Scenario: Processor posts a comment
 	# 	Given I complete the comment form

@@ -1,3 +1,6 @@
+include Warden::Test::Helpers
+Warden.test_mode!
+
 # Feature: Create job
 #   As a processor
 #   I want to create Jobs
@@ -12,6 +15,10 @@ feature 'Create job' do
 		@employee = FactoryGirl.create(:user, branch: @branch)
 		visit root_path
 	end
+ 
+  after(:each) do
+    Warden.test_reset!
+  end
 
 	# Scenario: Create a new tracking job
 	#   Given I click on the "New Tracking Job" button

@@ -71,7 +71,7 @@ class Job < ActiveRecord::Base
 	end
 
 	def total_price_cents
-		job_products.inject(0){|total,jp| total += jp.price_cents}
+    job_products.inject(0){|total,jp| total += jp.price_cents.to_i}
 	end
 
 	# Base on the 'job_type', determine which default product type to build when
@@ -106,6 +106,15 @@ class Job < ActiveRecord::Base
 		self.completed_at = Time.zone.now
 		self.save
 	end
+
+  def add_defect_clearance(worker)
+    if p = Product.defect_clearance
+      JobProduct.create(product: p, 
+      	job: self,
+      	price: self.client.product_price(p), 
+      	worker: worker) 
+    end
+  end
 
 	def re_open
 		self.completed_at = nil

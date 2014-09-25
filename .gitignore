@@ -84,3 +84,5 @@ pickle-email-*.html
 
 /bin/guard
 /bin/rspec
+/coverage
+
