@@ -76,7 +76,7 @@ class JobProduct < ActiveRecord::Base
 	end
 
 	def county
-		self.job.county
+    self.job.county || County.new
 	end
 
 	def late?
