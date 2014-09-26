@@ -40,6 +40,13 @@ feature 'Create job' do
 		expect(page).to have_content("This tracking job was requested")
 	end
 
+	# Scenario: Creating a new tracking job, it should estimate when it might be complete
+	#    Given I create a tracking job
+	#    And the county has job history
+	#    When I submit the form
+	#    Then I see the estimated date of completion
+	scenario 'estimated time to complete appears'
+
 	# Scenario: Goes to new job form after creating job
 	#   Given I click on the "New Tracking Job" button
 	#   When I complete the form

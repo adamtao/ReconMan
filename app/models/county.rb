@@ -8,4 +8,27 @@ class County < ActiveRecord::Base
 	def offline_search?
 		!self.search_url.present?
 	end
+
+	def calculate_days_to_complete!
+		j = jobs.where(job_type: 'tracking', workflow_state: 'complete').limit(100).order("created_at DESC")
+		t = 0
+		c = 0
+		if j.length > 10
+			j.each do |job|
+        job.job_products.each do |jp|
+          if jp.product.performs_search?
+            diff = (jp.recorded_on.to_date - job.close_on.to_date)
+            if diff > 0
+              t += diff
+              c += 1
+            end
+          end
+        end
+      end
+			if c > 0
+        self.average_days_to_complete = (t / c).to_i
+        self.save
+			end
+		end
+	end
 end

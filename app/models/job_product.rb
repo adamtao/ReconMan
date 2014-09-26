@@ -117,9 +117,19 @@ class JobProduct < ActiveRecord::Base
 		title_search_caches.last && title_search_caches.last.change_detected?
 	end
 
+  def expected_completion_on
+    begin
+      self.job.close_on.advance(days: job.county.average_days_to_complete)
+    rescue
+      nil
+    end
+  end
+
 	# When this product is complete, mark the parent job complete unless
 	# it has other incomplete products
 	def mark_complete
+    self.recorded_on ||= Date.today
+    self.job.county.calculate_days_to_complete!
 		unless self.job.open_products.where.not(id: self.id).count > 0
 			self.job.mark_complete! if self.job.can_mark_complete?
 		end

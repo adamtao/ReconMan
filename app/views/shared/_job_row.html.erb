@@ -27,7 +27,8 @@
   <td><%= link_to job.link_name, job, class: "job" %></td>
   
   <td class="hide-for-small">
-    <%= link_to job.county.name, [job.state, job.county] %>, <%= link_to job.state.abbreviation, job.state %>
+    <% if job.county %><%= link_to job.county.name, [job.state, job.county] %>, <% end %>
+    <%= link_to job.state.abbreviation, job.state %>
   </td>
   
   <td><%= link_to job.requestor.name, job.requestor %>

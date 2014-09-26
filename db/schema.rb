@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140923154658) do
+ActiveRecord::Schema.define(version: 20140926010515) do
 
   create_table "branches", force: true do |t|
     t.string   "name"
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20140923154658) do
     t.string   "search_url"
     t.string   "search_params"
     t.string   "search_method"
-    t.string   "average_days_to_complete"
+    t.integer  "average_days_to_complete"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "phone"
