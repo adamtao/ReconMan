@@ -51,6 +51,7 @@
   	</td>
 
     <td class="text-center">
+    <% if job.dashboard_product %>
       <% if job.dashboard_product.complete? %>
         <% unless job.completed_at.blank? %>
             <%= l job.completed_at.to_date, format: :short %>
@@ -61,6 +62,7 @@
       		 | <%= link_to "search", job.dashboard_product.quick_search_url, target: "_blank" %>
       	<% end %>
       <% end %>
+    <% end %>
     </td>
 
   <% else %>
