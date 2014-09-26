@@ -22,6 +22,8 @@ class Job < ActiveRecord::Base
 	validates :client, presence: true
 	validates :requestor, presence: true
 	validates :file_number, presence: true
+  validates :county, presence: true
+  validates :state, presence: true
 
 	# after_create :create_default_products # no longer doing this, instead creating tasks inline
 

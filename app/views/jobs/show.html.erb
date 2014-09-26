@@ -65,7 +65,9 @@
         <%= @job.city %>,
         <%= link_to @job.state.name, @job.state %>
         <%= @job.zipcode %><br/>
-        <%= link_to "#{@job.county.name} County", [@job.state, @job.county] %>
+        <% if @job.county %>
+          <%= link_to "#{@job.county.name} County", [@job.state, @job.county] %>
+        <% end %>
       </p>
   </div>
 
