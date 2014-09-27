@@ -119,7 +119,9 @@ class JobProduct < ActiveRecord::Base
 
   def expected_completion_on
     begin
-      self.job.close_on.advance(days: job.county.average_days_to_complete)
+      if self.job.county.average_days_to_complete.to_i > 0
+        @expected_completion_on ||= self.job.close_on.advance(days: job.county.average_days_to_complete)
+      end
     rescue
       nil
     end

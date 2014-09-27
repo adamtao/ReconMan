@@ -1,3 +1,8 @@
+<% if job_product.expected_completion_on %>
+  <p>Expected completion date: 
+    <%=l job_product.expected_completion_on, format: :long %>
+  </p>
+<% end %>
 <table>
   <% if job_product.deed_of_trust_number.present? %>
   <tr>

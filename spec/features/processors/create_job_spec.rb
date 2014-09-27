@@ -45,7 +45,42 @@ feature 'Create job' do
 	#    And the county has job history
 	#    When I submit the form
 	#    Then I see the estimated date of completion
-	scenario 'estimated time to complete appears'
+	scenario 'estimated time to complete appears' do
+    tracking_product = FactoryGirl.create(:product, job_type: 'tracking', performs_search: true)
+    county = FactoryGirl.create(:county, search_url: 'http://foo')
+    20.times do
+       close_on = [60,45,90,100].sample.days.ago
+       job = FactoryGirl.create(:job, county: county, job_type: 'tracking', close_on: close_on)
+       FactoryGirl.create(:job_product, job: job, product: tracking_product,
+                           recorded_on: 11.days.ago, workflow_state: 'complete')
+       job.mark_complete!
+    end
+    county.calculate_days_to_complete!
+    expect(county.average_days_to_complete).to be > 0
+    visit job_path(Job.last)
+    expect(page).to have_content("Expected completion date:")
+  end
+
+	# Scenario: Creating a new tracking job, it should not estimate when it might be complete if the county has limited historical data
+	#    Given I create a tracking job
+	#    And the county does not have enough job history
+	#    When I submit the form
+	#    Then I don't see the estimated date of completion
+  scenario 'estimated time to complete does not appear when limited history available' do
+    tracking_product = FactoryGirl.create(:product, job_type: 'tracking', performs_search: true)
+    new_county = FactoryGirl.create(:county, search_url: 'http://foo')
+    3.times do
+       close_on = [60,45,90,100].sample.days.ago
+       job = FactoryGirl.create(:job, county: new_county, job_type: 'tracking', close_on: close_on)
+       FactoryGirl.create(:job_product, job: job, product: tracking_product,
+                           recorded_on: 11.days.ago, workflow_state: 'in_progress')
+       job.mark_complete!
+    end
+    new_county.calculate_days_to_complete!
+    visit job_path(Job.last)
+    expect(page).not_to have_content("Expected completion date:")
+  end
+
 
 	# Scenario: Goes to new job form after creating job
 	#   Given I click on the "New Tracking Job" button

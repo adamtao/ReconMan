@@ -14,22 +14,23 @@ describe County do
     before(:all) do
       @county = FactoryGirl.create(:county, search_url: 'http://foo.com')
       @tracking_product = FactoryGirl.create(:product, job_type: 'tracking', performs_search: true)
-      total_days = 0
+      @total_days = 0
       total_items = 0
       20.times do 
         close_on = [60,45,90,100].sample.days.ago
         job = FactoryGirl.create(:job, county: @county, job_type: 'tracking', close_on: close_on)
         FactoryGirl.create(:job_product, job: job, product: @tracking_product, recorded_on: 10.days.ago, workflow_state: 'complete')
         job.mark_complete!
-        total_days += 10.days.ago.to_date - close_on.to_date
+        @total_days += 10.days.ago.to_date - close_on.to_date
         total_items += 1
       end
-      @calculated_average = (total_days / total_items).to_i
+      @calculated_average = (@total_days / total_items).to_i
     end
 
     it "should estimate reconveyance time" do
       @county.calculate_days_to_complete!
       expect(@county.average_days_to_complete).to eq(@calculated_average) 
+      expect(@county.average_days_to_complete).to be > 0
     end
 
     it "should update the cache when a job is recorded" do
@@ -45,10 +46,12 @@ describe County do
 
     it "should include more than just the dashboard product in the calculation" do
       job = @county.jobs.last
+      recorded_on = job.close_on.advance(days: 50)
       second_mortgage = FactoryGirl.create(:job_product,
-         job: job, product: @tracking_product, recorded_on: 16.days.ago, workflow_state: 'complete')
-      new_calculated_average = (((@calculated_average * 20) + (second_mortgage.recorded_on.to_date - job.close_on.to_date)) / 21).to_i
+         job: job, product: @tracking_product, recorded_on: recorded_on, workflow_state: 'complete')
+      new_calculated_average = ((@total_days + 50 ) / 21).to_i
       @county.calculate_days_to_complete!
+      @county.reload
       expect(@county.average_days_to_complete).to eq(new_calculated_average)
     end
 
