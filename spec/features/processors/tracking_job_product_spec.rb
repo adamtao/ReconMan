@@ -7,7 +7,7 @@ Warden.test_mode!
 feature 'Record search for job product' do
 	before(:each) do
 		@me = sign_in_as_processor
-		@product = FactoryGirl.create(:product, performs_search: true, job_type: 'tracking')
+		@product = create(:tracking_product)
 	end
 
   after(:each) do
@@ -19,12 +19,8 @@ feature 'Record search for job product' do
 	#   When I provide the search URL
 	#   Then I see the job product is "In progress"
 	scenario 'processor records search' do 
-		county = FactoryGirl.create(:county, search_url: "http://foo.bar.com/")
-		@job = FactoryGirl.create(:job, job_type: 'tracking', county: county)
-		@job_product = FactoryGirl.create(:job_product,
-			job: @job,
-			product: @product,
-			workflow_state: 'new')
+		county = create(:county, search_url: "http://foo.bar.com/")
+		@job = create(:tracking_job, county: county)
 		visit job_path(@job)
 		fill_in 'job_product_search_url', with: 'http://yomama.lvh.me'
 		click_on 'Save'
@@ -35,11 +31,8 @@ feature 'Record search for job product' do
 	# 	Given I have a tracking job for a county with OFFLINE tracking
 	#   Then I see the job product is "To be searched manually"
 	scenario 'offline job moves to in_progress' do 
-		county = FactoryGirl.create(:county, search_url: nil)
-		@job = FactoryGirl.create(:job, job_type: 'tracking', county: county)
-		@job_product = FactoryGirl.create(:job_product,
-			job: @job,
-			product: @product)
+		county = create(:county, search_url: nil)
+		@job = create(:tracking_job, county: county)
 		visit job_path(@job)
 		expect(page).to have_content("status: To be searched manually")
 	end

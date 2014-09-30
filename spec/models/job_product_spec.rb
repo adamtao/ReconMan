@@ -1,14 +1,14 @@
 describe JobProduct do
 
 	before(:all) do
-		@product = FactoryGirl.create(:product, performs_search: true)
-		@client = FactoryGirl.create(:client)
-		@state = FactoryGirl.create(:state)
-		@job = FactoryGirl.create(:job, client: @client, state: @state)
+		@product = create(:tracking_product)
+		@client = create(:client)
+		@state = create(:state)
+		@job = create(:job, client: @client, state: @state)
 	end
 
   before(:each) do 
-  	@job_product = FactoryGirl.build(:job_product, job: @job, product: @product)
+  	@job_product = build(:job_product, job: @job, product: @product)
   end
 
   subject { @job_product }
@@ -42,7 +42,7 @@ describe JobProduct do
 	  	describe "county has online search" do
 
 	  		before(:all) do 
-	  			@job.county = FactoryGirl.create(:county, state: @state, search_url: "http://foo.bar.com")
+	  			@job.county = create(:county, state: @state, search_url: "http://foo.bar.com")
 	  		end
 
 		  	it "should not toggle its status" do 
@@ -64,7 +64,7 @@ describe JobProduct do
 		  describe "county has offline search" do 
 
 		  	before(:all) do 
-	  			@job.county = FactoryGirl.create(:county, state: @state, search_url: nil)
+	  			@job.county = create(:county, state: @state, search_url: nil)
 	  			@job.save!
 	  		end
 
@@ -81,11 +81,11 @@ describe JobProduct do
       county = @job.county
       county.search_url = 'http://foo.com'
       county.save!
-      tracking_product = FactoryGirl.create(:product, job_type: 'tracking', performs_search: true)
+      tracking_product = create(:product, job_type: 'tracking', performs_search: true)
       20.times do
         close_on = [60,45,90,100].sample.days.ago
-        job = FactoryGirl.create(:job, county: county, job_type: 'tracking', close_on: close_on)
-        FactoryGirl.create(:job_product, job: job, product: tracking_product,
+        job = create(:job, county: county, job_type: 'tracking', close_on: close_on)
+        create(:job_product, job: job, product: tracking_product,
                            recorded_on: 11.days.ago, workflow_state: 'complete')
         job.mark_complete!
       end
@@ -102,8 +102,8 @@ describe JobProduct do
 	describe "non-search product" do 
 
 		before(:all) do 
-			@other_product = FactoryGirl.create(:product, performs_search: false)
-			@other_job_product = FactoryGirl.build(:job_product, job: @job, product: @other_product)
+			@other_product = create(:product, performs_search: false)
+			@other_job_product = build(:job_product, job: @job, product: @other_product)
 		end
 
 		it "automatically advances to process manually status" do 
@@ -129,8 +129,8 @@ describe JobProduct do
     describe "#mark_defect!" do
 
     	before(:each) do 
-    		@defect_job = FactoryGirl.create(:job, client: @client, state: @state)
-    		@defect_job_product = FactoryGirl.create(:job_product, job: @defect_job, product: @product, workflow_state: 'in_progress')
+    		@defect_job = create(:job, client: @client, state: @state)
+    		@defect_job_product = create(:job_product, job: @defect_job, product: @product, workflow_state: 'in_progress')
     		@defect_job.job_products << @defect_job_product
     		@defect_job.save!
     	end
@@ -163,7 +163,7 @@ describe JobProduct do
 
 		  it "should NOT complete parent with more open tasks" do 
 		  	job = @job_product.job
-		  	FactoryGirl.create(:job_product, job: job)
+		  	create(:job_product, job: job)
 		  	@job_product.mark_complete!
 		  	expect(job.current_state).not_to eq("complete")
 		  end

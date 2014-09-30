@@ -9,7 +9,7 @@ feature 'Comment on a Job' do
 	before(:each) do
 		@me = sign_in_as_processor
 		# Setup a client, job, job_product
-		@job = FactoryGirl.create(:job)
+		@job = create(:job)
 	end
 
   after(:each) do

@@ -8,8 +8,8 @@ Warden.test_mode!
 feature 'Create client product', :devise do
 
 	before(:each) do
-    @product = FactoryGirl.create(:product, price_cents: 19995)
-    @client = FactoryGirl.create(:client)
+    @product = create(:product, price_cents: 19995)
+    @client = create(:client)
 		sign_in_as_admin
 	end
 

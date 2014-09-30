@@ -1,9 +1,9 @@
 describe Zipcode do
 
   before(:each) do 
-  	@county = FactoryGirl.create(:county)
+  	@county = create(:county)
   	@state = @county.state
-  	@zipcode = FactoryGirl.build(:zipcode, state: @state.abbreviation, county: @county.name)
+  	@zipcode = build(:zipcode, state: @state.abbreviation, county: @county.name)
   end
 
   subject { @zipcode }

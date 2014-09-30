@@ -1,7 +1,7 @@
 describe Product do
 
   before(:each) do 
-  	@product = FactoryGirl.build(:product) 
+  	@product = build(:product) 
   end
 
   subject { @product }

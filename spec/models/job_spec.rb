@@ -2,13 +2,13 @@ describe Job do
 
 	before(:all) do 
 		Product.delete_all
-		@tracking_product = FactoryGirl.create(:product, job_type: 'tracking', performs_search: true)
-		@search_product   = FactoryGirl.create(:product, job_type: 'search', performs_search: true)
-		@special_product  = FactoryGirl.create(:product, job_type: 'special', performs_search: false)
+		@tracking_product = create(:tracking_product)
+		@search_product   = create(:search_product)
+		@special_product  = create(:special_product)
 	end
 
 	describe "general functions" do
-	  before(:each) {	@job = FactoryGirl.build(:job, job_products_attributes: FactoryGirl.build(:job_product).attributes) }
+	  before(:each) {	@job = build(:job, job_products_attributes: build(:job_product).attributes) }
 
 	  subject { @job }
 	  it { should respond_to(:dashboard_product) }
@@ -33,7 +33,7 @@ describe Job do
 
 	  it ".dashboard_jobs should include job" do 
 	  	@job.save!
-	  	expect(Job.dashboard_jobs(user: FactoryGirl.create(:user), complete: false)).to include(@job)
+	  	expect(Job.dashboard_jobs(user: create(:user), complete: false)).to include(@job)
 	  end
 
 	  it "should have open job_products (tasks)" do 
@@ -44,7 +44,7 @@ describe Job do
 	end
   
   describe "tracking job_type" do
-  	before(:all) { @job = FactoryGirl.build(:job, job_type: 'tracking')	}
+  	before(:all) { @job = build_stubbed(:tracking_job) }
 
   	it "should initialize with a tracking job_product" do
   		expect(@job.default_products).to include(@tracking_product)
@@ -59,7 +59,7 @@ describe Job do
   end 
 
   describe "search job_type" do 
-  	before(:all) { @job = FactoryGirl.build(:job, job_type: 'search')	}
+  	before(:all) { @job = build_stubbed(:search_job)	}
 
   	it "should initialize with a search job_product" do
   		expect(@job.default_products).to include(@search_product)
@@ -74,7 +74,7 @@ describe Job do
   end
 
   describe "special job_type" do 
-  	before(:all) { @job = FactoryGirl.build(:job, job_type: 'special')	}
+  	before(:all) { @job = build_stubbed(:special_job)	}
 
   	it "should initialize with a special job_product" do
   		expect(@job.default_products).to include(@special_product)
@@ -91,7 +91,7 @@ describe Job do
   def setup_job_with_job_products(job)
   	job.initialize_job_products
   	job.job_products.each do |jp|
-  		jp.worker = FactoryGirl.build(:user)
+  		jp.worker = build(:user)
   	end
   	job.save!  	
   end

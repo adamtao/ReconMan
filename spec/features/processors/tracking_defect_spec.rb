@@ -8,10 +8,10 @@ Warden.test_mode!
 feature 'Record defect on a reconveyance' do
 	before(:each) do
 		@me = sign_in_as_processor
-		@product = FactoryGirl.create(:product, performs_search: true, job_type: 'tracking')
-		@defect_product = FactoryGirl.create(:product, name: "Defect Clearance", price_cents: 4444)
-    @job = FactoryGirl.create(:job, job_type: 'tracking')
-    @job_product = FactoryGirl.create(:job_product, job: @job, product: @product, search_url: 'http://foo', workflow_state: 'in_progress')
+    @product = create(:tracking_product)
+		@defect_product = create(:product, name: "Defect Clearance", price_cents: 4444)
+    @job = create(:tracking_job)
+    @job.reload
 	end
 
   after(:each) do

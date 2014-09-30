@@ -8,12 +8,8 @@ feature 'Complete job product' do
 
 	before(:each) do
 		@me = sign_in_as_processor
-		@product = FactoryGirl.create(:product, performs_search: true, job_type: 'tracking')
-		@job = FactoryGirl.create(:job, job_type: 'tracking')
-		@job_product = FactoryGirl.create(:job_product,
-			job: @job,
-			product: @product,
-			workflow_state: 'in_progress')
+		@job = create(:tracking_job)
+    @job.reload
 	end
 
   after(:each) do
@@ -39,11 +35,10 @@ feature 'Complete job product' do
 	#   When I submit the form
 	#   Then I see the job is NOT complete
 	scenario 'mark one job product complete of a multi-task job' do
-		FactoryGirl.create(:job_product, job: @job,
-			product: @product,
-			workflow_state: 'in_progress')
+    job_product = @job.job_products.first
+		create(:tracking_job_product, job: @job)
 		visit job_path(@job)
-		within("#edit_job_product_#{@job_product.id}") do
+		within("#edit_job_product_#{job_product.id}") do
 			fill_in 'New deed of trust number', with: "77777"
 			click_on 'Mark Complete'
 		end

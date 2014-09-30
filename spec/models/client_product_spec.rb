@@ -1,6 +1,6 @@
 describe ClientProduct do
 
-  before(:each) { @client_product = FactoryGirl.build(:client_product) }
+  before(:each) { @client_product = FactoryGirl.build_stubbed(:client_product) }
 
   subject { @client_product }
 

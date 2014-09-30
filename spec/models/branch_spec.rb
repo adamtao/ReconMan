@@ -1,6 +1,6 @@
 describe Branch do
 
-  before(:each) { @branch = FactoryGirl.build(:branch) }
+  before(:each) { @branch = FactoryGirl.build_stubbed(:branch) }
 
   subject { @branch }
 

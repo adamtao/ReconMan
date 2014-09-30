@@ -7,12 +7,12 @@ Warden.test_mode!
 feature 'Create job' do
 	before(:each) do
 		@me = sign_in_as_processor
-		@state = FactoryGirl.create(:state)
-		@county = FactoryGirl.create(:county, state: @state)
-		@zipcode = FactoryGirl.create(:zipcode, state: @state.abbreviation)
-		@client = FactoryGirl.create(:client)
-		@branch = FactoryGirl.create(:branch, client: @client)
-		@employee = FactoryGirl.create(:user, branch: @branch)
+		@state = create(:state)
+		@county = create(:county, state: @state)
+		@zipcode = create(:zipcode, state: @state.abbreviation)
+		@client = create(:client)
+		@branch = create(:branch, client: @client)
+		@employee = create(:user, branch: @branch)
 		visit root_path
 	end
  
@@ -25,7 +25,7 @@ feature 'Create job' do
 	#   When I complete the form
 	#   Then I see the newly created tracking job
 	scenario 'fill in new tracking job form' do
-		product = FactoryGirl.create(:product, job_type: 'tracking')
+		product = create(:product, job_type: 'tracking')
 		click_on "Tracking Job"
 		fill_in_common_fields
 		fill_in	'Close Date', with: 2.days.ago
@@ -46,12 +46,12 @@ feature 'Create job' do
 	#    When I submit the form
 	#    Then I see the estimated date of completion
 	scenario 'estimated time to complete appears' do
-    tracking_product = FactoryGirl.create(:product, job_type: 'tracking', performs_search: true)
-    county = FactoryGirl.create(:county, search_url: 'http://foo')
+    tracking_product = create(:product, job_type: 'tracking', performs_search: true)
+    county = create(:county, search_url: 'http://foo')
     20.times do
        close_on = [60,45,90,100].sample.days.ago
-       job = FactoryGirl.create(:job, county: county, job_type: 'tracking', close_on: close_on)
-       FactoryGirl.create(:job_product, job: job, product: tracking_product,
+       job = create(:job, county: county, job_type: 'tracking', close_on: close_on)
+       create(:job_product, job: job, product: tracking_product,
                            recorded_on: 11.days.ago, workflow_state: 'complete')
        job.mark_complete!
     end
@@ -67,12 +67,12 @@ feature 'Create job' do
 	#    When I submit the form
 	#    Then I don't see the estimated date of completion
   scenario 'estimated time to complete does not appear when limited history available' do
-    tracking_product = FactoryGirl.create(:product, job_type: 'tracking', performs_search: true)
-    new_county = FactoryGirl.create(:county, search_url: 'http://foo')
+    tracking_product = create(:product, job_type: 'tracking', performs_search: true)
+    new_county = create(:county, search_url: 'http://foo')
     3.times do
        close_on = [60,45,90,100].sample.days.ago
-       job = FactoryGirl.create(:job, county: new_county, job_type: 'tracking', close_on: close_on)
-       FactoryGirl.create(:job_product, job: job, product: tracking_product,
+       job = create(:job, county: new_county, job_type: 'tracking', close_on: close_on)
+       create(:job_product, job: job, product: tracking_product,
                            recorded_on: 11.days.ago, workflow_state: 'in_progress')
        job.mark_complete!
     end
@@ -88,7 +88,7 @@ feature 'Create job' do
 	#   When I click 'Save & New Job'
 	#   Then I see the new job form again
 	scenario 'save and new job form' do
-		product = FactoryGirl.create(:product, job_type: 'tracking')
+		product = create(:product, job_type: 'tracking')
 		click_on "Tracking Job"
 		fill_in_common_fields
 		fill_in	'Close Date', with: 2.days.ago
@@ -105,7 +105,7 @@ feature 'Create job' do
 	#   When I complete the form
 	#   Then I see the newly created special job
 	scenario 'fill in new special job form' do 
-		product = FactoryGirl.create(:product, job_type: 'special')
+		product = create(:product, job_type: 'special')
 		click_on "Special Job"
 		fill_in_common_fields
 		fill_in	'Close Date', with: 2.days.ago
@@ -126,7 +126,7 @@ feature 'Create job' do
 	#   When I complete the form
 	#   Then I see the newly created search job
 	scenario 'fill in new search job form' do 
-		product = FactoryGirl.create(:product, job_type: 'search')
+		product = create(:product, job_type: 'search')
 		click_on "Search Job"
 		fill_in_common_fields
 		# save_and_open_page

@@ -2,7 +2,7 @@ describe County do
 
   describe "with offline search" do
     before(:each) do 
-      @county = FactoryGirl.build(:county) 
+      @county = build_stubbed(:county) 
     end
 
     subject { @county }
@@ -12,14 +12,15 @@ describe County do
 
 	describe "calculating time to complete" do
     before(:all) do
-      @county = FactoryGirl.create(:county, search_url: 'http://foo.com')
-      @tracking_product = FactoryGirl.create(:product, job_type: 'tracking', performs_search: true)
+      @county = create(:county, search_url: 'http://foo.com')
+      @tracking_product = create(:tracking_product)
       @total_days = 0
       total_items = 0
       20.times do 
         close_on = [60,45,90,100].sample.days.ago
-        job = FactoryGirl.create(:job, county: @county, job_type: 'tracking', close_on: close_on)
-        FactoryGirl.create(:job_product, job: job, product: @tracking_product, recorded_on: 10.days.ago, workflow_state: 'complete')
+        job = create(:job, county: @county, job_type: 'tracking', close_on: close_on)
+        create(:job_product, job: job, product: @tracking_product, 
+                           recorded_on: 10.days.ago, workflow_state: 'complete')
         job.mark_complete!
         @total_days += 10.days.ago.to_date - close_on.to_date
         total_items += 1
@@ -36,8 +37,8 @@ describe County do
     it "should update the cache when a job is recorded" do
       @county.calculate_days_to_complete!
       b = @county.average_days_to_complete
-      new_job = FactoryGirl.create(:job, county: @county, job_type: 'tracking', close_on: 120.days.ago)
-      job_product = FactoryGirl.create(:job_product, 
+      new_job = create(:job, county: @county, job_type: 'tracking', close_on: 120.days.ago)
+      job_product = create(:job_product, 
          job: new_job, product: @tracking_product, recorded_on: 2.days.ago, workflow_state: 'in_progress')
       job_product.mark_complete!
       @county.reload
@@ -47,8 +48,9 @@ describe County do
     it "should include more than just the dashboard product in the calculation" do
       job = @county.jobs.last
       recorded_on = job.close_on.advance(days: 50)
-      second_mortgage = FactoryGirl.create(:job_product,
-         job: job, product: @tracking_product, recorded_on: recorded_on, workflow_state: 'complete')
+      create(:job_product,
+         job: job, product: @tracking_product,
+         recorded_on: recorded_on, workflow_state: 'complete')
       new_calculated_average = ((@total_days + 50 ) / 21).to_i
       @county.calculate_days_to_complete!
       @county.reload
