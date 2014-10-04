@@ -1,0 +1,43 @@
+<div id="<%= job_type %>_section" class="container">
+
+  <div class="row">
+    <div class="large-6 small-6 columns">
+      <h2 class="subheader"><%= job_type.to_s.titleize %></h2>
+    </div>
+    <div class="large-6 small-6 columns">
+      (pagination)
+    </div>
+  </div>
+  <div>
+    <table>
+      <tr>
+        <th>Parcel#</th>
+        <th>Client</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Zip</th>
+        <th>County</th>
+        <th>Due Date</th>
+        <th>Needs</th>
+      </tr>
+      <% jobs.each do |job| %>
+        <tr>
+          <td><%= link_to job.link_name, job, class: 'job' %></td>
+          <td><%= link_to job.client.name, job.client %></td>
+          <td><%= job.address %></td>
+          <td><%= job.city %></td>
+          <td><%= job.state %></td>
+          <td><%= job.zipcode %></td>
+          <td><% if job.county %><%= link_to job.county.name, [job.state, job.county] %><% end %></td>
+          <td><% if job.dashboard_product && job.dashboard_product.due_on.present? %>
+              <%=l job.dashboard_product.due_on, format: :short %>
+            <% end %>
+          </td>
+          <td>...Needs?</td>
+        </tr>
+     <% end %>
+    </table>
+  </div>
+
+</div>
