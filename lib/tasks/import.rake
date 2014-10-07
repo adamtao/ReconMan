@@ -41,21 +41,21 @@ namespace :import do
            county: county,
            close_on: close_date
          ).first_or_initialize
-        job_product = JobProduct.where(
-          job: job,
-          product: product,
-          price_cents: 100,
-          deed_of_trust_number: j["DOT #"]
-        ).first_or_initialize
-        if j["Lender"].present?
-          job_product.beneficiary_name = j["Lender"]
-        end
         if debug
           puts "Job data: #{job.inspect}"
           puts "Job Product data: #{job_product.inspect}"
           puts "######################################################"
         else
           job.save!
+          job_product = JobProduct.where(
+            job: job,
+            product: product,
+            price_cents: 100,
+            deed_of_trust_number: j["DOT #"]
+          ).first_or_initialize
+          if j["Lender"].present?
+            job_product.beneficiary_name = j["Lender"]
+          end
           job_product.save!
           if j["Release #"].present? && j["Recording Date"].present?
             recording_date = Date.strptime(j["Recording Date"], "%m/%d/%y")
