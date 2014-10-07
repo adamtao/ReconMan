@@ -19,7 +19,8 @@ namespace :import do
       puts "Line data: #{j.inspect}" if debug
       state = State.find_by(abbreviation: j["State"].chomp)
       county = state.counties.find_by(name: j["County"].chomp)
-      requestor = client.users.where("users.name LIKE \"%#{j["Employee"].chomp}%\"").first_or_initialize
+      emp_name = j["Employee"].gsub!(/^\s*|\s$/, '')
+      requestor = client.users.where(name: emp_name).first_or_initialize
       puts "Employee data: #{requestor.inspect}" if debug
       if requestor.new_record?
         begin
@@ -80,7 +81,7 @@ namespace :import do
         missing_counties << j["County"] unless county
       end
       emp_name = j["Employee"].gsub!(/^\s*|\s$/, '')
-      requestor = client.users.where("users.name LIKE \"%#{emp_name}%\"").first_or_initialize
+      requestor = client.users.where(name: emp_name).first_or_initialize
       missing_people << emp_name if requestor.new_record?
     end
 
