@@ -23,7 +23,7 @@ namespace :import do
       emp_name = j["Employee"].gsub(/^\s*|\s$/, '').upcase.gsub(/MCC/, 'McC')
       requestor = client.users.where(name: emp_name).first_or_initialize
       puts "Employee data: #{requestor.inspect}" if debug
-      if requestor.new_record?
+      if !requestor.new_record?
         begin
           close_date = Date.strptime(j["Close Date"], "%m/%d/%y")
         rescue
