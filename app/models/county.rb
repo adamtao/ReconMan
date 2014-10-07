@@ -16,7 +16,7 @@ class County < ActiveRecord::Base
 		if j.length > 10
 			j.each do |job|
         job.job_products.each do |jp|
-          if jp.product.performs_search?
+          if jp.product.performs_search? && jp.recorded_on.present?
             diff = (jp.recorded_on.to_date - job.close_on.to_date)
             if diff > 0
               t += diff
