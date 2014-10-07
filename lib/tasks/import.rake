@@ -1,4 +1,6 @@
 require 'csv'
+require 'open-uri'
+
 namespace :import do
 
   desc "Imports a CSV for Security Title"
@@ -6,6 +8,9 @@ namespace :import do
     csv_file_path = ENV['CSV']
     debug = !!(ENV['debug'])
     raise "Must provide CSV" if csv_file_path.blank?
+    if csv_file_path.match(/^http/i)
+      csv_file_path = open(csv_file_path)
+    end
     client = Client.find_by(name: "Security Title Company")
     product = Product.find_by(name: "Tracking")
     CSV.foreach(csv_file_path, headers: true) do |line|
@@ -53,6 +58,9 @@ namespace :import do
   desc "Verifies all required dependencies exist before performing import"
   task prepare: :environment do
     csv_file_path = ENV['CSV']
+    if csv_file_path.match(/^http/i)
+      csv_file_path = open(csv_file_path)
+    end
     client = Client.find_by(name: "Security Title Company")
     raise "Client doesn't exist!" unless client
     product = Product.find_by(name: "Tracking")
