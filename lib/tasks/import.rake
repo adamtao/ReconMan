@@ -13,6 +13,8 @@ namespace :import do
     end
     client = Client.find_by(name: "Security Title Company")
     product = Product.find_by(name: "Tracking")
+    worker = User.find_by(name: "Scott Klimt")
+    raise "Could not load worker" unless worker
     CSV.foreach(csv_file_path, headers: true) do |line|
       j = line.to_hash
       next if j["File Number"].blank?
@@ -49,6 +51,7 @@ namespace :import do
           job.save!
           job_product = JobProduct.where(
             job: job,
+            worker: worker,
             product: product,
             price_cents: 100,
             deed_of_trust_number: j["DOT #"]
