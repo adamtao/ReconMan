@@ -18,8 +18,9 @@ namespace :import do
       next if j["File Number"].blank?
       puts "Line data: #{j.inspect}" if debug
       state = State.find_by(abbreviation: j["State"].chomp)
-      county = state.counties.find_by(name: j["County"].chomp)
-      emp_name = j["Employee"].gsub!(/^\s*|\s$/, '').upcase
+      county_name = j["County"].gsub!(/^\s*|\s$/, '')
+      county = state.counties.find_by(name: county_name)
+      emp_name = j["Employee"].gsub!(/^\s*|\s$/, '').upcase.gsub!(/MCC/, 'McC')
       requestor = client.users.where(name: emp_name).first_or_initialize
       puts "Employee data: #{requestor.inspect}" if debug
       if requestor.new_record?
@@ -28,10 +29,14 @@ namespace :import do
         rescue
           close_date = Date.today
         end
+        file_number = j["File Number"].to_s
+        unless file_number.match(/^R/)
+          file_number = "R#{file_number}"
+        end
         job = Job.where(job_type: 'tracking',
            client: client,
            requestor: requestor,
-           file_number: j["File Number"],
+           file_number: file_number,
            state: state,
            county: county,
            close_on: close_date
@@ -40,8 +45,11 @@ namespace :import do
           job: job,
           product: product,
           price_cents: 100,
-          deed_of_trust_number: j["DOT # "]
+          deed_of_trust_number: j["DOT #"]
         ).first_or_initialize
+        if j["Lender"].present?
+          job_product.beneficiary_name = j["Lender"]
+        end
         if debug
           puts "Job data: #{job.inspect}"
           puts "Job Product data: #{job_product.inspect}"
@@ -49,6 +57,12 @@ namespace :import do
         else
           job.save!
           job_product.save!
+          if j["Release #"].present? && j["Recording Date"].present?
+            recording_date = Date.strptime(j["Recording Date"], "%m/%d/%y")
+            job_product.recorded_on = recording_date
+            job_product.new_deed_of_trust_number = j["Release #"]
+            job_product.save
+          end
         end
       else
         puts "Problem importing File Number: #{j["File Number"]}"
@@ -77,11 +91,11 @@ namespace :import do
       unless state
         missing_states << j["State"]
       else
-        county_name = j["County"].gsub!(/^\s*|\s$/, '').gsub!(/\r\n|\r|\n/, '')
+        county_name = j["County"].gsub!(/^\s*|\s$/, '')
         county = state.counties.find_by(name: county_name)
         missing_counties << county_name unless county
       end
-      emp_name = j["Employee"].gsub!(/^\s*|\s$/, '').upcase
+      emp_name = j["Employee"].gsub!(/^\s*|\s$/, '').upcase.gsub!(/MCC/, 'McC')
       requestor = client.users.where(name: emp_name).first_or_initialize
       missing_people << emp_name if requestor.new_record?
     end
@@ -121,3 +135,5 @@ namespace :import do
   end
 
 end
+
+
