@@ -18,9 +18,9 @@ namespace :import do
       next if j["File Number"].blank?
       puts "Line data: #{j.inspect}" if debug
       state = State.find_by(abbreviation: j["State"].chomp)
-      county_name = j["County"].gsub!(/^\s*|\s$/, '')
+      county_name = j["County"].gsub(/^\s*|\s$/, '')
       county = state.counties.find_by(name: county_name)
-      emp_name = j["Employee"].gsub!(/^\s*|\s$/, '').upcase.gsub!(/MCC/, 'McC')
+      emp_name = j["Employee"].gsub(/^\s*|\s$/, '').upcase.gsub(/MCC/, 'McC')
       requestor = client.users.where(name: emp_name).first_or_initialize
       puts "Employee data: #{requestor.inspect}" if debug
       if requestor.new_record?
@@ -91,11 +91,11 @@ namespace :import do
       unless state
         missing_states << j["State"]
       else
-        county_name = j["County"].gsub!(/^\s*|\s$/, '')
+        county_name = j["County"].gsub(/^\s*|\s$/, '')
         county = state.counties.find_by(name: county_name)
         missing_counties << county_name unless county
       end
-      emp_name = j["Employee"].gsub!(/^\s*|\s$/, '').upcase.gsub!(/MCC/, 'McC')
+      emp_name = j["Employee"].gsub(/^\s*|\s$/, '').upcase.gsub(/MCC/, 'McC')
       requestor = client.users.where(name: emp_name).first_or_initialize
       missing_people << emp_name if requestor.new_record?
     end
