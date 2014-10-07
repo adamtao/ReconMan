@@ -19,7 +19,7 @@ namespace :import do
       puts "Line data: #{j.inspect}" if debug
       state = State.find_by(abbreviation: j["State"].chomp)
       county = state.counties.find_by(name: j["County"].chomp)
-      emp_name = j["Employee"].gsub!(/^\s*|\s$/, '')
+      emp_name = j["Employee"].gsub!(/^\s*|\s$/, '').upcase
       requestor = client.users.where(name: emp_name).first_or_initialize
       puts "Employee data: #{requestor.inspect}" if debug
       if requestor.new_record?
@@ -47,8 +47,8 @@ namespace :import do
           puts "Job Product data: #{job_product.inspect}"
           puts "######################################################"
         else
-          #job.save!
-          #job_product.save!
+          job.save!
+          job_product.save!
         end
       else
         puts "Problem importing File Number: #{j["File Number"]}"
@@ -80,7 +80,7 @@ namespace :import do
         county = state.counties.find_by(name: j["County"].chomp)
         missing_counties << j["County"] unless county
       end
-      emp_name = j["Employee"].gsub!(/^\s*|\s$/, '')
+      emp_name = j["Employee"].gsub!(/^\s*|\s$/, '').upcase
       requestor = client.users.where(name: emp_name).first_or_initialize
       missing_people << emp_name if requestor.new_record?
     end
