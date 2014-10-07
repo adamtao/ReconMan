@@ -77,8 +77,9 @@ namespace :import do
       unless state
         missing_states << j["State"]
       else
-        county = state.counties.find_by(name: j["County"].chomp)
-        missing_counties << j["County"] unless county
+        county_name = j["County"].gsub!(/^\s*|\s$/, '').gsub!(/\r\n|\r|\n/, '')
+        county = state.counties.find_by(name: county_name)
+        missing_counties << county_name unless county
       end
       emp_name = j["Employee"].gsub!(/^\s*|\s$/, '').upcase
       requestor = client.users.where(name: emp_name).first_or_initialize
