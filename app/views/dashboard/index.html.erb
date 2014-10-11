@@ -16,12 +16,6 @@
 
 <div class="container">
 	<div class="main_content">
-		<% if (current_user.processor? || current_user.admin?) && !(current_user.current_job_ids.length > 0 || current_user.completed_job_ids.length > 0) %>
-		<div class="alert alert-box">
-			You don't appear to have any assigned jobs, so here are all of the most recent jobs.
-			<a href="#" class="close">&times;</a>
-		</div>
-		<% end %>
 		<%= render 'shared/jobs' %>
 	</div>
 

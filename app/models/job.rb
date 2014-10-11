@@ -36,7 +36,7 @@ class Job < ActiveRecord::Base
 	end
 
 	def self.dashboard_jobs(options)
-		default_options = {limit: 100, complete: false, user: User.new, fallback_to_all: true}
+		default_options = {limit: 20, complete: false, user: User.new, fallback_to_all: true}
 		options = default_options.merge options
 		user = options[:user]
 
@@ -51,7 +51,7 @@ class Job < ActiveRecord::Base
 			end
 		when false
   		if user.current_job_ids.length > 0
-  			where(id: user.current_job_ids)
+        where(id: user.current_job_ids).limit(options[:limit])
   		elsif options[:fallback_to_all]
   			where.not(workflow_state: "complete").joins(:job_products).order("job_products.due_on ASC").limit(options[:limit])
   		else
