@@ -9,6 +9,10 @@ class County < ActiveRecord::Base
 		!self.search_url.present?
 	end
 
+  def current_jobs
+    jobs.where.not(workflow_state: "complete") #.joins(:job_products).order("job_products.due_on DESC")
+  end
+
 	def calculate_days_to_complete!
 		j = jobs.where(job_type: 'tracking', workflow_state: 'complete').limit(100).order("created_at DESC")
 		t = 0

@@ -22,7 +22,7 @@ module Features
     def sign_in_as_processor
       user = FactoryGirl.create(:user, :processor)
       login_as(user, scope: :user)
-      user    
+      user
     end
 
     def sign_in_as_admin

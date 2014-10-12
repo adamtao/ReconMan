@@ -15,6 +15,7 @@ gem 'pundit'
 gem 'simple_form'
 gem 'therubyracer', :platform=>:ruby
 gem 'foundation-rails', '5.4.3.1' # 5.4.4.0 is having sass compile issues
+gem 'will_paginate'
 gem 'workflow'
 gem 'money-rails'
 gem 'ransack' #, github: 'activerecord-hackery/ransack', branch: 'rails-4.1'

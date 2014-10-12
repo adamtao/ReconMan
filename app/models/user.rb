@@ -36,4 +36,8 @@ class User < ActiveRecord::Base
   def completed_job_ids
     @completed_job_ids ||= self.tasks.where(workflow_state: "complete").order("updated_at DESC").pluck(:job_id).uniq
   end
+
+  def current_requested_jobs
+    requested_jobs.where.not(workflow_state: 'complete') #.joins(:job_products).order("job_product.due_on ASC")
+  end
 end
