@@ -10,6 +10,7 @@ feature 'Sign in', :devise do
   #   Then I see an invalid credentials message
   scenario 'user cannot sign in if not registered' do
     signin('test@example.com', 'please123')
+
     expect(page).to have_content 'Invalid email or password.'
   end
 
@@ -21,6 +22,7 @@ feature 'Sign in', :devise do
   scenario 'user can sign in with valid credentials' do
     user = create(:user)
     signin(user.email, user.password)
+
     expect(page).to have_content 'Signed in successfully.'
   end
 
@@ -32,6 +34,7 @@ feature 'Sign in', :devise do
   scenario 'user cannot sign in with wrong email' do
     user = create(:user)
     signin('invalid@email.com', user.password)
+
     expect(page).to have_content 'Invalid email or password.'
   end
 
@@ -43,6 +46,7 @@ feature 'Sign in', :devise do
   scenario 'user cannot sign in with wrong password' do
     user = create(:user)
     signin(user.email, 'invalidpass')
+
     expect(page).to have_content 'Invalid email or password.'
   end
 

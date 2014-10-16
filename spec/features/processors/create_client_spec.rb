@@ -21,6 +21,7 @@ feature 'Create client' do
 	#   Then I see an invalid client message
 	scenario 'incomplete form' do
 		click_button 'Create Client'
+
 		expect(page).to have_content 'Please review the problems below'
 	end
 
@@ -31,6 +32,7 @@ feature 'Create client' do
 	scenario 'complete and valid form' do
 		fill_in 'Name', with: "New Client #{Time.now.to_s}"
 		click_button 'Create Client'
+
 		expect(page).to have_content 'Client was successfully created'
 	end
 

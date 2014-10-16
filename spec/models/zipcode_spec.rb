@@ -19,8 +19,10 @@ describe Zipcode do
   it "should import from CSV, deleting all previous records" do
   	@zipcode.zipcode = "11111"
   	@zipcode.save!
+
   	# test file has exactly 2 entries plus a header 
   	Zipcode.import_from_csv(Rails.root.join('spec', 'fixtures', 'zip_code_database_fixture.csv'))
+
   	expect(Zipcode.count).to eq(2)
   	expect(Zipcode.pluck(:zipcode)).to include("05060") # one from the test csv file
   	expect(Zipcode.pluck(:zipcode)).not_to include(@zipcode.zipcode)

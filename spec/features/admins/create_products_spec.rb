@@ -21,10 +21,12 @@ feature 'Create product' do
   #   Then I should see the product in the list
   scenario 'default tracking product created' do
     visit new_product_path
+
     fill_in 'Name', with: 'Tracking Product'
     select 'Tracking', from: 'product_job_type'
     click_on 'Create Product'
-    expect(page).to have_content('Tracking Product') 
+
+    expect(page).to have_content('Tracking Product')
   end
 
   # Scenario: Admin creates the default search product
@@ -33,10 +35,12 @@ feature 'Create product' do
   #   Then I should see the product in the list
   scenario 'default search product created' do
     visit new_product_path
+
     fill_in 'Name', with: 'Search Product'
     select 'Search', from: 'product_job_type'
     click_on 'Create Product'
-    expect(page).to have_content('Search Product') 
+
+    expect(page).to have_content('Search Product')
   end
 
   # Scenario: Admin creates the default special product
@@ -45,11 +49,12 @@ feature 'Create product' do
   #   Then I should see the product in the list
   scenario 'default special product created' do
     visit new_product_path
+
     fill_in 'Name', with: 'Special Product'
     select 'Special', from: 'product_job_type'
     click_on 'Create Product'
-    expect(page).to have_content('Special Product') 
- 
+
+    expect(page).to have_content('Special Product')
   end
 
 end

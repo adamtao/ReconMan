@@ -10,6 +10,7 @@ feature 'View branch' do
                        branch: @branch)
     create_list(:job, 30, client: @client,
                 requestor: @employee)
+
 		sign_in_as_processor
 		visit client_branch_path(@client, @branch)
 	end
@@ -19,15 +20,15 @@ feature 'View branch' do
   end
 
 	scenario 'shows only 20 jobs' do
-    lj = @branch.jobs.last
-    j = @branch.jobs.first
-    expect(page).to have_link(j.file_number, href: job_path(j))
-    expect(page).not_to have_link(lj.file_number, href: job_path(lj))
+    expect(page).to have_css('table#incomplete-jobs tbody tr', count: 20)
+    expect(page).to have_link("Next")
 	end
 
 	scenario 'clicking next shows next jobs' do
-    click_on 'Next'
     j = @branch.jobs.last
+
+    click_on 'Next'
+
     expect(page).to have_link(j.file_number, href: job_path(j))
 	end
 end

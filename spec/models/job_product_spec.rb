@@ -18,21 +18,25 @@ describe JobProduct do
 
   it "should determine the due date" do 
   	@job_product.determine_due_date
+
   	expect(@job_product.due_on).to eq(Date.today.advance(days: @state.due_within_days))
   end
 
   it "should set the price" do 
   	@job_product.set_price
+
   	expect(@job_product.price).to eq(@product.price)
   end
 
   it "should not be late when new" do 
   	@job_product.determine_due_date
+
   	expect(@job_product.late?).to be false
   end
 
   it "should be late way in the future" do 
   	@job_product.due_on = 5.years.ago
+
   	expect(@job_product.late?).to be true
   end
 
@@ -48,14 +52,18 @@ describe JobProduct do
 		  	it "should not toggle its status" do 
 		  		@job_product.workflow_state = "new"
 		  		@job_product.save!
+
 		  		expect(@job_product.current_state).to eq("new")
+
 		  		@job_product.toggle!
+
 		  		expect(@job_product.current_state).to eq("new")
 		  	end
 
 		  	it "advances to in_progress when search_url is provided" do 
 		  		@job_product.search_url = "http://test.me"
 		  		@job_product.save!
+
 		  		expect(@job_product.current_state).to eq("in_progress")
 		  	end
 
@@ -70,9 +78,10 @@ describe JobProduct do
 
 				it "automatically advances to offline search status" do
 					@job_product.save!
+
 					expect(@job_product.current_state).to eq("to_be_searched_manually")
 				end
-				
+
 			end
 
 		end
@@ -90,8 +99,10 @@ describe JobProduct do
         job.mark_complete!
       end
       county.calculate_days_to_complete!
+
       @job.close_on = 50.days.ago
       @job.save
+
       expect(@job_product.due_on).to be_an_instance_of(Date)
       expect(@job_product.expected_completion_on).not_to eq(@job.close_on)
       expect(@job_product.expected_completion_on).to eq(@job.close_on.advance(days: county.average_days_to_complete))
@@ -108,6 +119,7 @@ describe JobProduct do
 
 		it "automatically advances to process manually status" do 
 			@other_job_product.save!
+
 			expect(@other_job_product.current_state).to eq("to_be_processed_manually")
 		end
 	end
@@ -121,8 +133,11 @@ describe JobProduct do
 
 	  it "should toggle its status" do 
 	  	@job_product.toggle!
+
 	  	expect(@job_product.current_state).to eq("complete")
+
 	  	@job_product.toggle!
+
 	  	expect(@job_product.current_state).to eq("in_progress")
 	  end
 
@@ -137,8 +152,10 @@ describe JobProduct do
 
       it "should create a defect clearance job when marked 'defect'" do
         b = @defect_job.job_products.length
+
         @defect_job_product.mark_defect!
         @defect_job.reload
+
         expect(@defect_job.job_products.length).to eq(b+1)
       end
     end
@@ -153,18 +170,22 @@ describe JobProduct do
 
 		  it "should complete itself" do 
 		  	@job_product.mark_complete!
+
 		  	expect(@job_product.current_state).to eq("complete")
 		  end
 
 		  it "should complete parent without more open tasks" do 
 		  	@job_product.mark_complete!
+
 		  	expect(@job_product.job.current_state).to eq("complete")
 		  end
 
 		  it "should NOT complete parent with more open tasks" do 
 		  	job = @job_product.job
 		  	create(:job_product, job: job)
+
 		  	@job_product.mark_complete!
+
 		  	expect(job.current_state).not_to eq("complete")
 		  end
 		end
@@ -175,13 +196,13 @@ describe JobProduct do
   		job = @job_product.job
   		job.workflow_state = 'new'
   		job.save!
+
   		@job_product.mark_complete!
   		@job_product.re_open!
+
   		expect(@job_product.current_state).to eq('in_progress')
   		expect(job.current_state).to eq('new')
 	  end
-
-
 
 	end
 

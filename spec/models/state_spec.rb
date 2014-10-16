@@ -20,6 +20,7 @@ describe State do
 
 	it "should calculate due_within_days" do
 		total_time = @ttnd + @ttdd + @ttrd
+
 		expect(@state.due_within_days).to eq(total_time)
 	end
 

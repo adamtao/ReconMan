@@ -8,6 +8,7 @@ feature 'View County' do
     @state = create(:state)
     @county = create(:county, state: @state)
     create_list(:job, 30, county: @county)
+
 		sign_in_as_processor
 		visit state_county_path(@state, @county)
 	end
@@ -17,15 +18,15 @@ feature 'View County' do
   end
 
 	scenario 'shows only 20 jobs' do
-    lj = @county.jobs.last
-    j = @county.jobs.first
-    expect(page).to have_link(j.file_number, href: job_path(j))
-    expect(page).not_to have_link(lj.file_number, href: job_path(lj))
+    expect(page).to have_css('table#incomplete-jobs tbody tr', count: 20)
+    expect(page).to have_link("Next")
 	end
 
 	scenario 'clicking next shows next jobs' do
-    click_on 'Next'
     j = @county.jobs.last
+
+    click_on 'Next'
+
     expect(page).to have_link(j.file_number, href: job_path(j))
 	end
 end

@@ -17,14 +17,18 @@ feature 'Pagination' do
 
   scenario "Only see 20 jobs at a time" do
     visit root_path
+
     j = Job.last
+
     expect(page).not_to have_link j.file_number, href: job_path(j)
   end
 
   scenario "next button shows next group of jobs" do
     visit root_path
+
     click_on "Next"
     j = Job.last
+
     expect(page).to have_link j.file_number, href: job_path(j)
   end
 end

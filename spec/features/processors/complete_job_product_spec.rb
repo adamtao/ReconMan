@@ -23,8 +23,10 @@ feature 'Complete job product' do
 	#   Then I see the job is complete
 	scenario 'mark a solo job product complete' do
 		visit job_path(@job)
+
 		fill_in 'New deed of trust number', with: "777777"
 		click_on 'Mark Complete'
+
 		expect(page).to have_content("status: Complete")
 		expect(page).to have_content("Job Status: Complete")
 	end
@@ -38,10 +40,12 @@ feature 'Complete job product' do
     job_product = @job.job_products.first
 		create(:tracking_job_product, job: @job)
 		visit job_path(@job)
+
 		within("#edit_job_product_#{job_product.id}") do
 			fill_in 'New deed of trust number', with: "77777"
 			click_on 'Mark Complete'
 		end
+
 		expect(page).to have_content("status: Complete")
 		expect(page).not_to have_content("Job Status: Complete")
 		expect(page).to have_content("Job Status: New")

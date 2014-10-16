@@ -13,9 +13,10 @@ feature 'Create job' do
 		@client = create(:client)
 		@branch = create(:branch, client: @client)
 		@employee = create(:user, branch: @branch)
+
 		visit root_path
 	end
- 
+
   after(:each) do
     Warden.test_reset!
   end
@@ -26,6 +27,7 @@ feature 'Create job' do
 	#   Then I see the newly created tracking job
 	scenario 'fill in new tracking job form' do
 		product = create(:product, job_type: 'tracking')
+
 		click_on "Tracking Job"
 		fill_in_common_fields
 		fill_in	'Close Date', with: 2.days.ago
@@ -34,6 +36,7 @@ feature 'Create job' do
 		fill_in 'Beneficiary Account', with: "12345"
 		fill_in 'Payoff Amount', with: "10000.00"
 		click_on 'Create Job'
+
 		expect(page).to have_content("Job was successfully created")
 		expect(page).to have_content(product.name)
 		expect(page).to have_content("File Number: 9191919")
@@ -56,15 +59,17 @@ feature 'Create job' do
        job.mark_complete!
     end
     county.calculate_days_to_complete!
-    expect(county.average_days_to_complete).to be > 0
+
     visit job_path(Job.last)
+
+    expect(county.average_days_to_complete).to be > 0
     expect(page).to have_content("Expected completion date:")
   end
 
 	# Scenario: Creating a new tracking job, it should not estimate when it might be complete if the county has limited historical data
 	#    Given I create a tracking job
-	#    And the county does not have enough job history
 	#    When I submit the form
+	#    And the county does not have enough job history
 	#    Then I don't see the estimated date of completion
   scenario 'estimated time to complete does not appear when limited history available' do
     tracking_product = create(:product, job_type: 'tracking', performs_search: true)
@@ -77,7 +82,9 @@ feature 'Create job' do
        job.mark_complete!
     end
     new_county.calculate_days_to_complete!
+
     visit job_path(Job.last)
+
     expect(page).not_to have_content("Expected completion date:")
   end
 
@@ -88,7 +95,8 @@ feature 'Create job' do
 	#   When I click 'Save & New Job'
 	#   Then I see the new job form again
 	scenario 'save and new job form' do
-		product = create(:product, job_type: 'tracking')
+		create(:product, job_type: 'tracking')
+
 		click_on "Tracking Job"
 		fill_in_common_fields
 		fill_in	'Close Date', with: 2.days.ago
@@ -97,6 +105,7 @@ feature 'Create job' do
 		fill_in 'Beneficiary Account', with: "12345"
 		fill_in 'Payoff Amount', with: "10000.00"
 		click_on 'Save & New Job'
+
 		expect(page).to have_content("New Tracking Job")
 	end
 
@@ -104,8 +113,9 @@ feature 'Create job' do
 	#   Given I click on the "New Special Job" button
 	#   When I complete the form
 	#   Then I see the newly created special job
-	scenario 'fill in new special job form' do 
+	scenario 'fill in new special job form' do
 		product = create(:product, job_type: 'special')
+
 		click_on "Special Job"
 		fill_in_common_fields
 		fill_in	'Close Date', with: 2.days.ago
@@ -115,6 +125,7 @@ feature 'Create job' do
 		fill_in 'Beneficiary Account', with: "12345"
 		fill_in 'Payoff Amount', with: "10000.00"
 		click_on 'Create Job'
+
 		expect(page).to have_content("Job was successfully created")
 		expect(page).to have_content(product.name)
 		expect(page).to have_content("File Number: 9191919")
@@ -125,17 +136,18 @@ feature 'Create job' do
 	#   Given I click on the "New Search Job" button
 	#   When I complete the form
 	#   Then I see the newly created search job
-	scenario 'fill in new search job form' do 
+	scenario 'fill in new search job form' do
 		product = create(:product, job_type: 'search')
+
 		click_on "Search Job"
 		fill_in_common_fields
-		# save_and_open_page
 		fill_in 'Previous Owner', with: "John"
 		fill_in 'New Owner', with: "Gary"
 		fill_in 'Parcel number', with: "12345"
 		fill_in 'Legal Description', with: "A residential property"
 		fill_in 'Developer', with: "Bob the builder"
 		click_on 'Create Job'
+
 		expect(page).to have_content("Job was successfully created")
 		expect(page).to have_content(product.name)
 		expect(page).to have_content("File Number: 9191919")
