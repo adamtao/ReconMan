@@ -28,13 +28,16 @@ feature 'Dashboard' do
 	#   And it is the only one for the job
 	#   When I submit the form
 	#   Then I see the job is complete
-#scenario 'mark a solo job product complete' do
-#	visit job_path(@job)
-#	fill_in 'New deed of trust number', with: "777777"
-#	click_on 'Mark Complete'
-#	expect(page).to have_content("status: Complete")
-#	expect(page).to have_content("Job Status: Complete")
-#end
+  scenario 'mark a solo job product complete' do
+    skip "I think this was going to be a popup, but might be totally invalid now"
+    visit job_path(@job)
+
+    fill_in 'New deed of trust number', with: "777777"
+    click_on 'Mark Complete'
+
+    expect(page).to have_content("status: Complete")
+    expect(page).to have_content("Job Status: Complete")
+  end
 
   # Scenario: Visiting the dashboard, I see job type sections
   #   Given I am logged in
@@ -42,6 +45,7 @@ feature 'Dashboard' do
   #   Then I see three sections: tracking, specials, search
   scenario 'Sections: Tracking, Search, Special' do
     visit root_path
+
     within '#tracking_section' do
       expect(page).to have_content 'Tracking'
     end
@@ -54,21 +58,28 @@ feature 'Dashboard' do
   end
 
   scenario 'Tracking section grays out recently searched jobs'
+
   scenario 'Tracking section has rows of tracking jobs only' do
     visit root_path
     job = @tracking_jobs.first
     search_job = @search_jobs.first
+
     tracking_section = page.find('#tracking_section')
+
     expect(tracking_section).to have_link(job.file_number, href: job_path(job))
     expect(tracking_section).not_to have_link(search_job.file_number, href: job_path(search_job))
   end
+
   scenario 'Tracking section has button to log search'
   scenario 'Tracking section has button to close job'
   scenario 'Tracking, close button has popup form with new DOT# and date filed, this clears the job'
   scenario 'Tracking section has sortable columns'
+
   scenario 'Tracking section has columns: File#, Client, Escrow Officer, Close Date, Due Date, County, DOT#, Actions' do
     visit root_path
+
     tracking_section = page.find('#tracking_section')
+
     expect(tracking_section).to have_content('File')
     expect(tracking_section).to have_content('Client')
     expect(tracking_section).to have_content('Escrow Officer')
@@ -79,21 +90,26 @@ feature 'Dashboard' do
     expect(tracking_section).to have_content('DOT')
     expect(tracking_section).to have_content('Actions')
   end
+
   scenario 'Tracking section row has links on File#, Client, County'
   scenario 'Tracking section table is paginated'
-
 
   scenario 'Specials section has rows of special jobs only' do
     visit root_path
     job = @special_jobs.first
     search_job = @search_jobs.first
+
     special_section = page.find('#special_section')
+
     expect(special_section).to have_link(job.file_number, href: job_path(job))
     expect(special_section).not_to have_link(search_job.file_number, href: job_path(search_job))
   end
+
   scenario 'Specials section has columns: File#, Client, Escrow Officer, Rush, Due Date, County, DOT#, Defect' do
     visit root_path
+
     specials_section = page.find('#special_section')
+
     expect(specials_section).to have_content('File')
     expect(specials_section).to have_content('Client')
     expect(specials_section).to have_content('Escrow Officer')
@@ -104,6 +120,7 @@ feature 'Dashboard' do
     expect(specials_section).to have_content('DOT')
     expect(specials_section).to have_content('Defect')
   end
+
   scenario 'Specials section has sortable columns'
   scenario 'Specials section has pagination'
   scenario 'Specials section row has links on File#, Client, County'
@@ -113,13 +130,18 @@ feature 'Dashboard' do
     visit root_path
     job = @special_jobs.first
     search_job = @search_jobs.first
+
     search_section = page.find('#search_section')
+
     expect(search_section).not_to have_link(job.file_number, href: job_path(job))
     expect(search_section).to have_link(search_job.file_number, href: job_path(search_job))
   end
+
   scenario 'Search section has columns: Parcel#, Client, Address, City, State, Zip, County, Due Date, Needs' do
     visit root_path
+
     search_section = page.find('#search_section')
+
     expect(search_section).to have_content('Parcel')
     expect(search_section).to have_content('Client')
     expect(search_section).to have_content('Address')
@@ -131,6 +153,7 @@ feature 'Dashboard' do
     expect(search_section).to have_content('County')
     expect(search_section).to have_content('Needs')
   end
+
   scenario 'Search section has sortable columns'
   scenario 'Search section has pagination'
   scenario 'Search section row has links on: parcel#, client, county'

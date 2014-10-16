@@ -18,7 +18,9 @@ describe Job do
 
 	  it "#mark_complete! should record the completion date" do 
 	  	@job.save!
+
 	  	@job.mark_complete!
+
 	  	expect(@job.completed_at).not_to be nil
 	  	expect(@job.current_state).to eq("complete")
 	  end 
@@ -26,18 +28,22 @@ describe Job do
 	  it '#re_open should open a closed job' do 
 	  	@job.save!
 	  	@job.mark_complete!
+
 	  	@job.re_open!
+
 	  	expect(@job.completed_at).to be nil
 	  	expect(@job.current_state).to eq("new")
 	  end
 
 	  it ".dashboard_jobs should include job" do 
 	  	@job.save!
+
 	  	expect(Job.dashboard_jobs(user: create(:user), complete: false)).to include(@job)
 	  end
 
 	  it "should have open job_products (tasks)" do 
 	  	@job.save!
+
 	  	expect(@job.open_products.length).to be > 0
 	  	expect(@job.open_products.first).to be_instance_of(JobProduct)
 	  end
@@ -53,6 +59,7 @@ describe Job do
 
 	  it "#dashboard_product should return one job_product (task)" do 
 	  	setup_job_with_job_products(@job)
+
 	  	expect(@job.dashboard_product).to be_instance_of(JobProduct)
 	  	expect(@job.dashboard_product.product).to eq(@tracking_product)
 	  end
@@ -68,6 +75,7 @@ describe Job do
 
 	  it "#dashboard_product should return one job_product (task)" do 
 	  	setup_job_with_job_products(@job)
+
 	  	expect(@job.dashboard_product).to be_instance_of(JobProduct)
 	  	expect(@job.dashboard_product.product).to eq(@search_product)
 	  end
@@ -83,6 +91,7 @@ describe Job do
 
 	  it "#dashboard_product should return one job_product (task)" do 
 	  	setup_job_with_job_products(@job)
+
 	  	expect(@job.dashboard_product).to be_instance_of(JobProduct)
 	  	expect(@job.dashboard_product.product).to eq(@special_product)
 	  end
@@ -93,19 +102,7 @@ describe Job do
   	job.job_products.each do |jp|
   		jp.worker = build(:user)
   	end
-  	job.save!  	
+  	job.save!
   end
 
 end
-
-__END__
-
-	def mark_complete
-		self.completed_at = Time.zone.now
-		self.save
-	end
-
-	def re_open
-		self.completed_at = nil
-		self.save
-	end

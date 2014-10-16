@@ -10,9 +10,10 @@ feature 'Navigation links', :devise do
   #   Then I see links: "sign in," "Forgot your password,"
   scenario 'view navigation links' do
     visit root_path
+
     expect(page).to have_content 'Forgot your password'
     expect(page).to have_content 'Sign in'
-    # expect(page).to have_content 'Sign up'
+    expect(page).not_to have_content 'Sign up'
   end
 
 end

@@ -17,7 +17,3 @@
 <% Job.job_types.each do |t| %>
   <%= render "shared/#{t}_section", job_type: t, jobs: @current_jobs.where(job_type: t) %>
 <% end %>
-
-<div class="container">
-  <%= render 'shared/jobs' %>
-</div>

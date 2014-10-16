@@ -30,6 +30,7 @@ describe County do
 
     it "should estimate reconveyance time" do
       @county.calculate_days_to_complete!
+
       expect(@county.average_days_to_complete).to eq(@calculated_average) 
       expect(@county.average_days_to_complete).to be > 0
     end
@@ -40,8 +41,10 @@ describe County do
       new_job = create(:job, county: @county, job_type: 'tracking', close_on: 120.days.ago)
       job_product = create(:job_product, 
          job: new_job, product: @tracking_product, recorded_on: 2.days.ago, workflow_state: 'in_progress')
+
       job_product.mark_complete!
       @county.reload
+
       expect(@county.average_days_to_complete).not_to eq(b)
     end
 
@@ -52,8 +55,10 @@ describe County do
          job: job, product: @tracking_product,
          recorded_on: recorded_on, workflow_state: 'complete')
       new_calculated_average = ((@total_days + 50 ) / 21).to_i
+
       @county.calculate_days_to_complete!
       @county.reload
+
       expect(@county.average_days_to_complete).to eq(new_calculated_average)
     end
 

@@ -39,10 +39,10 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     authorize @user
     if @user.client?
-      @current_jobs = @user.requested_jobs.where.not(workflow_state: 'complete').joins(:job_products).order("job_products.due_on ASC").limit(100)
+      @current_jobs = @user.current_requested_jobs.paginate(page: params[:page], per_page: 20)
       @completed_jobs = @user.requested_jobs.where(workflow_state: 'complete').order("updated_at DESC").limit(25)
     elsif @user.processor?
-      @current_jobs = Job.dashboard_jobs(user: @user, fallback_to_all: false, complete: false, limit: 100)
+      @current_jobs = Job.dashboard_jobs(user: current_user, complete: false, per_page: 20, page: params[:page])
       @completed_jobs = Job.dashboard_jobs(user: @user, fallback_to_all: false, complete: true, limit: 25)
     end
   end

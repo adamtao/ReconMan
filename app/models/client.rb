@@ -19,4 +19,9 @@ class Client < ActiveRecord::Base
 	def primary_contact
 		users.where(primary_contact: true).first
 	end
+
+  def current_jobs
+    jobs.where.not(workflow_state: 'complete')#.joins(:job_products).order("job_products.due_on DESC")
+
+  end
 end

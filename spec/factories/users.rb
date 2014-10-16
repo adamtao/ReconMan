@@ -10,6 +10,7 @@ FactoryGirl.define do
 
     trait :client do
     	role 'client'
+      branch
     end
 
     trait :processor do

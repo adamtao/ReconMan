@@ -10,6 +10,7 @@ feature 'Create client product', :devise do
 	before(:each) do
     @product = create(:product, price_cents: 19995)
     @client = create(:client)
+
 		sign_in_as_admin
 	end
 
@@ -23,9 +24,11 @@ feature 'Create client product', :devise do
   #   Then I should see the custom price on the client page
   scenario 'valid client product price created' do
     visit client_path(@client)
+
     click_on '$199.95'
     fill_in 'Price', with: '29.98'
     click_on 'Save Custom Price'
+
     expect(page).to have_content('$29.98')
   end
 

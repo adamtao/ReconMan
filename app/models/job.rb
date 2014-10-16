@@ -36,7 +36,12 @@ class Job < ActiveRecord::Base
 	end
 
 	def self.dashboard_jobs(options)
-		default_options = {limit: 100, complete: false, user: User.new, fallback_to_all: true}
+		default_options = { complete: false, 
+                      user: User.new, 
+                      fallback_to_all: true,
+                      page: 1,
+                      per_page: 20,
+                      limit: 20}
 		options = default_options.merge options
 		user = options[:user]
 
@@ -51,9 +56,9 @@ class Job < ActiveRecord::Base
 			end
 		when false
   		if user.current_job_ids.length > 0
-  			where(id: user.current_job_ids)
+        where(id: user.current_job_ids).paginate(page: options[:page], per_page: options[:per_page])
   		elsif options[:fallback_to_all]
-  			where.not(workflow_state: "complete").joins(:job_products).order("job_products.due_on ASC").limit(options[:limit])
+        where.not(workflow_state: "complete").joins(:job_products).order("job_products.due_on ASC").paginate(page: options[:page], per_page: options[:per_page])
   		else
   			nil
   		end
