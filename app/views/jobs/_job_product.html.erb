@@ -1,38 +1,74 @@
-<dd class="accordion-navigation">
-  <a href="#job_product<%= job_product.id %>">
-    <div class="row">
-      <div class="large-6 small-9 columns">
-        <% if job_product.job.job_products.count > 1 %>
+<div class="container section job-product-container">
+  <div class="row section-header">
+    <div class="large-6 small-9 columns">
+      <% if job_product.job.job_products.count > 1 %>
         <%= i+1 %>:
-        <% end %>
-        <%= job_product.name %>
-      </div>
-      <div class="large-6 small-3 columns text-right">
-        status: <strong><%= job_product.workflow_state.humanize %></strong> &nbsp;
-        <%= humanized_money_with_symbol job_product.price %>
-      </div>
+      <% end %>
+      <%= job_product.name %>
     </div>
-  </a>
+    <div class="large-6 small-3 columns text-right">
+      <%= humanized_money_with_symbol job_product.price %>
+    </div>
+  </div>
 
   <div id="job_product<%= job_product.id %>" class="content">
+    <br/>
+    <%= render 'job_products/summary', job_product: job_product %>
+
+    <div class="row">
+      <div class="large-6 columns">
+        <div class="section search-history-container">
+          <div class="section-header">
+            <div class="row collapse">
+              <div class="large-6 small-6 columns"><h3>Search History</h3></div>
+              <div class="large-6 small-6 columns text-right">
+                <%= simple_form_for [job_product.job, job_product, SearchLog.new] do |f| %>
+                  <%= f.button :submit, "Log Search", class: "tiny secondary button" %>
+                  <%= f.input :status, as: :boolean, label: "Cleared", checked_value: "Cleared", unchecked_value: "Not Cleared" %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <div class="fixed-height">
+            <ul class="log">
+              <% job_product.search_logs.reverse.each do |search_log| %>
+                <li>
+                <%= search_log.user.name %>|<%= search_log.created_at.to_date.to_s %>|<%= search_log.status %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="large-6 columns">
+        <div class="section documents-container">
+          <div class="section-header">
+            <div class="row collapse">
+              <div class="large-6 small-6 columns"><h3>Documents</h3></div>
+              <div class="large-6 small-6 columns text-right">
+                <%= link_to "New Document", '#', class: "tiny secondary button" %>
+              </div>
+            </div>
+          </div>
+          <div class="fixed-height">
+            <%= simple_form_for [job_product.job, job_product, Document.new] do |f| %>
+            <% end %>
+            ...(documents)...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="row">
     <div class="large-6 small-6 columns">
-      Worker: 
-        <%= job_product.worker.name if job_product.worker_id.present? %> 
-    </div>
-    <div class="large-6 small-6 columns text-right">
-        <%= link_to job_product.worker_id.present? ? 'edit' : 'none', 
-              edit_job_job_product_path(job_product.job, job_product), 
-              class: 'assign-task tiny button', 
-              data: { job_product_id: job_product.id } %>
-    </div>
+      <p><br/>
+      Status: <strong><%= job_product.workflow_state.humanize %></strong> &nbsp;
+      <br/>
+      Worker: <%= job_product.worker.name if job_product.worker_id.present? %>
+    <%= link_to "edit", edit_job_job_product_path(job_product.job, job_product) %>
+    </p>
   </div>
-
-  <div class="row">
-    <div class="large-12 columns">
-      <%= render 'job_products/summary', job_product: job_product %>
-    </div>
-  </div>
-
-</dd>
+</div>
+</div>

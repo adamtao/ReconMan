@@ -21,14 +21,16 @@ Rails.application.routes.draw do
         get :toggle
         post :toggle
       end
+      resources :search_logs, only: :create
       resources :title_search_caches
+      resources :documents
     end
   end
 
   get 'zipcodes/:id' => 'zipcodes#show'
 
   root to: 'dashboard#index'
-  devise_for :users, :skip => [:registrations]                                          
+  devise_for :users, :skip => [:registrations]
     as :user do
       get 'users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'    
       patch 'users/:id' => 'devise/registrations#update', :as => 'user_registration'            

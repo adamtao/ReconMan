@@ -26,7 +26,7 @@ feature 'Record search for job product' do
 		fill_in 'job_product_search_url', with: 'http://yomama.lvh.me'
 		click_on 'Save'
 
-		expect(page).to have_content("status: In progress")
+		expect(page).to have_content("Status: In progress")
 	end
 
 	# Scenario: Offline job automatically moves to in_progress
@@ -37,7 +37,7 @@ feature 'Record search for job product' do
 		@job = create(:tracking_job, county: county)
 		visit job_path(@job)
 
-		expect(page).to have_content("status: To be searched manually")
+		expect(page).to have_content("Status: To be searched manually")
 	end
 
 end

@@ -24,10 +24,10 @@ feature 'Complete job product' do
 	scenario 'mark a solo job product complete' do
 		visit job_path(@job)
 
-		fill_in 'New deed of trust number', with: "777777"
+		fill_in 'New DOT number', with: "777777"
 		click_on 'Mark Complete'
 
-		expect(page).to have_content("status: Complete")
+		expect(page).to have_content("Status: Complete")
 		expect(page).to have_content("Job Status: Complete")
 	end
 
@@ -42,11 +42,11 @@ feature 'Complete job product' do
 		visit job_path(@job)
 
 		within("#edit_job_product_#{job_product.id}") do
-			fill_in 'New deed of trust number', with: "77777"
+			fill_in 'New DOT number', with: "77777"
 			click_on 'Mark Complete'
 		end
 
-		expect(page).to have_content("status: Complete")
+		expect(page).to have_content("Status: Complete")
 		expect(page).not_to have_content("Job Status: Complete")
 		expect(page).to have_content("Job Status: New")
 	end

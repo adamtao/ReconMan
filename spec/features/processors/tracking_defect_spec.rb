@@ -27,7 +27,7 @@ feature 'Record defect on a reconveyance' do
 
     click_on 'Mark Defect'
 
-		expect(page).to have_content("status: Defect")
+		expect(page).to have_content("Status: Defect")
 	end
 
 	# Scenario: Processor marks a defect and system created defect clearance job

@@ -1,65 +1,55 @@
-<div class="container">
-  <div class="large-7 small-7 columns">
-    <h1>File Number: <%= @job.file_number %></h1>
-  </div>
-  <div class="large-5 small-5 columns text-right">
-    <br/>
-    <ul class="button-group">
-      <li><%= link_to "Add product/service", new_job_job_product_path(@job), class: "tiny success button" %></li>
-      <li><%= link_to 'Edit Job', edit_job_path(@job), class: "tiny button" %></li>
-    </ul>
-    
-  </div>
-</div>
-
-<div class="main_content">
-  <p>Job Status: <%= @job.workflow_state.titleize %></p>
-  <h3 class="subheader">Products &amp; Services 
-    <small><%= link_to "add product/service", new_job_job_product_path(@job), class: "success" %></small>
-  </h3>
-
-  <dl class="accordion" data-accordion>
-    <% @job.job_products.each_with_index do |job_product,i| %>
-      <%= render 'job_product', job_product: job_product, i: i %>
-    <% end %>
-    <dd>
-      <div class="row">
-        <div class="large-12 columns text-right">
-          <strong>total: <%= humanized_money_with_symbol @job.total_price %></strong>
-        </div>
+<h1><%= link_to @job.client.name, @job.client %></h1>
+<div class="section job-container">
+  <div class="full-width row">
+    <div class="job-header section-header row">
+      <div class="large-7 small-7 columns">
+        <h2>File: <%= @job.file_number %></h2>
+        <p>
+        <%= link_to @job.client.name, @job.client %> |
+        <%= link_to @job.requestor.name, @job.requestor %>
+        </p>
       </div>
-    </dd>
-  </dl>
+      <div class="large-5 small-5 columns text-right">
+        <br/>
+        <ul class="button-group">
+          <li><%= link_to "Add product/service", new_job_job_product_path(@job), class: "tiny success button" %></li>
+          <li><%= link_to 'Edit Job', edit_job_path(@job), class: "secondary tiny button" %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-  <% if @job.completed_at.present? %>
-    <p>
-      <strong>Completed at:</strong>
-      <%=l @job.completed_at, format: :long %>
-    </p>
-  <% end %>
+      <p>Job Status: <%= @job.workflow_state.titleize %></p>
 
-  <br/>
-  <%= render 'shared/comments_with_form', item: @job %> 
+  <div class="full-width row">
 
-  <%= render 'shared/ownable_stats', item: @job %>
+    <div class="main_content">
 
-</div>
-
-<div class="side_content">
-  <p>This <%= @job.job_type.humanize.downcase %> job was requested by 
-      <%= link_to @job.requestor.name, @job.requestor %>
-      of
-      <%= link_to @job.client.name, @job.client %>
-      on
-      <%=l @job.created_at.to_date, format: :long %>.
-      <% if @job.dashboard_product && @job.dashboard_product.due_on.present? %>
-      The due date is 
-      <strong><%=l @job.dashboard_product.due_on, format: :long %></strong>.
+      <% @job.job_products.each_with_index do |job_product,i| %>
+        <%= render 'job_product', job_product: job_product, i: i %>
       <% end %>
-  </p>
 
-  <div class="panel">
-    <h3 class="subheader">Property Info</h3>
+      <div class="large-12 columns text-right">
+        <strong>total: <%= humanized_money_with_symbol @job.total_price %></strong>
+      </div>
+
+      <% if @job.completed_at.present? %>
+        <p>
+          <strong>Completed at:</strong>
+          <%=l @job.completed_at, format: :long %>
+        </p>
+      <% end %>
+
+      <br/>
+      <%= render 'shared/comments_with_form', item: @job %> 
+
+      <%= render 'shared/ownable_stats', item: @job %>
+
+    </div>
+
+    <div class="side_content">
+      <h2>Property Information</h2>
+
       <p>
         <%= @job.address %><br/>
         <%= @job.city %>,
@@ -69,30 +59,31 @@
           <%= link_to "#{@job.county.name} County", [@job.state, @job.county] %>
         <% end %>
       </p>
+
+      <table>
+        <tr>
+          <td>Seller</td><td><strong><%= @job.old_owner %></strong></td>
+        </tr>
+        <tr>
+          <td>Buyer</td><td><strong><%= @job.new_owner %></strong></td>
+        </tr>
+        <tr>
+          <td>Close Date</td><td><strong>
+              <% if @job.close_on.present? && @job.close_on.is_a?(Date) %>
+                <%= l @job.close_on, format: :long %><br/>
+              <% end %>
+            </strong>
+          </td>
+        </tr>
+      </table>
+
+      <% if current_user.admin? %>
+        <div class="text-right">
+          <%= link_to 'Delete', @job, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
+        </div>
+      <% end %>
+
+    </div>
+
   </div>
-
-  <table>
-    <tr>
-      <td>Seller</td><td><strong><%= @job.old_owner %></strong></td>
-    </tr>
-    <tr>
-      <td>Buyer</td><td><strong><%= @job.new_owner %></strong></td>
-    </tr>
-    <tr>
-      <td>Close Date</td><td><strong>
-        <% if @job.close_on.present? && @job.close_on.is_a?(Date) %>
-          <%= l @job.close_on, format: :long %><br/>
-        <% end %>
-        </strong>
-      </td>
-    </tr>
-  </table>
-
-    <% if current_user.admin? %>
-      <div class="text-right">
-        <%= link_to 'Delete', @job, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
-      </div>
-    <% end %>
-
 </div>
-

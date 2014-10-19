@@ -92,37 +92,40 @@ namespace :testdata do
 		puts "Loading up New Jobs"
 		puts "============================="
 		new_jobs = Job.where.not(workflow_state: 'new').count
-		if new_jobs < 5
-			(10 - new_jobs).times do
-				user = User.where.not(branch_id: nil).sample
-				puts "Creating a job on behalf of #{user.name} of #{user.branch.client.name}/#{user.branch.name}"
-				job_type = Job.job_types.sample
-				Job.create!(
-					requestor: user,
-					client: user.branch.client,
-					address: Forgery::Address.street_address,
-					city: Forgery::Address.city,
-					state: user.branch.state,
-					zipcode: Forgery::Address.zip,
-					county: user.branch.state.counties.sample,
-					old_owner: Forgery::Name.full_name,
-					new_owner: Forgery::Name.full_name,
-					job_type: job_type,
-					job_products_attributes: {
-						"0" => {
-				          product_id: Product.where(job_type: job_type.to_s).id,
-				          deed_of_trust_number: Forgery::CreditCard.number[2,6] + "-" + Forgery::CreditCard.number[6,5],
-				          beneficiary_name: "#{Bazaar.object.to_s.titleize} Holdings",
-				          beneficiary_account: Forgery::CreditCard.number[2,8] + "-" + Forgery::CreditCard.number[6,5],
-				          payoff_amount: 999.99,
-				          developer: Bazaar.object.to_s.titleize,
-				          parcel_number: Forgery::CreditCard.number[2,3] + "-" + Forgery::CreditCard.number[6,5],
-				          parcel_legal_description: "A #{['residential', 'industrial', 'commercial'].sample} property"
-				        }
-					},
-					creator: employees.sample
-				)
-			end
+    if new_jobs < 5
+      (40 - new_jobs).times do
+        user = User.where.not(branch_id: nil).sample
+        puts "Creating a job on behalf of #{user.name} of #{user.branch.client.name}/#{user.branch.name}"
+        job_type = Job.job_types.sample
+        product = Product.where(job_type: job_type.to_s).first || Product.first
+        Job.create!(
+          requestor: user,
+          client: user.branch.client,
+          file_number: Forgery::CreditCard.number[3,8],
+          address: Forgery::Address.street_address,
+          city: Forgery::Address.city,
+          state: user.branch.state,
+          zipcode: Forgery::Address.zip,
+          county: user.branch.state.counties.sample,
+          old_owner: Forgery::Name.full_name,
+          new_owner: Forgery::Name.full_name,
+          job_type: job_type,
+          job_products_attributes: {
+            "0" => {
+              product_id: product.id,
+              worker: User.processors.sample,
+              deed_of_trust_number: Forgery::CreditCard.number[2,6] + "-" + Forgery::CreditCard.number[6,5],
+              beneficiary_name: "#{Bazaar.object.to_s.titleize} Holdings",
+              beneficiary_account: Forgery::CreditCard.number[2,8] + "-" + Forgery::CreditCard.number[6,5],
+              payoff_amount: 999.99,
+              developer: Bazaar.object.to_s.titleize,
+              parcel_number: Forgery::CreditCard.number[2,3] + "-" + Forgery::CreditCard.number[6,5],
+              parcel_legal_description: "A #{['residential', 'industrial', 'commercial'].sample} property"
+            }
+          },
+          creator: employees.sample
+        )
+      end
 		end
 
 		puts "Loading up Open Jobs"
@@ -130,36 +133,42 @@ namespace :testdata do
 		open_jobs = Job.where.not(workflow_state: 'new').count
 		if open_jobs < 15
 			(15 - open_jobs).times do
-				user = User.where.not(branch_id: nil).sample
-				puts "Creating a job on behalf of #{user.name} of #{user.branch.client.name}/#{user.branch.name}"
-				job = Job.create!(
-					requestor: user,
-					client: user.branch.client,
-					address: Forgery::Address.street_address,
-					city: Forgery::Address.city,
-					state: user.branch.state,
-					zipcode: Forgery::Address.zip,
-					county: user.branch.state.counties.sample,
-					old_owner: Forgery::Name.full_name,
-					new_owner: Forgery::Name.full_name,
-					job_type: job_type,
-					job_products_attributes: {
-						"0" => {
-				          product_id: Product.where(job_type: job_type.to_s).id,
-				          deed_of_trust_number: Forgery::CreditCard.number[2,6] + "-" + Forgery::CreditCard.number[6,5],
-				          beneficiary_name: "#{Bazaar.object.to_s.titleize} Holdings",
-				          beneficiary_account: Forgery::CreditCard.number[2,8] + "-" + Forgery::CreditCard.number[6,5],
-				          payoff_amount: 999.99,
-				          developer: Bazaar.object.to_s.titleize,
-				          parcel_number: Forgery::CreditCard.number[2,3] + "-" + Forgery::CreditCard.number[6,5],
-				          parcel_legal_description: "A #{['residential', 'industrial', 'commercial'].sample} property"
-				        }
-					},
-					creator: employees.sample,
+        user = User.where.not(branch_id: nil).sample
+        puts "Creating an in-process job on behalf of #{user.name} of #{user.branch.client.name}/#{user.branch.name}"
+        job_type = Job.job_types.sample
+        product = Product.where(job_type: job_type.to_s).first || Product.first
+        job = Job.create!(
+          requestor: user,
+          client: user.branch.client,
+          file_number: Forgery::CreditCard.number[3,8],
+          address: Forgery::Address.street_address,
+          city: Forgery::Address.city,
+          state: user.branch.state,
+          zipcode: Forgery::Address.zip,
+          county: user.branch.state.counties.sample,
+          old_owner: Forgery::Name.full_name,
+          new_owner: Forgery::Name.full_name,
+          job_type: job_type,
+          job_products_attributes: {
+            "0" => {
+              product_id: product.id,
+              worker: User.processors.sample,
+              deed_of_trust_number: Forgery::CreditCard.number[2,6] + "-" + Forgery::CreditCard.number[6,5],
+              beneficiary_name: "#{Bazaar.object.to_s.titleize} Holdings",
+              beneficiary_account: Forgery::CreditCard.number[2,8] + "-" + Forgery::CreditCard.number[6,5],
+              payoff_amount: 999.99,
+              developer: Bazaar.object.to_s.titleize,
+              parcel_number: Forgery::CreditCard.number[2,3] + "-" + Forgery::CreditCard.number[6,5],
+              parcel_legal_description: "A #{['residential', 'industrial', 'commercial'].sample} property"
+            }
+          },
+          creator: employees.sample,
 					modifier: employees.sample
 				)
-				reconveyance = job.dashboard_product
-				reconveyance.search!
+        begin
+          reconveyance = job.dashboard_product
+          reconveyance.search! if reconveyance.can_search?
+        end
 			end
 		end
 
@@ -170,8 +179,11 @@ namespace :testdata do
 			(10 - closed_jobs).times do
 				user = User.where.not(branch_id: nil).sample
 				puts "Creating a closed job on behalf of #{user.name} of #{user.branch.client.name}/#{user.branch.name}"
+        job_type = Job.job_types.sample
+        product = Product.where(job_type: job_type.to_s).first || Product.first
 				job = Job.create!(
 					requestor: user,
+          file_number: Forgery::CreditCard.number[3,8],
 					client: user.branch.client,
 					address: Forgery::Address.street_address,
 					city: Forgery::Address.city,
@@ -184,7 +196,8 @@ namespace :testdata do
 					job_type: job_type,
 					job_products_attributes: {
 						"0" => {
-				          product_id: Product.where(job_type: job_type.to_s).id,
+              product_id: product.id,
+              worker: User.processors.sample,
 				          deed_of_trust_number: Forgery::CreditCard.number[2,6] + "-" + Forgery::CreditCard.number[6,5],
 				          beneficiary_name: "#{Bazaar.object.to_s.titleize} Holdings",
 				          beneficiary_account: Forgery::CreditCard.number[2,8] + "-" + Forgery::CreditCard.number[6,5],
@@ -197,13 +210,14 @@ namespace :testdata do
 					creator: employees.sample,
 					modifier: employees.sample
 				)
-				reconveyance = job.dashboard_product
-				reconveyance.search!
-				reconveyance.mark_complete!
-				# this should also make the job complete
-				
+        begin
+          reconveyance = job.dashboard_product
+          reconveyance.search! if reconveyance.can_search?
+          reconveyance.mark_complete!
+          # this should also make the job complete
+        end
 			end
-		end				
+		end
 	end
 
 	def clear_data

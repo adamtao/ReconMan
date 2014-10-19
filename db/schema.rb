@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140926010515) do
+ActiveRecord::Schema.define(version: 20141019033908) do
 
   create_table "branches", force: true do |t|
     t.string   "name"
@@ -99,6 +99,18 @@ ActiveRecord::Schema.define(version: 20140926010515) do
 
   add_index "counties", ["state_id"], name: "index_counties_on_state_id", using: :btree
 
+  create_table "documents", force: true do |t|
+    t.integer  "job_product_id"
+    t.string   "file_file_name"
+    t.integer  "file_file_size"
+    t.datetime "file_updated_at"
+    t.string   "file_content_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "documents", ["job_product_id"], name: "index_documents_on_job_product_id", using: :btree
+
   create_table "job_products", force: true do |t|
     t.integer  "product_id"
     t.integer  "job_id"
@@ -176,6 +188,16 @@ ActiveRecord::Schema.define(version: 20140926010515) do
   end
 
   add_index "products", ["job_type"], name: "index_products_on_job_type", using: :btree
+
+  create_table "search_logs", force: true do |t|
+    t.integer  "job_product_id"
+    t.integer  "user_id"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "search_logs", ["job_product_id"], name: "index_search_logs_on_job_product_id", using: :btree
 
   create_table "states", force: true do |t|
     t.string   "name"

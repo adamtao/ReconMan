@@ -3,115 +3,122 @@
     <%=l job_product.expected_completion_on, format: :long %>
   </p>
 <% end %>
-<table>
-  <% if job_product.deed_of_trust_number.present? %>
-  <tr>
-    <td>Deed of Trust Number</td>
-    <td><strong><%= job_product.deed_of_trust_number %></strong></td>
-  </tr>
-  <% end %>
-  <% if job_product.beneficiary_name.present? %>
-  <tr>
-    <td>Beneficiary</td>
-    <td><strong><%= job_product.beneficiary_name %></strong></td>
-  </tr>
-  <% end %>
-  <% if job_product.beneficiary_account.present? %>
-  <tr>
-    <td>Beneficiary Account</td>
-    <td><strong><%= job_product.beneficiary_account %></strong></td>
-  </tr>
-  <% end %>
-  <% if job_product.payoff_amount.present? %>
-  <tr>
-    <td>Payoff Amt.</td>
-    <td><strong><%= humanized_money_with_symbol job_product.payoff_amount %></strong></td>
-  </tr>
-  <% end %>
-  <% if job_product.parcel_number.present? %>
-  <tr>
-    <td>Parcel Number</td>
-    <td><strong><%= job_product.parcel_number %></strong></td>
-  </tr>
-  <% end %>
-  <% if job_product.parcel_legal_description.present? %>
-  <tr>
-    <td>Parcel description</td>
-    <td><%= job_product.parcel_legal_description %></td>
-  </tr>
-  <% end %>
-</table>
 
-<% if job_product.product.performs_search %>
-  <h3 class="subheader">Title search results</h3>
+<div class="row">
+  <div class="large-6 columns">
 
-  <% if job_product.search_changed? %>
-    <div>
-      <span class="alert label radius">POSSIBLE CHANGE DETECTED</span>
-    </div>
-  <% end %>
-
-  <% if job_product.search_url.blank? && job_product.can_search? %>
-    <p>
-      <i>Please perform a search, then copy and paste the resulting <b>URL</b>
-        below to advance this job.</i>
-    </p>
-
-    <%= simple_form_for [job_product.job, job_product] do |f| %>
-      <div class="row collapse">
-        <div class="large-10 small-8 columns">
-          <%= f.input :search_url, label: false, 
-                as: :url, placeholder: 'http://' %>
-        </div>
-        <div class="large-2 small-4 columns">
-          <%= f.button :submit, "Save", class: "small button postfix" %>
-        </div>
-      </div>
-    <% end %>
-
-
-    <h5>Here's the info you'll need for the search:</h5>
-
-    <% if job_product.job.county.search_url.present? %>
-      <p>County URL: <%= link_to job_product.job.county.search_url, job_product.job.county.search_url, target: "_blank" %></p>
-    <% else %>
-      <p>County URL: (not provided) <%= link_to "edit #{job_product.job.county.name.downcase} county", edit_state_county_path(job_product.job.state, job_product.job.county) %></p>
-    <% end %>
-
-  <% else # search URL is present, or job is past that point %>
-    <% if job_product.search_url.present? %>
-    <p>
-      <strong>Search URL:</strong>
-      <%= link_to job_product.search_url, job_product.search_url, target: "_blank" %>
-    </p>
-    <% end %>
-
-    <div class="panel">
-      <%= simple_form_for [job_product.job, job_product] do |f| %>
-        <%= render 'job_products/finalize_fields', f: f %>
-        <div class="row"><div class="large-12 columns">
-          <%= f.submit 'Mark Complete', class: "small success button" %>
-          <% if job_product.can_mark_defect? %>
-          <%= f.button :submit, "Mark Defect", class: "small alert button" %>
-          <% end %>
-        </div></div>
+    <table class="no-border">
+      <% if job_product.deed_of_trust_number.present? %>
+      <tr>
+        <td>Deed of Trust Number</td>
+        <td><strong><%= job_product.deed_of_trust_number %></strong></td>
+      </tr>
       <% end %>
-    </div>
+      <% if job_product.beneficiary_name.present? %>
+      <tr>
+        <td>Beneficiary</td>
+        <td><strong><%= job_product.beneficiary_name %></strong></td>
+      </tr>
+      <% end %>
+      <% if job_product.beneficiary_account.present? %>
+      <tr>
+        <td>Beneficiary Account</td>
+        <td><strong><%= job_product.beneficiary_account %></strong></td>
+      </tr>
+      <% end %>
+      <% if job_product.payoff_amount.present? %>
+      <tr>
+        <td>Payoff Amt.</td>
+        <td><strong><%= humanized_money_with_symbol job_product.payoff_amount %></strong></td>
+      </tr>
+      <% end %>
+      <% if job_product.parcel_number.present? %>
+      <tr>
+        <td>Parcel Number</td>
+        <td><strong><%= job_product.parcel_number %></strong></td>
+      </tr>
+      <% end %>
+      <% if job_product.parcel_legal_description.present? %>
+      <tr>
+        <td>Parcel description</td>
+        <td><%= job_product.parcel_legal_description %></td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
 
-    <!-- For future use, show cached search results when desired -->
-    <div class="hidden">
-      <ul>
-        <% job_product.title_search_caches.reverse.each do |tsc| %>
-        <li><%= link_to tsc.created_at, [job_product.job, job_product, tsc] %> <% if tsc.change_detected? %>CHANGE DETECTED<% end %></li>
+  <div class="large-6 columns">
+    <% if job_product.product.performs_search %>
+
+      <% if job_product.search_changed? %>
+        <div>
+          <span class="alert label radius">POSSIBLE CHANGE DETECTED</span>
+        </div>
+      <% end %>
+
+      <% if job_product.search_url.blank? && job_product.can_search? %>
+        <p>
+          <i>Please perform a search, then copy and paste the resulting <b>URL</b>
+            below to advance this job.</i>
+        </p>
+
+        <%= simple_form_for [job_product.job, job_product] do |f| %>
+          <div class="row collapse">
+            <div class="large-10 small-8 columns">
+              <%= f.input :search_url, label: false, 
+                    as: :url, placeholder: 'http://' %>
+            </div>
+            <div class="large-2 small-4 columns">
+              <%= f.button :submit, "Save", class: "small button postfix" %>
+            </div>
+          </div>
         <% end %>
-      </ul>
-    </div>
-  <% end %>
 
-<% else # non-search products of offline search %>
 
-  <% if job_product.can_mark_complete? %>
-    <%= link_to 'Mark Complete', toggle_job_job_product_path(job_product.job, job_product), method: :post, class: "small success button" %>
-  <% end %>
+        <h5>Here's the info you'll need for the search:</h5>
 
-<% end %>
+        <% if job_product.job.county.search_url.present? %>
+          <p>County URL: <%= link_to job_product.job.county.search_url, job_product.job.county.search_url, target: "_blank" %></p>
+        <% else %>
+          <p>County URL: (not provided) <%= link_to "edit #{job_product.job.county.name.downcase} county", edit_state_county_path(job_product.job.state, job_product.job.county) %></p>
+        <% end %>
+
+      <% else # search URL is present, or job is past that point %>
+        <% if job_product.search_url.present? %>
+        <p>
+          <strong>Search URL:</strong>
+          <%= link_to job_product.search_url, job_product.search_url, target: "_blank" %>
+        </p>
+        <% end %>
+
+        <div class="panel">
+          <%= simple_form_for [job_product.job, job_product] do |f| %>
+            <%= render 'job_products/finalize_fields', f: f %>
+            <div class="row"><div class="large-12 columns">
+              <%= f.submit 'Mark Complete', class: "tiny success button" %>
+              <% if job_product.can_mark_defect? %>
+                <br/><%= f.button :submit, "Mark Defect", class: "tiny alert button" %>
+              <% end %>
+            </div></div>
+          <% end %>
+        </div>
+
+        <!-- For future use, show cached search results when desired -->
+        <div class="hidden">
+          <ul>
+            <% job_product.title_search_caches.reverse.each do |tsc| %>
+            <li><%= link_to tsc.created_at, [job_product.job, job_product, tsc] %> <% if tsc.change_detected? %>CHANGE DETECTED<% end %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+    <% else # non-search products of offline search %>
+
+      <% if job_product.can_mark_complete? %>
+        <%= link_to 'Mark Complete', toggle_job_job_product_path(job_product.job, job_product), method: :post, class: "small success button" %>
+      <% end %>
+
+    <% end %>
+  </div>
+</div>

@@ -39,8 +39,7 @@ feature 'Create job' do
 
 		expect(page).to have_content("Job was successfully created")
 		expect(page).to have_content(product.name)
-		expect(page).to have_content("File Number: 9191919")
-		expect(page).to have_content("This tracking job was requested")
+		expect(page).to have_content("File: 9191919")
 	end
 
 	# Scenario: Creating a new tracking job, it should estimate when it might be complete
@@ -128,8 +127,7 @@ feature 'Create job' do
 
 		expect(page).to have_content("Job was successfully created")
 		expect(page).to have_content(product.name)
-		expect(page).to have_content("File Number: 9191919")
-		expect(page).to have_content("This special job was requested")
+		expect(page).to have_content("File: 9191919")
 	end
 
 	# Scenario: Create a new search job
@@ -150,8 +148,7 @@ feature 'Create job' do
 
 		expect(page).to have_content("Job was successfully created")
 		expect(page).to have_content(product.name)
-		expect(page).to have_content("File Number: 9191919")
-		expect(page).to have_content("This search job was requested")
+		expect(page).to have_content("File: 9191919")
 	end
 
 	def fill_in_common_fields
