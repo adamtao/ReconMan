@@ -29,6 +29,7 @@ feature 'Complete job product' do
 
 		expect(page).to have_content("Status: Complete")
 		expect(page).to have_content("Job Status: Complete")
+    expect(page).not_to have_css("form.edit_job_product")
 	end
 
 	# Scenario: Complete a job product but not the parent job

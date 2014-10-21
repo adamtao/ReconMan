@@ -1,12 +1,14 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
+#TODO: Convert these features specs into view specs
 # Feature: Dashboard functions
 #   As a processor
 #   I want to use the dashboard
 feature 'Dashboard' do
 
 	before(:each) do
+    skip "Need to convert feature spec into view spec"
 		@me = sign_in_as_processor
   end
 

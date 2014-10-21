@@ -48,7 +48,22 @@
   </div>
 
   <div class="large-6 columns">
-    <% if job_product.product.performs_search %>
+    <% if job_product.complete? %>
+      <% if job_product.new_deed_of_trust_number.present? || job_product.recorded_on.present? %>
+        <div class="panel">
+          <% if job_product.recorded_on.present? %>
+            <p><strong>Recorded On:</strong>
+              <%=l job_product.recorded_on.to_date, format: :short %>
+            </p>
+          <% end %>
+          <% if job_product.new_deed_of_trust_number.present? %>
+            <p><strong>New DOT Number:</strong>
+            <%= job_product.new_deed_of_trust_number %>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
+    <% elsif job_product.product.performs_search %>
 
       <% if job_product.search_changed? %>
         <div>

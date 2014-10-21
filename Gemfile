@@ -14,7 +14,7 @@ gem 'figaro', '>= 1.0.0.rc1'
 gem 'pundit'
 gem 'simple_form'
 gem 'therubyracer', :platform=>:ruby
-gem 'foundation-rails', '5.4.3.1' # 5.4.4.0 is having sass compile issues
+gem 'foundation-rails', '~> 5.4'
 gem 'will_paginate'
 gem 'workflow'
 gem 'money-rails'
