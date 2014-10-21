@@ -1,7 +1,7 @@
 <h1><%= link_to @job.client.name, @job.client %></h1>
 <div class="section job-container">
   <div class="full-width row">
-    <div class="job-header section-header row">
+    <div class="job-header section-header row clearfix">
       <div class="large-7 small-7 columns">
         <h2>File: <%= @job.file_number %></h2>
         <p>
@@ -9,9 +9,9 @@
         <%= link_to @job.requestor.name, @job.requestor %>
         </p>
       </div>
-      <div class="large-5 small-5 columns text-right">
+      <div class="large-5 small-5 columns">
         <br/>
-        <ul class="button-group">
+        <ul class="button-group right">
           <li><%= link_to "Add product/service", new_job_job_product_path(@job), class: "tiny success button" %></li>
           <li><%= link_to 'Edit Job', edit_job_path(@job), class: "secondary tiny button" %></li>
         </ul>

@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container clearfix">
 	<div class="large-7 small-7 columns">
 		<h1><%= @client.name %></h1>
 	</div>
-	<div class="large-5 small-5 columns text-right">
+	<div class="large-5 small-5 columns">
 		<br/>
-		<ul class="button-group">
+		<ul class="button-group right">
 		<% Job.job_types.each do |t| %>
 			<li><%= link_to "+ #{t.to_s.titleize} Job", new_job_path(client_id: @client.id, job_type: t), 
 				class: "tiny success button" %></li>

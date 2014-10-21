@@ -1,11 +1,13 @@
-<div class="container">
+<div class="container clearfix">
   <div class="large-7 small-7 columns">
     <h1>Users</h1>
   </div>
-  <div class="large-5 small-5 columns text-right">
+  <div class="large-5 small-5 columns">
     <br/>
-    <%= link_to 'Invite A User', new_user_invitation_path, class: "tiny success button" %>
-    <%= link_to 'Create A User', new_user_path, class: "tiny button" %>
+    <ul class="button-group right">
+      <li><%= link_to 'Invite A User', new_user_invitation_path, class: "tiny success button" %></li>
+      <li><%= link_to 'Create A User', new_user_path, class: "tiny button" %></li>
+    </ul>
   </div>
 </div>
 

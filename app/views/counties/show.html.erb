@@ -1,13 +1,15 @@
-<div class="container">
+<div class="container clearfix">
 	<div class="large-7 small-7 columns">
 		<h1><%= @county.name %> 
 			<small>a county of <%= link_to @county.state.name, @county.state %></small>
 		</h1>
 	</div>
-	<div class="large-5 small-5 columns text-right">
+	<div class="large-5 small-5 columns">
 		<br/>
-		<%= link_to 'Edit County', edit_state_county_path(@state, @county), class: "tiny button" %>
-		<%= link_to 'Delete', [@state, @county], method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
+      <ul class="button-group right">
+        <li><%= link_to 'Edit County', edit_state_county_path(@state, @county), class: "tiny button" %></li>
+        <li><%= link_to 'Delete', [@state, @county], method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %></li>
+      </ul>
 	</div>
 </div>
 
