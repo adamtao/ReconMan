@@ -1,13 +1,14 @@
 <div class="container section job-product-container">
   <div class="row section-header">
     <div class="large-6 small-9 columns">
-      <% if job_product.job.job_products.count > 1 %>
-        <%= i+1 %>:
-      <% end %>
-      <%= job_product.name %>
+      <h3><%= job_product.name %>
+        <% if job_product.job.job_products.count > 1 %>
+          #<%= i+1 %>
+        <% end %>
+      </h3>
     </div>
     <div class="large-6 small-3 columns text-right">
-      <%= humanized_money_with_symbol job_product.price %>
+      <h3><%= humanized_money_with_symbol job_product.price %></h3>
     </div>
   </div>
 
@@ -24,7 +25,12 @@
               <div class="large-6 small-6 columns text-right">
                 <%= simple_form_for [job_product.job, job_product, SearchLog.new] do |f| %>
                   <%= f.button :submit, "Log Search", class: "tiny secondary button" %>
-                  <%= f.input :status, as: :boolean, label: "Cleared", checked_value: "Cleared", unchecked_value: "Not Cleared" %>
+                  <%= f.input :status,
+                    as: :boolean,
+                    label: "Cleared",
+                    required: false,
+                    checked_value: "Cleared",
+                    unchecked_value: "Not Cleared" %>
                 <% end %>
               </div>
             </div>
@@ -47,14 +53,26 @@
             <div class="row collapse">
               <div class="large-6 small-6 columns"><h3>Documents</h3></div>
               <div class="large-6 small-6 columns text-right">
-                <%= link_to "New Document", '#', class: "tiny secondary button" %>
+                <%= link_to "New Document", '#',
+                  class: "tiny secondary button",
+                  data: {:"reveal-id" => "new_document_form"} %>
               </div>
             </div>
           </div>
           <div class="fixed-height">
-            <%= simple_form_for [job_product.job, job_product, Document.new] do |f| %>
-            <% end %>
-            ...(documents)...
+            <div id="new_document_form" class="reveal-modal small" data-reveal>
+              <h2>Choose a file to upload</h2>
+              <%= simple_form_for [job_product.job, job_product, Document.new], html: {multipart: true} do |f| %>
+                  <%= f.input :file, label: false, required: false %>
+                  <%= f.button :submit, "Upload", class: "tiny secondary button" %>
+              <% end %>
+              <a class="close-reveal-modal">&#215;</a>
+            </div>
+            <ul class="documents">
+              <% job_product.documents.reverse.each do |document| %>
+                <li><%= link_to document.file_file_name, document.file.url %></li>
+              <% end %>
+            </ul>
           </div>
         </div>
       </div>

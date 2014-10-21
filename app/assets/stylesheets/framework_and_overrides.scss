@@ -249,13 +249,20 @@ label.boolean {
     color: white;
   }
   h1,h2,h3,h4,h5,h6 {
-    color: $light-gray;
+    color: white;
+  }
+  h3,h4,h5,h6 {
+    letter-spacing: 1px;
+    font-weight: 100;
   }
 }
 .job-product-container .section-header {
   height: 50px;
   label {
     color: white;
+    font-weight: 100;
+    font-size: 12px;
+    letter-spacing: 1px;
     line-height: 12px;
     margin:0;
     padding:0;

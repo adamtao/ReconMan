@@ -36,6 +36,7 @@ class JobProduct < ActiveRecord::Base
 	belongs_to :product
 	belongs_to :worker, class_name: "User", foreign_key: :worker_id
 
+  has_many :documents
   has_many :search_logs
 	has_many :title_search_caches, class_name: "TitleSearchCache"
 

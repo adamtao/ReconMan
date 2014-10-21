@@ -5,7 +5,7 @@ class SearchLogsController < ActionController::Base
     search_log = SearchLog.new(search_log_params)
     search_log.job_product = @job_product
     search_log.user = current_user
-    search_log.save
+    search_log.save!
     redirect_to @job
   end
 

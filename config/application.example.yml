@@ -23,6 +23,11 @@ DOMAIN_NAME: example.com
 ADMIN_NAME: First User
 ADMIN_EMAIL: user@example.com
 ADMIN_PASSWORD: changeme
+PAPERCLIP_PATH: ":rals_root/public/system/"
+PAPERCLIP_STORAGE: filesystem
+S3_BUCKET: amazon_s3_bucket_name
+S3_ACCESS_KEY_ID: s3_access_key_id
+S3_ACCESS_KEY_SECRET: s3_access_key_secret
 
 # Passed along with the auto-tracking system in the HTTP header
 TRACKING_USER_AGENT: "Reconveyance tracking service."

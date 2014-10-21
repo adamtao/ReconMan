@@ -14,6 +14,35 @@
   </div>
 </div>
 
-<% Job.job_types.each do |t| %>
-  <%= render "shared/#{t}_section", job_type: t, jobs: @current_jobs.where(job_type: t) %>
-<% end %>
+<div class="container">
+  <div class="main_content">
+    <%= render 'shared/jobs' %>
+  </div>
+
+  <div class="side_content hide-for-small">
+    
+    <div class="panel">
+      <h4 class="subheader">Clients <small><%= link_to 'new client', new_client_path %></small></h4>
+
+      <ul>
+        <% @clients.each do |client| %>
+          <li><%= link_to client.name, client %> (<%= client.jobs.count %>)</li>
+        <% end %>
+      </ul>
+    </div>
+
+
+    <div class="panel">
+
+      <h4 class="subheader">Products <small><%= link_to 'new product', new_product_path %></small></h4>
+
+      <ul>
+          <% @products.each do |product| %>
+            <li><%= link_to product.name, product %> (<%= humanized_money_with_symbol product.price %>)</li>
+          <% end %>
+      </ul>
+
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="large-8 small-7 columns">
+    <h1>Current Jobs</h1>
+	<p class="smaller hide-for-small">Jobs move from <strong>new</strong> -&gt; <strong>in-progress</strong> -&gt; <strong>complete</strong>.
+		Perform a title search to advance to "in-progress". Then check the <strong>R</strong>econveyance box to mark it complete.</p>
+  </div>
+  <div class="large-4 small-5 columns text-right">
+    <br/>
+    <ul class="button-group">
+	<% Job.job_types.each do |t| %>
+		<li><%= link_to "+ #{t.to_s.titleize} Job", new_job_path(job_type: t), class: "tiny success button" %></li>
+	<% end %>
+	</ul>
+  </div>
+</div>
+
+<% Job.job_types.each do |t| %>
+  <%= render "shared/#{t}_section", job_type: t, jobs: @current_jobs.where(job_type: t) %>
+<% end %>

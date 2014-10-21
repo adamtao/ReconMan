@@ -94,12 +94,16 @@
         <div class="panel">
           <%= simple_form_for [job_product.job, job_product] do |f| %>
             <%= render 'job_products/finalize_fields', f: f %>
-            <div class="row"><div class="large-12 columns">
-              <%= f.submit 'Mark Complete', class: "tiny success button" %>
+            <div class="row">
+              <div class="large-6 columns">
+                <%= f.submit 'Mark Complete', class: "tiny success button" %>
+              </div>
               <% if job_product.can_mark_defect? %>
-                <br/><%= f.button :submit, "Mark Defect", class: "tiny alert button" %>
+                <div class="large-6 columns text-right">
+                  <%= f.button :submit, "Mark Defect", class: "tiny alert button" %>
+                </div>
               <% end %>
-            </div></div>
+            </div>
           <% end %>
         </div>
 
