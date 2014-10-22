@@ -74,7 +74,7 @@ feature 'Dashboard' do
 
   scenario 'Tracking section has button to log search'
   scenario 'Tracking section has button to close job'
-  scenario 'Tracking, close button has popup form with new DOT# and date filed, this clears the job'
+  scenario 'Tracking, close button has popup form with release # and date filed, this clears the job'
   scenario 'Tracking section has sortable columns'
 
   scenario 'Tracking section has columns: File#, Client, Escrow Officer, Close Date, Due Date, County, DOT#, Actions' do

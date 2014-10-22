@@ -24,7 +24,7 @@ feature 'Complete job product' do
 	scenario 'mark a solo job product complete' do
 		visit job_path(@job)
 
-		fill_in 'New DOT number', with: "777777"
+		fill_in 'Release Number', with: "777777"
 		click_on 'Mark Complete'
 
 		expect(page).to have_content("Status: Complete")
@@ -43,7 +43,7 @@ feature 'Complete job product' do
 		visit job_path(@job)
 
 		within("#edit_job_product_#{job_product.id}") do
-			fill_in 'New DOT number', with: "77777"
+			fill_in 'Release Number', with: "77777"
 			click_on 'Mark Complete'
 		end
 

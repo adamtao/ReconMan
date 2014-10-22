@@ -30,7 +30,7 @@ describe "jobs/_job_product.html.erb" do
 
   it "Each job product panel has clearing/closing form" do
     expect(rendered).to have_css("form.edit_job_product")
-    expect(rendered).to have_content("New DOT number")
+    expect(rendered).to have_content("Release Number")
   end
 
 end
