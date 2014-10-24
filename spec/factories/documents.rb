@@ -2,10 +2,10 @@
 
 FactoryGirl.define do
   factory :document do
-    job_product_id 1
-    file_file_name "MyString"
-    file_file_size 1
-    file_updated_at "2014-10-18 13:10:55"
-    file_content_type "MyString"
+    job_product
+    file_file_name "filename.pdf"
+    file_file_size 11111
+    file_updated_at 2.days.ago
+    file_content_type "application/pdf"
   end
 end
