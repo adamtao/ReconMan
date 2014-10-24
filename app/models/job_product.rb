@@ -34,6 +34,7 @@ class JobProduct < ActiveRecord::Base
 
 	belongs_to :job
 	belongs_to :product
+  belongs_to :lender
 	belongs_to :worker, class_name: "User", foreign_key: :worker_id
 
   has_many :documents

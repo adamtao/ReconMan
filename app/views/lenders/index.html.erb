@@ -1,0 +1,20 @@
+<div class="container clearfix">
+	<div class="large-7 small-7 columns">
+		<h1>Lenders</h1>
+	</div>
+	<div class="large-5 small-5 columns">
+    <ul class="button-group right">
+      <li><%= link_to "New Lender", new_lender_path, class: "tiny button" %></li>
+    </ul>
+	</div>
+</div>
+
+<div class="container">
+	<div class="main_content">
+    <ul>
+      <% @lenders.each do |lender| %>
+        <li><%= link_to lender.name, lender %></li>
+      <% end %>
+    </ul>
+	</div>
+</div>

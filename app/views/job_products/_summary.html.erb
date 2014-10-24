@@ -10,37 +10,43 @@
     <table class="no-border">
       <% if job_product.deed_of_trust_number.present? %>
       <tr>
-        <td>Deed of Trust Number</td>
-        <td><strong><%= job_product.deed_of_trust_number %></strong></td>
+        <td><strong>Deed of Trust Number</strong></td>
+        <td><%= job_product.deed_of_trust_number %></td>
+      </tr>
+      <% end %>
+      <% if job_product.lender_id.present? %>
+      <tr>
+        <td><strong>Lender</strong></td>
+        <td><%= link_to job_product.lender.name, job_product.lender %></td>
       </tr>
       <% end %>
       <% if job_product.beneficiary_name.present? %>
       <tr>
-        <td>Beneficiary</td>
-        <td><strong><%= job_product.beneficiary_name %></strong></td>
+        <td><strong>Beneficiary</strong></td>
+        <td><%= job_product.beneficiary_name %></td>
       </tr>
       <% end %>
       <% if job_product.beneficiary_account.present? %>
       <tr>
-        <td>Beneficiary Account</td>
-        <td><strong><%= job_product.beneficiary_account %></strong></td>
+        <td><strong>Beneficiary Account</strong></td>
+        <td><%= job_product.beneficiary_account %></td>
       </tr>
       <% end %>
       <% if job_product.payoff_amount.present? %>
       <tr>
-        <td>Payoff Amt.</td>
-        <td><strong><%= humanized_money_with_symbol job_product.payoff_amount %></strong></td>
+        <td><strong>Payoff Amt.</strong></td>
+        <td><%= humanized_money_with_symbol job_product.payoff_amount %></td>
       </tr>
       <% end %>
       <% if job_product.parcel_number.present? %>
       <tr>
-        <td>Parcel Number</td>
-        <td><strong><%= job_product.parcel_number %></strong></td>
+        <td><strong>Parcel Number</strong></td>
+        <td><%= job_product.parcel_number %></td>
       </tr>
       <% end %>
       <% if job_product.parcel_legal_description.present? %>
       <tr>
-        <td>Parcel description</td>
+        <td><strong>Parcel description</strong></td>
         <td><%= job_product.parcel_legal_description %></td>
       </tr>
       <% end %>

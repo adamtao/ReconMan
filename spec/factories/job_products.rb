@@ -40,6 +40,7 @@ FactoryGirl.define do
 		# recorded_on
     factory :tracking_job_product do
       product { FactoryGirl.create(:tracking_product) }
+      lender
     end
     factory :search_job_product do
       product { FactoryGirl.create(:search_product) }

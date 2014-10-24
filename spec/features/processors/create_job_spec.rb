@@ -10,6 +10,7 @@ feature 'Create job' do
 		@state = create(:state)
 		@county = create(:county, state: @state)
 		@zipcode = create(:zipcode, state: @state.abbreviation)
+    @lender = create(:lender)
 		@client = create(:client)
 		@branch = create(:branch, client: @client)
 		@employee = create(:user, branch: @branch)
@@ -32,7 +33,7 @@ feature 'Create job' do
 		fill_in_common_fields
 		fill_in	'Close Date', with: 2.days.ago
 		fill_in 'Deed of trust number', with: "55555"
-		fill_in 'Lender', with: "Hobo Bank"
+    select @lender.name, from: 'Lender'
 		fill_in 'Beneficiary Account', with: "12345"
 		fill_in 'Payoff Amount', with: "10000.00"
 		click_on 'Create Job'
@@ -40,6 +41,7 @@ feature 'Create job' do
 		expect(page).to have_content("Job was successfully created")
 		expect(page).to have_content(product.name)
 		expect(page).to have_content("File: 9191919")
+    expect(page).to have_content(@lender.name)
 	end
 
 	# Scenario: Creating a new tracking job, it should estimate when it might be complete
@@ -100,7 +102,7 @@ feature 'Create job' do
 		fill_in_common_fields
 		fill_in	'Close Date', with: 2.days.ago
 		fill_in 'Deed of trust number', with: "55555"
-		fill_in 'Lender', with: "Hobo Bank"
+    select @lender.name, from: 'Lender'
 		fill_in 'Beneficiary Account', with: "12345"
 		fill_in 'Payoff Amount', with: "10000.00"
 		click_on 'Save & New Job'

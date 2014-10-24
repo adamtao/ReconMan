@@ -40,6 +40,16 @@ describe JobProduct do
   	expect(@job_product.late?).to be true
   end
 
+  describe "tracking job product" do
+    before do
+      @tracking_job_product = FactoryGirl.create(:tracking_job_product)
+    end
+
+    it "should have a related Lender" do
+      expect(@tracking_job_product.lender).to be_an_instance_of(Lender)
+    end
+  end
+
   describe "product requiring search" do 
 	  describe "workflow state: new" do
 

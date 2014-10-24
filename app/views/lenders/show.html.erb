@@ -1,0 +1,14 @@
+<div class="container clearfix">
+  <div class="large-7 small-7 columns">
+    <h1><%= @lender.name %></h1>
+  </div>
+  <div class="large-5 small-5 columns">
+    <ul class="button-group right">
+      <li><%= link_to 'Edit Lender', edit_lender_path(@lender), class: "tiny button" %></li>
+    </ul>
+  </div>
+</div>
+
+<div class="main_content">
+  (job info/reports for the lender go here)
+</div>
