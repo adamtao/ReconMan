@@ -1,0 +1,17 @@
+<h1>Completed Jobs For <%= @report.client.name %></h1>
+
+<table id="completed_jobs">
+  <tr>
+    <th>File</th>
+    <th>Original DOT</th>
+    <th>Lender</th>
+  </tr>
+  <% @report.job_products.each do |job_product| %>
+    <tr>
+      <td><%= job_product.job.file_number %></td>
+      <td><%= job_product.deed_of_trust_number %></td>
+      <td><%= job_product.lender.name %></td>
+    </tr>
+  <% end %>
+</table>
+

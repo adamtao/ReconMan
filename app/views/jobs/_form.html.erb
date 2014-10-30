@@ -21,7 +21,7 @@
         <%= f.association :client, collection: all_clients %>
       </div>
       <div class="column_6">
-        <%= f.association :requestor, collection: all_clients, 
+        <%= f.association :requestor, collection: all_clients,
           as: :grouped_select, group_method: :users, group_label_method: :name,
           label_method: :name, value_method: :id %>
       </div>
@@ -42,7 +42,7 @@
         <%= f.association :state, collection: active_states %>
       </div>
       <div class="large-3 small-6 columns">
-        <%= f.association :county, collection: active_states, 
+        <%= f.association :county, collection: active_states,
             as: :grouped_select, group_method: :counties, group_label_method: :name,
             label_method: :name, value_method: :id %>
       </div>

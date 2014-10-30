@@ -15,7 +15,7 @@ class JobProduct < ActiveRecord::Base
 			event :mark_complete, transitions_to: :complete
 	    event :mark_defect, transitions_to: :defect
 	  end
-		state :to_be_processed_manually do 
+		state :to_be_processed_manually do
 			event :mark_complete, transitions_to: :complete
 		end
 		state :in_progress do
@@ -23,10 +23,10 @@ class JobProduct < ActiveRecord::Base
 			event :mark_complete, transitions_to: :complete
       event :mark_defect, transitions_to: :defect
 	 	end
-		state :needs_review do 
+		state :needs_review do
 			event :mark_complete, transitions_to: :complete
 		end
-		state :complete do 
+		state :complete do
 			event :re_open, transitions_to: :in_progress
 		end
 		state :canceled
@@ -45,6 +45,7 @@ class JobProduct < ActiveRecord::Base
 	monetize :payoff_amount_cents, allow_nil: true
 
 	validates :price_cents, presence: true
+  validates :lender, presence: true # but only for tracking/special jobs, I think
 	validates :job, presence: true
 	validates :product, presence: true
 	validates :worker, presence: true
@@ -134,6 +135,7 @@ class JobProduct < ActiveRecord::Base
 	# it has other incomplete products
 	def mark_complete
     self.recorded_on ||= Date.today
+    self.update_column(:cleared_on, Date.today)
     self.job.county.calculate_days_to_complete!
 		unless self.job.open_products.where.not(id: self.id).count > 0
 			self.job.mark_complete! if self.job.can_mark_complete?
@@ -143,15 +145,18 @@ class JobProduct < ActiveRecord::Base
   def mark_defect
     self.job.add_defect_clearance(self.worker)
   end
-  
-	def re_open
-		self.job.re_open! if self.job.can_re_open?
-	end
+
+  def re_open
+    if self.job.can_re_open?
+      self.cleared_on = nil
+      self.job.re_open!
+    end
+  end
 
 	# Quick way to complete/un-complete, by convention, invokes the last action for the current state
 	def toggle!
-		if self.can_mark_complete? 
-			self.mark_complete! 
+		if self.can_mark_complete?
+			self.mark_complete!
 		elsif self.can_re_open?
 			self.re_open!
 		end

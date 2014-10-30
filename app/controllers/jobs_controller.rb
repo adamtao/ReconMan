@@ -52,7 +52,7 @@ class JobsController < ApplicationController
           if params[:commit].to_s.match(/save.*new/i)
             redirect_to new_job_path(client_id: @job.client_id, job_type: @job.job_type), notice: 'Job was successfully created. Create another one below...' 
           else
-            redirect_to @job, notice: 'Job was successfully created.' 
+            redirect_to @job, notice: 'Job was successfully created.'
           end
         }
         format.json { render :show, status: :created, location: @job }

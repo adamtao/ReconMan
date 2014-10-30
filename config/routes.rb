@@ -2,7 +2,8 @@ Rails.application.routes.draw do
 
   resources :comments, only: [:new, :create, :edit, :update, :destroy]
 
-  get 'reports/index' => 'reports#index', as: :reports_index
+  get 'reports' => 'reports#index', as: :reports_index
+  post 'reports/run' => 'reports#show', as: :reports
 
   resources :states do
     resources :counties

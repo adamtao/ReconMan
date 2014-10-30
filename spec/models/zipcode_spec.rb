@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 describe Zipcode do
 
   before(:each) do 

@@ -1,2 +1,13 @@
-<h1>Reports#index</h1>
-<p>Find me in app/views/reports/index.html.erb</p>
+<h1>Run A Report</h1>
+
+<%= simple_form_for @report do |f| %>
+<div class="container">
+  <%= f.input :client_id, as: :select, collection: Client.all %>
+  <%= f.input :lender_id, as: :select, collection: Lender.all %>
+  <%= f.input :start_on, input_html: { class: :datepicker} %>
+  <%= f.input :end_on, input_html: { class: :datepicker} %>
+  <div class="buttons">
+    <%= f.button :submit, 'Run Report', class: 'small button' %>
+  </div>
+</div>
+<% end %>

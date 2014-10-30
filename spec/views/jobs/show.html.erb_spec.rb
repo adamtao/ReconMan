@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 describe "jobs/show.html.erb" do
 
   before do

@@ -31,17 +31,19 @@ class Job < ActiveRecord::Base
 
 	accepts_nested_attributes_for :job_products, reject_if: :all_blank
 
-	def self.job_types 
-		[:tracking, :search, :special] 
+	def self.job_types
+		[:tracking, :search, :special]
 	end
 
 	def self.dashboard_jobs(options)
-		default_options = { complete: false, 
-                      user: User.new, 
-                      fallback_to_all: true,
-                      page: 1,
-                      per_page: 20,
-                      limit: 20}
+    default_options = {
+      complete: false,
+      user: User.new,
+      fallback_to_all: true,
+      page: 1,
+      per_page: 20,
+      limit: 20
+    }
 		options = default_options.merge options
 		user = options[:user]
 
@@ -92,13 +94,13 @@ class Job < ActiveRecord::Base
 			self.default_products.first.id
 		else
 			Product.all.length > 0 ? Product.first.id : nil
-		end		
+		end
 	end
 
 	def initialize_job_products
     self.default_products.each do |p|
       self.job_products << JobProduct.new(product_id: p.id)
-    end		
+    end
 	end
 
 	def dashboard_product
@@ -109,6 +111,14 @@ class Job < ActiveRecord::Base
 		@open_products ||= self.job_products.where.not(workflow_state: 'complete')
 	end
 
+  def job_products_cleared_between(start_on, end_on)
+    self.job_products.where(workflow_state: 'complete').where(
+      "cleared_on >= ? AND cleared_on <= ?",
+      start_on,
+      end_on
+    )
+  end
+
 	def mark_complete
 		self.completed_at = Time.zone.now
 		self.save
@@ -116,10 +126,10 @@ class Job < ActiveRecord::Base
 
   def add_defect_clearance(worker)
     if p = Product.defect_clearance
-      JobProduct.create(product: p, 
+      JobProduct.create(product: p,
       	job: self,
-      	price: self.client.product_price(p), 
-      	worker: worker) 
+      	price: self.client.product_price(p),
+      	worker: worker)
     end
   end
 

@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 describe "jobs/_job_product.html.erb" do
 
   before do

@@ -24,6 +24,7 @@ gem "RedCloth"
 gem 'unicorn'
 gem 'paperclip'
 gem 'aws-sdk'
+gem 'active_attr'
 
 # Heroku gems...
 group :production do

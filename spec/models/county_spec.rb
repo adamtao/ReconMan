@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 describe County do
 
   describe "with offline search" do

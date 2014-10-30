@@ -1,6 +1,8 @@
+require 'rails_helper'
+
 describe Job do
 
-	before(:all) do 
+	before(:all) do
 		Product.delete_all
 		@tracking_product = create(:tracking_product)
 		@search_product   = create(:search_product)
@@ -16,16 +18,25 @@ describe Job do
 	  it { should respond_to(:deed_or_parcel_number) }
 	  it { should respond_to(:total_price_cents) }
 
-	  it "#mark_complete! should record the completion date" do 
+	  it "#mark_complete! should record the completion date" do
 	  	@job.save!
 
 	  	@job.mark_complete!
 
 	  	expect(@job.completed_at).not_to be nil
 	  	expect(@job.current_state).to eq("complete")
-	  end 
+	  end
 
-	  it '#re_open should open a closed job' do 
+    it ".job_products_cleared_between should return job products collection" do
+      @job.save!
+      jp = @job.job_products.first
+      jp.mark_complete!
+
+      jpcb = @job.job_products_cleared_between(2.days.ago, 2.days.from_now)
+      expect(jpcb).to include(jp)
+    end
+
+	  it '#re_open should open a closed job' do
 	  	@job.save!
 	  	@job.mark_complete!
 
@@ -35,20 +46,20 @@ describe Job do
 	  	expect(@job.current_state).to eq("new")
 	  end
 
-	  it ".dashboard_jobs should include job" do 
+	  it ".dashboard_jobs should include job" do
 	  	@job.save!
 
 	  	expect(Job.dashboard_jobs(user: create(:user), complete: false)).to include(@job)
 	  end
 
-	  it "should have open job_products (tasks)" do 
+	  it "should have open job_products (tasks)" do
 	  	@job.save!
 
 	  	expect(@job.open_products.length).to be > 0
 	  	expect(@job.open_products.first).to be_instance_of(JobProduct)
 	  end
 	end
-  
+
   describe "tracking job_type" do
   	before(:all) { @job = build_stubbed(:tracking_job) }
 
@@ -57,15 +68,15 @@ describe Job do
   		expect(@job.default_product_id).to eq(@tracking_product.id)
   	end
 
-	  it "#dashboard_product should return one job_product (task)" do 
+	  it "#dashboard_product should return one job_product (task)" do
 	  	setup_job_with_job_products(@job)
 
 	  	expect(@job.dashboard_product).to be_instance_of(JobProduct)
 	  	expect(@job.dashboard_product.product).to eq(@tracking_product)
 	  end
-  end 
+  end
 
-  describe "search job_type" do 
+  describe "search job_type" do
   	before(:all) { @job = build_stubbed(:search_job)	}
 
   	it "should initialize with a search job_product" do
@@ -73,7 +84,7 @@ describe Job do
   		expect(@job.default_product_id).to eq(@search_product.id)
   	end
 
-	  it "#dashboard_product should return one job_product (task)" do 
+	  it "#dashboard_product should return one job_product (task)" do
 	  	setup_job_with_job_products(@job)
 
 	  	expect(@job.dashboard_product).to be_instance_of(JobProduct)
@@ -81,7 +92,7 @@ describe Job do
 	  end
   end
 
-  describe "special job_type" do 
+  describe "special job_type" do
   	before(:all) { @job = build_stubbed(:special_job)	}
 
   	it "should initialize with a special job_product" do
@@ -89,7 +100,7 @@ describe Job do
   		expect(@job.default_product_id).to eq(@special_product.id)
   	end
 
-	  it "#dashboard_product should return one job_product (task)" do 
+	  it "#dashboard_product should return one job_product (task)" do
 	  	setup_job_with_job_products(@job)
 
 	  	expect(@job.dashboard_product).to be_instance_of(JobProduct)

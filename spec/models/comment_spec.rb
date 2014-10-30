@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 describe Comment do
 
   describe "on jobs" do 

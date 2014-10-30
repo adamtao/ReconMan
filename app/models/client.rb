@@ -1,6 +1,6 @@
 class Client < ActiveRecord::Base
 	include Ownable
-	has_many :jobs, dependent: :destroy
+	has_many :jobs, -> { includes(:job_products) }, dependent: :destroy
 	has_many :branches, dependent: :destroy
 	has_many :users, through: :branches
 	has_many :client_products, dependent: :destroy
