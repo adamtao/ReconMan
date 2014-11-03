@@ -1,17 +1,31 @@
 <h1><%= @report.job_status.titleize %> Jobs For <%= @report.client.name %></h1>
 
 <table id="jobs">
-  <tr>
-    <th>File</th>
-    <th>Original DOT</th>
-    <th>Lender</th>
-  </tr>
-  <% @report.job_products.each do |job_product| %>
+  <thead>
     <tr>
-      <td><%= job_product.job.file_number %></td>
-      <td><%= job_product.deed_of_trust_number %></td>
-      <td><%= job_product.lender.name %></td>
+      <th>File</th>
+      <th>Client</th>
+      <th>Escrow Officer</th>
+      <th>Close Date</th>
+      <th>Lender</th>
+      <th>DOT #</th>
+      <th>Release #</th>
+      <th>Release Date</th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% @report.job_products.each do |job_product| %>
+      <tr>
+        <td><%= job_product.job.file_number %></td>
+        <td><%= job_product.job.client.name if job_product.job.client %></td>
+        <td><%= job_product.job.requestor.name if job_product.job.requestor %></td>
+        <td><%= job_product.job.close_on.to_s if job_product.job.close_on.present? %></td>
+        <td><%= job_product.lender.name if job_product.lender %></td>
+        <td><%= job_product.deed_of_trust_number %></td>
+        <td><%= job_product.new_deed_of_trust_number %></td>
+        <td><%= job_product.recorded_on.to_s if job_product.recorded_on.present? %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
