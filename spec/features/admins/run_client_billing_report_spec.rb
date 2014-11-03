@@ -70,6 +70,16 @@ feature "Admin runs monthly report for client" do
     expect(page).to have_content "In Progress Jobs For"
   end
 
+  scenario "unfiltered by client" do
+    click_on 'Reports'
+    fill_in 'Start on', with: 1.month.ago
+    fill_in 'End on', with: 1.day.from_now
+    click_on "Run Report"
+
+    expect(page).to have_css('table#jobs tr td', text: @job_product.job.file_number)
+    expect(page).to have_css('table#jobs tr td', text: @job_product.deed_of_trust_number)
+  end
+
   def fill_in_basic_fields
     select @client.name, from: 'Client'
     fill_in 'Start on', with: 1.month.ago

@@ -13,7 +13,14 @@ class Report
   validates :end_on, presence: true
 
   def client
-    @client ||= Client.find(self.client_id)
+    @client ||= (self.client_id && self.client_id.to_i > 0) ?
+      Client.find(self.client_id) :
+      false
+  end
+
+  #TODO: Refactor the job select for reports. Using Job.all is a bad idea.
+  def jobs
+    @jobs ||= self.client ? self.client.jobs : Job.all
   end
 
   def job_products
@@ -22,11 +29,27 @@ class Report
 
   def gather_job_products
     self.job_status = 'complete' if self.job_status.blank?
-    job_products = self.client.jobs.map{|j| j.job_products_for_report_between(start_on, end_on, job_status)}.flatten
+    job_products = self.jobs.map{|j| j.job_products_for_report_between(start_on, end_on, job_status)}.flatten
     if self.lender_id.present?
       job_products = job_products.select{|jp| jp if jp.lender_id.to_i == self.lender_id.to_i}
     end
     job_products
+  end
+
+  def title
+    words = []
+    words << self.job_status.titleize if self.job_status
+    words << "Jobs For"
+    words << self.client.name if self.client
+    if self.start_on
+      words << "From"
+      words << self.start_on.to_s
+    end
+    if self.end_on
+      words << "Through"
+      words << self.end_on.to_s
+    end
+    words.join(" ")
   end
 
 end
