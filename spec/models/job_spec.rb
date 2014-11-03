@@ -27,12 +27,12 @@ describe Job do
 	  	expect(@job.current_state).to eq("complete")
 	  end
 
-    it ".job_products_cleared_between should return job products collection" do
+    it ".job_products_complete_between should return job products collection" do
       @job.save!
       jp = @job.job_products.first
       jp.mark_complete!
 
-      jpcb = @job.job_products_cleared_between(2.days.ago, 2.days.from_now)
+      jpcb = @job.job_products_complete_between(2.days.ago, 2.days.from_now)
       expect(jpcb).to include(jp)
     end
 

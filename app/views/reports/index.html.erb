@@ -2,6 +2,7 @@
 
 <%= simple_form_for @report do |f| %>
 <div class="container">
+  <%= f.input :job_status, as: :select, include_blank: false, collection: ["Complete", "In Progress", "New"]  %>
   <%= f.input :client_id, as: :select, collection: Client.all %>
   <%= f.input :lender_id, as: :select, collection: Lender.all %>
   <%= f.input :start_on, input_html: { class: :datepicker} %>

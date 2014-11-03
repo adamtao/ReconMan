@@ -32,8 +32,7 @@ describe "reports/index.html.erb" do
   end
 
   it "has job status field" do
-    pending "other spec"
-    expect(rendered).to have_css("input#report_job_product_status")
+    expect(rendered).to have_css("select#report_job_status")
   end
 
 end

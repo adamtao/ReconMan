@@ -45,7 +45,7 @@ class JobProduct < ActiveRecord::Base
 	monetize :payoff_amount_cents, allow_nil: true
 
 	validates :price_cents, presence: true
-  validates :lender, presence: true # but only for tracking/special jobs, I think
+  #validates :lender, presence: true # but only for tracking/special jobs, I think
 	validates :job, presence: true
 	validates :product, presence: true
 	validates :worker, presence: true

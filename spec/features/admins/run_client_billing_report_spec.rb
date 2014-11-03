@@ -29,9 +29,9 @@ feature "Admin runs monthly report for client" do
     fill_in_basic_fields
     click_on 'Run Report'
 
-    expect(page).to have_content("Completed Jobs For #{@client.name}")
-    expect(page).to have_css('table#completed_jobs tr td', text: @job_product.job.file_number)
-    expect(page).to have_css('table#completed_jobs tr td', text: @job_product.deed_of_trust_number)
+    expect(page).to have_content("Complete Jobs For #{@client.name}")
+    expect(page).to have_css('table#jobs tr td', text: @job_product.job.file_number)
+    expect(page).to have_css('table#jobs tr td', text: @job_product.deed_of_trust_number)
     expect(page).not_to have_content(@other_job.file_number)
     expect(page).not_to have_content(@incomplete_job.file_number)
   end
@@ -52,6 +52,22 @@ feature "Admin runs monthly report for client" do
 
     expect(page).not_to have_content(@job_product.lender.name)
     expect(page).to have_content(lender.name)
+  end
+
+  scenario "filtered by job status (pending)" do
+    new_job = FactoryGirl.create(:tracking_job, client: @client, file_number: "9999p")
+    new_job.reload
+    jp = new_job.job_products.first
+    jp.update_column(:workflow_state, "in_progress")
+
+    click_on 'Reports'
+    fill_in_basic_fields
+    select "In Progress", from: "Job status"
+    click_on "Run Report"
+
+    expect(page).not_to have_css('table#jobs tr td', text: @job_product.job.file_number)
+    expect(page).to have_css('table#jobs tr td', text: jp.job.file_number)
+    expect(page).to have_content "In Progress Jobs For"
   end
 
   def fill_in_basic_fields

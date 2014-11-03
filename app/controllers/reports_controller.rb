@@ -11,6 +11,7 @@ class ReportsController < ApplicationController
 
   def report_params
     params.require(:report).permit(
+      :job_status,
       :lender_id,
       :client_id,
       :start_on,

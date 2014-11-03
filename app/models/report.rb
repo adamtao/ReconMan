@@ -1,5 +1,8 @@
 class Report
   include ActiveAttr::Model
+  include ActiveAttr::AttributeDefaults
+
+  attribute :job_status, default: 'complete'
   attribute :client_id
   attribute :lender_id
   attribute :start_on
@@ -18,10 +21,10 @@ class Report
   end
 
   def gather_job_products
-    job_products = self.client.jobs.map{|j| j.job_products_cleared_between(start_on, end_on)}.flatten
+    self.job_status = 'complete' if self.job_status.blank?
+    job_products = self.client.jobs.map{|j| j.job_products_for_report_between(start_on, end_on, job_status)}.flatten
     if self.lender_id.present?
-      logger.debug "----------> Lender id: #{self.lender_id} <-----------"
-      job_products = job_products.select{|jp| jp if jp.lender_id == self.lender_id}
+      job_products = job_products.select{|jp| jp if jp.lender_id.to_i == self.lender_id.to_i}
     end
     job_products
   end

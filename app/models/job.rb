@@ -111,9 +111,25 @@ class Job < ActiveRecord::Base
 		@open_products ||= self.job_products.where.not(workflow_state: 'complete')
 	end
 
-  def job_products_cleared_between(start_on, end_on)
+  def job_products_for_report_between(start_on, end_on, job_status)
+    self.send("job_products_#{job_status.parameterize.gsub(/\-/, "_")}_between", start_on, end_on)
+  end
+
+  def job_products_complete_between(start_on, end_on)
     self.job_products.where(workflow_state: 'complete').where(
       "cleared_on >= ? AND cleared_on <= ?",
+      start_on,
+      end_on
+    )
+  end
+
+  def job_products_in_progress_between(start_on, end_on)
+    self.job_products.where(workflow_state: 'in_progress')
+  end
+
+  def job_products_new_between(start_on, end_on)
+    self.job_products.where(workflow_state: 'new').where(
+      "created_at >= ? AND created_at <=?",
       start_on,
       end_on
     )
