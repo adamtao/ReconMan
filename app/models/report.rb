@@ -74,6 +74,22 @@ class Report
     )
   end
 
+  def to_xls
+    headers = ["File Number", "Client", "Escrow Officer", "Close Date",
+               "Lender", "DOT #", "Release #", "Recording Date"]
+    columns = [:file_number, :client_name, :requestor_name, :close_date,
+               :lender_name, :deed_of_trust_number, :new_deed_of_trust_number,
+               :recorded_on]
+    if self.show_pricing?
+      headers << "Price"
+      columns << :price
+    end
+    self.job_products.to_xls(
+      headers: headers,
+      columns: columns
+    )
+  end
+
   private
 
   def lookup_related(klass)

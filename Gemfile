@@ -25,6 +25,7 @@ gem 'unicorn'
 gem 'paperclip'
 gem 'aws-sdk'
 gem 'active_attr'
+gem 'to_xls-rails'
 
 # Heroku gems...
 group :production do

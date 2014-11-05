@@ -5,6 +5,16 @@ class ReportsController < ApplicationController
 
   def show
     @report = Report.new(report_params)
+    respond_to do |format|
+      format.html
+      format.xls {
+        send_data(
+          @report.to_xls,
+          type: "text/xls; charset=utf-8;",
+          filename: @report.title.parameterize + ".xls"
+        )
+      }
+    end
   end
 
   private

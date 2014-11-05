@@ -161,4 +161,44 @@ class JobProduct < ActiveRecord::Base
 			self.re_open!
 		end
 	end
+
+  def file_number
+    begin
+      self.job.file_number
+    rescue
+      ""
+    end
+  end
+
+  def client_name
+    begin
+      self.job.client.name
+    rescue
+      ""
+    end
+  end
+
+  def requestor_name
+    begin
+      self.job.requestor.name
+    rescue
+      ""
+    end
+  end
+
+  def close_date
+    begin
+      self.job.close_on
+    rescue
+      ""
+    end
+  end
+
+  def lender_name
+    begin
+      self.lender.name
+    rescue
+      ""
+    end
+  end
 end

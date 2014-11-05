@@ -19,6 +19,7 @@ describe Report do
   it { should respond_to(:lender_id) }
   it { should respond_to(:show_pricing) }
   it { should respond_to(:job_status) }
+  it { should respond_to(:to_xls) }
 
   describe "with a Client" do
 
