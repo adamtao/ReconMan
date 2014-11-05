@@ -7,6 +7,7 @@
   <%= f.input :lender_id, as: :select, collection: Lender.all %>
   <%= f.input :start_on, input_html: { class: :datepicker} %>
   <%= f.input :end_on, input_html: { class: :datepicker} %>
+  <%= f.input :show_pricing, as: :boolean %>
   <div class="buttons">
     <%= f.button :submit, 'Run Report', class: 'small button' %>
   </div>

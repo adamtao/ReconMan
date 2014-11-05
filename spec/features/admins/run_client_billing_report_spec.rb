@@ -80,6 +80,16 @@ feature "Admin runs monthly report for client" do
     expect(page).to have_css('table#jobs tr td', text: @job_product.deed_of_trust_number)
   end
 
+  scenario "with pricing" do
+    click_on 'Reports'
+    fill_in_basic_fields
+    check "Show pricing"
+    click_on "Run Report"
+
+    expect(page).to have_content(@job_product.price)
+    expect(page).to have_content("Total")
+  end
+
   def fill_in_basic_fields
     select @client.name, from: 'Client'
     fill_in 'Start on', with: 1.month.ago

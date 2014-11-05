@@ -15,7 +15,8 @@ class ReportsController < ApplicationController
       :lender_id,
       :client_id,
       :start_on,
-      :end_on
+      :end_on,
+      :show_pricing
     )
   end
 end

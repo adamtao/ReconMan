@@ -11,6 +11,9 @@
       <th>DOT #</th>
       <th>Release #</th>
       <th>Release Date</th>
+      <% if @report.show_pricing? %>
+        <th>Price</th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
@@ -24,8 +27,23 @@
         <td><%= job_product.deed_of_trust_number %></td>
         <td><%= job_product.new_deed_of_trust_number %></td>
         <td><%= job_product.recorded_on.to_s if job_product.recorded_on.present? %></td>
+        <% if @report.show_pricing? %>
+          <td class="text-right"><%= job_product.price %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
+  <% if @report.show_pricing? %>
+    <tfoot>
+      <tr>
+        <td colspan="8" class="text-right">
+          Total
+        </td>
+        <td class="text-right">
+          <%= @report.total %>
+        </td>
+      </tr>
+    </tfoot>
+  <% end %>
 </table>
 
