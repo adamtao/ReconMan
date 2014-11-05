@@ -14,9 +14,11 @@ class Report
   validates :end_on, presence: true
 
   def client
-    @client ||= (self.client_id && self.client_id > 0) ?
-      Client.find(self.client_id) :
-      false
+    @client ||= lookup_related(Client)
+  end
+
+  def lender
+    @lender ||= lookup_related(Lender)
   end
 
   #TODO: Refactor the job select for reports. Using Job.all is a bad idea.
@@ -31,7 +33,7 @@ class Report
   def gather_job_products
     self.job_status = 'complete' if self.job_status.blank?
     job_products = self.jobs.map{|j| j.job_products_for_report_between(start_on, end_on, job_status)}.flatten
-    if self.lender_id.present? && self.lender_id > 0
+    if self.lender
       job_products = job_products.select{|jp| jp if jp.lender_id == self.lender_id}
     end
     job_products
@@ -40,8 +42,20 @@ class Report
   def title
     words = []
     words << self.job_status.titleize if self.job_status
-    words << "Jobs For"
-    words << self.client.name if self.client
+    words << "Jobs"
+    if self.client
+      words << "For"
+      words << self.client.name
+    end
+    words.join(" ")
+  end
+
+  def subtitle
+    words = []
+    if self.lender
+      words << "For Lender:"
+      words << self.lender.name
+    end
     if self.start_on
       words << "From"
       words << self.start_on.to_s
@@ -58,5 +72,12 @@ class Report
       self.job_products.inject(0){|t,jp| t += jp.price},
       "USD"
     )
+  end
+
+  private
+
+  def lookup_related(klass)
+    c_id = self.send("#{klass.name.parameterize}_id")
+    c_id.present? && c_id > 0 ? klass.send(:find, c_id) : false
   end
 end

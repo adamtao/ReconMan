@@ -1,15 +1,27 @@
-<h1>Run A Report</h1>
+<h1 class="text-center">Run A Report</h1>
 
-<%= simple_form_for @report do |f| %>
-<div class="container">
-  <%= f.input :job_status, as: :select, include_blank: false, collection: ["Complete", "In Progress", "New"]  %>
-  <%= f.input :client_id, as: :select, collection: Client.all %>
-  <%= f.input :lender_id, as: :select, collection: Lender.all %>
-  <%= f.input :start_on, input_html: { class: :datepicker} %>
-  <%= f.input :end_on, input_html: { class: :datepicker} %>
-  <%= f.input :show_pricing, as: :boolean %>
-  <div class="buttons">
-    <%= f.button :submit, 'Run Report', class: 'small button' %>
+<div class="row">
+  <div class="large-12 columns">
+    <div class="panel">
+      <%= simple_form_for @report do |f| %>
+        <div class="row">
+          <div class="large-6 columns">
+            <%= f.input :job_status, as: :select, include_blank: false, collection: ["Complete", "In Progress", "New"]  %>
+            <%= f.input :start_on, input_html: { class: :datepicker} %>
+            <%= f.input :end_on, input_html: { class: :datepicker} %>
+          </div>
+          <div class="large-6 columns">
+            <%= f.input :client_id, as: :select, collection: Client.all %>
+            <%= f.input :lender_id, as: :select, collection: Lender.all %>
+          </div>
+        </div>
+        <div class="row buttons">
+          <div class="large-12 columns">
+            <%= f.input :show_pricing, as: :boolean %>
+            <%= f.button :submit, 'Run Report', class: 'small button' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
-<% end %>

@@ -31,6 +31,10 @@ describe Report do
       expect(@report.title).to match(/Jobs.*#{@client.name}/)
     end
 
+    it ".subtitle should have the date range" do
+      expect(@report.subtitle).to match(/from/i)
+    end
+
     it ".job_products should return a collection" do
       expect(@report.job_products).to be_an_instance_of(Array)
     end
