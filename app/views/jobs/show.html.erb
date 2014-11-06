@@ -19,7 +19,7 @@
     </div>
   </div>
 
-      <p>Job Status: <%= @job.workflow_state.titleize %></p>
+  <p>Job Status: <%= @job.workflow_state.titleize %></p>
 
   <div class="full-width row">
 
@@ -41,7 +41,7 @@
       <% end %>
 
       <br/>
-      <%= render 'shared/comments_with_form', item: @job %> 
+      <%= render 'shared/comments_with_form', item: @job %>
 
       <%= render 'shared/ownable_stats', item: @job %>
 

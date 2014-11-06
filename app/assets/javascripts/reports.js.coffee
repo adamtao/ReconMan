@@ -10,5 +10,6 @@ jQuery ($) ->
     else
       $('input.datepicker').closest('div.input').hide()
 
-  hide_report_dates()
-  $('select#report_job_status').change -> hide_report_dates()
+  if $('select#report_job_status').length > 0
+    hide_report_dates()
+    $('select#report_job_status').change -> hide_report_dates()
