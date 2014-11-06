@@ -162,6 +162,7 @@ class JobProduct < ActiveRecord::Base
 		end
 	end
 
+  # Several 'lookup and format' methods for exporting reports to Excel.
   def file_number
     begin
       self.job.file_number
@@ -197,6 +198,14 @@ class JobProduct < ActiveRecord::Base
   def lender_name
     begin
       self.lender.name
+    rescue
+      ""
+    end
+  end
+
+  def report_price
+    begin
+      self.price.to_f
     rescue
       ""
     end

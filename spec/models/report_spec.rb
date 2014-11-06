@@ -25,7 +25,8 @@ describe Report do
 
     before do
       @client = Client.first
-      @report = Report.new(start_on: 1.month.ago, end_on: 1.day.ago, client_id: @client.id)
+      @report.client_id = @client.id
+      @report.job_status = 'Complete'
     end
 
     it ".title should generate a title" do

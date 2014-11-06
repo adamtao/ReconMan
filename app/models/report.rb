@@ -56,13 +56,18 @@ class Report
       words << "For Lender:"
       words << self.lender.name
     end
-    if self.start_on
-      words << "From"
-      words << self.start_on.to_s
-    end
-    if self.end_on
-      words << "Through"
-      words << self.end_on.to_s
+    if self.job_status == 'Complete'
+      if self.start_on
+        words << "From"
+        words << self.start_on.to_s
+      end
+      if self.end_on
+        words << "Through"
+        words << self.end_on.to_s
+      end
+    else
+      words << "as of"
+      words << Date.today.to_s
     end
     words.join(" ")
   end
@@ -76,13 +81,13 @@ class Report
 
   def to_xls
     headers = ["File Number", "Client", "Escrow Officer", "Close Date",
-               "Lender", "DOT #", "Release #", "Recording Date"]
+               "Lender", "DOT #", "Release #", "Release Date"]
     columns = [:file_number, :client_name, :requestor_name, :close_date,
                :lender_name, :deed_of_trust_number, :new_deed_of_trust_number,
                :recorded_on]
     if self.show_pricing?
       headers << "Price"
-      columns << :price
+      columns << :report_price
     end
     self.job_products.to_xls(
       headers: headers,
