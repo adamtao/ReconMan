@@ -26,6 +26,7 @@ feature 'Complete job product' do
 		visit job_path(@job)
 
 		fill_in 'Release Number', with: "777777"
+    fill_in 'Recorded on', with: I18n.l(Date.today, format: :long)
 		click_on 'Mark Complete'
 
 		expect(page).to have_content("Status: Complete")

@@ -14,7 +14,7 @@ class County < ActiveRecord::Base
   end
 
 	def calculate_days_to_complete!
-		j = jobs.where(job_type: 'tracking', workflow_state: 'complete').limit(100).order("created_at DESC")
+    j = jobs.where(job_type: 'tracking', workflow_state: 'complete').where.not(close_on: nil).limit(100).order("created_at DESC")
 		t = 0
 		c = 0
 		if j.length > 10

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe County do
 
-  describe "with offline search" do
+  context "with offline search" do
     before(:each) do 
       @county = build_stubbed(:county) 
     end
@@ -12,7 +12,7 @@ describe County do
     it { should respond_to(:offline_search?) }
   end
 
-	describe "calculating time to complete" do
+	context "calculating time to complete" do
     before(:all) do
       @county = create(:county, search_url: 'http://foo.com')
       @tracking_product = create(:tracking_product)
@@ -62,6 +62,26 @@ describe County do
       @county.reload
 
       expect(@county.average_days_to_complete).to eq(new_calculated_average)
+    end
+
+  end
+
+	context "calculating time to complete with bad existing records" do
+    before(:all) do
+      @county = create(:county, search_url: 'http://foo.com')
+      @tracking_product = create(:tracking_product)
+      20.times do
+        job = create(:job, county: @county, job_type: 'tracking', close_on: nil)
+        create(:job_product, job: job, product: @tracking_product,
+               recorded_on: 10.days.ago, workflow_state: 'complete')
+        job.mark_complete!
+      end
+    end
+
+    it "should skip estimating reconveyance time" do
+      @county.calculate_days_to_complete!
+
+      expect(@county.average_days_to_complete).to eq(nil)
     end
 
   end
