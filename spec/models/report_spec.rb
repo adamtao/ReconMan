@@ -21,7 +21,7 @@ describe Report do
   it { should respond_to(:job_status) }
   it { should respond_to(:to_xls) }
 
-  describe "with a Client" do
+  context "with a Client" do
 
     before do
       @client = Client.first
@@ -41,7 +41,7 @@ describe Report do
       expect(@report.job_products).to be_an_instance_of(Array)
     end
 
-    describe "and pricing" do
+    context "and pricing" do
       before do
         @report.show_pricing = true
       end
@@ -53,7 +53,7 @@ describe Report do
     end
   end
 
-  describe "without a Client" do
+  context "without a Client" do
 
     before do
       @report = Report.new(start_on: 1.month.ago, end_on: 1.day.ago)
@@ -72,4 +72,47 @@ describe Report do
     end
   end
 
+  context "In Progress jobs" do
+
+    before do
+      @report = Report.new(job_status: "In Progress")
+    end
+
+    it "should include jobs to be searched manually" do
+      tracking_job = FactoryGirl.create(:tracking_job_product, workflow_state: "to_be_processed_manually")
+
+      expect(@report.job_products).to include(tracking_job)
+    end
+
+    it "should include jobs that need review" do
+      tracking_job = FactoryGirl.create(:tracking_job_product, workflow_state: "needs_review")
+
+      expect(@report.job_products).to include(tracking_job)
+    end
+
+    it "should include jobs to be searched manually" do
+      tracking_job = FactoryGirl.create(:tracking_job_product, workflow_state: "to_be_searched_manually")
+
+      expect(@report.job_products).to include(tracking_job)
+    end
+
+    it "should NOT include completed jobs" do
+      tracking_job = FactoryGirl.create(:tracking_job_product, workflow_state: "complete")
+
+      expect(@report.job_products).not_to include(tracking_job)
+    end
+
+    it "should NOT include new jobs" do
+      tracking_job = FactoryGirl.create(:tracking_job_product)
+      tracking_job.update_column(:workflow_state, 'new')
+
+      expect(@report.job_products).not_to include(tracking_job)
+    end
+
+    it "should NOT include canceled jobs" do
+      tracking_job = FactoryGirl.create(:tracking_job_product, workflow_state: "canceled")
+
+      expect(@report.job_products).not_to include(tracking_job)
+    end
+  end
 end

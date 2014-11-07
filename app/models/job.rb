@@ -124,7 +124,7 @@ class Job < ActiveRecord::Base
   end
 
   def job_products_in_progress_between(start_on, end_on)
-    self.job_products.where(workflow_state: 'in_progress')
+    self.job_products.where.not(workflow_state: ['new', 'complete', 'canceled'])
   end
 
   def job_products_new_between(start_on, end_on)
