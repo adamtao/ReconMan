@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141028161559) do
+ActiveRecord::Schema.define(version: 20141111191900) do
 
   create_table "branches", force: true do |t|
     t.string   "name"
@@ -137,6 +137,7 @@ ActiveRecord::Schema.define(version: 20141028161559) do
     t.date     "recorded_on"
     t.integer  "lender_id"
     t.date     "cleared_on"
+    t.boolean  "billed",                   default: false
   end
 
   add_index "job_products", ["cleared_on"], name: "index_job_products_on_cleared_on", using: :btree

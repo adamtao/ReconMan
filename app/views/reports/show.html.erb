@@ -5,6 +5,15 @@
   </div>
   <div class="large-4 columns">
     <div class="text-right">
+      <%= simple_form_for @report, url: mark_report_billed_path do |f| %>
+        <%= f.input :job_status, as: :hidden %>
+        <%= f.input :start_on, as: :hidden %>
+        <%= f.input :end_on, as: :hidden %>
+        <%= f.input :client_id, as: :hidden %>
+        <%= f.input :lender_id, as: :hidden %>
+        <%= f.input :show_pricing, as: :hidden %>
+        <%= f.button :submit, 'Mark All As Billed', class: 'tiny success button' %>
+      <% end %>
       <%= simple_form_for @report, url: reports_path(format: :xls) do |f| %>
         <%= f.input :job_status, as: :hidden %>
         <%= f.input :start_on, as: :hidden %>
@@ -12,7 +21,7 @@
         <%= f.input :client_id, as: :hidden %>
         <%= f.input :lender_id, as: :hidden %>
         <%= f.input :show_pricing, as: :hidden %>
-        <%= f.button :submit, 'Export to Excel', class: 'tiny success button' %>
+        <%= f.button :submit, 'Export to Excel', class: 'tiny button' %>
       <% end %>
     </div>
   </div>
@@ -38,7 +47,7 @@
   <% if @report.show_pricing? %>
     <tfoot>
       <tr>
-        <td colspan="8" class="text-right">
+        <td colspan="<%= @report.columns.length - 1 %>" class="text-right">
           Total
         </td>
         <td class="text-right">

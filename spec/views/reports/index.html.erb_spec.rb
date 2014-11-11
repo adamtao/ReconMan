@@ -35,4 +35,8 @@ describe "reports/index.html.erb" do
     expect(rendered).to have_css("select#report_job_status")
   end
 
+  it "has a checkbox to exclude billed jobs" do
+    expect(rendered).to have_css("input#report_exclude_billed")
+  end
+
 end

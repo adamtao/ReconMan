@@ -1,10 +1,10 @@
 class ReportsController < ApplicationController
+  before_filter :load_report
+
   def index
-    @report = Report.new
   end
 
   def show
-    @report = Report.new(report_params)
     respond_to do |format|
       format.html
       format.xls {
@@ -17,7 +17,17 @@ class ReportsController < ApplicationController
     end
   end
 
+  def mark_billed
+    @report.mark_all_billed!
+    flash[:notice] = "All the following jobs have been marked as billed."
+    render action: 'show'
+  end
+
   private
+
+  def load_report
+    @report = params[:report].present? ? Report.new(report_params) : Report.new
+  end
 
   def report_params
     params.require(:report).permit(
@@ -26,6 +36,7 @@ class ReportsController < ApplicationController
       :client_id,
       :start_on,
       :end_on,
+      :exclude_billed,
       :show_pricing
     )
   end

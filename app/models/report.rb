@@ -6,6 +6,7 @@ class Report
   attribute :lender_id, type: Integer
   attribute :start_on, type: Date
   attribute :end_on, type: Date
+  attribute :exclude_billed, type: Boolean, default: true
   attribute :show_pricing, type: Boolean, default: false
   attribute :total_cents, type: Integer
 
@@ -32,11 +33,16 @@ class Report
 
   def gather_job_products
     self.job_status = 'complete' if self.job_status.blank?
-    job_products = self.jobs.map{|j| j.job_products_for_report_between(start_on, end_on, job_status)}.flatten
+    job_products = self.jobs.map{|j| j.job_products_for_report_between(start_on, end_on, job_status, exclude_billed)}.flatten
     if self.lender
       job_products = job_products.select{|jp| jp if jp.lender_id == self.lender_id}
     end
     job_products
+  end
+
+  # Sets the billed? flag to true on each of the matching job_products
+  def mark_all_billed!
+    JobProduct.where(id: self.job_products.map{|jp| jp.id}).update_all(billed: true)
   end
 
   def title

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   get 'reports' => 'reports#index', as: :reports_index
   post 'reports/run' => 'reports#show', as: :reports
+  post 'reports/mark_billed' => 'reports#mark_billed', as: :mark_report_billed
 
   resources :states do
     resources :counties

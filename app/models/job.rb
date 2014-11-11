@@ -111,8 +111,10 @@ class Job < ActiveRecord::Base
 		@open_products ||= self.job_products.where.not(workflow_state: 'complete')
 	end
 
-  def job_products_for_report_between(start_on, end_on, job_status)
-    self.send("job_products_#{job_status.parameterize.gsub(/\-/, "_")}_between", start_on, end_on)
+  def job_products_for_report_between(start_on, end_on, job_status, exclude_billed)
+    jp = self.send("job_products_#{job_status.parameterize.gsub(/\-/, "_")}_between", start_on, end_on)
+    jp = jp.where(billed: false) if exclude_billed
+    jp
   end
 
   def job_products_complete_between(start_on, end_on)

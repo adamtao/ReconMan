@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Report do
 
   before do
-    FactoryGirl.create_list(
+    @job_products = FactoryGirl.create_list(
       :tracking_job_product, 2,
       cleared_on: 1.week.ago,
       workflow_state: 'complete',
@@ -20,11 +20,12 @@ describe Report do
   it { should respond_to(:show_pricing) }
   it { should respond_to(:job_status) }
   it { should respond_to(:to_xls) }
+  it { should respond_to(:exclude_billed) }
 
   context "with a Client" do
 
     before do
-      @client = Client.first
+      @client = @job_products.first.job.client
       @report.client_id = @client.id
       @report.job_status = 'Complete'
     end
@@ -39,6 +40,16 @@ describe Report do
 
     it ".job_products should return a collection" do
       expect(@report.job_products).to be_an_instance_of(Array)
+      expect(@report.job_products.first).to be_an_instance_of(JobProduct)
+    end
+
+    it ".mark_all_billed! should mark all jobs billed" do
+      job_product = @report.job_products.first
+
+      @report.mark_all_billed!
+      job_product.reload
+
+      expect(job_product.billed?).to eq(true)
     end
 
     context "and pricing" do
@@ -62,6 +73,30 @@ describe Report do
       it ".headers should have notices" do
         @report.job_status = "In Progress"
         expect(@report.headers).to include("1st Notice")
+      end
+    end
+
+    context "billed jobs" do
+      before do
+        @billed_job_product = FactoryGirl.create(
+          :tracking_job_product,
+          cleared_on: 1.week.ago,
+          workflow_state: 'complete',
+          billed: true,
+          job_id: @job_products.first.job_id
+        )
+      end
+
+      it "should exclude billed jobs when exclude_billed = true" do
+        @report.exclude_billed = true
+
+        expect(@report.job_products).not_to include(@billed_job_product)
+      end
+
+      it "should include billed jobs when exclude_billed = false" do
+        @report.exclude_billed = false
+
+        expect(@report.job_products).to include(@billed_job_product)
       end
     end
   end
