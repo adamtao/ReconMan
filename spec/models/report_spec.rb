@@ -51,6 +51,19 @@ describe Report do
         #expect(@report.total.to_f).to be > 0.0
       end
     end
+
+    context "complete jobs" do
+      it ".headers should not have notices" do
+        expect(@report.headers).not_to include("1st Notice")
+      end
+    end
+
+    context "in-progress jobs" do
+      it ".headers should have notices" do
+        @report.job_status = "In Progress"
+        expect(@report.headers).to include("1st Notice")
+      end
+    end
   end
 
   context "without a Client" do

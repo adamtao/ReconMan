@@ -84,7 +84,7 @@ class Report
     h = ["File Number", "Client", "Escrow Officer", "Close Date",
       "Lender", "DOT #", "Release #", "Release Date"]
 
-    if self.job_status != 'complete'
+    unless self.job_status.match(/complete/i)
       h += ["1st Notice", "2nd Notice"]
     end
 
@@ -98,7 +98,7 @@ class Report
        :lender_name, :deed_of_trust_number, :new_deed_of_trust_number,
        :recorded_on]
 
-    if self.job_status != 'complete'
+    unless self.job_status.match(/complete/i)
       c += [:first_notice_date, :second_notice_date]
     end
 
