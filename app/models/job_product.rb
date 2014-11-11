@@ -7,22 +7,33 @@ class JobProduct < ActiveRecord::Base
 			event :search, transitions_to: :in_progress
 			event :offline_search, transitions_to: :to_be_searched_manually
 			event :process_manually, transitions_to: :to_be_processed_manually
+      event :send_first_notice, transitions_to: :first_notice
 		end
     state :defect do
       event :clear, transitions_to: :new
     end
 		state :to_be_searched_manually do
+      event :send_first_notice, transitions_to: :first_notice
 			event :mark_complete, transitions_to: :complete
 	    event :mark_defect, transitions_to: :defect
 	  end
 		state :to_be_processed_manually do
 			event :mark_complete, transitions_to: :complete
+      event :send_first_notice, transitions_to: :first_notice
 		end
 		state :in_progress do
 			event :change_in_cached_response, transitions_to: :needs_review
 			event :mark_complete, transitions_to: :complete
       event :mark_defect, transitions_to: :defect
+      event :send_first_notice, transitions_to: :first_notice
 	 	end
+    state :first_notice do
+      event :mark_complete, transitions_to: :complete
+      event :send_second_notice, transitions_to: :second_notice
+    end
+    state :second_notice do
+      event :mark_complete, transitions_to: :complete
+    end
 		state :needs_review do
 			event :mark_complete, transitions_to: :complete
 		end
@@ -209,5 +220,20 @@ class JobProduct < ActiveRecord::Base
     rescue
       ""
     end
+  end
+
+  def first_notice_date
+    @first_notice_date ||= self.base_date.advance(days: (self.job.state.time_to_dispute_days.to_i + 5)).to_date
+  end
+
+  def second_notice_date
+    @second_notice_date ||= self.base_date.advance(days: (self.job.state.time_to_dispute_days.to_i + self.job.state.time_to_record_days + 15)).to_date
+  end
+
+  protected
+
+  # Safe date used for calculating other related dates
+  def base_date
+    self.job.close_on || self.job.created_at.to_date
   end
 end

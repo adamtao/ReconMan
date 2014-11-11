@@ -42,7 +42,7 @@ describe JobProduct do
   	expect(@job_product.late?).to be true
   end
 
-  describe "tracking job product" do
+  context "tracking job product" do
     before do
       @tracking_job_product = FactoryGirl.create(:tracking_job_product)
     end
@@ -52,10 +52,10 @@ describe JobProduct do
     end
   end
 
-  describe "product requiring search" do
-	  describe "workflow state: new" do
+  context "product requiring search" do
+	  context "workflow state: new" do
 
-	  	describe "county has online search" do
+	  	context "county has online search" do
 
 	  		before(:all) do
 	  			@job.county = create(:county, state: @state, search_url: "http://foo.bar.com")
@@ -81,7 +81,7 @@ describe JobProduct do
 
 		  end
 
-		  describe "county has offline search" do
+		  context "county has offline search" do
 
 		  	before(:all) do
 	  			@job.county = create(:county, state: @state, search_url: nil)
@@ -122,7 +122,7 @@ describe JobProduct do
 
 	end
 
-	describe "non-search product" do
+	context "non-search product" do
 
 		before(:all) do
 			@other_product = create(:product, performs_search: false)
@@ -136,7 +136,7 @@ describe JobProduct do
 		end
 	end
 
-  describe "workflow state: in progress" do
+  context "workflow state: in progress" do
 
   	before(:each) do
   		@job_product.workflow_state = 'in_progress'
@@ -153,7 +153,7 @@ describe JobProduct do
 	  	expect(@job_product.current_state).to eq("in_progress")
 	  end
 
-    describe "#mark_defect!" do
+    context "#mark_defect!" do
 
     	before(:each) do
     		@defect_job = create(:job, client: @client, state: @state)
@@ -172,7 +172,7 @@ describe JobProduct do
       end
     end
 
-	  describe "#mark_complete!" do
+	  context "#mark_complete!" do
 
 	  	before(:each) do
 	  		@job = @job_product.job
@@ -226,6 +226,44 @@ describe JobProduct do
 
 	end
 
+  context "calculated workflow dates" do
+
+    before do
+      @job_product.job.state.update_column(:time_to_dispute_days, 30)
+      @job_product.job.state.update_column(:time_to_record_days, 30)
+    end
+
+    it ".base_date should be the close date if present" do
+      close_date = 2.months.ago.to_date
+      @job_product.job.close_on = close_date
+      @job_product.job.save
+
+      expect(@job_product.send(:base_date)).to eq(close_date)
+    end
+
+    it ".base_date should be the job's creation date if close_on is not present" do
+      close_date = 2.months.ago.to_date
+      @job_product.job.close_on = nil
+      @job_product.job.created_at = close_date
+      @job_product.job.save
+
+      expect(@job_product.send(:base_date)).to eq(close_date)
+    end
+
+    # (rule is 5 days + state's time to dispute)
+    it ".first_notice_date should be a date 35 days after close" do
+      expected_date = @job_product.send(:base_date).advance(days: 35).to_date
+
+      expect(@job_product.first_notice_date).to eq(expected_date)
+    end
+
+    # (rule is 15 days + time to dispute + time to record)
+    it ".second_notice_date should be a date 15+dispute+record after close" do
+      expected_date = @job_product.send(:base_date).advance(days: 75).to_date
+
+      expect(@job_product.second_notice_date).to eq(expected_date)
+    end
+  end
   # it "should perform automated search" # later, when implementing cached search results
   # it "should log search results" # later, when implementing cached search results
   # it "should determine is search changed" # later, when implementing cached search results

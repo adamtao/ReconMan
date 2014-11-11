@@ -21,32 +21,16 @@
 <table id="jobs" class="full_width">
   <thead>
     <tr>
-      <th>File</th>
-      <th>Client</th>
-      <th>Escrow Officer</th>
-      <th>Close Date</th>
-      <th>Lender</th>
-      <th>DOT #</th>
-      <th>Release #</th>
-      <th>Release Date</th>
-      <% if @report.show_pricing? %>
-        <th>Price</th>
+      <% @report.headers.each do |h| %>
+        <th><%= h %></th>
       <% end %>
     </tr>
   </thead>
   <tbody>
     <% @report.job_products.each do |job_product| %>
       <tr>
-        <td><%= job_product.job.file_number %></td>
-        <td><%= job_product.job.client.name if job_product.job.client %></td>
-        <td><%= job_product.job.requestor.name if job_product.job.requestor %></td>
-        <td><%= job_product.job.close_on.to_s if job_product.job.close_on.present? %></td>
-        <td><%= job_product.lender.name if job_product.lender %></td>
-        <td><%= job_product.deed_of_trust_number %></td>
-        <td><%= job_product.new_deed_of_trust_number %></td>
-        <td><%= job_product.recorded_on.to_s if job_product.recorded_on.present? %></td>
-        <% if @report.show_pricing? %>
-          <td class="text-right"><%= job_product.price %></td>
+        <% @report.columns.each do |col| %>
+          <td><%= job_product.send(col) %></td>
         <% end %>
       </tr>
     <% end %>

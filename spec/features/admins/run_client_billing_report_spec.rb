@@ -12,6 +12,7 @@ feature "Admin runs monthly report for client" do
       cleared_on: 2.weeks.ago,
       recorded_on: 2.weeks.ago
     )
+    @job_product.job.update_column(:file_number, "foobar45")
     @client = @job_product.job.client
     @incomplete_job = FactoryGirl.create(:tracking_job, client: @client, file_number: "9999")
     other_client = FactoryGirl.create(:client)
