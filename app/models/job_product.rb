@@ -60,6 +60,7 @@ class JobProduct < ActiveRecord::Base
 	validates :job, presence: true
 	validates :product, presence: true
 	validates :worker, presence: true
+  validates :payoff_amount_cents, presence: true
 
 	after_save :advance_state
 	before_create :determine_due_date, :set_price
