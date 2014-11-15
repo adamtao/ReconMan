@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Document do
   before do
-    @document = FactoryGirl.create(:document)
+    @document = FactoryGirl.build_stubbed(:document)
   end
 
   it ".unique_file_number should return a string including the job id" do

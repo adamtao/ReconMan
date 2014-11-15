@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ClientProduct do
+RSpec.describe ClientProduct do
 
   before(:each) { @client_product = FactoryGirl.build_stubbed(:client_product) }
 

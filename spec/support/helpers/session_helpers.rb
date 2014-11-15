@@ -28,7 +28,7 @@ module Features
     def sign_in_as_admin
       user = FactoryGirl.create(:user, :admin)
       login_as(user, scope: :user)
-      user    
+      user
     end
 
   end

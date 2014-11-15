@@ -5,6 +5,7 @@ class DashboardController < ApplicationController
   	@completed_jobs = Job.dashboard_jobs(user: current_user, complete: true, limit: 25)
   	@clients = Client.order("updated_at DESC").limit(10)
   	@products = Product.all
+    @counties_needing_work = County.needing_work.limit(20)
   end
 
 end

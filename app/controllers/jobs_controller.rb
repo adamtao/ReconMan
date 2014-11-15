@@ -17,6 +17,12 @@ class JobsController < ApplicationController
   # GET /jobs/1
   # GET /jobs/1.json
   def show
+    if @job.county.checkout_expired_for?(current_user)
+      @job.county.expire_checkout!
+      redirect_to root_path, alert: "Checkout for #{@job.county.name} county expired. Please start again."
+    elsif @job.county.checked_out_to == current_user
+      @job.county.renew_checkout
+    end
     @comment = Comment.new(related_type: "Job", related_id: @job.id)
   end
 

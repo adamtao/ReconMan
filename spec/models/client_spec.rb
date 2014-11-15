@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-describe Client do
+RSpec.describe Client do
 
   before(:each) do
-  	@client = build_stubbed(:client)
-  	@branch = create(:branch, client: @client)
+    @client = FactoryGirl.build_stubbed(:client)
+    @branch = FactoryGirl.create(:branch, client: @client)
   end
 
   subject { @client }

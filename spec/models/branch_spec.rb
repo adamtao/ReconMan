@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Branch do
+RSpec.describe Branch do
 
   before(:each) { @branch = FactoryGirl.build_stubbed(:branch) }
 

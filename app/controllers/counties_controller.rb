@@ -1,6 +1,6 @@
 class CountiesController < ApplicationController
   before_action :set_state
-  before_action :set_county, only: [:show, :edit, :update, :destroy]
+  before_action :set_county, only: [:show, :edit, :update, :checkout, :checkin, :destroy]
 
   # GET /counties
   # GET /counties.json
@@ -54,6 +54,18 @@ class CountiesController < ApplicationController
     end
   end
 
+  # PUT /states/:state_id/counties/:id/checkout
+  def checkout
+    current_user.checkout_county(@county)
+    redirect_to @county.current_jobs.first
+  end
+
+  # PUT /states/:state_id/counties/:id/checkin
+  def checkin
+    @county.expire_checkout!
+    redirect_to root_path, notice: "The county has been checked in."
+  end
+
   # DELETE /counties/1
   # DELETE /counties/1.json
   def destroy
@@ -69,7 +81,7 @@ class CountiesController < ApplicationController
     def set_state
       @state = State.find(params[:state_id])
     end
-    
+
     # Use callbacks to share common setup or constraints between actions.
     def set_county
       @county = County.find(params[:id])

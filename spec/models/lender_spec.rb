@@ -1,5 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Lender, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  before do
+    @lender = FactoryGirl.build_stubbed(:lender)
+  end
+
+  subject{@lender}
+
+  it { should respond_to(:tracking_jobs) }
+
 end

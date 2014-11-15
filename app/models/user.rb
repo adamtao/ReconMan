@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :invitable, :database_authenticatable, #:confirmable, #:registerable, 
+  devise :invitable, :database_authenticatable, #:confirmable, #:registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
   def self.processors
@@ -40,4 +40,22 @@ class User < ActiveRecord::Base
   def current_requested_jobs
     requested_jobs.where.not(workflow_state: 'complete') #.joins(:job_products).order("job_product.due_on ASC")
   end
+
+  def checkout_county(county)
+    county.checkout_to(self)
+  end
+
+  def checked_out_county
+    if c = County.find_by(checked_out_to_id: self.id)
+      return c if c.checked_out?
+    end
+    false
+  end
+
+  def check_in_county
+    if checked_out_county
+      checked_out_county.expire_checkout!
+    end
+  end
+
 end

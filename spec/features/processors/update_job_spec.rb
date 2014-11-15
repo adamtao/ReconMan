@@ -8,9 +8,9 @@ Warden.test_mode!
 feature 'Create job' do
 	before(:each) do
 		@me = sign_in_as_processor
-		@client = create(:client)
-		@branch = create(:branch, client: @client)
-		@employee = create(:user, branch: @branch)
+    @client = FactoryGirl.create(:client)
+    @branch = FactoryGirl.create(:branch, client: @client)
+    @employee = FactoryGirl.create(:user, branch: @branch)
     @tracking_job = FactoryGirl.create(:tracking_job, client: @client, requestor: @employee)
     @tracking_job.reload
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141111191900) do
+ActiveRecord::Schema.define(version: 20141114205856) do
 
   create_table "branches", force: true do |t|
     t.string   "name"
@@ -95,8 +95,11 @@ ActiveRecord::Schema.define(version: 20141111191900) do
     t.string   "s_contact_phone"
     t.string   "s_contact_email"
     t.integer  "average_days_to_complete"
+    t.integer  "checked_out_to_id"
+    t.datetime "checked_out_at"
   end
 
+  add_index "counties", ["checked_out_to_id"], name: "index_counties_on_checked_out_to_id", using: :btree
   add_index "counties", ["state_id"], name: "index_counties_on_state_id", using: :btree
 
   create_table "documents", force: true do |t|
