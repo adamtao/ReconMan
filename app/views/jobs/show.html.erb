@@ -1,16 +1,17 @@
+<% if current_user.checked_out_county %>
+  <ul class="button-group">
+    <% if current_user.checked_out_county.next_job %>
+      <li><%= link_to "next job", current_user.checked_out_county.next_job, class: "tiny success button" %></li>
+    <% end %>
+    <li><%= link_to "check-in county", checkin_state_county_path(@job.county.state, @job.county), method: :put, class: "tiny button" %><li>
+  </ul>
+<% end %>
+
 <h1><%= link_to @job.client.name, @job.client %></h1>
 <div class="section job-container">
   <div class="full-width row">
     <div class="job-header section-header row clearfix">
       <div class="large-7 small-7 columns">
-        <% if current_user.checked_out_county %>
-          <ul class="button-group">
-            <% if current_user.checked_out_county.next_job %>
-              <li><%= link_to "next job", current_user.checked_out_county.next_job, class: "tiny success button" %></li>
-            <% end %>
-            <li><%= link_to "check-in county", checkin_state_county_path(@job.county.state, @job.county), method: :put, class: "tiny button" %><li>
-          </ul>
-        <% end %>
         <h2>File: <%= @job.file_number %></h2>
         <p>
         <%= link_to @job.client.name, @job.client %> |
