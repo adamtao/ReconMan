@@ -27,8 +27,9 @@ class County < ActiveRecord::Base
     jobs.where.not(workflow_state: "complete") #.joins(:job_products).order("job_products.due_on DESC")
   end
 
-  def next_job
-    self.current_jobs.length > 1 ? current_jobs.second : false
+  def next_job(job)
+    pos = self.current_jobs.index(job)
+    self.current_jobs.length > pos ? current_jobs[pos + 1] : false
   end
 
 	def calculate_days_to_complete!

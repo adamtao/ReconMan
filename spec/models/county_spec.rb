@@ -161,7 +161,7 @@ describe County do
     it ".next_job loads the second job (if any) ready to process" do
       @county.checkout_to(@processor)
 
-      expect(@county.next_job).to eq(@tracking_jobs.second)
+      expect(@county.next_job(@tracking_jobs.first)).to eq(@tracking_jobs.second)
     end
 
     it ".checkout_county expires previously checked out county" do

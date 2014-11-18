@@ -44,8 +44,9 @@ feature "Checkout a County" do
   scenario "go to next job" do
     click_on "checkout"
     click_on "next job"
+    click_on "next job"
 
-    expect(current_path).to eq(job_path(@tracking_jobs.second))
+    expect(current_path).to eq(job_path(@tracking_jobs[2]))
   end
 
   # Scenario: checkout time perpetuates each time job action performed
