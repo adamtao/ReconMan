@@ -26,6 +26,7 @@ gem 'paperclip'
 gem 'aws-sdk'
 gem 'active_attr'
 gem 'to_xls'
+gem 'exception_notification'
 
 # Heroku gems...
 group :production do

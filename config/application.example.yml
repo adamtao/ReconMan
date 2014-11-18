@@ -28,6 +28,7 @@ PAPERCLIP_STORAGE: filesystem
 S3_BUCKET: amazon_s3_bucket_name
 S3_ACCESS_KEY_ID: s3_access_key_id
 S3_ACCESS_KEY_SECRET: s3_access_key_secret
+EXCEPTION_RECIPIENT: adam@makeascene.com
 
 # Passed along with the auto-tracking system in the HTTP header
 TRACKING_USER_AGENT: "Reconveyance tracking service."

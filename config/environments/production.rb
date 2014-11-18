@@ -101,4 +101,11 @@ Rails.application.configure do
   # config.middleware.use '::Rack::Auth::Basic' do |u, p|
   #   [u, p] == [ENV['STAGING_USER'], ENV['STAGING_PASSWORD']]
   # end
+
+  config.middleware.user ExceptionNotification::Rack,
+    email: {
+      email_prefix: "[RECON]",
+      sender_address: %{"reconveyance notifier" <no-reply@reconveyanceexperts.com>},
+      exception_recipients: ENV['EXCEPTION_RECIPIENT']
+    }
 end
