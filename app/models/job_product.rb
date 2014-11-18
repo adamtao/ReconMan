@@ -9,13 +9,9 @@ class JobProduct < ActiveRecord::Base
 			event :process_manually, transitions_to: :to_be_processed_manually
       event :send_first_notice, transitions_to: :first_notice
 		end
-    state :defect do
-      event :clear, transitions_to: :new
-    end
 		state :to_be_searched_manually do
       event :send_first_notice, transitions_to: :first_notice
 			event :mark_complete, transitions_to: :complete
-	    event :mark_defect, transitions_to: :defect
 	  end
 		state :to_be_processed_manually do
 			event :mark_complete, transitions_to: :complete
@@ -24,7 +20,6 @@ class JobProduct < ActiveRecord::Base
 		state :in_progress do
 			event :change_in_cached_response, transitions_to: :needs_review
 			event :mark_complete, transitions_to: :complete
-      event :mark_defect, transitions_to: :defect
       event :send_first_notice, transitions_to: :first_notice
 	 	end
     state :first_notice do
@@ -153,10 +148,6 @@ class JobProduct < ActiveRecord::Base
 			self.job.mark_complete! if self.job.can_mark_complete?
 		end
 	end
-
-  def mark_defect
-    self.job.add_defect_clearance(self.worker)
-  end
 
   def re_open
     if self.job.can_re_open?

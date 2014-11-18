@@ -119,11 +119,6 @@
               <div class="large-6 columns">
                 <%= f.submit 'Mark Complete', class: "tiny success button" %>
               </div>
-              <% if job_product.can_mark_defect? %>
-                <div class="large-6 columns text-right">
-                  <%= f.button :submit, "Mark Defect", class: "tiny alert button" %>
-                </div>
-              <% end %>
             </div>
           <% end %>
         </div>
