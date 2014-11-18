@@ -3,7 +3,7 @@
     <% if current_user.checked_out_county.next_job %>
       <li><%= link_to "next job", current_user.checked_out_county.next_job, class: "tiny success button" %></li>
     <% end %>
-    <li><%= link_to "check-in county", checkin_state_county_path(@job.county.state, @job.county), method: :put, class: "tiny button" %><li>
+    <li><%= link_to "check-in county", checkin_county_path(@job.county), method: :put, class: "tiny button" %><li>
   </ul>
 <% end %>
 

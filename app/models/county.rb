@@ -54,6 +54,10 @@ class County < ActiveRecord::Base
 		end
 	end
 
+  def to_option
+    "#{self.name}, #{self.state.abbreviation} (#{self.current_jobs.length})"
+  end
+
   def checkout_to(user)
     if user.checked_out_county
       user.checked_out_county.expire_checkout!

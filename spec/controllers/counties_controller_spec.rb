@@ -25,10 +25,10 @@ RSpec.describe CountiesController do
   describe "PUT checkout" do
 
     before do
-      @county = FactoryGirl.create(:county, state: @state)
+      @county = FactoryGirl.create(:county)
       @job = FactoryGirl.create(:tracking_job, county: @county)
 
-      put :checkout, state_id: @state.id, id: @county.id
+      put :checkout, id: @county.id
     end
 
     it "redirects to @job" do
@@ -46,10 +46,10 @@ RSpec.describe CountiesController do
 
     before do
       user = FactoryGirl.create(:user, :processor)
-      @county = FactoryGirl.create(:county, state: @state,
+      @county = FactoryGirl.create(:county,
         checked_out_to_id: user.id, checked_out_at: 2.minutes.ago)
 
-      put :checkin, state_id: @state.id, id: @county.id
+      put :checkin, id: @county.id
     end
 
     it "redirects to root path" do

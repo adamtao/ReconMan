@@ -22,9 +22,9 @@ feature "Checkout a County" do
   #   As a processor
   #   I want to see counties needing work on the dashboard
   #   So that I can check them out to start work.
-  scenario "list counties needing work on dashboard" do
+  scenario "list counties needing work in a dropdown on dashboard" do
     expect(page).to have_content("#{@county.name}, #{@county.state.abbreviation} (3)")
-    expect(page).to have_link("checkout", checkout_state_county_path(@county.state, @county))
+    expect(page).to have_button("checkout")
   end
 
   # Scenario: checkout county, go to first job
@@ -85,12 +85,13 @@ feature "Checkout a County" do
   #   I want to checkout another county, auto-checking in the first
   #   So that I can work on the new one and others can work on the other
   scenario "only one county at a time" do
-    click_on "checkout"
+    @me.checkout_county(@county)
     county2 = FactoryGirl.create(:county)
     FactoryGirl.create(:tracking_job, county: county2)
     visit root_path
 
-    find_link("checkout", href: checkout_state_county_path(county2.state, county2)).click
+    select county2.name, from: "id"
+    click_on "checkout"
 
     @county.reload
     expect(@county.checked_out?).to be(false)

@@ -1,6 +1,6 @@
 class CountiesController < ApplicationController
-  before_action :set_state
-  before_action :set_county, only: [:show, :edit, :update, :checkout, :checkin, :destroy]
+  before_action :set_state, except: [:checkin, :checkout]
+  before_action :set_county, only: [:show, :edit, :update, :checkin, :checkout, :destroy]
 
   # GET /counties
   # GET /counties.json
@@ -54,13 +54,17 @@ class CountiesController < ApplicationController
     end
   end
 
-  # PUT /states/:state_id/counties/:id/checkout
+  # PUT /counties/:id/checkout
   def checkout
     current_user.checkout_county(@county)
-    redirect_to @county.current_jobs.first
+    if @county.current_jobs.length > 0
+      redirect_to @county.current_jobs.first
+    else
+      redirect_to [@county.state, @county]
+    end
   end
 
-  # PUT /states/:state_id/counties/:id/checkin
+  # PUT /counties/:id/checkin
   def checkin
     @county.expire_checkout!
     redirect_to root_path, notice: "The county has been checked in."

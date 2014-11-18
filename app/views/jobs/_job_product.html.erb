@@ -85,8 +85,8 @@
       Status: <strong><%= job_product.workflow_state.humanize %></strong> &nbsp;
       <br/>
       Worker: <%= job_product.worker.name if job_product.worker_id.present? %>
-    <%= link_to "edit", edit_job_job_product_path(job_product.job, job_product) %>
     </p>
+    <%= link_to "edit", edit_job_job_product_path(job_product.job, job_product), class: "tiny secondary button" %>
   </div>
 </div>
 </div>

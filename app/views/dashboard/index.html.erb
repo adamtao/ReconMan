@@ -1,16 +1,16 @@
 <div class="container clearfix">
   <div class="large-8 small-7 columns">
-    <h1>Current Jobs</h1>
-	<p class="smaller hide-for-small">Jobs move from <strong>new</strong> -&gt; <strong>in-progress</strong> -&gt; <strong>complete</strong>.
-		Perform a title search to advance to "in-progress". Then check the <strong>R</strong>econveyance box to mark it complete.</p>
+    <h1>Counties needing work</h1>
+    <p class="smaller">Checkout any county below to begin working on the jobs needing attention
+    in that county. When you're done, check it back in or simply log out.</p>
   </div>
   <div class="large-4 small-5 columns">
     <br/>
     <ul class="button-group right">
-	<% Job.job_types.each do |t| %>
-		<li><%= link_to "+ #{t.to_s.titleize} Job", new_job_path(job_type: t), class: "tiny success button" %></li>
-	<% end %>
-	</ul>
+      <% Job.job_types.each do |t| %>
+        <li><%= link_to "+ #{t.to_s.titleize} Job", new_job_path(job_type: t), class: "tiny success button" %></li>
+      <% end %>
+    </ul>
   </div>
 </div>
 
@@ -18,22 +18,24 @@
   <div class="main_content">
     <% if @counties_needing_work.length > 0 %>
       <div class="panel">
-        <h3 class="subheader">Counties needing work</h3>
-        <p>Checkout any county below to begin working on the jobs needing attention
-        in that county. When you're done, check it back in or simply log out.</p>
-        <ul>
-          <% @counties_needing_work.each do |county| %>
-            <li><%= county.name %>, <%= county.state.abbreviation %> (<%= county.current_jobs.length %>)
-              <%= link_to "checkout",
-                checkout_state_county_path(county.state, county),
-                method: :put,
-                class: "tiny success button" %>
-            </li>
-          <% end %>
-        </ul>
+        <%= form_tag checkout_county_path, method: :put do %>
+          <div class="row collapse">
+            <div class="large-8 small-7 columns">
+              <%= select_tag :id, options_from_collection_for_select(@counties_needing_work, :id, :to_option) %>
+            </div>
+            <div class="large-4 small-5 columns">
+              <%= submit_tag "checkout", class: "tiny success button" %>
+            </div>
+          </div>
+        <% end %>
       </div>
     <% end %>
 
+    <h3 class="subheader">Current Jobs</h3>
+    <p class="smaller hide-for-small">
+      Jobs move from <strong>new</strong> -&gt; <strong>in-progress</strong> -&gt; <strong>complete</strong>.
+      Perform a title search to advance to "in-progress". Then check the <strong>R</strong>econveyance box to mark it complete.
+    </p>
     <%= render 'shared/jobs' %>
   </div>
 

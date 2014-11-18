@@ -7,13 +7,11 @@ Rails.application.routes.draw do
   post 'reports/mark_billed' => 'reports#mark_billed', as: :mark_report_billed
 
   resources :states do
-    resources :counties do
-      member {
-        put :checkout
-        put :checkin
-      }
-    end
+    resources :counties
   end
+
+  put "county/checkout(/:id)" => 'counties#checkout', as: :checkout_county
+  put "county/checkin/:id"  => 'counties#checkin',  as: :checkin_county
 
   resources :products
 
