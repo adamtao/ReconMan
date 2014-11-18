@@ -102,7 +102,7 @@ Rails.application.configure do
   #   [u, p] == [ENV['STAGING_USER'], ENV['STAGING_PASSWORD']]
   # end
 
-  config.middleware.user ExceptionNotification::Rack,
+  config.middleware.use ExceptionNotification::Rack,
     email: {
       email_prefix: "[RECON]",
       sender_address: %{"reconveyance notifier" <no-reply@reconveyanceexperts.com>},
