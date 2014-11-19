@@ -78,7 +78,7 @@ class JobProductsController < ApplicationController
     def set_job
       @job = Job.find(params[:job_id])
     end
-    
+
     # Use callbacks to share common setup or constraints between actions.
     def set_job_product
       @job_product = JobProduct.find(params[:id])
@@ -86,9 +86,10 @@ class JobProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def job_product_params
-      params.require(:job_product).permit(:product_id, :search_url, 
-          :deed_of_trust_number, 
-          :beneficiary_name, 
+      params.require(:job_product).permit(:product_id, :search_url,
+          :worker_id,
+          :deed_of_trust_number,
+          :beneficiary_name,
           :beneficiary_account,
           :payoff_amount,
           :developer,

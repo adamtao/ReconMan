@@ -20,6 +20,10 @@ RSpec.describe CountiesController do
       expect(assigns(:state)).to eq(@state)
       expect(assigns(:county)).to eq(@county)
     end
+
+    it "renders counties/show template" do
+      expect(response).to render_template('show')
+    end
   end
 
   describe "PUT checkout" do

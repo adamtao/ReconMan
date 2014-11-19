@@ -36,6 +36,10 @@ RSpec.describe DashboardController do
       expect(assigns(:counties_needing_work)).to include(@current_jobs.first.county)
     end
 
+    it "renders dashboard/index template" do
+      expect(response).to render_template('index')
+    end
+
   end
 
 end
