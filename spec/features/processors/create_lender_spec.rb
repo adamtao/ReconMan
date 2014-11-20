@@ -71,7 +71,7 @@ feature "Create lender inline", :devise do
     fill_in "Payoff Amount", with: new_tjp[:payoff_amount_cents].to_i / 100
 
     #click_on "New lender"
-    fill_in "Lender Name", with: lender[:name]
+    fill_in "New Lender Name", with: lender[:name]
     click_on "Create Job"
 
     expect(page).to have_content(lender[:name])
@@ -93,7 +93,7 @@ feature "Create lender inline", :devise do
     fill_in "Deed of trust number", with: new_tjp[:deed_of_trust_number]
     fill_in "Beneficiary Account", with: "76543"
     fill_in "Payoff Amount", with: "3408.23"
-    fill_in "Lender Name", with: lender[:name]
+    fill_in "New Lender Name", with: lender[:name]
     click_on "Create Job product"
 
     expect(page).to have_content(lender[:name])

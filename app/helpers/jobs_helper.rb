@@ -6,6 +6,7 @@ module JobsHelper
 			p = Product.where(job_type: f.object.job_type).first_or_initialize
 			unless p.new_record?
 				new_object.product = p
+        new_object.lender = Lender.new
 			end
 		end
 		id = new_object.object_id

@@ -6,23 +6,28 @@
 		<div class="column_6">
 			<%= f.input :deed_of_trust_number %>
 		</div>
+	  <div class="large-3 small-6 columns">
+	    <%= f.input :beneficiary_account, label: "Beneficiary Account" %>
+	  </div>
+	  <div class="large-3 small-6 columns">
+	    <%= f.input :payoff_amount, label: "Payoff Amount" %>
+	  </div>
 	</div>
 
 	<div class="row">
 	  <div class="column_6">
 	    <%= f.association :lender %>
       <% if f.object.new_record? %>
-        - or -
         <%= f.fields_for :lender do |l| %>
-          <%= l.input :name, label: "Lender Name", required: false %>
+          <%= l.input :name, label: "New Lender Name", required: false %>
         <% end %>
       <% end %>
-	  </div>
-	  <div class="large-3 small-6 columns">
-	    <%= f.input :beneficiary_account, label: "Beneficiary Account" %>
-	  </div>
-	  <div class="large-3 small-6 columns">
-	    <%= f.input :payoff_amount, label: "Payoff Amount" %>
+    </div>
+    <div class="column_6">
+      <br/>
+      <% if f.object.new_record? %>
+        <%= link_to "new lender", '', class: "toggle-lender" %>
+      <% end %>
 	  </div>
 	</div>
 
