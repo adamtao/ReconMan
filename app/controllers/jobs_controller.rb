@@ -120,7 +120,8 @@ class JobsController < ApplicationController
           :parcel_number,
           :parcel_legal_description,
           :new_deed_of_trust_number,
-          :recorded_on
+          :recorded_on,
+          lender_attributes: [ :name ]
           ]
         )
     end

@@ -5,7 +5,7 @@ Warden.test_mode!
 # Feature: Create job
 #   As a processor
 #   I want to create Jobs
-feature 'Create job' do
+feature 'Create job', :devise do
 	before(:each) do
 		@me = sign_in_as_processor
 		@state = create(:state)

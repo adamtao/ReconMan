@@ -8,6 +8,6 @@ RSpec.describe Lender, :type => :model do
 
   subject{@lender}
 
-  it { should respond_to(:tracking_jobs) }
+  it { should respond_to(:job_products) }
 
 end

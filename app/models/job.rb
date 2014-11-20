@@ -99,7 +99,9 @@ class Job < ActiveRecord::Base
 
 	def initialize_job_products
     self.default_products.each do |p|
-      self.job_products << JobProduct.new(product_id: p.id)
+      jp = JobProduct.new(product_id: p.id)
+      jp.lender = Lender.new
+      self.job_products << jp
     end
 	end
 

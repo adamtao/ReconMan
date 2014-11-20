@@ -2,7 +2,7 @@ require 'rails_helper'
 include Warden::Test::Helpers
 Warden.test_mode!
 
-feature "Attach document on job page" do
+feature "Attach document on job page", :devise do
 
   before(:each) do
     @me = sign_in_as_processor

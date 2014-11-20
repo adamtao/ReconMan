@@ -6,7 +6,7 @@ Warden.test_mode!
 #   As a processor
 #   I want to checkout a county
 #   So I can process that county's jobs
-feature "Checkout a County" do
+feature "Checkout a County", :devise do
   before do
     @me = sign_in_as_processor
     @county = FactoryGirl.create(:county)

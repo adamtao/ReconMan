@@ -5,7 +5,7 @@ Warden.test_mode!
 # Feature: Create client
 #   As a processor
 #   I want to create a new Client
-feature 'Create client' do
+feature 'Create client', :devise do
 
 	before(:each) do
 		sign_in_as_processor

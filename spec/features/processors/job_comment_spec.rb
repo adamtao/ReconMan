@@ -5,7 +5,7 @@ Warden.test_mode!
 # Feature: Create client
 #   As a processor
 #   I want to add a comment to a Job
-feature 'Comment on a Job' do
+feature 'Comment on a Job', :devise do
 
 	before(:each) do
 		@me = sign_in_as_processor

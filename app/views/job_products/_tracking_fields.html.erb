@@ -11,6 +11,12 @@
 	<div class="row">
 	  <div class="column_6">
 	    <%= f.association :lender %>
+      <% if f.object.new_record? %>
+        - or -
+        <%= f.fields_for :lender do |l| %>
+          <%= l.input :name, label: "Lender Name", required: false %>
+        <% end %>
+      <% end %>
 	  </div>
 	  <div class="large-3 small-6 columns">
 	    <%= f.input :beneficiary_account, label: "Beneficiary Account" %>

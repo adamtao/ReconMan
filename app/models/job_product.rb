@@ -57,6 +57,8 @@ class JobProduct < ActiveRecord::Base
 	validates :worker, presence: true
   validates :payoff_amount_cents, presence: true
 
+  accepts_nested_attributes_for :lender, reject_if: proc { |attributes| attributes['name'].blank? }
+
 	after_save :advance_state
 	before_create :determine_due_date, :set_price
 

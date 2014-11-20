@@ -111,6 +111,7 @@ describe Job do
   def setup_job_with_job_products(job)
   	job.initialize_job_products
   	job.job_products.each do |jp|
+      jp.lender = build(:lender)
   		jp.worker = build(:user)
   	end
   	job.save!

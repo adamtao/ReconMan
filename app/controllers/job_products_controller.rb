@@ -16,6 +16,7 @@ class JobProductsController < ApplicationController
   # GET /job_products/new
   def new
     @job_product = JobProduct.new(job: @job)
+    @job_product.lender = Lender.new
   end
 
   # GET /job_products/1/edit
@@ -97,6 +98,8 @@ class JobProductsController < ApplicationController
           :parcel_number,
           :parcel_legal_description,
           :new_deed_of_trust_number,
-          :recorded_on)
+          :recorded_on,
+          lender_attributes: [ :name ]
+        )
     end
 end

@@ -5,7 +5,7 @@ Warden.test_mode!
 # Feature: Complete job product
 #   As a processor
 #   I want to complete a JobProduct
-feature 'Complete job product' do
+feature 'Complete job product', :devise do
 
 	before(:each) do
 		@me = sign_in_as_processor
