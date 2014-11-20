@@ -1,6 +1,6 @@
 <div class="container clearfix">
 	<div class="large-7 small-7 columns">
-		<h1><%= @county.name %> 
+		<h1><%= @county.name %>
 			<small>a county of <%= link_to @county.state.name, @county.state %></small>
 		</h1>
 	</div>
@@ -54,10 +54,10 @@
 		Phone: <%= @county.s_contact_phone %>
 		<% end %>
 	</p>
-	<% end %>	
+	<% end %>
 
 	<h3>Current Jobs</h3>
-	<%= render 'shared/jobs' %>	
+	<%= render 'shared/jobs' %>
 </div>
 
 <div class="side_content">

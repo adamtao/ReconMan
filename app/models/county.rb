@@ -24,7 +24,7 @@ class County < ActiveRecord::Base
 	end
 
   def current_jobs
-    jobs.where.not(workflow_state: "complete") #.joins(:job_products).order("job_products.due_on DESC")
+    jobs.where.not(workflow_state: "complete").joins("left outer join job_products on job_products.job_id = jobs.id").order("job_products.due_on DESC")
   end
 
   def next_job(job)
