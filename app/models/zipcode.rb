@@ -15,7 +15,7 @@ require 'csv'
 class Zipcode < ActiveRecord::Base
 
 	def self.lookup(zipcode)
-		z = find_by(zipcode: zipcode)
+		find_by(zipcode: zipcode)
 	end
 
 	def lookup_state

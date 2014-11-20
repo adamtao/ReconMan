@@ -1,11 +1,11 @@
 class LendersController < ApplicationController
+  before_action :set_lender, only: [:show, :edit, :update, :destroy]
 
   def index
     @lenders = Lender.order(:name)
   end
 
   def show
-    @lender = Lender.find(params[:id])
   end
 
   def new
@@ -22,11 +22,9 @@ class LendersController < ApplicationController
   end
 
   def edit
-    @lender = Lender.find(params[:id])
   end
 
   def update
-    @lender = Lender.find(params[:id])
     if @lender.update_attributes(lender_params)
       redirect_to @lender, notice: "Lender updated successfully."
     else
@@ -34,7 +32,19 @@ class LendersController < ApplicationController
     end
   end
 
+  def destroy
+    @lender.destroy
+    respond_to do |format|
+      format.html { redirect_to lenders_url, notice: 'Lender was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
   private
+
+  def set_lender
+    @lender = Lender.find(params[:id])
+  end
 
   def lender_params
     params.require(:lender).permit(:name)

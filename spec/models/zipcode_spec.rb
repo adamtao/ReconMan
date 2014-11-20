@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Zipcode do
 
-  before(:each) do 
+  before(:each) do
   	@county = create(:county)
   	@state = @county.state
   	@zipcode = build(:zipcode, state: @state.abbreviation, county: @county.name)
@@ -22,12 +22,19 @@ describe Zipcode do
   	@zipcode.zipcode = "11111"
   	@zipcode.save!
 
-  	# test file has exactly 2 entries plus a header 
+  	# test file has exactly 2 entries plus a header
   	Zipcode.import_from_csv(Rails.root.join('spec', 'fixtures', 'zip_code_database_fixture.csv'))
 
   	expect(Zipcode.count).to eq(2)
   	expect(Zipcode.pluck(:zipcode)).to include("05060") # one from the test csv file
   	expect(Zipcode.pluck(:zipcode)).not_to include(@zipcode.zipcode)
+  end
+
+  it "#lookup(zipcode) should find matching zipcode" do
+    @zipcode.save
+    z = Zipcode.lookup(@zipcode.zipcode)
+
+    expect(z).to eq(@zipcode)
   end
 
 end
