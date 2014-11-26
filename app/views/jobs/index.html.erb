@@ -2,7 +2,62 @@
   <h1>Search Results</h1>
 
   <% if @jobs.length > 0 %>
-    <%= render 'shared/jobs' %>
+
+    <div>
+      <%= will_paginate @jobs %>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>File</th>
+          <th class="hide-for-small">County</th>
+          <th>Requestor</th>
+          <th class="text-center hide-for-small">Created</th>
+          <th class="text-center">Due</th>
+          <th class="text-center">Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @jobs.each do |job| %>
+          <tr id="job_<%= job.id %>">
+
+            <td><%= link_to job.link_name, job, class: "job" %></td>
+
+            <td class="hide-for-small">
+              <% if job.county %><%= link_to job.county.name, [job.state, job.county] %>, <% end %>
+              <%= link_to job.state.abbreviation, job.state %>
+            </td>
+
+            <td><%= link_to job.requestor.name, job.requestor %>
+              <span class="hide-for-small"> / <%= link_to job.client.name, job.client %></span>
+            </td>
+
+            <td class="text-center hide-for-small">
+              <%=l job.created_at.to_date, format: :short %>
+            </td>
+
+            <% if job.dashboard_product %>
+              <td class="text-center <% if job.dashboard_product.late? %>late<% end %>">
+                <% if job.dashboard_product.due_on.present? %>
+                  <%=l job.dashboard_product.due_on, format: :short %>
+                <% end %>
+              </td>
+
+              <td class="text-center">
+                <%= job.workflow_state %>
+              </td>
+
+            <% else %>
+              <td colspan="2" class="text-center">
+                <i>(reconveyance n/a)</i>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
   <% else %>
     <p><i>Hmmm, there doesn't seem to be anything here. Try searching again.</i></p>
   <% end %>

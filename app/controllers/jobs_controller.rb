@@ -5,12 +5,9 @@ class JobsController < ApplicationController
   # GET /jobs.json
   def index
     @q = Job.search(params[:q])
-    @jobs = @q.result(distinct: true)
-    if @jobs.length == 1
+    @jobs = @q.result(distinct: true).paginate(page: params[:page], per_page: 20)
+    if @jobs.length == 1 && !@jobs.first.new_record?
       redirect_to @jobs.first
-    else
-      @current_jobs = @jobs.where.not(workflow_state: "complete").joins(:job_products).limit(100)
-      @completed_jobs = @jobs.where(workflow_state: "complete").limit(25)
     end
   end
 
