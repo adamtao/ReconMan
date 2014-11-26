@@ -67,6 +67,12 @@ class Job < ActiveRecord::Base
 		end
 	end
 
+  def next
+    cj = county.current_jobs(included_job: self)
+    pos = cj.index(self)
+    cj.length > pos ? cj[pos + 1] : false
+  end
+
 	def link_name
 		file_number.present? ? file_number : deed_or_parcel_number
 	end

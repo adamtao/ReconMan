@@ -23,13 +23,17 @@ class County < ActiveRecord::Base
 		!self.search_url.present?
 	end
 
-  def current_jobs
-    jobs.where.not(workflow_state: "complete").joins("left outer join job_products on job_products.job_id = jobs.id").order("job_products.due_on DESC")
+  def current_jobs(options={})
+    if options[:included_job]
+      cj = jobs.where("jobs.workflow_state != 'complete' OR jobs.id = ?", options[:included_job].id)
+    else
+      cj = jobs.where.not(workflow_state: "complete")
+    end
+    cj.joins("left outer join job_products on job_products.job_id = jobs.id").order("job_products.due_on DESC")
   end
 
   def next_job(job)
-    pos = self.current_jobs.index(job)
-    self.current_jobs.length > pos ? current_jobs[pos + 1] : false
+    job.next
   end
 
 	def calculate_days_to_complete!

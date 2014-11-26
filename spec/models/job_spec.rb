@@ -60,6 +60,17 @@ describe Job do
 	  end
 	end
 
+  describe "#next" do
+    before do
+      @county = FactoryGirl.create(:county)
+      @tracking_jobs = FactoryGirl.create_list(:tracking_job, 3, county: @county)
+    end
+
+    it "should load the next job in the county" do
+      expect(@tracking_jobs.first.next).to eq(@tracking_jobs.second)
+    end
+  end
+
   describe "tracking job_type" do
   	before(:all) { @job = build_stubbed(:tracking_job) }
 

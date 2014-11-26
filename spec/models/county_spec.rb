@@ -164,6 +164,13 @@ describe County do
       expect(@county.next_job(@tracking_jobs.first)).to eq(@tracking_jobs.second)
     end
 
+    it ".next_job loads a job after having completed the job" do
+      @county.checkout_to(@processor)
+      @tracking_jobs.first.update_column(:workflow_state, "complete")
+
+      expect(@county.next_job(@tracking_jobs.first)).to eq(@tracking_jobs.second)
+    end
+
     it ".checkout_county expires previously checked out county" do
       @county.checkout_to(@processor)
       county2 = FactoryGirl.create(:county)
