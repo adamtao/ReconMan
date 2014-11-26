@@ -153,4 +153,26 @@ RSpec.describe JobProductsController do
     end
   end
 
+  describe "POST toggle_billing" do
+
+    it "should mark the job_product billed" do
+      @job_product.update_column(:billed, false)
+
+      post :toggle_billing, id: @job_product.id, format: :js
+
+      @job_product.reload
+      expect(@job_product.billed?).to be(true)
+    end
+
+    it "should mark the job_product NOT billed" do
+      @job_product.update_column(:billed, true)
+
+      post :toggle_billing, id: @job_product.id, format: :js
+
+      @job_product.reload
+      expect(@job_product.billed?).to be(false)
+      expect(response).to be_success
+    end
+  end
+
 end

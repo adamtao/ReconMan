@@ -62,6 +62,7 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'capybara-webkit'
   gem 'database_cleaner'
   gem 'ZenTest'
   gem 'simplecov', require: false

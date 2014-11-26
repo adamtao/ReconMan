@@ -1,6 +1,6 @@
 class JobProductsController < ApplicationController
-  before_action :set_job
-  before_action :set_job_product, only: [:show, :edit, :update, :toggle, :destroy]
+  before_action :set_job, except: :toggle_billing
+  before_action :set_job_product, only: [:show, :edit, :update, :toggle, :toggle_billing, :destroy]
 
   # GET /job_products
   # GET /job_products.json
@@ -62,6 +62,12 @@ class JobProductsController < ApplicationController
       format.html { redirect_to @job, notice: "The #{@job_product.product.name} for this job is complete." }
       format.js { render nothing: true }
     end
+  end
+
+  # POST /job_products/:id/toggle_billing
+  def toggle_billing
+    @job_product.update_column(:billed, !@job_product.billed?)
+    render nothing: true
   end
 
   # DELETE /job_products/1

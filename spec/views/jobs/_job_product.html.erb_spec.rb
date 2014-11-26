@@ -3,6 +3,9 @@ require 'rails_helper'
 describe "jobs/_job_product.html.erb" do
 
   before do
+    current_user = FactoryGirl.build_stubbed(:user, :admin)
+    allow(view).to receive_messages(:current_user => current_user)
+
     @job_product = FactoryGirl.create(:tracking_job_product)
 
     render partial: 'jobs/job_product', locals: { job_product: @job_product }

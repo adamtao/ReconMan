@@ -12,7 +12,7 @@ jQuery ->
       selected_product_id = $("#job_product_product_id option").filter(':selected').val()
       if selected_product_id == product_ids or selected_product_id in product_ids
         #console.log("SHOW URL Product ids are: #{ product_ids }")
-        $search_url_field.parent().show() 
+        $search_url_field.parent().show()
       else
         #console.log("HIDE URL Product ids are: #{ product_ids }")
         $search_url_field.parent().hide()
@@ -27,7 +27,6 @@ jQuery ->
       else
         #console.log("HIDE Product ids are: #{ product_ids }")
         $(@).hide()
-
 
   show_url_field()
   show_product_fields()
@@ -68,3 +67,9 @@ jQuery ->
     $(@).closest('div.row').before(new_elem)
     $(@).closest('div.row').parent().find('div.job_job_products_lender_name').last().hide()
     event.preventDefault()
+
+  $('form').on 'click', 'input#job_product_billed', (event) ->
+    item_id = $(@).data('id')
+    $.post("/job_products/#{item_id}/toggle_billing")
+
+

@@ -32,6 +32,8 @@ Rails.application.routes.draw do
     end
   end
 
+  post "job_products/:id/toggle_billing" => "job_products#toggle_billing"
+
   resources :lenders
 
   get 'zipcodes/:id' => 'zipcodes#show'
