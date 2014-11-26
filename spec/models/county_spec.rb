@@ -12,7 +12,7 @@ describe County do
     it { should respond_to(:offline_search?) }
   end
 
-	context "calculating time to complete" do
+  context "calculating time to complete" do
     before(:all) do
       @county = create(:county, search_url: 'http://foo.com')
       @tracking_product = create(:tracking_product)
@@ -66,7 +66,7 @@ describe County do
 
   end
 
-	context "calculating time to complete with bad existing records" do
+  context "calculating time to complete with bad existing records" do
     before(:all) do
       @county = create(:county, search_url: 'http://foo.com')
       @tracking_product = create(:tracking_product)
@@ -159,13 +159,10 @@ describe County do
     end
 
     it ".next_job loads the second job (if any) ready to process" do
-      @county.checkout_to(@processor)
-
       expect(@county.next_job(@tracking_jobs.first)).to eq(@tracking_jobs.second)
     end
 
     it ".next_job loads a job after having completed the job" do
-      @county.checkout_to(@processor)
       @tracking_jobs.first.update_column(:workflow_state, "complete")
 
       expect(@county.next_job(@tracking_jobs.first)).to eq(@tracking_jobs.second)
