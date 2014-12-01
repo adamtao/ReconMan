@@ -9,6 +9,34 @@
   </div>
 </div>
 
-<div class="main_content">
-  (job info/reports for the lender go here)
+<div class="container">
+  <div class="main_content">
+    (job info/reports for the lender go here)
+  </div>
+
+  <div class="side_content">
+    <% if current_user.admin? %>
+      <div class="panel">
+        <h6>Merge Lenders</h6>
+        <%= form_tag merge_lender_path(@lender), id: "merge_lender", class: "simple_form" do %>
+
+          <p>Choose a lender to merge into this lender. The lender you select below
+          will be removed. All of its jobs and other data will then be associated with
+          <%= @lender.name %>.</p>
+
+          <%= select_tag :merge_with_id,
+            options_from_collection_for_select(
+              Lender.where.not(id: @lender).order(:name),
+              :id,
+              :name
+            ) %>
+
+          <%= submit_tag "Merge", class: "small button", data: {confirm: "Are you sure?"} %>
+
+          <p><small><i>This cannot be undone.</i></small></p>
+
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>

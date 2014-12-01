@@ -1,5 +1,5 @@
 class LendersController < ApplicationController
-  before_action :set_lender, only: [:show, :edit, :update, :destroy]
+  before_action :set_lender, only: [:show, :edit, :update, :merge, :destroy]
 
   def index
     @lenders = Lender.order(:name)
@@ -30,6 +30,12 @@ class LendersController < ApplicationController
     else
       render action: 'edit'
     end
+  end
+
+  def merge
+    other_lender = Lender.find(params[:merge_with_id])
+    @lender.merge_with!(other_lender)
+    redirect_to @lender, notice: "The lenders were merged."
   end
 
   def destroy
