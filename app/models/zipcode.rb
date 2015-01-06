@@ -5,7 +5,7 @@
 # There is some duplication between this model and the
 # State and County models. I decided to do it this way
 # so that if a new database becomes available, I could
-# import it here without affecting anything else. 
+# import it here without affecting anything else.
 #
 # The intention of this database is to auto-fill the city,
 # state, and county fields for a new job based on the
@@ -19,19 +19,19 @@ class Zipcode < ActiveRecord::Base
 	end
 
 	def lookup_state
-		State.find_by(abbreviation: self.state)
+		@state ||= State.find_by(abbreviation: self.state)
 	end
 
 	def lookup_county
-		County.find_by(name: self.county.gsub(/\s?County$/i, ''), state: self.state_id)
+		@county ||= County.find_by(name: self.county.gsub(/\s?County$/i, ''), state: self.state_id)
 	end
 
 	def state_id
-		@state_id ||= lookup_state.id
+    @state_id ||= lookup_state.is_a?(State) ? lookup_state.id : nil
 	end
 
 	def county_id
-		@county_id ||= lookup_county.id		
+    @county_id ||= lookup_county.is_a?(County) ? lookup_county.id : nil
 	end
 
 	def self.import_from_csv(csv_file_path)

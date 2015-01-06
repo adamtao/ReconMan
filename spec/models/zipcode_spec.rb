@@ -3,20 +3,12 @@ require 'rails_helper'
 describe Zipcode do
 
   before(:each) do
-  	@county = create(:county)
+    @county = FactoryGirl.create(:county)
   	@state = @county.state
-  	@zipcode = build(:zipcode, state: @state.abbreviation, county: @county.name)
+    @zipcode = FactoryGirl.build(:zipcode, state: @state.abbreviation, county: @county.name)
   end
 
   subject { @zipcode }
-
-  it "should lookup related state" do
-  	expect(@zipcode.lookup_state).to eq(@state)
-  end
-
-  it "should lookup related county" do
-  	expect(@zipcode.lookup_county).to eq(@county)
-  end
 
   it "should import from CSV, deleting all previous records" do
   	@zipcode.zipcode = "11111"
@@ -35,6 +27,41 @@ describe Zipcode do
     z = Zipcode.lookup(@zipcode.zipcode)
 
     expect(z).to eq(@zipcode)
+  end
+
+  describe "related state" do
+    it "should lookup state" do
+      expect(@zipcode.lookup_state).to eq(@state)
+    end
+
+    it "should fail gracefully with no state match" do
+      @state.update_column(:abbreviation, "ZX")
+      @state.reload
+
+      expect(@zipcode.state_id).to eq(nil)
+    end
+  end
+
+  describe "related county" do
+    it "should lookup related county" do
+      expect(@zipcode.lookup_county).to eq(@county)
+    end
+
+    it "should match related county with different capitalization" do
+      @county.update_column(:name, @county.name.upcase)
+      @zipcode.county = @county.name.downcase
+
+      @county.reload
+
+      expect(@zipcode.lookup_county).to eq(@county)
+    end
+
+    it "should fail gracefully with no county match" do
+      @county.update_column(:name, "Not-Matched-Name")
+      @county.reload
+
+      expect(@zipcode.county_id).to eq(nil)
+    end
   end
 
 end
