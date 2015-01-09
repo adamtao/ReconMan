@@ -4,7 +4,7 @@ describe County do
 
   context "with offline search" do
     before(:each) do
-      @county = build_stubbed(:county)
+      @county = FactoryGirl.build_stubbed(:county)
     end
 
     subject { @county }
@@ -14,8 +14,8 @@ describe County do
 
   context "calculating time to complete" do
     before(:all) do
-      @county = create(:county, search_url: 'http://foo.com')
-      @tracking_product = create(:tracking_product)
+      @county = FactoryGirl.create(:county, search_url: 'http://foo.com')
+      @tracking_product = FactoryGirl.create(:tracking_product)
       @total_days = 0
       total_items = 0
       20.times do
@@ -181,6 +181,13 @@ describe County do
   end
 
   context "deleting" do
-    it "should complain if there are ANY jobs associated"
+    before do
+      @job = FactoryGirl.create(:job)
+      @county = @job.county
+    end
+
+    it "should complain if there are ANY jobs associated" do
+      expect{@county.destroy}.to raise_error
+    end
   end
 end

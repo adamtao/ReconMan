@@ -19,7 +19,7 @@ feature "Toggle job_product billing status", :devise, :js do
 
     check "Billed"
 
-    sleep(1) # wait for ajax to go through
+    sleep(0.5) # wait for ajax to go through
     @tracking_job_product.reload
     expect(@tracking_job_product.billed?).to be(true)
   end
@@ -30,7 +30,7 @@ feature "Toggle job_product billing status", :devise, :js do
 
     uncheck "Billed"
 
-    sleep(1) # wait for ajax to go through
+    sleep(0.5) # wait for ajax to go through
     @tracking_job_product.reload
     expect(@tracking_job_product.billed?).to be(false)
   end

@@ -73,10 +73,14 @@ class CountiesController < ApplicationController
   # DELETE /counties/1
   # DELETE /counties/1.json
   def destroy
-    @county.destroy
-    respond_to do |format|
-      format.html { redirect_to @state, notice: 'County was successfully destroyed.' }
-      format.json { head :no_content }
+    begin
+      @county.destroy
+      respond_to do |format|
+        format.html { redirect_to @state, notice: 'County was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    rescue => e
+      redirect_to [@state, @county], alert: e
     end
   end
 

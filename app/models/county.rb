@@ -93,4 +93,10 @@ class County < ActiveRecord::Base
   def expire_checkout!
     self.update_attributes(checked_out_to_id: nil, checked_out_at: nil)
   end
+
+  def destroy
+    raise "Cannot delete a county with associated jobs." if jobs.count > 0
+    super
+  end
+
 end

@@ -169,7 +169,7 @@ RSpec.describe CountiesController do
     end
   end
 
-  describe "DELETE destroy" do
+  describe "DELETE destroy successfuly" do
     before do
       delete :destroy, state_id: @state.id, id: @county.id
     end
@@ -180,6 +180,22 @@ RSpec.describe CountiesController do
 
     it "redirects to the state page" do
       expect(response).to redirect_to(state_path(@state))
+    end
+  end
+
+  describe "DELETE destroy when county has jobs" do
+    before do
+      FactoryGirl.create(:job, county: @county)
+
+      delete :destroy, state_id: @state.id, id: @county.id
+    end
+
+    it "doesn't delete county with jobs" do
+      expect(County.exists?(@county.id)).to be(true)
+    end
+
+    it "redirects to county page if it has jobs" do
+      expect(response).to redirect_to(state_county_path(@state, @county))
     end
   end
 end
