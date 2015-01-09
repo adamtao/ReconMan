@@ -179,4 +179,8 @@ describe County do
       expect(@processor.checked_out_county).to eq(county2)
     end
   end
+
+  context "deleting" do
+    it "should complain if there are ANY jobs associated"
+  end
 end

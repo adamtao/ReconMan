@@ -1,6 +1,6 @@
 class County < ActiveRecord::Base
 	belongs_to :state
-	has_many :jobs
+	has_many :jobs, dependent: :nullify
 
   validates :state, presence: true
 	validates :name, presence: true, uniqueness: { scope: :state }

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Client do
 
   before(:each) do
-    @client = FactoryGirl.build_stubbed(:client)
+    @client = FactoryGirl.create(:client)
     @branch = FactoryGirl.create(:branch, client: @client)
   end
 
@@ -14,6 +14,25 @@ RSpec.describe Client do
   	product = client_product.product
 
   	expect(@client.product_price(product)).to eq(client_product.price)
+  end
+
+  describe "users" do
+    before do
+      @zachary = FactoryGirl.create(:user, name: "Zachary John Taylor")
+      @aaron   = FactoryGirl.create(:user, name: "Aaron The Aardvark")
+      @branch.users << @zachary
+      @branch2 = FactoryGirl.create(:branch, client: @client)
+      @branch2.users << @aaron
+    end
+
+    it "should have users when a branch has users" do
+      expect(@client.users).to include(@zachary)
+    end
+
+    it "should be in alphabetical order" do
+      expect(@zachary.id).to be < @aaron.id
+      expect(@client.users.first).to eq(@aaron)
+    end
   end
 
   describe "with contacts" do
