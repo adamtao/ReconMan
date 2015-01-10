@@ -34,7 +34,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% Product.limit(10).each do |product| %>
+				<% Product.order(:name).each do |product| %>
 				<% cp = @client.client_products.find_or_initialize_by(product_id: product.id) %>
 				<tr>
 					<td><%= product.name %></td>
