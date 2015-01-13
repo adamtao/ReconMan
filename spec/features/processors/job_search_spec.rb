@@ -53,3 +53,8 @@ feature "Search by file number", :devise do
     expect(page).to have_link("Next")
   end
 end
+# Search by other fields
+#  scenario "by seller name"
+#  scenario "by buyer name"
+#  scenario "by escrow account number"
+

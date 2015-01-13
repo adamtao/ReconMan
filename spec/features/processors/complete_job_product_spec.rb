@@ -41,6 +41,7 @@ feature 'Complete job product', :devise do
 	#   Then I see the job is NOT complete
 	scenario 'mark one job product complete of a multi-task job' do
     job_product = @job.job_products.first
+    job_product.update_column(:search_url, "http://search.lvh.me")
 		create(:tracking_job_product, job: @job)
 		visit job_path(@job)
 

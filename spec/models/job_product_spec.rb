@@ -61,17 +61,6 @@ describe JobProduct do
 	  			@job.county = create(:county, state: @state, search_url: "http://foo.bar.com")
 	  		end
 
-		  	it "should not toggle its status" do
-		  		@job_product.workflow_state = "new"
-		  		@job_product.save!
-
-		  		expect(@job_product.current_state).to eq("new")
-
-		  		@job_product.toggle!
-
-		  		expect(@job_product.current_state).to eq("new")
-		  	end
-
 		  	it "advances to in_progress when search_url is provided" do
 		  		@job_product.search_url = "http://test.me"
 		  		@job_product.save!
@@ -80,21 +69,6 @@ describe JobProduct do
 		  	end
 
 		  end
-
-		  context "county has offline search" do
-
-		  	before(:all) do
-	  			@job.county = create(:county, state: @state, search_url: nil)
-	  			@job.save!
-	  		end
-
-				it "automatically advances to offline search status" do
-					@job_product.save!
-
-					expect(@job_product.current_state).to eq("to_be_searched_manually")
-				end
-
-			end
 
 		end
 
@@ -120,20 +94,6 @@ describe JobProduct do
       expect(@job_product.expected_completion_on).to eq(@job.close_on.advance(days: county.average_days_to_complete))
     end
 
-	end
-
-	context "non-search product" do
-
-		before(:all) do
-			@other_product = create(:product, performs_search: false)
-			@other_job_product = build(:job_product, job: @job, product: @other_product)
-		end
-
-		it "automatically advances to process manually status" do
-			@other_job_product.save!
-
-			expect(@other_job_product.current_state).to eq("to_be_processed_manually")
-		end
 	end
 
   context "workflow state: in progress" do

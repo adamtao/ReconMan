@@ -1,5 +1,5 @@
 <% if job_product.expected_completion_on %>
-  <p>Expected completion date: 
+  <p>Expected completion date:
     <%=l job_product.expected_completion_on, format: :long %>
   </p>
 <% end %>
@@ -77,16 +77,16 @@
         </div>
       <% end %>
 
-      <% if job_product.search_url.blank? && job_product.can_search? %>
+      <% if job_product.search_url.blank? %>
         <p>
           <i>Please perform a search, then copy and paste the resulting <b>URL</b>
-            below to advance this job.</i>
+            below.</i>
         </p>
 
         <%= simple_form_for [job_product.job, job_product] do |f| %>
           <div class="row collapse">
             <div class="large-10 small-8 columns">
-              <%= f.input :search_url, label: false, 
+              <%= f.input :search_url, label: false,
                     as: :url, placeholder: 'http://' %>
             </div>
             <div class="large-2 small-4 columns">
@@ -94,7 +94,6 @@
             </div>
           </div>
         <% end %>
-
 
         <h5>Here's the info you'll need for the search:</h5>
 
@@ -105,33 +104,31 @@
         <% end %>
 
       <% else # search URL is present, or job is past that point %>
-        <% if job_product.search_url.present? %>
         <p>
           <strong>Search URL:</strong>
           <%= link_to job_product.search_url, job_product.search_url, target: "_blank" %>
         </p>
-        <% end %>
-
-        <div class="panel">
-          <%= simple_form_for [job_product.job, job_product] do |f| %>
-            <%= render 'job_products/finalize_fields', f: f %>
-            <div class="row">
-              <div class="large-6 columns">
-                <%= f.submit 'Mark Complete', class: "tiny success button" %>
-              </div>
-            </div>
-          <% end %>
-        </div>
-
-        <!-- For future use, show cached search results when desired -->
-        <div class="hidden">
-          <ul>
-            <% job_product.title_search_caches.reverse.each do |tsc| %>
-            <li><%= link_to tsc.created_at, [job_product.job, job_product, tsc] %> <% if tsc.change_detected? %>CHANGE DETECTED<% end %></li>
-            <% end %>
-          </ul>
-        </div>
       <% end %>
+
+      <div class="panel">
+        <%= simple_form_for [job_product.job, job_product] do |f| %>
+          <%= render 'job_products/finalize_fields', f: f %>
+          <div class="row">
+            <div class="large-6 columns">
+              <%= f.submit 'Mark Complete', class: "tiny success button" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- For future use, show cached search results when desired -->
+      <div class="hidden">
+        <ul>
+          <% job_product.title_search_caches.reverse.each do |tsc| %>
+          <li><%= link_to tsc.created_at, [job_product.job, job_product, tsc] %> <% if tsc.change_detected? %>CHANGE DETECTED<% end %></li>
+          <% end %>
+        </ul>
+      </div>
 
     <% else # non-search products of offline search %>
 

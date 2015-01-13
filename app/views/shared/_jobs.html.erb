@@ -16,7 +16,6 @@
 <table id="incomplete-jobs">
   <thead>
     <tr>
-      <th class="text-center" width="30">R</th>
       <th>File</th>
       <th class="hide-for-small">County</th>
       <th>Requestor</th>
@@ -35,30 +34,3 @@
   </tbody>
 </table>
 
-<h3>Recently Completed Jobs</h3>
-
-<% if show_client_name %>
-<p class="smaller hide-for-small">Un-check the box to re-open a <strong>R</strong>econveyance job.</p>
-<% end %>
-
-<table id="completed-jobs">
-  <thead>
-    <tr>
-      <th class="text-center" width="30">R</th>
-      <th>File</th>
-      <th class="hide-for-small">County</th>
-      <th>Requestor</th>
-      <th class="text-center hide-for-small">Created</th>
-      <th class="text-center">Due</th>
-      <th class="text-center">Completed</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% if @completed_jobs %>
-      <% @completed_jobs.each do |job| %>
-        <%= render 'shared/job_row', job: job, show_client_name: show_client_name, show_branch_name: show_branch_name %>
-      <% end %>
-    <% end %>
-  </tbody>
-</table>

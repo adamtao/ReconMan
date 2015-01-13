@@ -3,12 +3,17 @@ class JobProduct < ActiveRecord::Base
 	include Workflow
 
 	workflow do
-		state :new do
-			event :search, transitions_to: :in_progress
-			event :offline_search, transitions_to: :to_be_searched_manually
-			event :process_manually, transitions_to: :to_be_processed_manually
+#		state :new do
+#			event :search, transitions_to: :in_progress
+#			event :offline_search, transitions_to: :to_be_searched_manually
+#			event :process_manually, transitions_to: :to_be_processed_manually
+#     event :send_first_notice, transitions_to: :first_notice
+#		end
+		state :in_progress do
+			event :change_in_cached_response, transitions_to: :needs_review
+			event :mark_complete, transitions_to: :complete
       event :send_first_notice, transitions_to: :first_notice
-		end
+	 	end
 		state :to_be_searched_manually do
       event :send_first_notice, transitions_to: :first_notice
 			event :mark_complete, transitions_to: :complete
@@ -17,11 +22,6 @@ class JobProduct < ActiveRecord::Base
 			event :mark_complete, transitions_to: :complete
       event :send_first_notice, transitions_to: :first_notice
 		end
-		state :in_progress do
-			event :change_in_cached_response, transitions_to: :needs_review
-			event :mark_complete, transitions_to: :complete
-      event :send_first_notice, transitions_to: :first_notice
-	 	end
     state :first_notice do
       event :mark_complete, transitions_to: :complete
       event :send_second_notice, transitions_to: :second_notice
@@ -63,13 +63,13 @@ class JobProduct < ActiveRecord::Base
 	before_create :determine_due_date, :set_price
 
 	def advance_state
-		if search_url_changed? && self.can_search?
-			self.search!
-		elsif !self.product.performs_search? && self.can_process_manually?
-			self.process_manually!
-		elsif self.job.county.offline_search? && self.can_offline_search?
-			self.offline_search!
-		elsif (new_deed_of_trust_number_changed? && new_deed_of_trust_number.present?) && self.can_mark_complete?
+#		if search_url_changed? && self.can_search?
+#			self.search!
+#		elsif !self.product.performs_search? && self.can_process_manually?
+#		self.process_manually!
+
+#			self.offline_search!
+		if (new_deed_of_trust_number_changed? && new_deed_of_trust_number.present?) && self.can_mark_complete?
 			self.recorded_on ||= Date.today
 			self.mark_complete!
 		end
