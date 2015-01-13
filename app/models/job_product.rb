@@ -184,6 +184,14 @@ class JobProduct < ActiveRecord::Base
     end
   end
 
+  def branch_name
+    begin
+      self.job.branch.name
+    rescue
+      ""
+    end
+  end
+
   def requestor_name
     begin
       self.job.requestor.name
@@ -211,6 +219,22 @@ class JobProduct < ActiveRecord::Base
   def report_price
     begin
       self.price.to_f
+    rescue
+      ""
+    end
+  end
+
+  def county_name
+    begin
+      self.job.county.name
+    rescue
+      ""
+    end
+  end
+
+  def state_abbreviation
+    begin
+      self.job.state.abbreviation
     rescue
       ""
     end

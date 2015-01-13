@@ -12,7 +12,6 @@ class BranchesController < ApplicationController
   # GET /branches/1.json
   def show
     @current_jobs = @branch.current_jobs.paginate(page: params[:page], per_page: 20)
-    @completed_jobs = @branch.jobs.where(workflow_state: "complete").order("completed_at DESC").limit(25)
   end
 
   # GET /branches/new

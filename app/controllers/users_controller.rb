@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(secure_params) 
+    @user = User.new(secure_params)
     # @user.skip_confirmation!
     authorize @user
     if @user.save

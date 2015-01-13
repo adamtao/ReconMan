@@ -12,7 +12,6 @@ class ClientsController < ApplicationController
   # GET /clients/1.json
   def show
     @current_jobs = @client.current_jobs.paginate(page: params[:page], per_page: 20)
-    @completed_jobs = @client.jobs.where(workflow_state: "complete").order("completed_at DESC").limit(25)
   end
 
   # GET /clients/new

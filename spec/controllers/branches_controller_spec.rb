@@ -43,7 +43,6 @@ RSpec.describe BranchesController do
 
     it "assigns jobs collections" do
       expect(assigns(:current_jobs)).to include(@tracking_job)
-      expect(assigns(:completed_jobs)).to eq([])
     end
 
     it "renders branches/show template" do

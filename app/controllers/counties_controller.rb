@@ -12,7 +12,6 @@ class CountiesController < ApplicationController
   # GET /counties/1.json
   def show
     @current_jobs = @county.current_jobs.paginate(page: params[:page], per_page: 20)
-    @completed_jobs = @county.jobs.where(workflow_state: "complete").order("completed_at DESC").limit(25)
   end
 
   # GET /counties/new

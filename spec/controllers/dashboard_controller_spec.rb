@@ -11,7 +11,6 @@ RSpec.describe DashboardController do
 
     before do
       @current_jobs = FactoryGirl.create_list(:tracking_job, 3)
-      @completed_jobs = FactoryGirl.create_list(:tracking_job, 3, workflow_state: 'complete')
 
       get :index
     end
@@ -26,10 +25,6 @@ RSpec.describe DashboardController do
 
     it "assigns @clients" do
       expect(assigns(:clients)).to include(Client.first)
-    end
-
-    it "assigns @completed_jobs" do
-      expect(assigns(:completed_jobs)).to include(@completed_jobs.first)
     end
 
     it "assigns @counties_needing_work" do

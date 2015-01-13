@@ -87,10 +87,12 @@ class Report
 
   # Array of labels for the report columns--used in both HTML and XLS outputs.
   def headers
-    h = ["File Number", "Client", "Escrow Officer", "Close Date",
+    h = ["File Number", "County", "State", "Client", "Escrow Officer", "Close Date",
       "Lender", "DOT #", "Release #", "Release Date"]
 
-    unless self.job_status.match(/complete/i)
+    if self.job_status.match(/complete/i)
+      h << "Branch"
+    else
       h += ["1st Notice", "2nd Notice"]
     end
 
@@ -100,11 +102,13 @@ class Report
 
   # Columns for the report's job products--used in both HTML and XLS outputs.
   def columns
-    c = [:file_number, :client_name, :requestor_name, :close_date,
-       :lender_name, :deed_of_trust_number, :new_deed_of_trust_number,
-       :recorded_on]
+    c = [:file_number, :county_name, :state_abbreviation, :client_name, :requestor_name,
+         :close_date, :lender_name, :deed_of_trust_number, :new_deed_of_trust_number,
+         :recorded_on]
 
-    unless self.job_status.match(/complete/i)
+    if self.job_status.match(/complete/i)
+      c << :branch_name
+    else
       c += [:first_notice_date, :second_notice_date]
     end
 

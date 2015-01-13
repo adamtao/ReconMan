@@ -16,6 +16,10 @@ describe "reports/show.html.erb" do
     @tracking_job_product.reload
     @job = @tracking_job_product.job
     @client = @job.client
+    @branch = FactoryGirl.create(:branch, client: @client)
+    @requestor = @job.requestor
+    @requestor.update_column(:branch_id, @branch.id)
+
     @report = Report.new(
       client_id: @client.id,
       start_on: 1.month.ago,
@@ -34,46 +38,30 @@ describe "reports/show.html.erb" do
     get_report
 
     expect(table_header).to have_css("th:eq(1)", text: "File")
-    expect(table_header).to have_css("th:eq(2)", text: "Client")
-    expect(table_header).to have_css("th:eq(3)", text: "Escrow Officer")
-    expect(table_header).to have_css("th:eq(4)", text: "Close Date")
-    expect(table_header).to have_css("th:eq(5)", text: "Lender")
-    expect(table_header).to have_css("th:eq(6)", text: "DOT #")
-    expect(table_header).to have_css("th:eq(7)", text: "Release #")
-    expect(table_header).to have_css("th:eq(8)", text: "Release Date")
+    expect(table_header).to have_css("th:eq(2)", text: "County")
+    expect(table_header).to have_css("th:eq(3)", text: "State")
+    expect(table_header).to have_css("th:eq(4)", text: "Client")
+    expect(table_header).to have_css("th:eq(5)", text: "Escrow Officer")
+    expect(table_header).to have_css("th:eq(6)", text: "Close Date")
+    expect(table_header).to have_css("th:eq(7)", text: "Lender")
+    expect(table_header).to have_css("th:eq(8)", text: "DOT #")
+    expect(table_header).to have_css("th:eq(9)", text: "Release #")
+    expect(table_header).to have_css("th:eq(10)", text: "Release Date")
   end
 
   it "should have report columns" do
     get_report
 
     expect(table_row).to have_css("td:eq(1)", text: @job.file_number)
-    expect(table_row).to have_css("td:eq(2)", text: @client.name)
-    expect(table_row).to have_css("td:eq(3)", text: @job.requestor.name)
-    expect(table_row).to have_css("td:eq(4)", text: @job.close_on.to_s)
-    expect(table_row).to have_css("td:eq(5)", text: @tracking_job_product.lender.name)
-    expect(table_row).to have_css("td:eq(6)", text: @tracking_job_product.deed_of_trust_number)
-    expect(table_row).to have_css("td:eq(7)", text: @tracking_job_product.new_deed_of_trust_number)
-    expect(table_row).to have_css("td:eq(8)", text: @tracking_job_product.recorded_on.to_s)
-  end
-
-  describe "with pricing" do
-    before do
-      @report.show_pricing = true
-      get_report
-    end
-
-    it "should have pricing header column" do
-      expect(table_header).to have_css("th:eq(9)", text: "Price")
-    end
-
-    it "should have pricing in each row" do
-      expect(table_row).to have_css("td:eq(9)", text: @tracking_job_product.price)
-    end
-
-    it "should have the grand total row" do
-      expect(table_footer).to have_css("td", text: "Total")
-      expect(table_footer).to have_css("td", text: @report.total)
-    end
+    expect(table_row).to have_css("td:eq(2)", text: @job.county.name)
+    expect(table_row).to have_css("td:eq(3)", text: @job.state.abbreviation)
+    expect(table_row).to have_css("td:eq(4)", text: @client.name)
+    expect(table_row).to have_css("td:eq(5)", text: @job.requestor.name)
+    expect(table_row).to have_css("td:eq(6)", text: @job.close_on.to_s)
+    expect(table_row).to have_css("td:eq(7)", text: @tracking_job_product.lender.name)
+    expect(table_row).to have_css("td:eq(8)", text: @tracking_job_product.deed_of_trust_number)
+    expect(table_row).to have_css("td:eq(9)", text: @tracking_job_product.new_deed_of_trust_number)
+    expect(table_row).to have_css("td:eq(10)", text: @tracking_job_product.recorded_on.to_s)
   end
 
   describe "with incomplete jobs" do
@@ -86,15 +74,39 @@ describe "reports/show.html.erb" do
     end
 
     it "shows the first notice column" do
-      expect(table_header).to have_css("th:eq(9)", text: "1st Notice")
-      expect(table_row).to have_css("td:eq(9)", text: @tracking_job_product.first_notice_date)
+      expect(table_header).to have_css("th:eq(11)", text: "1st Notice")
+      expect(table_row).to have_css("td:eq(11)", text: @tracking_job_product.first_notice_date)
     end
 
     it "shows the second notice column" do
-      expect(table_header).to have_css("th:eq(10)", text: "2nd Notice")
-      expect(table_row).to have_css("td:eq(10)", text: @tracking_job_product.second_notice_date)
+      expect(table_header).to have_css("th:eq(12)", text: "2nd Notice")
+      expect(table_row).to have_css("td:eq(12)", text: @tracking_job_product.second_notice_date)
+    end
+  end
+
+  describe "complete jobs and pricing" do
+    before do
+      JobProduct.update_all(workflow_state: 'complete')
+      @tracking_job_product.reload
+      @report.job_status = "Complete"
+      @report.show_pricing = true
+      get_report
     end
 
+    it "has the branch columns" do
+      expect(table_header).to have_css("th:eq(11)", text: "Branch")
+      expect(table_row).to have_css("td:eq(11)", text: @branch.name)
+    end
+
+    it "should have pricing column" do
+      expect(table_header).to have_css("th:eq(12)", text: "Price")
+      expect(table_row).to have_css("td:eq(12)", text: @tracking_job_product.price)
+    end
+
+    it "should have the grand total row" do
+      expect(table_footer).to have_css("td", text: "Total")
+      expect(table_footer).to have_css("td", text: @report.total)
+    end
   end
 
   def get_report

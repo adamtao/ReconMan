@@ -77,6 +77,14 @@ class Job < ActiveRecord::Base
 		file_number.present? ? file_number : deed_or_parcel_number
 	end
 
+  def branch
+    begin
+      self.requestor.branch
+    rescue
+      Branch.new
+    end
+  end
+
 	def deed_or_parcel_number
 		begin
 			dashboard_product.deed_of_trust_number.present? ? dashboard_product.deed_of_trust_number : dashboard_product.parcel_number
