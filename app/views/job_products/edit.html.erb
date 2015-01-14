@@ -1,4 +1,20 @@
 <h1 class="text-center">Editing job product/service</h1>
 
-<%= render 'form' %>
+<%#= render 'form' %>
 
+<%= simple_form_for([@job, @job_product]) do |f| %>
+  <div class="row">
+    <%= f.error_notification %>
+  </div>
+
+<div class="row"><div class="large-8 columns large-offset-2">
+  <div class="form-inputs">
+    <%= render 'job_products/finalize_fields', f: f %>
+  </div>
+  <div class="form-actions">
+    <div class="column_6">
+      <%= f.button :submit %>
+    </div>
+  </div>
+</div></div>
+<% end %>
