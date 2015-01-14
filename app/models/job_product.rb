@@ -61,6 +61,7 @@ class JobProduct < ActiveRecord::Base
 
 	after_save :advance_state
 	before_create :determine_due_date, :set_price
+  before_save :generate_search_url
 
 	def advance_state
 #		if search_url_changed? && self.can_search?
@@ -83,6 +84,23 @@ class JobProduct < ActiveRecord::Base
 	def set_price
 		self.price = self.job.client.product_price(self.product)
 	end
+
+  def generate_search_url
+    begin
+      if self.search_url.blank? && self.job.county.search_template_url.present?
+        params = ""
+        if self.job.county.search_params.present?
+          params = self.job.county.search_params
+          params.gsub!(/\{\{(\w*)\}\}/){ self.send($1.to_sym) }
+          if self.job.county.search_method == "GET"
+            params = "?#{params}"
+          end
+        end
+        self.search_url = self.job.county.search_template_url
+        self.search_url.gsub!(/\{\{params\}\}/, params)
+      end
+    end
+  end
 
 	def name
 		self.product.name

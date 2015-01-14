@@ -99,6 +99,6 @@ class CountiesController < ApplicationController
       params.require(:county).permit(:name, :state_id, :search_url, :search_params, :search_method, 
         :average_days_to_complete, :phone, :fax, :webpage, :contact_name, :contact_phone, :contact_email, 
         :assessor_webpage, :zip_codes, :co_fee_schedule, :simplifile, :s_contact_name, :s_contact_phone, 
-        :s_contact_email)
+        :s_contact_email, :search_template_url, :search_params, :search_method)
     end
 end

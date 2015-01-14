@@ -26,6 +26,13 @@
         <%= f.input :webpage, label: "County webpage", as: :url, placeholder: "http://" %>
         <%= f.input :search_url, label: "Title Search URL", as: :url, placeholder: "http://" %>
         <%= f.input :assessor_webpage, as: :url, placeholder: "http://" %>
+        <div class="panel">
+          <h4 class="subheader">URL Generator Settings</h4>
+          <%= f.input :search_template_url, as: :url, placeholder: "http://foo.com/search?{{params}}#tab=2" %>
+          <%= f.input :search_params, placeholder: "searchstring={{deed_of_trust_number}}" %>
+          <%= f.input :search_method, as: :select, collection: ["GET", "POST"] %>
+        </div>
+
     </fieldset>
 
     <fieldset>

@@ -3,14 +3,14 @@ require 'rails_helper'
 describe JobProduct do
 
 	before(:all) do
-		@product = create(:tracking_product)
-		@client = create(:client)
-		@state = create(:state)
-		@job = create(:job, client: @client, state: @state)
+    @product = FactoryGirl.create(:tracking_product)
+    @client = FactoryGirl.create(:client)
+    @state = FactoryGirl.create(:state)
+    @job = FactoryGirl.create(:job, client: @client, state: @state)
 	end
 
   before(:each) do
-  	@job_product = build(:job_product, job: @job, product: @product)
+    @job_product = FactoryGirl.build(:job_product, job: @job, product: @product)
   end
 
   subject { @job_product }
@@ -203,6 +203,26 @@ describe JobProduct do
       expected_date = @job_product.send(:base_date).advance(days: 75).to_date
 
       expect(@job_product.second_notice_date).to eq(expected_date)
+    end
+  end
+
+  context "generated search URL" do
+
+    before do
+      @county = FactoryGirl.create(:county,
+                                   state: @state,
+                                   search_template_url: 'http://foo.bar/search{{params}}#tab=2',
+                                   search_params: 'searchstring={{deed_of_trust_number}}',
+                                   search_method: 'GET')
+      @job.update_column(:county_id, @county.id)
+    end
+
+    it "generates a search_url" do
+      @job_product.deed_of_trust_number = "11223344"
+      @job_product.save
+      @job_product.reload
+
+      expect(@job_product.search_url).to eq('http://foo.bar/search?searchstring=11223344#tab=2')
     end
   end
   # it "should perform automated search" # later, when implementing cached search results
