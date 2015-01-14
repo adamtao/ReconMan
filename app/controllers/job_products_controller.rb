@@ -20,6 +20,11 @@ class JobProductsController < ApplicationController
   end
 
   # GET /job_products/1/edit
+  # TODO: The edit form (html) has a separate copy of the form.
+  # The reason has to do with the fancy javascript in the create form
+  # which shows/hides fields based on the select job type. This was
+  # causing problems in the form. The correct way to do it is to
+  # insert/remove those fields instead of showing/hiding them.
   def edit
   end
 
