@@ -21,6 +21,12 @@
     <% unless f.object.new_record? %>
       <%= f.input :due_on, as: :string, input_html: { class: 'datepicker' } %>
     <% end %>
+    <%= f.association :worker, collection: User.processors %>
+    <%= f.input :price, hint: "#{@job.client.name} pricing loads automatically when you select/change a product." %>
+
+    <%= f.input :search_url, input_html: {
+          data: { products: Product.where(performs_search: true).pluck(:id).join(',') }
+        } %>
   </div>
   <div class="form-actions">
     <div class="column_6">

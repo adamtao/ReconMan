@@ -95,6 +95,7 @@ class JobProductsController < ApplicationController
     def job_product_params
       params.require(:job_product).permit(:product_id, :search_url,
           :worker_id,
+          :due_on,
           :deed_of_trust_number,
           :beneficiary_name,
           :beneficiary_account,
