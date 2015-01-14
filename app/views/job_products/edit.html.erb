@@ -9,6 +9,20 @@
 
 <div class="row"><div class="large-8 columns large-offset-2">
   <div class="form-inputs">
+    <%= f.association :product,
+    	collection: Product.all.map{ |p|
+    			[
+    				p.name,
+    				p.id,
+    				data: { price: @job.client.product_price(p).dollars }
+    			]
+    		}
+    	 %>
+    <% unless f.object.new_record? %>
+      <%= f.input :due_on, as: :string, input_html: { class: 'datepicker' } %>
+    <% end %>
+    <%= f.association :worker, collection: User.processors %>
+    <%= f.input :price, hint: "#{@job.client.name} pricing loads automatically when you select/change a product." %>
     <%= render 'job_products/finalize_fields', f: f %>
   </div>
   <div class="form-actions">

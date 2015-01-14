@@ -5,14 +5,14 @@
 
 <div class="row"><div class="large-8 columns large-offset-2">
   <div class="form-inputs">
-    <%= f.association :product, 
-    	collection: Product.all.map{ |p| 
+    <%= f.association :product,
+    	collection: Product.all.map{ |p|
     			[
-    				p.name, 
-    				p.id, 
+    				p.name,
+    				p.id,
     				data: { price: @job.client.product_price(p).dollars }
-    			] 
-    		} 
+    			]
+    		}
     	 %>
     <% unless f.object.new_record? %>
       <%= f.input :due_on, as: :string, input_html: { class: 'datepicker' } %>
@@ -28,7 +28,7 @@
       <% end %>
     <% end %>
 
-    <%= f.input :search_url, input_html: { 
+    <%= f.input :search_url, input_html: {
           data: { products: Product.where(performs_search: true).pluck(:id).join(',') }
         } %>
   </div>
