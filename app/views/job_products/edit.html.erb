@@ -23,6 +23,12 @@
     <% end %>
     <%= f.association :worker, collection: User.processors %>
     <%= f.input :price, hint: "#{@job.client.name} pricing loads automatically when you select/change a product." %>
+    <% Job.job_types.each do |jt| %>
+      <% if Product.where(job_type: jt.to_s).length > 0 %>
+          <%= render "#{jt.to_s}_fields", f: f %>
+    <%#= render 'job_products/finalize_fields', f: f %>
+      <% end %>
+    <% end %>
 
     <%= f.input :search_url, input_html: {
           data: { products: Product.where(performs_search: true).pluck(:id).join(',') }
