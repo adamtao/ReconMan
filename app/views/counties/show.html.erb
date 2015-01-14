@@ -61,6 +61,11 @@
 </div>
 
 <div class="side_content">
+  <% if @county.checked_out? %>
+    <p>Checked out to <%= @county.checked_out_to.name %>
+      at <%=l @county.checked_out_at, format: :long %>
+    </p>
+  <% end %>
 	<div class="panel">
 		<h3 class="subheader">Links</h3>
 		<ul>
