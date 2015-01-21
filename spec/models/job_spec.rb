@@ -63,17 +63,22 @@ describe Job do
   describe "navigating" do
     before do
       @county = FactoryGirl.create(:county)
-      @tracking_jobs = FactoryGirl.create_list(:tracking_job, 3, county: @county)
+      @tracking_job_products = FactoryGirl.create_list(:tracking_job_product, 5)
+      @tracking_job_products.each_with_index do |job_product,i|
+        job_product.update_column(:due_on, (i+1).weeks.ago)
+        job_product.job.update_column(:county_id, @county.id)
+      end
+      @tracking_jobs = @tracking_job_products.map{|tjp| tjp.job}
     end
 
     it "#next should load the next job in the county" do
-      expect(@tracking_jobs.first.next).to eq(@tracking_jobs.second)
+      expect(@tracking_jobs.last.next).to eq(@tracking_jobs[3])
     end
 
     it ".next loads a job after having completed the job" do
-      @tracking_jobs.first.update_column(:workflow_state, "complete")
+      @tracking_jobs.second.update_column(:workflow_state, "complete")
 
-      expect(@tracking_jobs.first.next).to eq(@tracking_jobs.second)
+      expect(@tracking_jobs.second.next).to eq(@tracking_jobs.first)
     end
   end
 

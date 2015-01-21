@@ -89,7 +89,12 @@ describe County do
   describe "checkout county" do
     before do
       @county = FactoryGirl.create(:county)
-      @tracking_jobs = FactoryGirl.create_list(:tracking_job, 3, county: @county)
+      @tracking_job_products = FactoryGirl.create_list(:tracking_job_product, 5)
+      @tracking_job_products.each_with_index do |job_product,i|
+        job_product.update_column(:due_on, (i+1).weeks.ago)
+        job_product.job.update_column(:county_id, @county.id)
+      end
+      @tracking_jobs = @tracking_job_products.map{|tjp| tjp.job}
       @processor = FactoryGirl.create(:user, :processor)
     end
 
@@ -158,14 +163,18 @@ describe County do
       expect(@county.checked_out?).to be(false)
     end
 
+    it "first job should be the one with the oldest due date" do
+      expect(@county.current_jobs.first).to eq(@tracking_jobs.last)
+    end
+
     it ".next_job loads the second job (if any) ready to process" do
-      expect(@county.next_job(@tracking_jobs.first)).to eq(@tracking_jobs.second)
+      expect(@county.next_job(@tracking_jobs.last)).to eq(@tracking_jobs[3])
     end
 
     it ".next_job loads a job after having completed the job" do
-      @tracking_jobs.first.update_column(:workflow_state, "complete")
+      @tracking_jobs.last.update_column(:workflow_state, "complete")
 
-      expect(@county.next_job(@tracking_jobs.first)).to eq(@tracking_jobs.second)
+      expect(@county.next_job(@tracking_jobs.last)).to eq(@tracking_jobs[3])
     end
 
     it ".checkout_county expires previously checked out county" do

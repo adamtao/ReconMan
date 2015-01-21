@@ -10,7 +10,12 @@ feature "Checkout a County", :devise do
   before do
     @me = sign_in_as_processor
     @county = FactoryGirl.create(:county)
-    @tracking_jobs = FactoryGirl.create_list(:tracking_job, 3, county: @county)
+    @tracking_job_products = FactoryGirl.create_list(:tracking_job_product, 5)
+    @tracking_job_products.each_with_index do |job_product,i|
+      job_product.update_column(:due_on, (i+1).weeks.ago)
+      job_product.job.update_column(:county_id, @county.id)
+    end
+    @tracking_jobs = @tracking_job_products.map{|tjp| tjp.job}
     visit root_path
   end
 
@@ -23,7 +28,7 @@ feature "Checkout a County", :devise do
   #   I want to see counties needing work on the dashboard
   #   So that I can check them out to start work.
   scenario "list counties needing work in a dropdown on dashboard" do
-    expect(page).to have_content("#{@county.name}, #{@county.state.abbreviation} (3)")
+    expect(page).to have_content("#{@county.name}, #{@county.state.abbreviation} (5)")
     expect(page).to have_button("checkout")
   end
 
@@ -34,7 +39,7 @@ feature "Checkout a County", :devise do
   scenario "successfully" do
     click_on "checkout"
 
-    expect(current_path).to eq(job_path(@tracking_jobs.first))
+    expect(current_path).to eq(job_path(@tracking_jobs.last))
   end
 
   # Scenario: Next button
