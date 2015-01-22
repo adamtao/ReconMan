@@ -73,25 +73,29 @@ describe JobProduct do
 		end
 
 		it "should have an estimated reconveyance time" do
-      county = @job.county
-      county.search_url = 'http://foo.com'
-      county.save!
-      tracking_product = create(:product, job_type: 'tracking', performs_search: true)
+      @job_product.save
+      lender = FactoryGirl.create(:lender)
+      @job_product.update_column(:lender_id, lender.id)
+      tracking_product = FactoryGirl.create(:tracking_product)
       20.times do
         close_on = [60,45,90,100].sample.days.ago
-        job = create(:job, county: county, job_type: 'tracking', close_on: close_on)
-        create(:job_product, job: job, product: tracking_product,
-                           recorded_on: 11.days.ago, workflow_state: 'complete')
+        job = FactoryGirl.create(:job, job_type: 'tracking', close_on: close_on)
+        FactoryGirl.create(:job_product,
+                           job: job,
+                           lender: lender,
+                           product: tracking_product,
+                           recorded_on: 11.days.ago,
+                           workflow_state: 'complete')
         job.mark_complete!
       end
-      county.calculate_days_to_complete!
+      lender.calculate_days_to_complete!
 
       @job.close_on = 50.days.ago
       @job.save
 
       expect(@job_product.due_on).to be_an_instance_of(Date)
       expect(@job_product.expected_completion_on).not_to eq(@job.close_on)
-      expect(@job_product.expected_completion_on).to eq(@job.close_on.advance(days: county.average_days_to_complete))
+      expect(@job_product.expected_completion_on).to eq(@job.close_on.advance(days: lender.average_days_to_complete))
     end
 
 	end

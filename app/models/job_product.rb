@@ -150,8 +150,8 @@ class JobProduct < ActiveRecord::Base
 
   def expected_completion_on
     begin
-      if self.job.county.average_days_to_complete.to_i > 0
-        @expected_completion_on ||= self.job.close_on.advance(days: job.county.average_days_to_complete)
+      if self.lender.average_days_to_complete.to_i > 0
+        @expected_completion_on ||= self.job.close_on.advance(days: lender.average_days_to_complete)
       end
     rescue
       nil
@@ -163,7 +163,9 @@ class JobProduct < ActiveRecord::Base
 	def mark_complete
     self.recorded_on ||= Date.today
     self.update_column(:cleared_on, Date.today)
-    self.job.county.calculate_days_to_complete!
+    if self.lender
+      self.lender.calculate_days_to_complete!
+    end
 		unless self.job.open_products.where.not(id: self.id).count > 0
 			self.job.mark_complete! if self.job.can_mark_complete?
 		end

@@ -47,43 +47,50 @@ feature 'Create job', :devise do
 
 	# Scenario: Creating a new tracking job, it should estimate when it might be complete
 	#    Given I create a tracking job
-	#    And the county has job history
+	#    And the lender has job history
 	#    When I submit the form
 	#    Then I see the estimated date of completion
 	scenario 'estimated time to complete appears' do
-    tracking_product = create(:product, job_type: 'tracking', performs_search: true)
-    county = create(:county, search_url: 'http://foo')
+    tracking_product = FactoryGirl.create(:product, job_type: 'tracking', performs_search: true)
     20.times do
        close_on = [60,45,90,100].sample.days.ago
-       job = create(:job, county: county, job_type: 'tracking', close_on: close_on)
-       create(:job_product, job: job, product: tracking_product,
-                           recorded_on: 11.days.ago, workflow_state: 'complete')
+       job = FactoryGirl.create(:job, job_type: 'tracking', close_on: close_on)
+       FactoryGirl.create(:job_product,
+                          job: job,
+                          lender: @lender,
+                          product: tracking_product,
+                          recorded_on: 11.days.ago,
+                          workflow_state: 'complete')
        job.mark_complete!
     end
-    county.calculate_days_to_complete!
+    @lender.calculate_days_to_complete!
 
     visit job_path(Job.last)
 
-    expect(county.average_days_to_complete).to be > 0
+    expect(@lender.average_days_to_complete).to be > 0
     expect(page).to have_content("Expected completion date:")
   end
 
-	# Scenario: Creating a new tracking job, it should not estimate when it might be complete if the county has limited historical data
+	# Scenario: Creating a new tracking job, it should not estimate when it might be complete if the lender has limited historical data
 	#    Given I create a tracking job
 	#    When I submit the form
-	#    And the county does not have enough job history
+	#    And the lender does not have enough job history
 	#    Then I don't see the estimated date of completion
   scenario 'estimated time to complete does not appear when limited history available' do
-    tracking_product = create(:product, job_type: 'tracking', performs_search: true)
-    new_county = create(:county, search_url: 'http://foo')
+    tracking_product = FactoryGirl.create(:product, job_type: 'tracking', performs_search: true)
+    new_lender = FactoryGirl.create(:lender)
     3.times do
        close_on = [60,45,90,100].sample.days.ago
-       job = create(:job, county: new_county, job_type: 'tracking', close_on: close_on)
-       create(:job_product, job: job, product: tracking_product,
-                           recorded_on: 11.days.ago, workflow_state: 'in_progress')
+       job = FactoryGirl.create(:job, job_type: 'tracking', close_on: close_on)
+       FactoryGirl.create(:job_product,
+                          job: job,
+                          lender: new_lender,
+                          product: tracking_product,
+                          recorded_on: 11.days.ago,
+                          workflow_state: 'in_progress')
        job.mark_complete!
     end
-    new_county.calculate_days_to_complete!
+    new_lender.calculate_days_to_complete!
 
     visit job_path(Job.last)
 

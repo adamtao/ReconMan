@@ -36,29 +36,6 @@ class County < ActiveRecord::Base
     job.next
   end
 
-	def calculate_days_to_complete!
-    j = jobs.where(job_type: 'tracking', workflow_state: 'complete').where.not(close_on: nil).limit(100).order("created_at DESC")
-		t = 0
-		c = 0
-		if j.length > 10
-			j.each do |job|
-        job.job_products.each do |jp|
-          if jp.product.performs_search? && jp.recorded_on.present?
-            diff = (jp.recorded_on.to_date - job.close_on.to_date)
-            if diff > 0
-              t += diff
-              c += 1
-            end
-          end
-        end
-      end
-			if c > 0
-        self.average_days_to_complete = (t / c).to_i
-        self.save
-			end
-		end
-	end
-
   def to_option
     "#{self.name}, #{self.state.abbreviation} (#{self.current_jobs.length})"
   end

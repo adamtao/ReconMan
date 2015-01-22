@@ -22,13 +22,6 @@
 	</p>
 	<% end %>
 
-	<% if @county.average_days_to_complete.present? %>
-	<p>
-	  <strong>Calculated average days to complete reconveyance:</strong>
-	  <%= @county.average_days_to_complete %>
-	</p>
-	<% end %>
-
 	<% if @county.contact_name %>
 	<h5 class="subheader">Contact: <%= @county.contact_name %></h5>
 	<p>

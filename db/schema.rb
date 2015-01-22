@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150114194753) do
+ActiveRecord::Schema.define(version: 20150121225217) do
 
   create_table "branches", force: true do |t|
     t.string   "name"
@@ -94,7 +94,6 @@ ActiveRecord::Schema.define(version: 20150114194753) do
     t.string   "s_contact_name"
     t.string   "s_contact_phone"
     t.string   "s_contact_email"
-    t.integer  "average_days_to_complete"
     t.integer  "checked_out_to_id"
     t.datetime "checked_out_at"
     t.string   "search_template_url"
@@ -186,6 +185,7 @@ ActiveRecord::Schema.define(version: 20150114194753) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "average_days_to_complete"
   end
 
   create_table "products", force: true do |t|
