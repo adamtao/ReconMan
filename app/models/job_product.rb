@@ -3,12 +3,6 @@ class JobProduct < ActiveRecord::Base
 	include Workflow
 
 	workflow do
-#		state :new do
-#			event :search, transitions_to: :in_progress
-#			event :offline_search, transitions_to: :to_be_searched_manually
-#			event :process_manually, transitions_to: :to_be_processed_manually
-#     event :send_first_notice, transitions_to: :first_notice
-#		end
 		state :in_progress do
 			event :change_in_cached_response, transitions_to: :needs_review
 			event :mark_complete, transitions_to: :complete
@@ -64,12 +58,6 @@ class JobProduct < ActiveRecord::Base
   before_save :generate_search_url
 
 	def advance_state
-#		if search_url_changed? && self.can_search?
-#			self.search!
-#		elsif !self.product.performs_search? && self.can_process_manually?
-#		self.process_manually!
-
-#			self.offline_search!
 		if (new_deed_of_trust_number_changed? && new_deed_of_trust_number.present?) && self.can_mark_complete?
 			self.recorded_on ||= Date.today
 			self.mark_complete!
@@ -85,18 +73,17 @@ class JobProduct < ActiveRecord::Base
 		self.price = self.job.client.product_price(self.product)
 	end
 
+  # TODO: support POST search urls
   def generate_search_url
     begin
-      if self.search_url.blank? && self.job.county.search_template_url.present?
-        params = ""
-        if self.job.county.search_params.present?
-          params = self.job.county.search_params.to_s.gsub(/\{\{(\w*)\}\}/){ self.send($1.to_sym) }
-          if self.job.county.search_method == "GET"
-            params = "?#{params}"
-          end
+      if self.search_url.blank? && job.county.search_template_url.present?
+        params = generate_search_params.to_s
+        if job.county.search_method == "GET"
+          self.search_url = job.county.search_template_url.gsub(/\{\{params\}\}/, "?#{params}")
         end
-        self.search_url = self.job.county.search_template_url.to_s.gsub(/\{\{params\}\}/, params)
       end
+    rescue
+      # don't worry if something went wrong generating the url
     end
   end
 
@@ -267,6 +254,19 @@ class JobProduct < ActiveRecord::Base
   end
 
   protected
+
+  def generate_search_params
+    p = job.county.search_params
+    if p.present? && validate_fields_for_url_generation
+      p.gsub(/\{\{(\w*)\}\}/) { self.send($1.to_sym) }
+    end
+  end
+
+  def validate_fields_for_url_generation
+    job.county.search_params.to_s.scan(/\{\{(\w*)\}\}/).flatten.each do |p|
+      raise "required fields are empty" if self.send(p.to_sym).blank?
+    end
+  end
 
   # Safe date used for calculating other related dates
   def base_date

@@ -237,6 +237,37 @@ describe JobProduct do
       expect(job_product2.search_url).not_to eq(@job_product.search_url)
       expect(job_product2.search_url).to eq('http://foo.bar/search?searchstring=9999#tab=2')
     end
+
+    it "wont generate the url if any of the need params are blank" do
+      job_product2 = FactoryGirl.create(:tracking_job_product, job: @job, deed_of_trust_number: "")
+
+      expect(job_product2.search_url).to eq(nil)
+    end
+
+    describe "#generate_search_params" do
+      it "generates search params successfully" do
+        params = @job_product.send(:generate_search_params)
+
+        expect(params).to eq('searchstring=11223344')
+      end
+
+      it "generates unique search params for a multi-item job" do
+        job_product2 = FactoryGirl.create(:tracking_job_product, job: @job, deed_of_trust_number: "9999")
+        params = job_product2.send(:generate_search_params)
+
+        expect(params).not_to eq(@job_product.send(:generate_search_params))
+        expect(params).to eq('searchstring=9999')
+      end
+    end
+
+    describe "#validate_fields_for_url_generation" do
+      it "raises an exception when missing data" do
+        job_product2 = FactoryGirl.build(:tracking_job_product, job: @job, deed_of_trust_number: "")
+
+        expect { job_product2.send(:validate_fields_for_url_generation) }.to raise_error("required fields are empty")
+      end
+    end
+
   end
   # it "should perform automated search" # later, when implementing cached search results
   # it "should log search results" # later, when implementing cached search results
