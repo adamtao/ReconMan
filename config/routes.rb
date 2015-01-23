@@ -25,8 +25,8 @@ Rails.application.routes.draw do
       member do
         get :toggle
         post :toggle
+        get :research
       end
-      resources :search_logs, only: :create
       resources :title_search_caches
       resources :documents
     end

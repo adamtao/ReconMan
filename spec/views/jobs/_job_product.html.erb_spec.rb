@@ -7,35 +7,20 @@ describe "jobs/_job_product.html.erb" do
     allow(view).to receive_messages(:current_user => current_user)
 
     @job_product = FactoryGirl.create(:tracking_job_product)
+    @job_product.update_column(:price_cents, "1498")
 
     render partial: 'jobs/job_product', locals: { job_product: @job_product }
   end
 
-  it "Each job product panel can have uploaded documents" do
-    expect(rendered).to have_css(".documents-container")
+  # most of this partial renders another partial:
+  # job_products/_summary.html.erb
+  # so check its specs for more.
+
+  it "shows the title of the job product" do
+    expect(rendered).to have_css(:h3, text: @job_product.product.name)
   end
 
-  it "Document sub panel has inline file upload form" do
-    expect(rendered).to have_css("form.new_document")
+  it "shows the price of the job product" do
+    expect(rendered).to have_content("$14.98")
   end
-
-  it "Each job product panel can have search history" do
-    expect(rendered).to have_css(".search-history-container")
-    expect(rendered).to have_content "Search History"
-  end
-
-  it "Search history sub panel has inline log-search button" do
-    expect(rendered).to have_button "Log Search"
-  end
-
-  it "Each job product panel has info table" do
-    expect(rendered).to have_content @job_product.deed_of_trust_number
-    expect(rendered).to have_content @job_product.beneficiary_name
-  end
-
-  it "Each job product panel has clearing/closing form" do
-    expect(rendered).to have_css("form.edit_job_product")
-    expect(rendered).to have_content("Release Number")
-  end
-
 end

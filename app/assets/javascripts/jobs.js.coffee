@@ -10,6 +10,10 @@ jQuery ->
 		dateFormat: "DD, MM d, yy"
 		constrainInput: true
 
+  $('.expandable .hidden').hide()
+  $('.expandable h3 a.expand').click ->
+    $(@).parent().parent().find('.hidden').toggle()
+
 	# Automatically shows/hides options from a dependent html select based
 	# on the selected option of another.
 	#

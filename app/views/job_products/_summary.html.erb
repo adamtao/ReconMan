@@ -51,6 +51,34 @@
       </tr>
       <% end %>
     </table>
+
+    <div class="section documents-container">
+      <div class="section-header">
+        <div class="row collapse">
+          <div class="large-6 small-6 columns"><h3>Documents</h3></div>
+          <div class="large-6 small-6 columns text-right">
+            <%= link_to "New Document", '#',
+              class: "tiny secondary button",
+              data: {:"reveal-id" => "new_document_form"} %>
+          </div>
+        </div>
+      </div>
+      <div class="fixed-height">
+        <div id="new_document_form" class="reveal-modal small" data-reveal>
+          <h2>Choose a file to upload</h2>
+          <%= simple_form_for [job_product.job, job_product, Document.new], html: {multipart: true} do |f| %>
+            <%= f.input :file, label: false, required: false %>
+            <%= f.button :submit, "Upload", class: "tiny secondary button" %>
+          <% end %>
+          <a class="close-reveal-modal">&#215;</a>
+        </div>
+        <ul class="documents">
+          <% job_product.documents.reverse.each do |document| %>
+            <li><%= link_to document.file_file_name, document.file.url %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <div class="large-6 columns">
@@ -78,35 +106,36 @@
       <% end %>
 
       <% if job_product.search_url.blank? %>
-        <p>
-          <i>Please perform a search, then copy and paste the resulting <b>URL</b>
-            below.</i>
-        </p>
-
-        <%= simple_form_for [job_product.job, job_product] do |f| %>
-          <div class="row collapse">
-            <div class="large-10 small-8 columns">
-              <%= f.input :search_url, label: false,
-                    as: :url, placeholder: 'http://' %>
-            </div>
-            <div class="large-2 small-4 columns">
-              <%= f.button :submit, "Save", class: "small button postfix" %>
-            </div>
-          </div>
-        <% end %>
-
-        <h5>Here's the info you'll need for the search:</h5>
-
         <% if job_product.job.county.search_url.present? %>
-          <p>County URL: <%= link_to job_product.job.county.search_url, job_product.job.county.search_url, target: "_blank" %></p>
+          <p>
+          <i>Please perform a search on the
+            <strong>
+            <%= link_to "county website",
+              job_product.job.county.search_url,
+              target: "_blank" %></strong>,
+            then copy and paste the resulting <b>URL</b> below.</i>
+          </p>
+
+          <%= simple_form_for [job_product.job, job_product] do |f| %>
+            <div class="row collapse">
+              <div class="large-10 small-8 columns">
+                <%= f.input :search_url, label: false,
+                      as: :url, placeholder: 'http://' %>
+              </div>
+              <div class="large-2 small-4 columns">
+                <%= f.button :submit, "Save", class: "small button postfix" %>
+              </div>
+            </div>
+          <% end %>
+
         <% else %>
-          <p>County URL: (not provided) <%= link_to "edit #{job_product.job.county.name.downcase} county", edit_state_county_path(job_product.job.state, job_product.job.county) %></p>
+          <p>County URL not provided: <%= link_to "edit #{job_product.job.county.name.downcase} county", edit_state_county_path(job_product.job.state, job_product.job.county) %></p>
         <% end %>
 
       <% else # search URL is present, or job is past that point %>
         <p>
-          <strong>Search URL:</strong>
-          <%= link_to job_product.search_url, job_product.search_url, target: "_blank" %>
+          <%= link_to "Perform Search", research_job_job_product_path(job_product.job, job_product),
+            class: "small expand success button", target: "_blank" %>
         </p>
       <% end %>
 
@@ -129,6 +158,25 @@
           <% end %>
         </ul>
       </div>
+
+      <% if job_product.search_logs.length > 0 %>
+        <div class="expandable search-history-container">
+          <h3><a href="#" class="expand">Search History <small>&gt;</small></a></h3>
+          <div class="hidden max-height">
+            <ul class="log">
+              <% job_product.search_logs.reverse.each do |search_log| %>
+                <li>
+                <%= search_log.user.name %>|<%= search_log.created_at.to_date.to_s %>|<%= search_log.status %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% else %>
+        <div class="text-center">
+          <p><i><small>No search logs exist for this item yet.</small></i></p>
+        </div>
+      <% end %>
 
     <% else # non-search products of offline search %>
 

@@ -28,13 +28,27 @@
     </div>
   </div>
 
-  <p>Job Status: <%= @job.workflow_state.titleize %></p>
+  <% if @job.job_products.length > 1 %>
+    <div data-magellan-expedition="fixed">
+      <dl class="sub-nav">
+        <dt>Jump To:</dt>
+        <% @job.job_products.each_with_index do |job_product,i| %>
+          <dd data-magellan-arrival="jp_<%= i+1 %>">
+            <a href="#jp_<%= i+1 %>"><%= job_product.name %> #<%= i+1 %> </a>
+          </dd>
+        <% end %>
+      </dl>
+    </div>
+  <% else %>
+    <br/>
+  <% end %>
 
   <div class="full-width row">
 
     <div class="main_content">
 
       <% @job.job_products.each_with_index do |job_product,i| %>
+        <a name="jp_<%= i + 1 %>"></a>
         <%= render 'job_product', job_product: job_product, i: i %>
       <% end %>
 
@@ -57,6 +71,8 @@
     </div>
 
     <div class="side_content">
+      <p>Job Status: <%= @job.workflow_state.titleize %></p>
+
       <h2>Property Information</h2>
 
       <p>
@@ -68,6 +84,17 @@
           <%= link_to "#{@job.county.name} County", [@job.state, @job.county] %>
         <% end %>
       </p>
+
+      <% if @job.county %>
+        <ul class="button-group">
+          <% if @job.county.webpage.present? %>
+            <li><%= link_to "County Home Page", @job.county.webpage, target: "_blank", class: "tiny secondary button" %></li>
+          <% end %>
+          <% if @job.county.search_url.present? %>
+            <li><%= link_to "County Search Page", @job.county.search_url, target: "_blank", class: "tiny secondary button" %></li>
+          <% end %>
+        </ul>
+      <% end %>
 
       <table>
         <tr>
@@ -88,7 +115,7 @@
 
       <% if current_user.admin? %>
         <div class="text-right">
-          <%= link_to 'Delete', @job, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
+          <%= link_to 'Delete Job', @job, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
         </div>
       <% end %>
 

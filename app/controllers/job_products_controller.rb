@@ -1,6 +1,6 @@
 class JobProductsController < ApplicationController
   before_action :set_job, except: :toggle_billing
-  before_action :set_job_product, only: [:show, :edit, :update, :toggle, :toggle_billing, :destroy]
+  before_action :set_job_product, only: [:show, :edit, :update, :toggle, :toggle_billing, :destroy, :research]
 
   # GET /job_products
   # GET /job_products.json
@@ -49,8 +49,18 @@ class JobProductsController < ApplicationController
   # PATCH/PUT /job_products/1.json
   def update
     @job_product.modifier = current_user
+    search_log = build_search_log
     respond_to do |format|
       if @job_product.update(job_product_params)
+        if job_product_params[:search_url] && !@job_product.search_url.blank?
+          search_log.save
+        elsif job_product_params[:new_deed_of_trust_number] && job_product_params[:recorded_on]
+          if @job_product.search_logs.length > 0
+            search_log = @job_product.search_logs.last
+          end
+          search_log.status = "Cleared"
+          search_log.save
+        end
         format.html { redirect_to @job, notice: 'Job product was successfully updated.' }
         format.json { render :show, status: :ok, location: @job_product }
       else
@@ -75,6 +85,16 @@ class JobProductsController < ApplicationController
     render nothing: true
   end
 
+  # GET /job/:job_id/job_product/:id/research
+  def research
+    if @job_product.search_url.present?
+      redirect_to @job_product.search_url
+      build_search_log.save
+    else
+      redirect_to @job, notice: "The search URL is missing. Provide it below."
+    end
+  end
+
   # DELETE /job_products/1
   # DELETE /job_products/1.json
   def destroy
@@ -94,6 +114,14 @@ class JobProductsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_job_product
       @job_product = JobProduct.find(params[:id])
+    end
+
+    def build_search_log
+      SearchLog.new(
+        status: "Not Cleared",
+        job_product: @job_product,
+        user: current_user
+      )
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

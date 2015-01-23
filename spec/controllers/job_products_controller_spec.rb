@@ -153,6 +153,23 @@ RSpec.describe JobProductsController do
     end
   end
 
+  describe "GET research" do
+
+    before do
+      @job_product.update_column(:search_url, "http://county.lvh.me")
+      get :research, job_id: @job.id, id: @job_product.id
+    end
+
+    it "should log a search" do
+      @job_product.reload
+      expect(@job_product.search_logs.length).to eq(1)
+    end
+
+    it "should redirect to the stored search url" do
+      expect(response).to redirect_to(@job_product.search_url)
+    end
+  end
+
   describe "POST toggle_billing" do
 
     it "should mark the job_product billed" do

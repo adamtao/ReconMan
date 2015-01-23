@@ -11,6 +11,10 @@ feature "Attach document on job page", :devise do
     visit job_path(@job)
   end
 
+  after do
+    Warden.test_reset!
+  end
+
   scenario "successfully" do
     click_on 'New Document'
     attach_file 'document_file', @tempfile
