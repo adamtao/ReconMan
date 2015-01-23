@@ -219,14 +219,23 @@ describe JobProduct do
                                    search_params: 'searchstring={{deed_of_trust_number}}',
                                    search_method: 'GET')
       @job.update_column(:county_id, @county.id)
+      @job_product.deed_of_trust_number = "11223344"
+      @job_product.save
     end
 
     it "generates a search_url" do
-      @job_product.deed_of_trust_number = "11223344"
-      @job_product.save
-      @job_product.reload
-
       expect(@job_product.search_url).to eq('http://foo.bar/search?searchstring=11223344#tab=2')
+    end
+
+    it "retains the template in the county" do
+      expect(@job.county.search_template_url).to eq(@county.search_template_url)
+    end
+
+    it "generates different urls for a multi-item job" do
+      job_product2 = FactoryGirl.create(:tracking_job_product, job: @job, deed_of_trust_number: "9999")
+
+      expect(job_product2.search_url).not_to eq(@job_product.search_url)
+      expect(job_product2.search_url).to eq('http://foo.bar/search?searchstring=9999#tab=2')
     end
   end
   # it "should perform automated search" # later, when implementing cached search results

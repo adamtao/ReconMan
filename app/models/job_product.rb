@@ -90,14 +90,12 @@ class JobProduct < ActiveRecord::Base
       if self.search_url.blank? && self.job.county.search_template_url.present?
         params = ""
         if self.job.county.search_params.present?
-          params = self.job.county.search_params
-          params.gsub!(/\{\{(\w*)\}\}/){ self.send($1.to_sym) }
+          params = self.job.county.search_params.to_s.gsub(/\{\{(\w*)\}\}/){ self.send($1.to_sym) }
           if self.job.county.search_method == "GET"
             params = "?#{params}"
           end
         end
-        self.search_url = self.job.county.search_template_url
-        self.search_url.gsub!(/\{\{params\}\}/, params)
+        self.search_url = self.job.county.search_template_url.to_s.gsub(/\{\{params\}\}/, params)
       end
     end
   end
