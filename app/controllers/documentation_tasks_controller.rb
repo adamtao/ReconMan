@@ -1,0 +1,2 @@
+class DocumentationTasksController < TasksController
+end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150121225217) do
+ActiveRecord::Schema.define(version: 20150210202807) do
 
   create_table "branches", force: true do |t|
     t.string   "name"
@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(version: 20150121225217) do
   add_index "counties", ["state_id"], name: "index_counties_on_state_id", using: :btree
 
   create_table "documents", force: true do |t|
-    t.integer  "job_product_id"
+    t.integer  "task_id"
     t.string   "file_file_name"
     t.integer  "file_file_size"
     t.datetime "file_updated_at"
@@ -112,44 +112,7 @@ ActiveRecord::Schema.define(version: 20150121225217) do
     t.datetime "updated_at"
   end
 
-  add_index "documents", ["job_product_id"], name: "index_documents_on_job_product_id", using: :btree
-
-  create_table "job_products", force: true do |t|
-    t.integer  "product_id"
-    t.integer  "job_id"
-    t.integer  "price_cents",              default: 0,     null: false
-    t.string   "price_currency",           default: "USD", null: false
-    t.string   "workflow_state"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "last_search_at"
-    t.string   "search_url"
-    t.date     "due_on"
-    t.integer  "created_by_id"
-    t.integer  "modified_by_id"
-    t.integer  "worker_id"
-    t.string   "deed_of_trust_number"
-    t.string   "developer"
-    t.string   "parcel_number"
-    t.string   "beneficiary_name"
-    t.integer  "payoff_amount_cents",      default: 0,     null: false
-    t.string   "payoff_amount_currency",   default: "USD", null: false
-    t.string   "beneficiary_account"
-    t.string   "parcel_legal_description"
-    t.string   "new_deed_of_trust_number"
-    t.date     "recorded_on"
-    t.integer  "lender_id"
-    t.date     "cleared_on"
-    t.boolean  "billed",                   default: false
-  end
-
-  add_index "job_products", ["cleared_on"], name: "index_job_products_on_cleared_on", using: :btree
-  add_index "job_products", ["created_by_id"], name: "index_job_products_on_created_by_id", using: :btree
-  add_index "job_products", ["job_id"], name: "index_job_products_on_job_id", using: :btree
-  add_index "job_products", ["lender_id"], name: "index_job_products_on_lender_id", using: :btree
-  add_index "job_products", ["modified_by_id"], name: "index_job_products_on_modified_by_id", using: :btree
-  add_index "job_products", ["product_id"], name: "index_job_products_on_product_id", using: :btree
-  add_index "job_products", ["worker_id"], name: "index_job_products_on_worker_id", using: :btree
+  add_index "documents", ["task_id"], name: "index_documents_on_task_id", using: :btree
 
   create_table "jobs", force: true do |t|
     t.integer  "client_id"
@@ -205,14 +168,14 @@ ActiveRecord::Schema.define(version: 20150121225217) do
   add_index "products", ["job_type"], name: "index_products_on_job_type", using: :btree
 
   create_table "search_logs", force: true do |t|
-    t.integer  "job_product_id"
+    t.integer  "task_id"
     t.integer  "user_id"
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "search_logs", ["job_product_id"], name: "index_search_logs_on_job_product_id", using: :btree
+  add_index "search_logs", ["task_id"], name: "index_search_logs_on_task_id", using: :btree
 
   create_table "states", force: true do |t|
     t.string   "name"
@@ -228,14 +191,55 @@ ActiveRecord::Schema.define(version: 20150121225217) do
     t.boolean  "record_reconveyance_request", default: false
   end
 
+  create_table "tasks", force: true do |t|
+    t.integer  "product_id"
+    t.integer  "job_id"
+    t.integer  "price_cents",              default: 0,     null: false
+    t.string   "price_currency",           default: "USD", null: false
+    t.string   "workflow_state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "last_search_at"
+    t.string   "search_url"
+    t.date     "due_on"
+    t.integer  "created_by_id"
+    t.integer  "modified_by_id"
+    t.integer  "worker_id"
+    t.string   "deed_of_trust_number"
+    t.string   "developer"
+    t.string   "parcel_number"
+    t.string   "beneficiary_name"
+    t.integer  "payoff_amount_cents",      default: 0,     null: false
+    t.string   "payoff_amount_currency",   default: "USD", null: false
+    t.string   "beneficiary_account"
+    t.string   "parcel_legal_description"
+    t.string   "new_deed_of_trust_number"
+    t.date     "recorded_on"
+    t.integer  "lender_id"
+    t.date     "cleared_on"
+    t.boolean  "billed",                   default: false
+    t.date     "docs_delivered_on"
+    t.boolean  "reconveyance_filed"
+    t.string   "type"
+  end
+
+  add_index "tasks", ["cleared_on"], name: "index_tasks_on_cleared_on", using: :btree
+  add_index "tasks", ["created_by_id"], name: "index_tasks_on_created_by_id", using: :btree
+  add_index "tasks", ["job_id"], name: "index_tasks_on_job_id", using: :btree
+  add_index "tasks", ["lender_id"], name: "index_tasks_on_lender_id", using: :btree
+  add_index "tasks", ["modified_by_id"], name: "index_tasks_on_modified_by_id", using: :btree
+  add_index "tasks", ["product_id"], name: "index_tasks_on_product_id", using: :btree
+  add_index "tasks", ["type"], name: "index_tasks_on_type", using: :btree
+  add_index "tasks", ["worker_id"], name: "index_tasks_on_worker_id", using: :btree
+
   create_table "title_search_caches", force: true do |t|
-    t.integer  "job_product_id"
+    t.integer  "task_id"
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "title_search_caches", ["job_product_id"], name: "index_title_search_caches_on_job_product_id", using: :btree
+  add_index "title_search_caches", ["task_id"], name: "index_title_search_caches_on_task_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

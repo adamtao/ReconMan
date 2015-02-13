@@ -1,0 +1,47 @@
+<div class="panel item-fields">
+  <% if f.object.product_id.present? %>
+    <%= f.input :product_id, as: :hidden %>
+  <% end %>
+	<div class="row">
+		<div class="column_6">
+			<%= f.input :deed_of_trust_number %>
+		</div>
+	  <div class="large-3 small-6 columns">
+	    <%= f.input :beneficiary_account, label: "Beneficiary Account" %>
+	  </div>
+	  <div class="large-3 small-6 columns">
+	    <%= f.input :payoff_amount, label: "Payoff Amount" %>
+	  </div>
+	</div>
+
+	<div class="row">
+	  <div class="column_6">
+	    <%= f.association :lender, collection: Lender.order(:name) %>
+      <% if f.object.new_record? %>
+        <%= f.fields_for :lender do |l| %>
+          <%= l.input :name, label: "New Lender Name", required: false %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="column_6">
+      <br/>
+      <% if f.object.new_record? %>
+        <%= link_to "new lender", '', class: "toggle-lender" %>
+      <% end %>
+	  </div>
+	</div>
+
+	<%= render 'tasks/finalize_fields', f: f %>
+
+  <%= f.input :docs_delivered_on, as: :string, input_html: {class: 'datepicker'} %>
+
+	<% unless @job.tasks.first == f.object %>
+    <% if f.object.product_id.present? %>
+      <%= f.input :_destroy, as: :hidden, input_html: {class: 'deleter'} %>
+      <%= link_to '#', class: 'remove_fields' do %>
+        <%= image_tag 'delete.png', alt: "[-]" %>
+        remove item
+      <% end %>
+    <% end %>
+	<% end %>
+</div>

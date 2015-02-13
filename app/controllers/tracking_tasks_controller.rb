@@ -1,0 +1,2 @@
+class TrackingTasksController < TasksController
+end

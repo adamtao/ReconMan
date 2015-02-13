@@ -9,7 +9,7 @@ feature 'Pagination' do
 		@tracking_product = create(:tracking_product)
 		@search_product = create(:search_product)
 		@special_product = create(:special_product)
-    create_list(:tracking_job_product, 30, worker: @me)
+    create_list(:tracking_task, 30, worker: @me)
 	end
 
   after(:each) do

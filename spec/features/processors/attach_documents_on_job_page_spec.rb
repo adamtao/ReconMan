@@ -6,7 +6,7 @@ feature "Attach document on job page", :devise do
 
   before(:each) do
     @me = sign_in_as_processor
-    @job = create(:tracking_job)
+    @job = FactoryGirl.create(:tracking_job)
     @tempfile = Rails.root.join("spec", "fixtures", "test_file.doc")
     visit job_path(@job)
   end

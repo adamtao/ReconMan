@@ -10,12 +10,12 @@ feature "Checkout a County", :devise do
   before do
     @me = sign_in_as_processor
     @county = FactoryGirl.create(:county)
-    @tracking_job_products = FactoryGirl.create_list(:tracking_job_product, 5)
-    @tracking_job_products.each_with_index do |job_product,i|
-      job_product.update_column(:due_on, (i+1).weeks.ago)
-      job_product.job.update_column(:county_id, @county.id)
+    @tracking_tasks = FactoryGirl.create_list(:tracking_task, 5)
+    @tracking_tasks.each_with_index do |task,i|
+      task.update_column(:due_on, (i+1).weeks.ago)
+      task.job.update_column(:county_id, @county.id)
     end
-    @tracking_jobs = @tracking_job_products.map{|tjp| tjp.job}
+    @tracking_jobs = @tracking_tasks.map{|tjp| tjp.job}
     visit root_path
   end
 

@@ -1,0 +1,56 @@
+require 'rails_helper'
+include Warden::Test::Helpers
+Warden.test_mode!
+
+# Feature: Create job
+#   As a processor
+#   I want to create Document type Jobs
+feature 'Create Document job', :devise do
+	before(:each) do
+		@me = sign_in_as_processor
+    @state = FactoryGirl.create(:state)
+    @county = FactoryGirl.create(:county, state: @state)
+    @zipcode = FactoryGirl.create(:zipcode, state: @state.abbreviation)
+    @lender = FactoryGirl.create(:lender)
+    @client = FactoryGirl.create(:client)
+    @branch = FactoryGirl.create(:branch, client: @client)
+    @employee = FactoryGirl.create(:user, branch: @branch)
+
+		visit root_path
+	end
+
+  after(:each) do
+    Warden.test_reset!
+  end
+
+  scenario "Fill out new document job form" do
+    product = FactoryGirl.create(:product, job_type: 'documentation')
+
+    within("ul#job-types") do
+      click_on "Documentation"
+    end
+		fill_in_common_fields
+		fill_in	'Close Date', with: 2.days.ago
+		fill_in 'Deed of trust number', with: "55555"
+    select @lender.name, from: 'Lender'
+		fill_in 'Beneficiary Account', with: "12345"
+		fill_in 'Payoff Amount', with: "10000.00"
+		click_on 'Create Job'
+
+		expect(page).to have_content("Job was successfully created")
+		expect(page).to have_content(product.name)
+		expect(page).to have_content("File: 9191919")
+    expect(page).to have_content(@lender.name)
+  end
+
+	def fill_in_common_fields
+		fill_in 'File number', with: "9191919"
+		select @client.name, from: 'Client'
+		select @employee.name, from: 'Requestor'
+		fill_in 'Address', with: "123 Any street"
+		fill_in 'Zipcode', with: @zipcode.zipcode
+		fill_in 'City', with: "Beverly Hills"
+		select @state.name, from: 'State'
+		select @county.name, from: 'County'
+	end
+end

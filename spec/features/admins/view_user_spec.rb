@@ -28,7 +28,7 @@ feature 'View user' do
 
 	scenario 'shows only 20 jobs on the processor page' do
     first_job = @employee.current_requested_jobs.first
-    @processor = first_job.job_products.first.worker
+    @processor = first_job.tasks.first.worker
 
 		visit user_path(@processor)
 

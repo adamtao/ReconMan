@@ -21,20 +21,20 @@
       <div class="large-5 small-5 columns">
           <br/>
         <ul class="button-group right">
-          <li><%= link_to "Add product/service", new_job_job_product_path(@job), class: "tiny success button" %></li>
+          <li><%= link_to "Add product/service", new_job_task_path(@job), class: "tiny success button" %></li>
           <li><%= link_to 'Edit Job', edit_job_path(@job), class: "secondary tiny button" %></li>
         </ul>
       </div>
     </div>
   </div>
 
-  <% if @job.job_products.length > 1 %>
+  <% if @job.tasks.length > 1 %>
     <div data-magellan-expedition="fixed">
       <dl class="sub-nav">
         <dt>Jump To:</dt>
-        <% @job.job_products.each_with_index do |job_product,i| %>
+        <% @job.tasks.each_with_index do |task,i| %>
           <dd data-magellan-arrival="jp_<%= i+1 %>">
-            <a href="#jp_<%= i+1 %>"><%= job_product.name %> #<%= i+1 %> </a>
+            <a href="#jp_<%= i+1 %>"><%= task.name %> #<%= i+1 %> </a>
           </dd>
         <% end %>
       </dl>
@@ -47,9 +47,9 @@
 
     <div class="main_content">
 
-      <% @job.job_products.each_with_index do |job_product,i| %>
+      <% @job.tasks.each_with_index do |task,i| %>
         <a name="jp_<%= i + 1 %>"></a>
-        <%= render 'job_product', job_product: job_product, i: i %>
+        <%= render 'task', task: task, i: i %>
       <% end %>
 
       <div class="large-12 columns text-right">

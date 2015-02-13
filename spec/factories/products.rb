@@ -1,1 +1,1 @@
-# product factory moved to job_products.rb
+# product factory moved to tasks.rb

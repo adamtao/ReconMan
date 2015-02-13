@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   private
 
   def setup_search
-    @q ||= Job.search(params[:q])    
+    @q ||= Job.search(params[:q])
   end
 
   def all_clients
@@ -26,5 +26,5 @@ class ApplicationController < ActionController::Base
     @active_states ||= State.active
   end
   helper_method :active_states
-  
+
 end

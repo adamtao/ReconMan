@@ -5,10 +5,10 @@ Warden.test_mode!
 feature 'View County' do
 
 	before(:each) do
-    @client = create(:client)
-    @state = create(:state)
-    @county = create(:county, state: @state)
-    create_list(:tracking_job, 30, county: @county)
+    @client = FactoryGirl.create(:client)
+    @state = FactoryGirl.create(:state)
+    @county = FactoryGirl.create(:county, state: @state)
+    FactoryGirl.create_list(:tracking_job, 30, county: @county)
 
 		sign_in_as_processor
 		visit state_county_path(@state, @county)

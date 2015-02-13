@@ -8,20 +8,20 @@ RSpec.describe Lender, :type => :model do
 
   subject{@lender}
 
-  it { should respond_to(:job_products) }
+  it { should respond_to(:tasks) }
 
   describe ".merge_with!" do
 
     before do
       @lender2 = FactoryGirl.create(:lender)
-      @tracking_job_product = FactoryGirl.create(:tracking_job_product, lender: @lender2)
+      @tracking_task = FactoryGirl.create(:tracking_task, lender: @lender2)
 
       @lender.merge_with!(@lender2)
     end
 
     it "should assign jobs from the provided lender to the instance lender" do
-      @tracking_job_product.reload
-      expect(@tracking_job_product.lender).to eq(@lender)
+      @tracking_task.reload
+      expect(@tracking_task.lender).to eq(@lender)
     end
 
     it "should remove the provided lender after merging" do
@@ -38,7 +38,7 @@ RSpec.describe Lender, :type => :model do
       20.times do
         close_on = [60,45,90,100].sample.days.ago
         job = FactoryGirl.create(:job, job_type: 'tracking', close_on: close_on)
-        FactoryGirl.create(:job_product,
+        FactoryGirl.create(:task,
                            job: job,
                            lender: @new_lender,
                            product: @tracking_product,
@@ -62,13 +62,13 @@ RSpec.describe Lender, :type => :model do
       @new_lender.calculate_days_to_complete!
       b = @new_lender.average_days_to_complete
       new_job = FactoryGirl.create(:job, job_type: 'tracking', close_on: 120.days.ago)
-      job_product = FactoryGirl.create(:job_product,
+      task = FactoryGirl.create(:task,
          job: new_job,
          lender: @new_lender,
          product: @tracking_product,
          recorded_on: 2.days.ago,
          workflow_state: 'in_progress')
-      job_product.mark_complete!
+      task.mark_complete!
       @new_lender.reload
 
       expect(@new_lender.average_days_to_complete).not_to eq(b)
@@ -77,7 +77,7 @@ RSpec.describe Lender, :type => :model do
     it "should include more than just the dashboard product in the calculation" do
       job = Job.last
       recorded_on = job.close_on.advance(days: 50)
-      FactoryGirl.create(:job_product,
+      FactoryGirl.create(:task,
          job: job,
          lender: @new_lender,
          product: @tracking_product,
@@ -98,7 +98,7 @@ RSpec.describe Lender, :type => :model do
       @tracking_product = create(:tracking_product)
       20.times do
         job = create(:job, job_type: 'tracking', close_on: nil)
-        FactoryGirl.create(:job_product,
+        FactoryGirl.create(:task,
                            job: job,
                            product: @tracking_product,
                            lender: @lender,

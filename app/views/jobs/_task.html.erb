@@ -1,0 +1,38 @@
+<div class="container section task-container">
+  <div class="row section-header">
+    <div class="large-6 small-9 columns">
+      <h3><%= task.name %>
+        <% if task.job.tasks.count > 1 %>
+          #<%= i+1 %>
+        <% end %>
+      </h3>
+    </div>
+    <div class="large-6 small-3 columns text-right">
+      <h3><%= humanized_money_with_symbol task.price %></h3>
+    </div>
+  </div>
+
+  <div id="task<%= task.id %>" class="content">
+    <br/>
+    <%= render 'tasks/summary', task: task %>
+  </div>
+
+  <div class="row">
+    <div class="large-12 small-12 columns">
+      <p><br/>
+        Status: <strong><%= task.workflow_state.humanize %></strong> &nbsp;
+        <br/>
+        Worker: <%= task.worker.name if task.worker_id.present? %>
+      </p>
+      <ul class="button-group">
+        <li><%= link_to "Edit #{task.name}", edit_job_task_path(task.job, task), class: "tiny button" %></li>
+        <li><%= link_to "Delete #{task.name}", job_task_path(task.job, task), method: :delete, confirm: "Are you sure?", class: "tiny alert button" %></li>
+      </ul>
+      <% if current_user.admin? %>
+        <%= simple_form_for [task.job, task] do |f| %>
+          <%= f.input :billed, input_html: { class: "toggle-billing", data: { id: task.id } } %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :search_log do
-    job_product
+    task
     user
     status "Not Cleared"
   end

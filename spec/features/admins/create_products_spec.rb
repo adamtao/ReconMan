@@ -12,7 +12,7 @@ feature 'Create product' do
 		sign_in_as_admin
 	end
 
-  after(:each) do 
+  after(:each) do
     Warden.test_reset!
   end
 

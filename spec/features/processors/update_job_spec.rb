@@ -23,14 +23,14 @@ feature 'Create job' do
 
 	# Scenario: Edit an existing tracking job
 	scenario 'successfully' do
-    products_count = @tracking_job.job_products.length
+    products_count = @tracking_job.tasks.length
 
     fill_in 'File number', with: 'abc123'
     click_on 'Update Job'
     @tracking_job.reload
 
     expect(page).to have_content('abc123')
-    expect(@tracking_job.job_products.length).to eq(products_count)
+    expect(@tracking_job.tasks.length).to eq(products_count)
 	end
 
 end

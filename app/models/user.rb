@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   enum role: [:admin, :client, :manager, :processor]
   after_initialize :set_default_role, :if => :new_record?
 
-  has_many :tasks, class_name: "JobProduct", foreign_key: :worker_id
+  has_many :tasks, class_name: "Task", foreign_key: :worker_id
   has_many :requested_jobs, class_name: "Job", foreign_key: :requestor_id
   has_many :comments
   belongs_to :branch # (if user works for a Client)
@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
   end
 
   def current_requested_jobs
-    requested_jobs.where.not(workflow_state: 'complete') #.joins(:job_products).order("job_product.due_on ASC")
+    requested_jobs.where.not(workflow_state: 'complete') #.joins(:tasks).order("task.due_on ASC")
   end
 
   def checkout_county(county)

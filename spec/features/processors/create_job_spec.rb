@@ -30,7 +30,9 @@ feature 'Create job', :devise do
 	scenario 'fill in new tracking job form' do
 		product = create(:product, job_type: 'tracking')
 
-		click_on "Tracking Job"
+    within("ul#job-types") do
+      click_on "Tracking"
+    end
 		fill_in_common_fields
 		fill_in	'Close Date', with: 2.days.ago
 		fill_in 'Deed of trust number', with: "55555"
@@ -55,7 +57,7 @@ feature 'Create job', :devise do
     20.times do
        close_on = [60,45,90,100].sample.days.ago
        job = FactoryGirl.create(:job, job_type: 'tracking', close_on: close_on)
-       FactoryGirl.create(:job_product,
+       FactoryGirl.create(:task,
                           job: job,
                           lender: @lender,
                           product: tracking_product,
@@ -82,7 +84,7 @@ feature 'Create job', :devise do
     3.times do
        close_on = [60,45,90,100].sample.days.ago
        job = FactoryGirl.create(:job, job_type: 'tracking', close_on: close_on)
-       FactoryGirl.create(:job_product,
+       FactoryGirl.create(:task,
                           job: job,
                           lender: new_lender,
                           product: tracking_product,
@@ -104,9 +106,11 @@ feature 'Create job', :devise do
 	#   When I click 'Save & New Job'
 	#   Then I see the new job form again
 	scenario 'save and new job form' do
-		create(:product, job_type: 'tracking')
+    FactoryGirl.create(:product, job_type: 'tracking')
 
-		click_on "Tracking Job"
+    within("ul#job-types") do
+      click_on "Tracking"
+    end
 		fill_in_common_fields
 		fill_in	'Close Date', with: 2.days.ago
 		fill_in 'Deed of trust number', with: "55555"
@@ -125,7 +129,9 @@ feature 'Create job', :devise do
 	scenario 'fill in new special job form' do
 		product = create(:product, job_type: 'special')
 
-		click_on "Special Job"
+    within("ul#job-types") do
+      click_on "Special"
+    end
 		fill_in_common_fields
 		fill_in	'Close Date', with: 2.days.ago
 		fill_in 'Borrower/Grantor', with: "Fiesty Pants"
@@ -147,7 +153,9 @@ feature 'Create job', :devise do
 	scenario 'fill in new search job form' do
 		product = create(:product, job_type: 'search')
 
-		click_on "Search Job"
+    within("ul#job-types") do
+      click_on "Search"
+    end
 		fill_in_common_fields
 		fill_in 'Previous Owner', with: "John"
 		fill_in 'New Owner', with: "Gary"

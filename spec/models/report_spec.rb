@@ -3,8 +3,8 @@ require 'rails_helper'
 describe Report do
 
   before do
-    @job_products = FactoryGirl.create_list(
-      :tracking_job_product, 2,
+    @tasks = FactoryGirl.create_list(
+      :tracking_task, 2,
       cleared_on: 1.week.ago,
       workflow_state: 'complete',
       price_cents: 1999
@@ -25,7 +25,7 @@ describe Report do
   context "with a Client" do
 
     before do
-      @client = @job_products.first.job.client
+      @client = @tasks.first.job.client
       @report.client_id = @client.id
       @report.job_status = 'Complete'
     end
@@ -38,18 +38,18 @@ describe Report do
       expect(@report.subtitle).to match(/from/i)
     end
 
-    it ".job_products should return a collection" do
-      expect(@report.job_products).to be_an_instance_of(Array)
-      expect(@report.job_products.first).to be_an_instance_of(JobProduct)
+    it ".tasks should return a collection" do
+      expect(@report.tasks).to be_an_instance_of(Array)
+      expect(@report.tasks.first).to be_an_instance_of(TrackingTask)
     end
 
     it ".mark_all_billed! should mark all jobs billed" do
-      job_product = @report.job_products.first
+      task = @report.tasks.first
 
       @report.mark_all_billed!
-      job_product.reload
+      task.reload
 
-      expect(job_product.billed?).to eq(true)
+      expect(task.billed?).to eq(true)
     end
 
     context "and pricing" do
@@ -78,25 +78,25 @@ describe Report do
 
     context "billed jobs" do
       before do
-        @billed_job_product = FactoryGirl.create(
-          :tracking_job_product,
+        @billed_task = FactoryGirl.create(
+          :tracking_task,
           cleared_on: 1.week.ago,
           workflow_state: 'complete',
           billed: true,
-          job_id: @job_products.first.job_id
+          job_id: @tasks.first.job_id
         )
       end
 
       it "should exclude billed jobs when exclude_billed = true" do
         @report.exclude_billed = true
 
-        expect(@report.job_products).not_to include(@billed_job_product)
+        expect(@report.tasks).not_to include(@billed_task)
       end
 
       it "should include billed jobs when exclude_billed = false" do
         @report.exclude_billed = false
 
-        expect(@report.job_products).to include(@billed_job_product)
+        expect(@report.tasks).to include(@billed_task)
       end
     end
   end
@@ -115,8 +115,8 @@ describe Report do
       expect(@report.title).to match(/Jobs/)
     end
 
-    it ".job_products should return a collection" do
-      expect(@report.job_products).to be_an_instance_of(Array)
+    it ".tasks should return a collection" do
+      expect(@report.tasks).to be_an_instance_of(Array)
     end
   end
 
@@ -127,40 +127,40 @@ describe Report do
     end
 
     it "should include jobs to be searched manually" do
-      tracking_job = FactoryGirl.create(:tracking_job_product, workflow_state: "to_be_processed_manually")
+      tracking_job = FactoryGirl.create(:tracking_task, workflow_state: "to_be_processed_manually")
 
-      expect(@report.job_products).to include(tracking_job)
+      expect(@report.tasks).to include(tracking_job)
     end
 
     it "should include jobs that need review" do
-      tracking_job = FactoryGirl.create(:tracking_job_product, workflow_state: "needs_review")
+      tracking_job = FactoryGirl.create(:tracking_task, workflow_state: "needs_review")
 
-      expect(@report.job_products).to include(tracking_job)
+      expect(@report.tasks).to include(tracking_job)
     end
 
     it "should include jobs to be searched manually" do
-      tracking_job = FactoryGirl.create(:tracking_job_product, workflow_state: "to_be_searched_manually")
+      tracking_job = FactoryGirl.create(:tracking_task, workflow_state: "to_be_searched_manually")
 
-      expect(@report.job_products).to include(tracking_job)
+      expect(@report.tasks).to include(tracking_job)
     end
 
     it "should NOT include completed jobs" do
-      tracking_job = FactoryGirl.create(:tracking_job_product, workflow_state: "complete")
+      tracking_job = FactoryGirl.create(:tracking_task, workflow_state: "complete")
 
-      expect(@report.job_products).not_to include(tracking_job)
+      expect(@report.tasks).not_to include(tracking_job)
     end
 
     it "should NOT include new jobs" do
-      tracking_job = FactoryGirl.create(:tracking_job_product)
+      tracking_job = FactoryGirl.create(:tracking_task)
       tracking_job.update_column(:workflow_state, 'new')
 
-      expect(@report.job_products).not_to include(tracking_job)
+      expect(@report.tasks).not_to include(tracking_job)
     end
 
     it "should NOT include canceled jobs" do
-      tracking_job = FactoryGirl.create(:tracking_job_product, workflow_state: "canceled")
+      tracking_job = FactoryGirl.create(:tracking_task, workflow_state: "canceled")
 
-      expect(@report.job_products).not_to include(tracking_job)
+      expect(@report.tasks).not_to include(tracking_job)
     end
   end
 end

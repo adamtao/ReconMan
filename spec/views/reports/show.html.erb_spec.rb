@@ -5,16 +5,16 @@ describe "reports/show.html.erb" do
   before do
     current_user = FactoryGirl.build_stubbed(:user, :admin)
     allow(view).to receive_messages(:current_user => current_user)
-    @tracking_job_product = FactoryGirl.create(
-      :tracking_job_product,
+    @tracking_task = FactoryGirl.create(
+      :tracking_task,
       workflow_state: 'complete',
       recorded_on: 2.weeks.ago,
       cleared_on: 1.week.ago,
       deed_of_trust_number: "032983j-qw9897-498v3",
       new_deed_of_trust_number: "089786-349204-234u20"
     )
-    @tracking_job_product.reload
-    @job = @tracking_job_product.job
+    @tracking_task.reload
+    @job = @tracking_task.job
     @client = @job.client
     @branch = FactoryGirl.create(:branch, client: @client)
     @requestor = @job.requestor
@@ -58,16 +58,16 @@ describe "reports/show.html.erb" do
     expect(table_row).to have_css("td:eq(4)", text: @client.name)
     expect(table_row).to have_css("td:eq(5)", text: @job.requestor.name)
     expect(table_row).to have_css("td:eq(6)", text: @job.close_on.to_s)
-    expect(table_row).to have_css("td:eq(7)", text: @tracking_job_product.lender.name)
-    expect(table_row).to have_css("td:eq(8)", text: @tracking_job_product.deed_of_trust_number)
-    expect(table_row).to have_css("td:eq(9)", text: @tracking_job_product.new_deed_of_trust_number)
-    expect(table_row).to have_css("td:eq(10)", text: @tracking_job_product.recorded_on.to_s)
+    expect(table_row).to have_css("td:eq(7)", text: @tracking_task.lender.name)
+    expect(table_row).to have_css("td:eq(8)", text: @tracking_task.deed_of_trust_number)
+    expect(table_row).to have_css("td:eq(9)", text: @tracking_task.new_deed_of_trust_number)
+    expect(table_row).to have_css("td:eq(10)", text: @tracking_task.recorded_on.to_s)
   end
 
   describe "with incomplete jobs" do
     before do
-      JobProduct.update_all(workflow_state: 'in_progress')
-      @tracking_job_product.reload
+      Task.update_all(workflow_state: 'in_progress')
+      @tracking_task.reload
       @report.job_status = "In Progress"
       @report.show_pricing = false
       get_report
@@ -75,19 +75,19 @@ describe "reports/show.html.erb" do
 
     it "shows the first notice column" do
       expect(table_header).to have_css("th:eq(11)", text: "1st Notice")
-      expect(table_row).to have_css("td:eq(11)", text: @tracking_job_product.first_notice_date)
+      expect(table_row).to have_css("td:eq(11)", text: @tracking_task.first_notice_date)
     end
 
     it "shows the second notice column" do
       expect(table_header).to have_css("th:eq(12)", text: "2nd Notice")
-      expect(table_row).to have_css("td:eq(12)", text: @tracking_job_product.second_notice_date)
+      expect(table_row).to have_css("td:eq(12)", text: @tracking_task.second_notice_date)
     end
   end
 
   describe "complete jobs and pricing" do
     before do
-      JobProduct.update_all(workflow_state: 'complete')
-      @tracking_job_product.reload
+      Task.update_all(workflow_state: 'complete')
+      @tracking_task.reload
       @report.job_status = "Complete"
       @report.show_pricing = true
       get_report
@@ -100,7 +100,7 @@ describe "reports/show.html.erb" do
 
     it "should have pricing column" do
       expect(table_header).to have_css("th:eq(12)", text: "Price")
-      expect(table_row).to have_css("td:eq(12)", text: @tracking_job_product.price)
+      expect(table_row).to have_css("td:eq(12)", text: @tracking_task.price)
     end
 
     it "should have the grand total row" do

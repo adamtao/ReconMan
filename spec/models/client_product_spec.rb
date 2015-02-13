@@ -9,7 +9,7 @@ RSpec.describe ClientProduct do
   it { should respond_to(:client) }
   it { should respond_to(:product) }
 
-  it "should load a default price from the related product" do 
+  it "should load a default price from the related product" do
   	expect(@client_product.price_cents).to eq(@client_product.product.price_cents)
   end
 

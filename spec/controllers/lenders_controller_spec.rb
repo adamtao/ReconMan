@@ -126,14 +126,14 @@ RSpec.describe LendersController do
   describe "POST merge successfully" do
     before do
       @lender2 = FactoryGirl.create(:lender)
-      @tracking_job_product = FactoryGirl.create(:tracking_job_product, lender: @lender2)
+      @tracking_task = FactoryGirl.create(:tracking_task, lender: @lender2)
       post :merge, id: @lender.id, merge_with_id: @lender2.id
     end
 
     it "merges the lenders" do
-      @tracking_job_product.reload
+      @tracking_task.reload
 
-      expect(@tracking_job_product.lender).to eq(@lender)
+      expect(@tracking_task.lender).to eq(@lender)
       expect(Lender.exists?(@lender2.id)).to be(false)
     end
   end

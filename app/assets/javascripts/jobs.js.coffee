@@ -6,7 +6,7 @@ jQuery ->
 	$('.datepicker').datepicker
 		inline: true
 		numberOfMonths: 2
-		showButtonPanel: true	
+		showButtonPanel: true
 		dateFormat: "DD, MM d, yy"
 		constrainInput: true
 

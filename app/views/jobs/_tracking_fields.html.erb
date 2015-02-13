@@ -10,15 +10,15 @@
 
 <%# Editing job products along with the job doesn't work, but they can be edited directly. %>
 <% if f.object.new_record? %>
-<%= f.simple_fields_for :job_products do |jp| %>
-	<%= render "job_products/#{f.object.job_type}_fields", f: jp %>
+<%= f.simple_fields_for :tasks do |jp| %>
+	<%= render "tasks/#{f.object.job_type}_fields", f: jp %>
 <% end %>
 
 <div class="row">
 	<div class="large-12 columns">
 	<%= link_to_add_fields(
 			image_tag('add_green.png', alt: '+') + ' add another item to this job',
-			f, :job_products
+			f, :tasks
 		) %>
 	</div>
 	<br/>

@@ -1,5 +1,5 @@
 class TitleSearchCache < ActiveRecord::Base
-	belongs_to :job_product
+	belongs_to :task
 
 	after_create :send_changed_response_alert
 

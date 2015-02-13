@@ -2,15 +2,15 @@ require 'rails_helper'
 
 describe State do
 
-  before(:each) do 
+  before(:each) do
   	@ttnd = 30
   	@ttdd = 45
   	@ttrd = 60
-  	@state = build(:state, 
+  	@state = build(:state,
   		time_to_notify_days: @ttnd,
   		time_to_dispute_days: @ttdd,
-  		time_to_record_days: @ttrd 
-  	) 
+  		time_to_record_days: @ttrd
+  	)
   end
 
   subject { @state }

@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     resources :users
   end
   resources :jobs do
-    resources :job_products do
+    resources :tasks, :documentation_tasks, :tracking_tasks, :search_tasks, :special_tasks do
       member do
         get :toggle
         post :toggle
@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     end
   end
 
-  post "job_products/:id/toggle_billing" => "job_products#toggle_billing"
+  post "tasks/:id/toggle_billing" => "tasks#toggle_billing"
 
   resources :lenders do
     member do

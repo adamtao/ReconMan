@@ -1,15 +1,15 @@
 class Lender < ActiveRecord::Base
-  has_many :job_products
+  has_many :tasks
 
   validates :name, presence: true, uniqueness: true
 
   def merge_with!(other_lender)
-    other_lender.job_products.update_all(lender_id: self.id)
+    other_lender.tasks.update_all(lender_id: self.id)
     other_lender.destroy
   end
 
 	def calculate_days_to_complete!
-    jps = job_products.joins(:job).where(workflow_state: 'complete').where.not("jobs.close_on is null").limit(100).order("created_at DESC")
+    jps = tasks.joins(:job).where(workflow_state: 'complete').where.not("jobs.close_on is null").limit(100).order("created_at DESC")
 		t = 0
 		c = 0
 		if jps.length > 10

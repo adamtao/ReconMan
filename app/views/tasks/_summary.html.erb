@@ -1,0 +1,203 @@
+<% if task.expected_completion_on %>
+  <p>Expected completion date:
+    <%=l task.expected_completion_on, format: :long %>
+  </p>
+<% end %>
+
+<div class="row">
+  <div class="large-6 columns">
+
+    <table class="no-border">
+      <% if task.deed_of_trust_number.present? %>
+      <tr>
+        <td><strong>Deed of Trust Number</strong></td>
+        <td><%= task.deed_of_trust_number %></td>
+      </tr>
+      <% end %>
+      <% if task.lender_id.present? %>
+      <tr>
+        <td><strong>Lender</strong></td>
+        <td><%= link_to task.lender.name, task.lender %></td>
+      </tr>
+      <% end %>
+      <% if task.beneficiary_name.present? %>
+      <tr>
+        <td><strong>Beneficiary</strong></td>
+        <td><%= task.beneficiary_name %></td>
+      </tr>
+      <% end %>
+      <% if task.beneficiary_account.present? %>
+      <tr>
+        <td><strong>Beneficiary Account</strong></td>
+        <td><%= task.beneficiary_account %></td>
+      </tr>
+      <% end %>
+      <% if task.payoff_amount.present? %>
+      <tr>
+        <td><strong>Payoff Amt.</strong></td>
+        <td><%= humanized_money_with_symbol task.payoff_amount %></td>
+      </tr>
+      <% end %>
+      <% if task.parcel_number.present? %>
+      <tr>
+        <td><strong>Parcel Number</strong></td>
+        <td><%= task.parcel_number %></td>
+      </tr>
+      <% end %>
+      <% if task.parcel_legal_description.present? %>
+      <tr>
+        <td><strong>Parcel description</strong></td>
+        <td><%= task.parcel_legal_description %></td>
+      </tr>
+      <% end %>
+    </table>
+
+    <div class="section documents-container">
+      <div class="section-header">
+        <div class="row collapse">
+          <div class="large-6 small-6 columns"><h3>Documents</h3></div>
+          <div class="large-6 small-6 columns text-right">
+            <%= link_to "New Document", '#',
+              class: "tiny secondary button",
+              data: {:"reveal-id" => "new_document_form"} %>
+          </div>
+        </div>
+      </div>
+      <div class="fixed-height">
+        <div id="new_document_form" class="reveal-modal small" data-reveal>
+          <h2>Choose a file to upload</h2>
+          <%= simple_form_for [task.job, task, Document.new], html: {multipart: true} do |f| %>
+            <%= f.input :file, label: false, required: false %>
+            <%= f.button :submit, "Upload", class: "tiny secondary button" %>
+          <% end %>
+          <a class="close-reveal-modal">&#215;</a>
+        </div>
+        <ul class="documents">
+          <% task.documents.reverse.each do |document| %>
+            <li><%= link_to document.file_file_name, document.file.url %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="large-6 columns">
+    <% if task.complete? %>
+      <% if task.new_deed_of_trust_number.present? || task.recorded_on.present? %>
+        <div class="panel">
+          <% if task.recorded_on.present? %>
+            <p><strong>Recorded On:</strong>
+              <%=l task.recorded_on.to_date, format: :long %>
+            </p>
+          <% end %>
+          <% if task.new_deed_of_trust_number.present? %>
+            <p><strong>Release Number:</strong>
+            <%= task.new_deed_of_trust_number %>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
+    <% elsif task.product.performs_search %>
+
+      <% if task.search_changed? %>
+        <div>
+          <span class="alert label radius">POSSIBLE CHANGE DETECTED</span>
+        </div>
+      <% end %>
+
+      <% if task.search_url.blank? %>
+        <% if task.job.county.search_url.present? %>
+          <p>
+          <i>Please perform a search on the
+            <strong>
+            <%= link_to "county website",
+              task.job.county.search_url,
+              target: "_blank" %></strong>,
+            then copy and paste the resulting <b>URL</b> below.</i>
+          </p>
+
+          <%= simple_form_for [task.job, task] do |f| %>
+            <div class="row collapse">
+              <div class="large-10 small-8 columns">
+                <%= f.input :search_url, label: false,
+                      as: :url, placeholder: 'http://' %>
+              </div>
+              <div class="large-2 small-4 columns">
+                <%= f.button :submit, "Save", class: "small button postfix" %>
+              </div>
+            </div>
+          <% end %>
+
+        <% else %>
+          <p>County URL not provided: <%= link_to "edit #{task.job.county.name.downcase} county", edit_state_county_path(task.job.state, task.job.county) %></p>
+        <% end %>
+
+      <% else # search URL is present, or job is past that point %>
+        <p>
+          <%= link_to "Perform Search", research_job_task_path(task.job, task),
+            class: "small expand success button", target: "_blank" %>
+        </p>
+      <% end %>
+
+      <div class="panel">
+        <%= simple_form_for [task.job, task] do |f| %>
+          <%= render 'tasks/finalize_fields', f: f %>
+          <div class="row">
+            <div class="large-6 columns">
+              <%= f.submit 'Mark Complete', class: "tiny success button" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- For future use, show cached search results when desired -->
+      <div class="hidden">
+        <ul>
+          <% task.title_search_caches.reverse.each do |tsc| %>
+          <li><%= link_to tsc.created_at, [task.job, task, tsc] %> <% if tsc.change_detected? %>CHANGE DETECTED<% end %></li>
+          <% end %>
+        </ul>
+      </div>
+
+      <% if task.search_logs.length > 0 %>
+        <div class="expandable search-history-container">
+          <h3><a href="#" class="expand">Search History <small>&gt;</small></a></h3>
+          <div class="hidden max-height">
+            <ul class="log">
+              <% task.search_logs.reverse.each do |search_log| %>
+                <li>
+                <%= search_log.user.name %>|<%= search_log.created_at.to_date.to_s %>|<%= search_log.status %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% else %>
+        <div class="text-center">
+          <p><i><small>No search logs exist for this item yet.</small></i></p>
+        </div>
+      <% end %>
+
+    <% else # non-search products of offline search %>
+
+      <% if task.can_mark_complete? %>
+        <%= link_to 'Mark Complete', toggle_job_task_path(task.job, task), method: :post, class: "small success button" %>
+      <% end %>
+
+      <% if task.is_a?(DocumentationTask) %>
+        <div class="panel">
+          <%= simple_form_for [task.job, task] do |f| %>
+            <%= f.input :docs_delivered_on, as: :string, input_html: {class: 'datepicker'} %>
+            <% if task.can_file_reconveyance? %>
+              <%= f.input :reconveyance_filed, as: :boolean %>
+            <% end %>
+            <% if task.can_mark_complete? %>
+              <%= f.input :job_complete, as: :boolean %>
+            <% end %>
+            <%= f.submit "Update", class: "tiny success button" %>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

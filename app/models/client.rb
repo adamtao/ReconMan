@@ -1,6 +1,6 @@
 class Client < ActiveRecord::Base
 	include Ownable
-	has_many :jobs, -> { includes(:job_products) }, dependent: :destroy
+	has_many :jobs, -> { includes(:tasks) }, dependent: :destroy
 	has_many :branches, dependent: :destroy
 	has_many :users, through: :branches
 	has_many :client_products, dependent: :destroy
@@ -21,7 +21,7 @@ class Client < ActiveRecord::Base
 	end
 
   def current_jobs
-    jobs.where.not(workflow_state: 'complete')#.joins(:job_products).order("job_products.due_on DESC")
-
+    jobs.where.not(workflow_state: 'complete')#.joins(:tasks).order("tasks.due_on DESC")
   end
+
 end

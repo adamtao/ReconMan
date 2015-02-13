@@ -49,10 +49,13 @@ feature "Create lender inline", :devise do
   #   Then the new lender is created and associated with the tracking job product
   scenario "on the new job form" do
     new_tj = FactoryGirl.attributes_for(:tracking_job)
-    new_tjp = FactoryGirl.attributes_for(:tracking_job_product)
+    new_tjp = FactoryGirl.attributes_for(:tracking_task)
     lender = FactoryGirl.attributes_for(:lender)
     visit client_path(@tracking_job.client)
-    click_on "+ Tracking Job"
+
+    within("ul#job-types") do
+      click_on "Tracking"
+    end
 
     fill_in "File number", with: new_tj[:file_number]
     fill_in "Close Date", with: 1.week.from_now.to_date
@@ -94,7 +97,7 @@ feature "Create lender inline", :devise do
     fill_in "Beneficiary Account", with: "76543"
     fill_in "Payoff Amount", with: "3408.23"
     fill_in "New Lender Name", with: lender[:name]
-    click_on "Create Job product"
+    click_on "Create Task"
 
     expect(page).to have_content(lender[:name])
     expect(Lender.last.name).to eq(lender[:name])

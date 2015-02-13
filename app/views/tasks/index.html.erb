@@ -1,0 +1,23 @@
+<h1>Listing job products</h1>
+<%= link_to 'New Task', new_job_task_path(@job) %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Price</th>
+      <th>Workflow state</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tasks.each do |task| %>
+      <tr>
+        <td><%= link_to task.product.name, [@job, task] %></td>
+        <td><%=humanized_money_with_symbol task.price %></td>
+        <td><%= task.workflow_state %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

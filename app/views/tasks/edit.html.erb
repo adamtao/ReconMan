@@ -1,0 +1,38 @@
+<h1 class="text-center">Editing job task/service</h1>
+
+<%#= render 'form' %>
+
+<%= simple_form_for([@job, @task]) do |f| %>
+  <div class="row">
+    <%= f.error_notification %>
+  </div>
+
+<div class="row"><div class="large-8 columns large-offset-2">
+  <div class="form-inputs">
+    <%= f.association :product,
+    	collection: Product.all.map{ |p|
+    			[
+    				p.name,
+    				p.id,
+    				data: { price: @job.client.product_price(p).dollars }
+    			]
+    		}
+    	 %>
+    <%= f.input :due_on, as: :string, input_html: { class: 'datepicker' } %>
+    <%= f.association :worker, collection: User.processors %>
+    <%= f.input :price, hint: "#{@job.client.name} pricing loads automatically when you select/change a product." %>
+    <% if @task.product.job_type.present? %>
+      <%= render "#{@task.product.job_type}_fields", f: f %>
+    <% end %>
+
+    <%= f.input :search_url, input_html: {
+          data: { products: Product.where(performs_search: true).pluck(:id).join(',') }
+        } %>
+  </div>
+  <div class="form-actions">
+    <div class="column_6">
+      <%= f.button :submit %>
+    </div>
+  </div>
+</div></div>
+<% end %>

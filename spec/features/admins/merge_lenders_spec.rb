@@ -8,7 +8,7 @@ feature "Merge lenders", :devise do
     @me = sign_in_as_admin
     @lender1 = FactoryGirl.create(:lender)
     @lender2 = FactoryGirl.create(:lender)
-    @tracking_job_product = FactoryGirl.create(:tracking_job_product, lender: @lender2)
+    @tracking_task = FactoryGirl.create(:tracking_task, lender: @lender2)
   end
 
   after(:each) do
@@ -23,8 +23,8 @@ feature "Merge lenders", :devise do
       click_on 'Merge'
     end
 
-    @tracking_job_product.reload
-    expect(@tracking_job_product.lender).to eq(@lender1)
+    @tracking_task.reload
+    expect(@tracking_task.lender).to eq(@lender1)
     expect(Lender.exists?(id: @lender2.id)).to be(false)
   end
 end

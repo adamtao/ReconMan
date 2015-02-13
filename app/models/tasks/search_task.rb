@@ -1,0 +1,2 @@
+class SearchTask < Task
+end

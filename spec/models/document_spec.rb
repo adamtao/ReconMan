@@ -9,6 +9,6 @@ describe Document do
     ufn = @document.unique_file_number
 
     expect(ufn).to be_instance_of(String)
-    expect(ufn).to match @document.job_product.job.id.to_s
+    expect(ufn).to match @document.task.job.id.to_s
   end
 end

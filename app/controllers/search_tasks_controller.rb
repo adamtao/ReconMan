@@ -1,0 +1,2 @@
+class SearchTasksController < TasksController
+end

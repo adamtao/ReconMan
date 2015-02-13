@@ -1,7 +1,7 @@
 class ClientProduct < ActiveRecord::Base
 	include Ownable
-	belongs_to :client 
-	belongs_to :product 
+	belongs_to :client
+	belongs_to :product
 	monetize :price_cents
 
 	validates :client_id, presence: true

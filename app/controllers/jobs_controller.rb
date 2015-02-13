@@ -31,7 +31,7 @@ class JobsController < ApplicationController
     end
     if params[:job_type]
       @job.job_type = params[:job_type]
-      @job.initialize_job_products
+      @job.initialize_tasks
     end
   end
 
@@ -44,14 +44,14 @@ class JobsController < ApplicationController
   def create
     @job = Job.new(job_params)
     @job.creator = current_user
-    @job.job_products.each do |jp|
-      jp.creator = current_user
-      jp.worker ||= current_user
-      jp.payoff_amount_cents ||= 0
+    @job.tasks.each do |task|
+      task.creator = current_user
+      task.worker ||= current_user
+      task.payoff_amount_cents ||= 0
     end
     respond_to do |format|
       if @job.save
-        @job.job_products.each{ |jp| jp.set_price }
+        @job.tasks.each{ |task| task.set_price }
         format.html {
           if params[:commit].to_s.match(/save.*new/i)
             redirect_to new_job_path(client_id: @job.client_id, job_type: @job.job_type), notice: 'Job was successfully created. Create another one below...' 
@@ -104,7 +104,7 @@ class JobsController < ApplicationController
         :client_id, :address, :city, :state_id, :zipcode, :county_id, :old_owner, :new_owner, :requestor_id,
         :file_number, :close_on, :beneficiary_name, :payoff_amount, :beneficiary_account, :underwriter_name,
         :short_sale, :file_type, :job_type, :parcel_legal_description, :deed_of_trust_number, :developer,
-        job_products_attributes: [
+        tasks_attributes: [
           :product_id,
           :_destroy,
           :deed_of_trust_number,
@@ -118,6 +118,7 @@ class JobsController < ApplicationController
           :parcel_legal_description,
           :new_deed_of_trust_number,
           :recorded_on,
+          :docs_delivered_on,
           lender_attributes: [ :name ]
           ]
         )

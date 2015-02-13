@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :document do
-    job_product
+    task
     file_file_name "filename.pdf"
     file_file_size 11111
     file_updated_at 2.days.ago

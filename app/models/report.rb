@@ -27,22 +27,22 @@ class Report
     @jobs ||= self.client ? self.client.jobs : Job.all
   end
 
-  def job_products
-    @job_products ||= gather_job_products
+  def tasks
+    @tasks ||= gather_tasks
   end
 
-  def gather_job_products
+  def gather_tasks
     self.job_status = 'complete' if self.job_status.blank?
-    job_products = self.jobs.map{|j| j.job_products_for_report_between(start_on, end_on, job_status, exclude_billed)}.flatten
+    tasks = self.jobs.map{|j| j.tasks_for_report_between(start_on, end_on, job_status, exclude_billed)}.flatten
     if self.lender
-      job_products = job_products.select{|jp| jp if jp.lender_id == self.lender_id}
+      tasks = tasks.select{|jp| jp if jp.lender_id == self.lender_id}
     end
-    job_products
+    tasks
   end
 
-  # Sets the billed? flag to true on each of the matching job_products
+  # Sets the billed? flag to true on each of the matching tasks
   def mark_all_billed!
-    JobProduct.where(id: self.job_products.map{|jp| jp.id}).update_all(billed: true)
+    Task.where(id: self.tasks.map{|jp| jp.id}).update_all(billed: true)
   end
 
   def title
@@ -80,7 +80,7 @@ class Report
 
   def total
     @total ||= Money.new(
-      self.job_products.inject(0){|t,jp| t += jp.price},
+      self.tasks.inject(0){|t,jp| t += jp.price},
       "USD"
     )
   end
@@ -117,7 +117,7 @@ class Report
   end
 
   def to_xls
-    self.job_products.to_xls(
+    self.tasks.to_xls(
       headers: headers,
       columns: columns
     )

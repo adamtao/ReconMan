@@ -16,8 +16,8 @@ class Job < ActiveRecord::Base
 
 	belongs_to :client, touch: true
 	belongs_to :requestor, class_name: "User", foreign_key: :requestor_id
-	has_many :job_products, dependent: :destroy, inverse_of: :job
-	has_many :products, through: :job_products
+	has_many :tasks, dependent: :destroy, inverse_of: :job
+	has_many :products, through: :tasks
 
 	validates :client, presence: true
 	validates :requestor, presence: true
@@ -25,14 +25,14 @@ class Job < ActiveRecord::Base
   validates :county, presence: true
   validates :state, presence: true
 
-	# after_create :create_default_products # no longer doing this, instead creating tasks inline
+	# after_create :create_default_tasks # no longer doing this, instead creating tasks inline
 
 	monetize :total_price_cents
 
-	accepts_nested_attributes_for :job_products, reject_if: :all_blank
+	accepts_nested_attributes_for :tasks, reject_if: :all_blank
 
 	def self.job_types
-		[:tracking, :search, :special]
+		[:tracking, :search, :special, :documentation]
 	end
 
 	def self.dashboard_jobs(options)
@@ -60,7 +60,7 @@ class Job < ActiveRecord::Base
   		if user.current_job_ids.length > 0
         where(id: user.current_job_ids).paginate(page: options[:page], per_page: options[:per_page])
   		elsif options[:fallback_to_all]
-        where.not(workflow_state: "complete").joins(:job_products).order("job_products.due_on ASC").paginate(page: options[:page], per_page: options[:per_page])
+        where.not(workflow_state: "complete").joins(:tasks).order("tasks.due_on ASC").paginate(page: options[:page], per_page: options[:per_page])
   		else
   			nil
   		end
@@ -94,59 +94,59 @@ class Job < ActiveRecord::Base
 	end
 
 	def total_price_cents
-    job_products.inject(0){|total,jp| total += jp.price_cents.to_i}
+    tasks.inject(0){|total,task| total += task.price_cents.to_i}
 	end
 
 	# Base on the 'job_type', determine which default product type to build when
 	# initializing a new job
-	def default_products
-		@default_products ||= Product.where(job_type: self.job_type.to_s)
+	def default_tasks
+		@default_tasks ||= Product.where(job_type: self.job_type.to_s)
 	end
 
-	def default_product_id
-		if self.default_products.length > 0
-			self.default_products.first.id
+	def default_task_id
+		if self.default_tasks.length > 0
+			self.default_tasks.first.id
 		else
 			Product.all.length > 0 ? Product.first.id : nil
 		end
 	end
 
-	def initialize_job_products
-    self.default_products.each do |p|
-      jp = JobProduct.new(product_id: p.id)
-      jp.lender = Lender.new
-      self.job_products << jp
+	def initialize_tasks
+    self.default_tasks.each do |p|
+      klass = "#{p.job_type.to_s.singularize.capitalize}Task".constantize
+      self.tasks << klass.new(product_id: p.id,
+                              lender: Lender.new)
     end
 	end
 
 	def dashboard_product
-		@dashboard_product ||= self.job_products.where(product_id: default_product_id).first
+		@dashboard_product ||= self.tasks.where(product_id: default_task_id).first
 	end
 
 	def open_products
-		@open_products ||= self.job_products.where.not(workflow_state: 'complete')
+		@open_products ||= self.tasks.where.not(workflow_state: 'complete')
 	end
 
-  def job_products_for_report_between(start_on, end_on, job_status, exclude_billed)
-    jp = self.send("job_products_#{job_status.parameterize.gsub(/\-/, "_")}_between", start_on, end_on)
-    jp = jp.where(billed: false) if exclude_billed
-    jp
+  def tasks_for_report_between(start_on, end_on, job_status, exclude_billed)
+    task = self.send("tasks_#{job_status.parameterize.gsub(/\-/, "_")}_between", start_on, end_on)
+    task = task.where(billed: false) if exclude_billed
+    task
   end
 
-  def job_products_complete_between(start_on, end_on)
-    self.job_products.where(workflow_state: 'complete').where(
+  def tasks_complete_between(start_on, end_on)
+    self.tasks.where(workflow_state: 'complete').where(
       "cleared_on >= ? AND cleared_on <= ?",
       start_on,
       end_on
     )
   end
 
-  def job_products_in_progress_between(start_on, end_on)
-    self.job_products.where.not(workflow_state: ['new', 'complete', 'canceled'])
+  def tasks_in_progress_between(start_on, end_on)
+    self.tasks.where.not(workflow_state: ['new', 'complete', 'canceled'])
   end
 
-  def job_products_new_between(start_on, end_on)
-    self.job_products.where(workflow_state: 'new').where(
+  def tasks_new_between(start_on, end_on)
+    self.tasks.where(workflow_state: 'new').where(
       "created_at >= ? AND created_at <=?",
       start_on,
       end_on
@@ -160,7 +160,7 @@ class Job < ActiveRecord::Base
 
   def add_defect_clearance(worker)
     if p = Product.defect_clearance
-      JobProduct.create(product: p,
+      Task.create(product: p,
       	job: self,
       	price: self.client.product_price(p),
       	worker: worker)

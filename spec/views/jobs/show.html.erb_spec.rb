@@ -29,13 +29,13 @@ describe "jobs/show.html.erb" do
       job_header = Capybara.string(rendered).find(".job-header")
 
       expect(job_header).to have_css("h2", text: "File: #{@job.file_number}")
-      expect(job_header).to have_link("Add product", href: new_job_job_product_path(@job))
+      expect(job_header).to have_link("Add product", href: new_job_task_path(@job))
     end
 
     it "Each job product has its own sub panel" do
       job_container = Capybara.string(rendered).find(".main_content")
 
-      expect(job_container).to have_css(".job-product-container", count: @job.job_products.length)
+      expect(job_container).to have_css(".task-container", count: @job.tasks.length)
     end
 
     it "shows the job status" do

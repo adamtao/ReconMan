@@ -22,19 +22,25 @@ FactoryGirl.define do
     factory :tracking_job do
       job_type 'tracking'
       after(:create) do |job|
-        FactoryGirl.create(:tracking_job_product, job: job)
+        FactoryGirl.create(:tracking_task, job: job)
       end
     end
     factory :search_job do
       job_type 'search'
       after(:create) do |job|
-        FactoryGirl.create(:search_job_product, job: job)
+        FactoryGirl.create(:search_task, job: job)
       end
     end
     factory :special_job do
       job_type 'special'
       after(:create) do |job|
-        FactoryGirl.create(:special_job_product, job: job)
+        FactoryGirl.create(:special_task, job: job)
+      end
+    end
+    factory :documentation_job do
+      job_type 'documentation'
+      after(:create) do |job|
+        FactoryGirl.create(:documentation_task, job: job)
       end
     end
   end

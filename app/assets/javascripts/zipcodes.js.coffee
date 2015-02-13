@@ -14,7 +14,7 @@ jQuery ->
 				url: "/zipcodes/#{ zipcode }.json"
 				success: (data, status, response) ->
 					# console.log data
-					if data 
+					if data
 						if data['primary_city']
 							$('#job_city').val(data['primary_city'])
 						if data['state_id']
@@ -35,7 +35,7 @@ jQuery ->
 				url: "/zipcodes/#{ zipcode }.json"
 				success: (data, status, response) ->
 					# console.log data
-					if data 
+					if data
 						if data['primary_city']
 							$('#client_billing_city').val(data['primary_city'])
 						if data['state_id']

@@ -1,3 +1,4 @@
+@import 'foundation/functions';
 $dark-gray: #575757;
 $medium-gray: #a8a8a8;
 $light-gray: #d0d0d0;
@@ -34,6 +35,29 @@ $paragraph-font-weight: 300;
 // $paragraph-aside-line-height: 1.35;
 // $paragraph-aside-font-style: italic;
 
+$button-tny: rem-calc(7);
+$button-sml: rem-calc(9);
+$button-med: rem-calc(11);
+$button-lrg: rem-calc(14);
+
+// $button-display: inline-block;
+// $button-margin-bottom: emCalc(20px);
+
+// $button-font-family: inherit;
+// $button-font-color: #fff;
+// $button-font-color-alt: #333;
+// $button-font-med: emCalc(16px);
+// $button-font-tny: emCalc(11px);
+// $button-font-sml: emCalc(13px);
+// $button-font-lrg: emCalc(20px);
+$button-font-weight: 300;
+// $button-font-align: center;
+// $button-function-factor: 10%;
+// $button-border-width: 1px;
+$button-border-style: none;
+// $button-border-color: darken($primary-color, $button-function-factor);
+// $button-radius: $global-radius;
+// $button-disabled-opacity: 0.6;
 /* Background color for the top bar */
 $topbar-bg: lighten($light-gray, 14%);
 
@@ -229,7 +253,7 @@ label.boolean {
 }
 .job-container {
 }
-.job-product-container {
+.task-container {
   background: white;
   padding-bottom: 20px;
   margin-bottom: 20px;
@@ -256,7 +280,7 @@ label.boolean {
     font-weight: 100;
   }
 }
-.job-product-container .section-header {
+.task-container .section-header {
   height: 50px;
   label {
     color: white;

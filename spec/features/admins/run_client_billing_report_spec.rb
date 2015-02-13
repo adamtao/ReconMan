@@ -5,15 +5,15 @@ Warden.test_mode!
 feature "Admin runs monthly report for client" do
 
   before do
-    @job_product = FactoryGirl.create(:tracking_job_product,
+    @task = FactoryGirl.create(:tracking_task,
       workflow_state: 'complete',
       deed_of_trust_number: "1234",
       new_deed_of_trust_number: "5678",
       cleared_on: 2.weeks.ago,
       recorded_on: 2.weeks.ago
     )
-    @job_product.job.update_column(:file_number, "foobar45")
-    @client = @job_product.job.client
+    @task.job.update_column(:file_number, "foobar45")
+    @client = @task.job.client
     @incomplete_job = FactoryGirl.create(:tracking_job, client: @client, file_number: "9999")
     other_client = FactoryGirl.create(:client)
     @other_job = FactoryGirl.create(:tracking_job, client: other_client, file_number: "8888")
@@ -34,8 +34,8 @@ feature "Admin runs monthly report for client" do
     click_on 'Run Report'
 
     expect(page).to have_content("Complete Jobs For #{@client.name}")
-    expect(page).to have_css('table#jobs tr td', text: @job_product.job.file_number)
-    expect(page).to have_css('table#jobs tr td', text: @job_product.deed_of_trust_number)
+    expect(page).to have_css('table#jobs tr td', text: @task.job.file_number)
+    expect(page).to have_css('table#jobs tr td', text: @task.deed_of_trust_number)
     expect(page).not_to have_content(@other_job.file_number)
     expect(page).not_to have_content(@incomplete_job.file_number)
   end
@@ -47,7 +47,7 @@ feature "Admin runs monthly report for client" do
     new_job = FactoryGirl.create(:tracking_job, client: @client, file_number: "9999b")
     new_job.reload
     lender = FactoryGirl.create(:lender)
-    jp = new_job.job_products.first
+    jp = new_job.tasks.first
     jp.update_column(:lender_id, lender.id)
     jp.mark_complete!
     jp.update_column(:cleared_on, 5.days.ago)
@@ -57,7 +57,7 @@ feature "Admin runs monthly report for client" do
     select lender.name, from: 'Lender'
     click_on 'Run Report'
 
-    expect(page).not_to have_content(@job_product.lender.name)
+    expect(page).not_to have_content(@task.lender.name)
     expect(page).to have_content(lender.name)
   end
 
@@ -67,7 +67,7 @@ feature "Admin runs monthly report for client" do
   scenario "filtered by job status (pending)" do
     new_job = FactoryGirl.create(:tracking_job, client: @client, file_number: "9999p")
     new_job.reload
-    jp = new_job.job_products.first
+    jp = new_job.tasks.first
     jp.update_column(:workflow_state, "in_progress")
 
     click_on 'Reports'
@@ -75,7 +75,7 @@ feature "Admin runs monthly report for client" do
     select "In Progress", from: "Job status"
     click_on "Run Report"
 
-    expect(page).not_to have_css('table#jobs tr td', text: @job_product.job.file_number)
+    expect(page).not_to have_css('table#jobs tr td', text: @task.job.file_number)
     expect(page).to have_css('table#jobs tr td', text: jp.job.file_number)
     expect(page).to have_content "In Progress Jobs For"
   end
@@ -89,8 +89,8 @@ feature "Admin runs monthly report for client" do
     fill_in 'End on', with: 1.day.from_now
     click_on "Run Report"
 
-    expect(page).to have_css('table#jobs tr td', text: @job_product.job.file_number)
-    expect(page).to have_css('table#jobs tr td', text: @job_product.deed_of_trust_number)
+    expect(page).to have_css('table#jobs tr td', text: @task.job.file_number)
+    expect(page).to have_css('table#jobs tr td', text: @task.deed_of_trust_number)
   end
 
   # As an admin
@@ -102,7 +102,7 @@ feature "Admin runs monthly report for client" do
     check "Show pricing"
     click_on "Run Report"
 
-    expect(page).to have_content(@job_product.price)
+    expect(page).to have_content(@task.price)
     expect(page).to have_content("Total")
   end
 
@@ -115,30 +115,30 @@ feature "Admin runs monthly report for client" do
     click_on "Run Report"
 
     click_on "Mark All As Billed"
-    @job_product.reload
+    @task.reload
 
     expect(page).to have_content("All the following jobs have been marked as billed.")
-    expect(@job_product.billed?).to eq(true)
+    expect(@task.billed?).to eq(true)
   end
 
   # As an admin
   # I want to exclude already billed jobs from reports
   # So I don't double-bill a client
   scenario "exclude already billed jobs" do
-    billed_job_product = FactoryGirl.create(
-      :tracking_job_product,
+    billed_task = FactoryGirl.create(
+      :tracking_task,
       cleared_on: 1.week.ago,
       workflow_state: 'complete',
       billed: true,
       deed_of_trust_number: "billed_job_123",
-      job_id: @job_product.job_id
+      job_id: @task.job_id
     )
 
     click_on 'Reports'
     fill_in_basic_fields
     check 'Exclude billed'
 
-    expect(page).not_to have_content(billed_job_product.deed_of_trust_number)
+    expect(page).not_to have_content(billed_task.deed_of_trust_number)
   end
 
   def fill_in_basic_fields

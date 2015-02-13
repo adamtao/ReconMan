@@ -13,6 +13,6 @@ class Branch < ActiveRecord::Base
 	end
 
   def current_jobs
-    jobs.where.not(workflow_state: 'complete') #.joins(:job_products).order("job_products.due_on DESC")
+    jobs.where.not(workflow_state: 'complete') #.joins(:tasks).order("tasks.due_on DESC")
   end
 end

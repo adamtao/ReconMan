@@ -36,10 +36,10 @@
     </tr>
   </thead>
   <tbody>
-    <% @report.job_products.each do |job_product| %>
+    <% @report.tasks.each do |task| %>
       <tr>
         <% @report.columns.each do |col| %>
-          <td><%= job_product.send(col) %></td>
+          <td><%= task.send(col) %></td>
         <% end %>
       </tr>
     <% end %>

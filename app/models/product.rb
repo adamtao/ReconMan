@@ -1,6 +1,6 @@
 class Product < ActiveRecord::Base
 	include Ownable
-	has_many :job_products
+	has_many :tasks
 	monetize :price_cents
 
 	validates :name, presence: true, uniqueness: true

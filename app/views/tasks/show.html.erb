@@ -1,0 +1,35 @@
+<div class="container clearfix">
+  <div class="large-8 small-7 columns">
+    <h1><%= @task.product.name %> <small>for file: <%= @task.job.file_number %></small></h1>
+  </div>
+  <div class="large-4 small-5 columns">
+    <br/>
+      <ul class="button-group right">
+        <li><%= link_to "Edit #{@task.product.name}", edit_job_task_path(@job, @task), class: "tiny button" %></li>
+        <li><%= link_to 'Delete', [@job, @task], method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %></li>
+      </ul>
+  </div>
+</div>
+
+<div class="main_content">
+
+	<p>
+		<strong>Created:</strong>
+		<%= l @task.created_at.to_date, format: :long %>
+	</p>
+
+	<p>
+		<strong>Due Date:</strong>
+		<%=l @task.due_on, format: :long %>
+	</p>
+
+	<p>
+	  <strong>Status:</strong>
+	  <%= @task.workflow_state %>
+	</p>
+
+	<%= render 'summary', task: @task %>
+
+	<%= render 'shared/ownable_stats', item: @task %>
+
+</div>
