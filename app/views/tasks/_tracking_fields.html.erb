@@ -1,5 +1,6 @@
 <div class="panel item-fields">
   <% if f.object.product_id.present? %>
+    <h5><%= f.object.product.name %></h5>
     <%= f.input :product_id, as: :hidden %>
   <% end %>
 	<div class="row">

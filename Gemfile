@@ -23,7 +23,7 @@ gem "rabl"
 gem "RedCloth"
 gem 'unicorn'
 gem 'paperclip'
-gem 'aws-sdk'
+gem 'aws-sdk', '< 2.0'
 gem 'active_attr'
 gem 'to_xls'
 gem 'exception_notification'
