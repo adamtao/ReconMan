@@ -24,7 +24,8 @@ class DocumentationTask < Task
 
   attr_accessor :job_complete
 
-  validates :lender, presence: true
+  # Remove lender requirement for now (requested by SK on 2/18/2015)
+  #validates :lender, presence: true
 
 	def advance_state
     if self.job_complete? && self.can_mark_complete?
@@ -32,8 +33,8 @@ class DocumentationTask < Task
     elsif (reconveyance_filed_changed? && !!reconveyance_filed) && self.can_file_reconveyance?
       self.file_reconveyance!
     elsif (docs_delivered_on_changed? && docs_delivered_on.present?) && self.can_deliver_docs?
-			self.deliver_docs!
-		end
+      self.deliver_docs!
+    end
 	end
 
   def job_complete?
