@@ -151,6 +151,7 @@ class TasksController < ApplicationController
           :recorded_on,
           :reconveyance_filed,
           :job_complete,
+          :lender_id,
           lender_attributes: [ :name ]
         )
     end
