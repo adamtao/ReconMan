@@ -178,11 +178,7 @@
         </div>
       <% end %>
 
-    <% else # non-search products of offline search %>
-
-      <% if task.can_mark_complete? %>
-        <%= link_to 'Mark Complete', toggle_job_task_path(task.job, task), method: :post, class: "small success button" %>
-      <% end %>
+    <% else # non-search products or offline search %>
 
       <% if task.is_a?(DocumentationTask) %>
         <div class="panel">
@@ -197,6 +193,8 @@
             <%= f.submit "Update", class: "tiny success button" %>
           <% end %>
         </div>
+      <% elsif task.can_mark_complete? %>
+        <%= link_to 'Mark Complete', toggle_job_task_path(task.job, task), method: :post, class: "small success button" %>
       <% end %>
     <% end %>
   </div>

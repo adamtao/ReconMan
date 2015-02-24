@@ -23,7 +23,7 @@ feature 'Create Document job', :devise do
     Warden.test_reset!
   end
 
-  scenario "Fill out new document job form" do
+  scenario "successfully" do
     product = FactoryGirl.create(:product, job_type: 'documentation')
 
     within("ul#job-types") do
@@ -37,6 +37,9 @@ feature 'Create Document job', :devise do
 		fill_in 'Payoff Amount', with: "10000.00"
 		click_on 'Create Job'
 
+    job = Job.last
+    expect(job.tasks.first.type).to eq("DocumentationTask")
+    expect(job.tasks.first).to be_an_instance_of(DocumentationTask)
 		expect(page).to have_content("Job was successfully created")
 		expect(page).to have_content(product.name)
 		expect(page).to have_content("File: 9191919")

@@ -9,8 +9,8 @@
 
 <%# Editing job products along with the job doesn't work, but they can be edited directly. %>
 <% if f.object.new_record? %>
-<%= f.simple_fields_for :tasks do |jp| %>
-	<%= render "tasks/#{f.object.job_type}_fields", f: jp %>
+<%= f.simple_fields_for :tasks do |t| %>
+	<%= render "tasks/#{f.object.job_type}_fields", f: t %>
 <% end %>
 
 <div class="row">

@@ -45,6 +45,9 @@ class JobsController < ApplicationController
     @job = Job.new(job_params)
     @job.creator = current_user
     @job.tasks.each do |task|
+      if @job.job_type.present?
+        task.type = "#{@job.job_type.to_s.singularize.capitalize}Task"
+      end
       task.creator = current_user
       task.worker ||= current_user
       task.payoff_amount_cents ||= 0
