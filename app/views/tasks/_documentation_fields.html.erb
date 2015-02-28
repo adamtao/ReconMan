@@ -38,7 +38,7 @@
     <%= f.input :docs_delivered_on, as: :string, input_html: {class: 'datepicker'} %>
   <% end %>
 
-  <% if f.object.product_id.present? %>
+  <% if f.object.new_record? && f.object.product_id.present? %>
     <%= f.input :_destroy, as: :hidden, input_html: {class: 'deleter'} %>
     <%= link_to '#', class: 'remove_fields' do %>
       <%= image_tag 'delete.png', alt: "[-]" %>

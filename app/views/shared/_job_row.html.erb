@@ -7,7 +7,12 @@
     <%= link_to job.state.abbreviation, job.state %>
   </td>
 
-  <td><%= link_to job.requestor.name, job.requestor %>
+  <td>
+    <% if job.requestor %>
+      <%= link_to job.requestor.name, job.requestor %>
+    <% else %>
+      <i>requestor not found</i>
+    <% end %>
   	<% if show_client_name %>
   	<span class="hide-for-small"> / <%= link_to job.client.name, job.client %></span>
   	<% elsif show_branch_name %>
