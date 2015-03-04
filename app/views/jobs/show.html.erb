@@ -14,8 +14,10 @@
       <div class="large-7 small-7 columns">
         <h2>File: <%= @job.file_number %></h2>
         <p>
-        <%= link_to @job.client.name, @job.client %> |
-        <%= link_to @job.requestor.name, @job.requestor %>
+        <%= link_to @job.client.name, @job.client %>
+        <% if @job.requestor %>
+          | <%= link_to @job.requestor.name, @job.requestor %>
+        <% end %>
         </p>
       </div>
       <div class="large-5 small-5 columns">
