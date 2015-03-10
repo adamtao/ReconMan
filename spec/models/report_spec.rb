@@ -39,7 +39,6 @@ describe Report do
     end
 
     it ".tasks should return a collection" do
-      expect(@report.tasks).to be_an_instance_of(Array)
       expect(@report.tasks.first).to be_an_instance_of(TrackingTask)
     end
 
@@ -116,7 +115,7 @@ describe Report do
     end
 
     it ".tasks should return a collection" do
-      expect(@report.tasks).to be_an_instance_of(Array)
+      expect(@report.tasks.first).to be_an_instance_of(TrackingTask)
     end
   end
 

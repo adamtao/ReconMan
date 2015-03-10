@@ -57,6 +57,32 @@ class Task < ActiveRecord::Base
 	before_create :determine_due_date, :set_price
   before_save :generate_search_url
 
+  def self.for_report_between(start_on, end_on, job_status, exclude_billed)
+    tasks = self.send("#{job_status.parameterize.gsub(/\-/, "_")}_between", start_on, end_on)
+    tasks = tasks.where(billed: false) if exclude_billed
+    tasks
+  end
+
+  def self.complete_between(start_on, end_on)
+    where(workflow_state: 'complete').where(
+      "cleared_on >= ? AND cleared_on <= ?",
+      start_on,
+      end_on
+    )
+  end
+
+  def self.in_progress_between(start_on, end_on)
+    where.not(workflow_state: ['new', 'complete', 'canceled'])
+  end
+
+  def self.new_between(start_on, end_on)
+    where(workflow_state: 'new').where(
+      "created_at >= ? AND created_at <=?",
+      start_on,
+      end_on
+    )
+  end
+
 	def advance_state
 		if (new_deed_of_trust_number_changed? && new_deed_of_trust_number.present?) && self.can_mark_complete?
 			self.recorded_on ||= Date.today

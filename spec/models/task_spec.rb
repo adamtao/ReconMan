@@ -42,6 +42,18 @@ describe Task do
   	expect(@task.late?).to be true
   end
 
+  context "class selectors" do
+
+    it ".complete_between should return tasks collection" do
+      @task.save!
+      @task.mark_complete!
+
+      tasks = Task.complete_between(2.days.ago, 2.days.from_now)
+      expect(tasks).to include(@task)
+    end
+
+  end
+
   context "product requiring search" do
 	  context "workflow state: new" do
 

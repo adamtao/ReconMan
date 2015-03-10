@@ -128,9 +128,9 @@ class Job < ActiveRecord::Base
 	end
 
   def tasks_for_report_between(start_on, end_on, job_status, exclude_billed)
-    task = self.send("tasks_#{job_status.parameterize.gsub(/\-/, "_")}_between", start_on, end_on)
-    task = task.where(billed: false) if exclude_billed
-    task
+    tasks = self.send("tasks_#{job_status.parameterize.gsub(/\-/, "_")}_between", start_on, end_on)
+    tasks = tasks.where(billed: false) if exclude_billed
+    tasks
   end
 
   def tasks_complete_between(start_on, end_on)

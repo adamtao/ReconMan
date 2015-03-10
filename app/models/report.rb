@@ -22,20 +22,18 @@ class Report
     @lender ||= lookup_related(Lender)
   end
 
-  #TODO: Refactor the job select for reports. Using Job.all is a bad idea.
-  def jobs
-    @jobs ||= self.client ? self.client.jobs : Job.all
-  end
-
   def tasks
     @tasks ||= gather_tasks
   end
 
   def gather_tasks
     self.job_status = 'complete' if self.job_status.blank?
-    tasks = self.jobs.map{|j| j.tasks_for_report_between(start_on, end_on, job_status, exclude_billed)}.flatten
+    tasks = Task.for_report_between(start_on, end_on, job_status, exclude_billed)
+    if self.client
+      tasks = tasks.joins(:job).where(jobs: { client_id: client.id})
+    end
     if self.lender
-      tasks = tasks.select{|jp| jp if jp.lender_id == self.lender_id}
+      tasks = tasks.where(lender_id: self.lender_id)
     end
     tasks
   end

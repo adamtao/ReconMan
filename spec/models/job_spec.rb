@@ -36,15 +36,6 @@ describe Job do
       expect(@job.current_state).to eq("complete")
     end
 
-    it ".tasks_complete_between should return job products collection" do
-      @job.save!
-      jp = @job.tasks.first
-      jp.mark_complete!
-
-      jpcb = @job.tasks_complete_between(2.days.ago, 2.days.from_now)
-      expect(jpcb).to include(jp)
-    end
-
     it '#re_open should open a closed job' do
       @job.save!
       @job.mark_complete!
