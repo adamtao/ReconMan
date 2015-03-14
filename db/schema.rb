@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20150210202807) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "headquarters"
+    t.boolean  "headquarters",   default: false
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
   end
@@ -89,8 +89,8 @@ ActiveRecord::Schema.define(version: 20150210202807) do
     t.string   "contact_email"
     t.string   "assessor_webpage"
     t.text     "zip_codes"
-    t.boolean  "co_fee_schedule"
-    t.boolean  "simplifile"
+    t.boolean  "co_fee_schedule",     default: false
+    t.boolean  "simplifile",          default: false
     t.string   "s_contact_name"
     t.string   "s_contact_phone"
     t.string   "s_contact_email"
@@ -131,7 +131,7 @@ ActiveRecord::Schema.define(version: 20150210202807) do
     t.string   "file_number"
     t.date     "close_on"
     t.string   "underwriter_name"
-    t.boolean  "short_sale"
+    t.boolean  "short_sale",       default: false
     t.string   "file_type"
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
@@ -158,8 +158,8 @@ ActiveRecord::Schema.define(version: 20150210202807) do
     t.string   "price_currency",  default: "USD", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "default"
-    t.boolean  "performs_search"
+    t.boolean  "default",         default: false
+    t.boolean  "performs_search", default: false
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
     t.string   "job_type"
@@ -242,12 +242,12 @@ ActiveRecord::Schema.define(version: 20150210202807) do
   add_index "title_search_caches", ["task_id"], name: "index_title_search_caches_on_task_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "", null: false
+    t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -269,8 +269,8 @@ ActiveRecord::Schema.define(version: 20150210202807) do
     t.string   "invited_by_type"
     t.integer  "invitations_count",      default: 0
     t.integer  "branch_id"
-    t.boolean  "primary_contact"
-    t.boolean  "billing_contact"
+    t.boolean  "primary_contact",        default: false
+    t.boolean  "billing_contact",        default: false
     t.string   "phone"
   end
 
