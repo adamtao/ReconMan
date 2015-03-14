@@ -44,7 +44,7 @@ namespace :testdata do
     puts "============================="
     existing_clients = Client.all.count
     if existing_clients < 10
-      1..(10 - existing_clients).times do 
+      1..(10 - existing_clients).times do
         Client.create(name: "#{Bazaar.object.to_s.titleize} #{['Co.', 'Inc.', 'LLC'].sample}",
                       creator: employees.sample)
         puts "Created Client: #{Client.last.name}"
@@ -55,7 +55,7 @@ namespace :testdata do
     Client.all.each do |client|
       branches = client.branches.count
       if branches < 3
-        1..(3 - branches).times do 
+        1..(3 - branches).times do
           city = Forgery::Address.city
           client.branches << Branch.new(
             name: "#{client.name.split(" ").map {|name| name[0].chr }[0,2].join.upcase} #{city}", 
@@ -75,7 +75,7 @@ namespace :testdata do
     Branch.all.each do |branch|
       users = branch.users.count
       if users < 2
-        1..(2 - users).times do 
+        1..(2 - users).times do
           name = Forgery::Name.full_name
           pw = Forgery(:basic).password(:at_least => 7, :at_most => 10)
           User.find_or_create_by!(email: "#{name.parameterize}@#{branch.client.name.parameterize}.com", name: name) do |user|
@@ -93,7 +93,7 @@ namespace :testdata do
     puts "============================="
     new_jobs = Job.where.not(workflow_state: 'new').count
     if new_jobs < 5
-      (40 - new_jobs).times do
+      (100 - new_jobs).times do
         user = User.where.not(branch_id: nil).sample
         puts "Creating a job on behalf of #{user.name} of #{user.branch.client.name}/#{user.branch.name}"
         job_type = Job.job_types.sample
@@ -110,7 +110,7 @@ namespace :testdata do
           old_owner: Forgery::Name.full_name,
           new_owner: Forgery::Name.full_name,
           job_type: job_type,
-          job_products_attributes: {
+          tasks_attributes: {
             "0" => {
               product_id: product.id,
               worker: User.processors.sample,
@@ -132,7 +132,7 @@ namespace :testdata do
     puts "============================="
     open_jobs = Job.where.not(workflow_state: 'new').count
     if open_jobs < 15
-      (15 - open_jobs).times do
+      (50 - open_jobs).times do
         user = User.where.not(branch_id: nil).sample
         puts "Creating an in-process job on behalf of #{user.name} of #{user.branch.client.name}/#{user.branch.name}"
         job_type = Job.job_types.sample
@@ -149,7 +149,7 @@ namespace :testdata do
           old_owner: Forgery::Name.full_name,
           new_owner: Forgery::Name.full_name,
           job_type: job_type,
-          job_products_attributes: {
+          tasks_attributes: {
             "0" => {
               product_id: product.id,
               worker: User.processors.sample,
@@ -190,7 +190,7 @@ namespace :testdata do
           new_owner: Forgery::Name.full_name,
           created_at: 4.weeks.ago,
           job_type: job_type,
-          job_products_attributes: {
+          tasks_attributes: {
             "0" => {
               product_id: product.id,
               worker: User.processors.sample,

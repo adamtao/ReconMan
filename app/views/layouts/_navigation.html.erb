@@ -1,7 +1,15 @@
 <%# navigation styled for Zurb Foundation 4 %>
 <nav class="top-bar" data-topbar role="navigation">
   <ul class="title-area">
-    <li class="name"><%= link_to image_tag("logo-sm.png", alt: 'Reconveyance Experts'), root_path %></li>
+    <li class="name">
+      <%= link_to root_path do %>
+        <img data-interchange="[<%= image_path('logo-sm.png') %>, (default)],
+          [<%= image_path('logo-sm.png') %>, (small)],
+          [<%= image_path('logo-icon-sm.png') %>, (medium)],
+          [<%= image_path('logo-sm.png') %>, (large)]"
+          alt: "Reconveyance Experts">
+      <% end %>
+    </li>
     <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
   </ul>
   <% if user_signed_in? %>
@@ -14,20 +22,16 @@
   <div class="top-bar-section">
 	  <ul class="right">
 		<% if user_signed_in? %>
-		  	<li class="has-form">
-		  		<%= search_form_for @q, url: jobs_path do |f| %>
-		  		<div class="row collapse">
-		  			<div class="large-8 small-9 columns">
-		  				<%= f.search_field :file_number_cont, placeholder: 'File #' %>
-		  			</div>
-		  			<div class="large-4 small-3 columns">
-		  				<%= f.submit "search", class: "button expand" %>
-		  			</div>
-		  		</div>
-		  		<% end %>
-		  	</li>
-			<li><%= link_to 'Account', edit_user_registration_path %></li>
-			<li><%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %></li>
+      <li class="has-form">
+        <%= render 'layouts/search_form' %>
+      </li>
+      <li class="has-dropdown">
+        <%= link_to "Me", '#', class: "disabled" %>
+        <ul class="dropdown">
+          <li><%= link_to 'Account', edit_user_registration_path %></li>
+          <li><%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %></li>
+        </ul>
+      </li>
 		<% else %>
 			<li><%= link_to 'Sign in', new_user_session_path %></li>
 			<!-- <li><%#= link_to 'Register', new_user_registration_path %></li> -->

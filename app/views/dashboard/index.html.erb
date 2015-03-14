@@ -21,11 +21,11 @@
       <div class="panel">
         <%= form_tag checkout_county_path, method: :put do %>
           <div class="row collapse">
-            <div class="large-8 small-7 columns">
+            <div class="large-9 small-7 columns">
               <%= select_tag :id, options_from_collection_for_select(@counties_needing_work, :id, :to_option) %>
             </div>
-            <div class="large-4 small-5 columns">
-              <%= submit_tag "checkout", class: "tiny success button" %>
+            <div class="large-3 small-5 columns">
+              <%= submit_tag "checkout", class: "postfix success button" %>
             </div>
           </div>
         <% end %>

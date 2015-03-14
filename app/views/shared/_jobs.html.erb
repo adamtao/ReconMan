@@ -9,8 +9,25 @@
 %>
 
 <% if @current_jobs %>
-  <div>
-    <%= will_paginate @current_jobs %>
+  <div class="row">
+    <div class="large-9 small-9 columns">
+      <%= will_paginate @current_jobs %>
+    </div>
+    <div class="large-3 small-3 columns">
+      <%= form_tag({}, { :method => :get }) do %>
+        <div class="row collapse">
+          <div class="large-4 small-3 columns">
+            <%= label_tag :page, "Jump: ", class: "right inline" %>
+          </div>
+          <div class="large-5 small-6 columns">
+            <%= text_field_tag("page", @current_jobs.current_page) %>
+          </div>
+          <div class="large-3 small-3 columns">
+            <%= submit_tag("go", name: nil, class: "postfix button") %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
 <% end %>
 <table id="incomplete-jobs">

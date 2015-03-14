@@ -62,7 +62,7 @@ $button-border-style: none;
 $topbar-bg: lighten($light-gray, 14%);
 
 /* Height and margin */
-$topbar-height: 48px;
+$topbar-height: 44px;
 $topbar-margin-bottom: rem-calc(30);
 
 /* Control Input height for top bar */
@@ -120,6 +120,24 @@ $topbar-menu-icon-color: $medium-gray;
 
 // import the CSS framework
 @import "foundation";
+
+div.top-bar-section {
+  li:not(.has-form) a:not(.button) {
+    padding-left: rem-calc(10);
+    padding-right: rem-calc(10);
+  }
+  li.has-form {
+    padding-left: rem-calc(10);
+    padding-right: rem-calc(10);
+    @media only screen and (max-width: 690px) {
+      width: 170px;
+      input.button {
+        font-size: rem-calc(10);
+        font-weight: 200;
+      }
+    }
+  }
+}
 div.full-width {
   width: 100%;
   margin-left: auto;
@@ -133,7 +151,7 @@ div.full-width {
 .top-bar .name a {
   font-weight: normal;
   color: white;
-  padding: 0 15px; }
+  padding: 0 6px 0px 10px; }
 .top-bar {
   margin-bottom: rem-calc(20);
 }
