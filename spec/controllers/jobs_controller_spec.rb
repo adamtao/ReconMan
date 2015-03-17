@@ -53,6 +53,18 @@ RSpec.describe JobsController do
     end
   end
 
+  describe "GET file_number/FILE.json successfully" do
+
+    before do
+      @job = FactoryGirl.create(:tracking_job)
+      get :file_number, id: @job.file_number, format: :json
+    end
+
+    it "assigns @job_id" do
+      expect(assigns(:job)).to eq(@job)
+    end
+  end
+
   describe "DELETE destroy" do
     before do
       @job = FactoryGirl.create(:tracking_job)

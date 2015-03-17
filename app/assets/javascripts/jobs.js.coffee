@@ -14,6 +14,21 @@ jQuery ->
   $('.expandable h3 a.expand').click ->
     $(@).parent().parent().find('.hidden').toggle()
 
+  # Checks for possible duplicate file numbers while entering a new job
+  $('form#new_job input#job_file_number').keyup ->
+    file_number = $('form#new_job input#job_file_number').val()
+    hint_container = $('form#new_job input#job_file_number').parent().find('.hint')
+    if file_number.length > 6
+      $.ajax
+        url: "/file_number/#{ file_number }.json"
+        success: (data, status, response) ->
+          if data
+            if data['id']
+              hint_container.html("Possible <a href='/jobs/#{ data['id'] }'>duplicate file found</a>.")
+            else
+              hint_container.html('')
+        dataType: 'json'
+
 	# Automatically shows/hides options from a dependent html select based
 	# on the selected option of another.
 	#

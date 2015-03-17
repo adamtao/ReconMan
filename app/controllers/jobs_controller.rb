@@ -16,11 +16,28 @@ class JobsController < ApplicationController
   def show
     if @job.county.checkout_expired_for?(current_user)
       @job.county.expire_checkout!
-      redirect_to root_path, alert: "Checkout for #{@job.county.name} county expired. Please start again."
+      redirect_to root_path, alert: "Checkout for #{@job.county.name} county expired. Please start again." and return false
     elsif @job.county.checked_out_to == current_user
       @job.county.renew_checkout
     end
     @comment = Comment.new(related_type: "Job", related_id: @job.id)
+    respond_to do |format|
+      format.html
+      format.json
+    end
+  end
+
+  # GET /jobs/file_number/:id
+  # GET /jobs/file_number/:id.json
+  def file_number
+    @job = nil
+    if jobs = Job.where(file_number: params[:id])
+      @job = jobs.last
+    end
+    respond_to do |format|
+      format.html { redirect_to @job }
+      format.json { render action: :show }
+    end
   end
 
   # GET /jobs/new

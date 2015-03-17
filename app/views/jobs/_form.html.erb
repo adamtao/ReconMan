@@ -7,7 +7,7 @@
   <div class="form-inputs">
     <div class="row">
       <div class="column_6">
-        <%= f.input :file_number %>
+        <%= f.input :file_number, hint: "" %>
       </div>
       <% unless @job.job_type == 'search' %>
         <div class="large-6 columns">
