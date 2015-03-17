@@ -59,12 +59,12 @@
           <div class="large-6 small-6 columns text-right">
             <%= link_to "New Document", '#',
               class: "tiny secondary button",
-              data: {:"reveal-id" => "new_document_form"} %>
+              data: {:"reveal-id" => "new_document_form_#{task.id}"} %>
           </div>
         </div>
       </div>
       <div class="fixed-height">
-        <div id="new_document_form" class="reveal-modal small" data-reveal>
+        <div id="new_document_form_<%= task.id %>" class="reveal-modal small" data-reveal>
           <h2>Choose a file to upload</h2>
           <%= simple_form_for [task.job, task, Document.new], html: {multipart: true} do |f| %>
             <%= f.input :file, label: false, required: false %>
