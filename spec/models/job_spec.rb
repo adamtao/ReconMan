@@ -58,6 +58,12 @@ describe Job do
       expect(@job.open_products.length).to be > 0
       expect(@job.open_products.first).to be_instance_of(Task)
     end
+
+    it "should create a new zipcode" do
+      @job.save!
+
+      expect(Zipcode.exists?(zipcode: @job.zipcode)).to be(true)
+    end
   end
 
   describe "navigating" do

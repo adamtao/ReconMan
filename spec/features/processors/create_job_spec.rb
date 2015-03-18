@@ -8,13 +8,13 @@ Warden.test_mode!
 feature 'Create job', :devise do
 	before(:each) do
 		@me = sign_in_as_processor
-		@state = create(:state)
-		@county = create(:county, state: @state)
-		@zipcode = create(:zipcode, state: @state.abbreviation)
-    @lender = create(:lender)
-		@client = create(:client)
-		@branch = create(:branch, client: @client)
-		@employee = create(:user, branch: @branch)
+    @state = FactoryGirl.create(:state)
+    @county = FactoryGirl.create(:county, state: @state)
+    @zipcode = FactoryGirl.create(:zipcode, state: @state.abbreviation)
+    @lender = FactoryGirl.create(:lender)
+    @client = FactoryGirl.create(:client)
+    @branch = FactoryGirl.create(:branch, client: @client)
+    @employee = FactoryGirl.create(:user, branch: @branch)
 
 		visit root_path
 	end
@@ -28,7 +28,7 @@ feature 'Create job', :devise do
 	#   When I complete the form
 	#   Then I see the newly created tracking job
 	scenario 'fill in new tracking job form' do
-		product = create(:product, job_type: 'tracking')
+    product = FactoryGirl.create(:product, job_type: 'tracking')
 
     within("ul#job-types") do
       click_on "Tracking"
@@ -127,7 +127,7 @@ feature 'Create job', :devise do
 	#   When I complete the form
 	#   Then I see the newly created special job
 	scenario 'fill in new special job form' do
-		product = create(:product, job_type: 'special')
+    product = FactoryGirl.create(:product, job_type: 'special')
 
     within("ul#job-types") do
       click_on "Special"
@@ -168,6 +168,29 @@ feature 'Create job', :devise do
 		expect(page).to have_content(product.name)
 		expect(page).to have_content("File: 9191919")
 	end
+
+  # Scenario: Create a new zipcode record when zip wasn't found
+  #   Given I complete the "New Job" with an unknown zipcode
+  #   When I create the job
+  #   Then a new zipcode is created
+  scenario 'create a new zipcode when unknown zipcode is entered' do
+    FactoryGirl.create(:product, job_type: 'tracking')
+
+    within("ul#job-types") do
+      click_on "Tracking"
+    end
+    @zipcode = FactoryGirl.build(:zipcode)
+		fill_in_common_fields
+		fill_in	'Close Date', with: 2.days.ago
+		fill_in 'Deed of trust number', with: "55555"
+    select @lender.name, from: 'Lender'
+		fill_in 'Beneficiary Account', with: "12345"
+		fill_in 'Payoff Amount', with: "10000.00"
+		click_on 'Create Job'
+
+    expect(Zipcode.exists?(zipcode: @zipcode.zipcode)).to be(true)
+
+  end
 
 	def fill_in_common_fields
 		fill_in 'File number', with: "9191919"

@@ -64,7 +64,7 @@
 			</ul>
 		</div>
 
-		<% if current_user.admin? %>
+    <% if current_user.admin? && @client.jobs.length == 0 %>
 		<div class="text-right">
 			<%= link_to 'Delete Client', @client, method: :delete, data: { confirm: 'Are you sure?' }, 
 				class: "tiny alert button" %>

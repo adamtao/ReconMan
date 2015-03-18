@@ -26,6 +26,7 @@ class Job < ActiveRecord::Base
   validates :state, presence: true
 
 	# after_create :create_default_tasks # no longer doing this, instead creating tasks inline
+  after_create :create_zipcode
 
 	monetize :total_price_cents
 
@@ -66,6 +67,18 @@ class Job < ActiveRecord::Base
   		end
 		end
 	end
+
+  def create_zipcode
+    unless Zipcode.exists?(zipcode: zipcode)
+      Zipcode.create(
+        zipcode: zipcode,
+        zip_type: "LEARNED",
+        primary_city: city,
+        state: state.abbreviation,
+        county: county.name
+      )
+    end
+  end
 
   def next
     cj = county.current_jobs(included_job: self)
