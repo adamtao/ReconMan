@@ -6,12 +6,24 @@
 <% end %>
 <li><%= link_to 'States', states_path %></li>
 <% if current_user.admin? %>
-<li class="has-dropdown">
+<li class="has-dropdown hide-for-medium-down">
 	<%= link_to 'Admin', '#' %>
 	<ul class="dropdown">
 		<li><%= link_to 'Services', products_path %></li>
     <li><%= link_to 'Reports', reports_index_path %></li>
 		<li><%= link_to 'Users', users_path %></li>
 	</ul>
+</li>
+<li class="has-dropdown">
+  <%= link_to "+ Job", '#' %>
+  <ul class="dropdown">
+    <% Job.job_types.each do |t| %>
+      <% if @client && @client.is_a?(Client) && !@client.new_record? %>
+        <li><%= link_to t.to_s.titleize, new_job_path(client_id: @client.id, job_type: t) %></li>
+      <% else %>
+        <li><%= link_to t.to_s.titleize, new_job_path(job_type: t) %></li>
+      <% end %>
+    <% end %>
+  </ul>
 </li>
 <% end %>

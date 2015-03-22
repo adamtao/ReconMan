@@ -129,8 +129,8 @@ div.top-bar-section {
   li.has-form {
     padding-left: rem-calc(10);
     padding-right: rem-calc(10);
-    @media only screen and (max-width: 690px) {
-      width: 170px;
+    @media only screen and (max-width: 710px) {
+      width: 160px;
       input.button {
         font-size: rem-calc(10);
         font-weight: 200;
