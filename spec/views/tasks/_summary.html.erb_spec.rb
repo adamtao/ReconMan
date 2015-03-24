@@ -8,6 +8,7 @@ describe "tasks/_summary.html.erb" do
 
     @task = FactoryGirl.create(:tracking_task)
     FactoryGirl.create(:search_log, task: @task)
+    @document = FactoryGirl.create(:document, task: @task)
 
     render partial: 'tasks/summary', locals: { task: @task }
   end
@@ -18,6 +19,14 @@ describe "tasks/_summary.html.erb" do
 
   it "Document sub panel has inline file upload form" do
     expect(rendered).to have_css("form.new_document")
+  end
+
+  it "links to uploaded documents" do
+    expect(rendered).to have_link(@document.file_file_name)
+  end
+
+  it "has a delete icon for attached documents" do
+    expect(rendered).to have_link("delete #{@document.file_file_name}", href: job_tracking_task_document_path(@task.job, @task, @document))
   end
 
   it "Each job product panel can have search history" do

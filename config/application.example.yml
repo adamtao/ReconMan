@@ -17,19 +17,48 @@
 # production:
 #   stripe_api_key: sk_live_EeHnL644i6zo4Iyq4v1KdV9H
 #   stripe_publishable_key: pk_live_9lcthxpSIHbGwmdO941O1XVU
-MANDRILL_USERNAME: Your_Username
-MANDRILL_APIKEY: Your_API_Key
-DOMAIN_NAME: example.com
-ADMIN_NAME: First User
-ADMIN_EMAIL: user@example.com
-ADMIN_PASSWORD: changeme
-PAPERCLIP_PATH: ":rals_root/public/system/"
-PAPERCLIP_STORAGE: filesystem
-S3_BUCKET: amazon_s3_bucket_name
-S3_ACCESS_KEY_ID: s3_access_key_id
-S3_ACCESS_KEY_SECRET: s3_access_key_secret
-EXCEPTION_RECIPIENT: adam@makeascene.com
-GOOGLE_ANALYTICS_UA: UA-12345678-1
+development:
+  MANDRILL_USERNAME: Your_Username
+  MANDRILL_APIKEY: Your_API_Key
+  DOMAIN_NAME: example.com
+  ADMIN_NAME: First User
+  ADMIN_EMAIL: user@example.com
+  ADMIN_PASSWORD: changeme
+  PAPERCLIP_PATH: ":rals_root/public/system/"
+  PAPERCLIP_STORAGE: filesystem
+  S3_BUCKET: amazon_s3_bucket_name
+  S3_ACCESS_KEY_ID: s3_access_key_id
+  S3_ACCESS_KEY_SECRET: s3_access_key_secret
+  EXCEPTION_RECIPIENT: developer@me.com
+  GOOGLE_ANALYTICS_UA: UA-12345678-1
+test:
+  MANDRILL_USERNAME: Your_Username
+  MANDRILL_APIKEY: Your_API_Key
+  DOMAIN_NAME: example.com
+  ADMIN_NAME: First User
+  ADMIN_EMAIL: user@example.com
+  ADMIN_PASSWORD: changeme
+  PAPERCLIP_PATH: ":rals_root/spec/test_files/"
+  PAPERCLIP_STORAGE: filesystem
+  S3_BUCKET: amazon_s3_bucket_name
+  S3_ACCESS_KEY_ID: s3_access_key_id
+  S3_ACCESS_KEY_SECRET: s3_access_key_secret
+  EXCEPTION_RECIPIENT: developer@me.com
+  GOOGLE_ANALYTICS_UA: UA-12345678-1
+production:
+  MANDRILL_USERNAME: Your_Username
+  MANDRILL_APIKEY: Your_API_Key
+  DOMAIN_NAME: example.com
+  ADMIN_NAME: First User
+  ADMIN_EMAIL: user@example.com
+  ADMIN_PASSWORD: changeme
+  PAPERCLIP_PATH: ":rals_root/public/system/"
+  PAPERCLIP_STORAGE: filesystem
+  S3_BUCKET: amazon_s3_bucket_name
+  S3_ACCESS_KEY_ID: s3_access_key_id
+  S3_ACCESS_KEY_SECRET: s3_access_key_secret
+  EXCEPTION_RECIPIENT: developer@me.com
+  GOOGLE_ANALYTICS_UA: UA-12345678-1
 
 # Passed along with the auto-tracking system in the HTTP header
 TRACKING_USER_AGENT: "Reconveyance tracking service."

@@ -74,7 +74,11 @@
         </div>
         <ul class="documents">
           <% task.documents.reverse.each do |document| %>
-            <li><%= link_to document.file_file_name, document.file.url %></li>
+            <li>
+            <%= link_to [task.job, task, document], method: :delete, confirm: "Are you sure?" do %>
+              <%= image_tag("trash.gif", alt: "delete #{document.file_file_name}") %>
+            <% end %>
+            <%= link_to document.file_file_name, document.file.url %></li>
           <% end %>
         </ul>
       </div>
