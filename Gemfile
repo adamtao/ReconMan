@@ -21,6 +21,7 @@ gem 'money-rails'
 gem 'ransack'
 gem "rabl"
 gem "RedCloth"
+gem "redcloth-rails"
 gem 'unicorn'
 gem 'paperclip'
 gem 'aws-sdk', '< 2.0'

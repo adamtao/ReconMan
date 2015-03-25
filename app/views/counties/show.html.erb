@@ -22,7 +22,7 @@
 	</p>
 	<% end %>
 
-	<% if @county.contact_name %>
+	<% if @county.contact_name.present? %>
 	<h5 class="subheader">Contact: <%= @county.contact_name %></h5>
 	<p>
 		<% if @county.contact_email.present? %>
@@ -37,7 +37,7 @@
 	<p>Co-fee schedule? <%= @county.co_fee_schedule? ? "yes" : "no" %></p>
 	<p>Simplifile? <%= @county.simplifile? ? "yes" : "no" %></p>
 
-	<% if @county.s_contact_name %>
+	<% if @county.s_contact_name.present? %>
 	<h5 class="subheader">Simplifile Contact: <%= @county.s_contact_name %></h5>
 	<p>
 		<% if @county.s_contact_email.present? %>
@@ -49,6 +49,14 @@
 	</p>
 	<% end %>
 
+  <% if @county.notes.present? %>
+    <div class="callout panel">
+      <h4>Helpful Notes For <%= @county.name %></h4>
+
+      <div><%=raw textilize(@county.notes) %></div>
+    </div>
+  <% end %>
+
 	<h3>Current Jobs</h3>
 	<%= render 'shared/jobs' %>
 </div>
@@ -59,24 +67,21 @@
       at <%=l @county.checked_out_at, format: :long %>
     </p>
   <% end %>
-	<div class="panel">
-		<h3 class="subheader">Links</h3>
-		<ul>
-			<% if @county.webpage.present? %>
-			<li> <%= link_to "County webpage", @county.webpage, target: "_blank" %></li>
-			<% end %>
+  <h3 class="subheader">Links</h3>
+  <ul>
+    <% if @county.webpage.present? %>
+    <li> <%= link_to "County webpage", @county.webpage, target: "_blank" %></li>
+    <% end %>
 
-			<% if @county.search_url.present? %>
-			<li> <%= link_to "Title search", @county.search_url, target: "_blank" %></li>
-			<% end %>
+    <% if @county.search_url.present? %>
+    <li> <%= link_to "Title search", @county.search_url, target: "_blank" %></li>
+    <% end %>
 
-			<% if @county.assessor_webpage.present? %>
-			<li> <%= link_to "Assessor webpage", @county.assessor_webpage, target: "_blank" %></li>
-			<% end %>
-		</ul>
-	</div>
-	<div class="panel">
-		<h3 class="subheader">Zipcodes</h3>
-		<%= @county.zip_codes %>
-	</div>
+    <% if @county.assessor_webpage.present? %>
+    <li> <%= link_to "Assessor webpage", @county.assessor_webpage, target: "_blank" %></li>
+    <% end %>
+  </ul>
+
+  <h3 class="subheader">Zipcodes</h3>
+  <%= @county.zip_codes %>
 </div>

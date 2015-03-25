@@ -1,0 +1,3 @@
+$('a.close-reveal-modal').trigger('click');
+$('div#county_notes_content').html('<%=escape_javascript(raw(textilize(@county.notes))) %>');
+$('a#county_notes_icon').data('reveal-id', 'view_county_notes');

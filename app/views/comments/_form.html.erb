@@ -6,7 +6,7 @@
 
 	<%= f.input :related_id, as: :hidden %>
 	<%= f.input :related_type, as: :hidden %>
-	<%= f.input :message, label: "Comment", input_html: { rows: 6 } %>
+  <%= f.textile_editor :message, rows: 6 %>
 	<%= f.button :submit, "Save Comment" %>
 
 <% end %>

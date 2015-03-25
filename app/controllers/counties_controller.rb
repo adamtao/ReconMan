@@ -46,9 +46,11 @@ class CountiesController < ApplicationController
       if @county.update(county_params)
         format.html { redirect_to [@state, @county], notice: 'County was successfully updated.' }
         format.json { render :show, status: :ok, location: @county }
+        format.js
       else
         format.html { render :edit }
         format.json { render json: @county.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
@@ -96,9 +98,9 @@ class CountiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def county_params
-      params.require(:county).permit(:name, :state_id, :search_url, :search_params, :search_method, 
-        :average_days_to_complete, :phone, :fax, :webpage, :contact_name, :contact_phone, :contact_email, 
-        :assessor_webpage, :zip_codes, :co_fee_schedule, :simplifile, :s_contact_name, :s_contact_phone, 
-        :s_contact_email, :search_template_url, :search_params, :search_method)
+      params.require(:county).permit(:name, :state_id, :search_url, :search_params, :search_method,
+        :average_days_to_complete, :phone, :fax, :webpage, :contact_name, :contact_phone, :contact_email,
+        :assessor_webpage, :zip_codes, :co_fee_schedule, :simplifile, :s_contact_name, :s_contact_phone,
+        :s_contact_email, :search_template_url, :search_params, :search_method, :notes)
     end
 end

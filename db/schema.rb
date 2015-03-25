@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150210202807) do
+ActiveRecord::Schema.define(version: 20150325203747) do
 
   create_table "branches", force: true do |t|
     t.string   "name"
@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(version: 20150210202807) do
     t.integer  "checked_out_to_id"
     t.datetime "checked_out_at"
     t.string   "search_template_url"
+    t.text     "notes"
   end
 
   add_index "counties", ["checked_out_to_id"], name: "index_counties_on_checked_out_to_id", using: :btree

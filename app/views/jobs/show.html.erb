@@ -84,8 +84,32 @@
         <%= @job.zipcode %><br/>
         <% if @job.county %>
           <%= link_to "#{@job.county.name} County", [@job.state, @job.county] %>
+          <%= link_to image_tag("notes.png", alt: "County Notes"), '#',
+            id: 'county_notes_icon',
+            data: {:'reveal-id' => @job.county.notes.present? ? "view_county_notes" : "edit_county_notes"} %>
         <% end %>
       </p>
+
+      <div id="view_county_notes" class="reveal-modal" data-reveal>
+        <h2><%= @job.county.name %> County Notes</h2>
+        <div id="county_notes_content"><%=raw textilize(@job.county.notes) %></div>
+        <%= link_to "Edit", edit_state_county_path(@job.state, @job.county),
+          class: "medium button",
+          data: {:'reveal-id' => "edit_county_notes"} %>
+        <a class="close-reveal-modal">&#215;</a>
+      </div>
+
+      <div id="edit_county_notes" class="reveal-modal" data-reveal>
+        <h2>Edit <%= @job.county.name %> County Notes</h2>
+        <%= simple_form_for [@job.state, @job.county], remote: true  do |f| %>
+          <%= f.label :notes, "Helpful Tips & Notes" %>
+          <%= f.textile_editor :notes, rows: 15 %>
+          <span class="hint">What would be helpful for a new person to know about working with this county?</span>
+
+          <%= f.button :submit %>
+        <% end %>
+        <a class="close-reveal-modal">&#215;</a>
+      </div>
 
       <% if @job.county %>
         <ul class="button-group">
@@ -125,3 +149,5 @@
 
   </div>
 </div>
+
+<%= textile_editor_initialize %>

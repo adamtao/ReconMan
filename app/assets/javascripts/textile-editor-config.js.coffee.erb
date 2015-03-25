@@ -1,0 +1,22 @@
+TextileEditor.setButtons(
+    [
+        new TextileEditorButton("ed_strong",     "<%= asset_path('textile-editor/bold.png') %>",           "*",    "*",  "b", "Bold", "s"),
+        new TextileEditorButton("ed_emphasis",   "<%= asset_path('textile-editor/italic.png') %>",         "_",    "_",  "i", "Italicize", "s"),
+        new TextileEditorButton("ed_underline",  "<%= asset_path('textile-editor/underline.png') %>",      "+",    "+",  "u", "Underline", "s"),
+        new TextileEditorButton("ed_strike",     "<%= asset_path('textile-editor/strikethrough.png') %>",  "-",    "-",  "s", "Strikethrough", "s"),
+        new TextileEditorButton("ed_ol",         "<%= asset_path('textile-editor/list_numbers.png') %>",   " # ",  "\n", ",", "Numbered List"),
+        new TextileEditorButton("ed_ul",         "<%= asset_path('textile-editor/list_bullets.png') %>",   " * ",  "\n", ".", "Bulleted List"),
+        new TextileEditorButton("ed_p",          "<%= asset_path('textile-editor/paragraph.png') %>",      "p",    "\n", "p", "Paragraph"),
+        new TextileEditorButton("ed_h1",         "<%= asset_path('textile-editor/h1.png') %>",             "h1",   "\n", "1", "Header 1"),
+        new TextileEditorButton("ed_h2",         "<%= asset_path('textile-editor/h2.png') %>",             "h2",   "\n", "2", "Header 2"),
+        new TextileEditorButton("ed_h3",         "<%= asset_path('textile-editor/h3.png') %>",             "h3",   "\n", "3", "Header 3"),
+        new TextileEditorButton("ed_h4",         "<%= asset_path('textile-editor/h4.png') %>",             "h4",   "\n", "4", "Header 4"),
+        new TextileEditorButton("ed_block",      "<%= asset_path('textile-editor/blockquote.png') %>",     "bq",   "\n", "q", "Blockquote"),
+        new TextileEditorButton("ed_outdent",    "<%= asset_path('textile-editor/outdent.png') %>",        ")",    "\n", "]", "Outdent"),
+        new TextileEditorButton("ed_indent",     "<%= asset_path('textile-editor/indent.png') %>",         "(",    "\n", "[", "Indent"),
+        new TextileEditorButton("ed_justifyl",   "<%= asset_path('textile-editor/left.png') %>",           "<",    "\n", "l", "Left Justify"),
+        new TextileEditorButton("ed_justifyc",   "<%= asset_path('textile-editor/center.png') %>",         "=",    "\n", "e", "Center Text"),
+        new TextileEditorButton("ed_justifyr",   "<%= asset_path('textile-editor/right.png') %>",          ">",    "\n", "r", "Right Justify"),
+        new TextileEditorButton("ed_justify",    "<%= asset_path('textile-editor/justify.png') %>",        "<>",   "\n", "j", "Justify")
+    ]
+)
