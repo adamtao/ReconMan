@@ -17,6 +17,7 @@ class DocumentsController < ActionController::Base
     respond_to do |format|
       format.html { redirect_to job_path(@job), notice: 'Document was successfully deleted.' }
       format.json { head :no_content }
+      format.js
     end
   end
 
