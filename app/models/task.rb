@@ -65,7 +65,7 @@ class Task < ActiveRecord::Base
 
   def self.complete_between(start_on, end_on)
     where(workflow_state: 'complete').where(
-      "cleared_on >= ? AND cleared_on <= ?",
+      "tasks.cleared_on >= ? AND tasks.cleared_on <= ?",
       start_on,
       end_on
     )
@@ -77,7 +77,7 @@ class Task < ActiveRecord::Base
 
   def self.new_between(start_on, end_on)
     where(workflow_state: 'new').where(
-      "created_at >= ? AND created_at <=?",
+      "tasks.created_at >= ? AND tasks.created_at <=?",
       start_on,
       end_on
     )
