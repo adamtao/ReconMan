@@ -29,8 +29,15 @@
               <%= link_to job.state.abbreviation, job.state %>
             </td>
 
-            <td><%= link_to job.requestor.name, job.requestor %>
-              <span class="hide-for-small"> / <%= link_to job.client.name, job.client %></span>
+            <td>
+              <% if job.requestor %>
+                <%= link_to job.requestor.name, job.requestor %>
+              <% else %>
+                N/A
+              <% end %>
+              <% if job.client %>
+                <span class="hide-for-small"> / <%= link_to job.client.name, job.client %></span>
+              <% end %>
             </td>
 
             <td class="text-center hide-for-small">
