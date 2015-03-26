@@ -24,7 +24,7 @@ feature 'Comment on a Job', :devise do
 		msg = "The quick fox ate a sandwich"
 		visit job_path(@job)
 
-		fill_in 'Comment', with: msg
+		fill_in 'comment_message', with: msg
 		click_on 'Save Comment'
 
 		expect(page).to have_content(msg)
@@ -41,7 +41,7 @@ feature 'Comment on a Job', :devise do
 		visit job_path(@job)
 
 		click_on 'Edit Comment'
-		fill_in 'Comment', with: msg
+		fill_in 'comment_message', with: msg
 		click_on 'Save Comment'
 
 		expect(page).to have_content(msg)
