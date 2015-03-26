@@ -19,5 +19,10 @@
 //= require vendor/modernizr
 
 $(function() {
-  $(document).foundation();
+  $(document).foundation({
+    reveal: {
+      animation: 'fade',
+      animation_speed: 150
+    }
+  });
 });
