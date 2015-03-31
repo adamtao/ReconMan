@@ -6,7 +6,7 @@ Warden.test_mode!
 #   As a processor
 #   I want to search for a job by file number
 #   So I can process the job
-feature "Search by file number", :devise do
+feature "Search", :devise do
 
   before do
     @me = sign_in_as_processor
@@ -22,12 +22,12 @@ feature "Search by file number", :devise do
   #   As a processor
   #   When I search for an exact job number
   #   I want to jump directly to the job
-  scenario "with one search result" do
+  scenario "by file number with one search result" do
     job = @tracking_jobs.first
     job.update_column(:file_number, "UNIQUENUMBER123")
 
     within(:css, "form#job_search") do
-      fill_in "q_file_number_cont", with: job.file_number
+      fill_in "q_file_number_or_new_owner_or_old_owner_or_address_cont", with: job.file_number
       click_on "search"
     end
 
@@ -38,23 +38,72 @@ feature "Search by file number", :devise do
   #   As a processor
   #   When I search for a partial file number
   #   I expect to see links to multiple matching jobs
-  scenario "with multiple results" do
+  scenario "by file number with multiple results" do
     @tracking_jobs.each do |tj|
       tj.update_column(:file_number, "AAA#{tj.file_number}")
     end
     job = @tracking_jobs.first
 
     within(:css, "form#job_search") do
-      fill_in "q_file_number_cont", with: "AAA"
+      fill_in "q_file_number_or_new_owner_or_old_owner_or_address_cont", with: "AAA"
       click_on "search"
     end
 
     expect(page).to have_link(job.file_number, href: job_path(job))
     expect(page).to have_link("Next")
   end
-end
-# Search by other fields
-#  scenario "by seller name"
-#  scenario "by buyer name"
-#  scenario "by escrow account number"
 
+  # Scenario: search for a seller name
+  #   As a processor
+  #   When I search for a name
+  #   I expect to see job results of where seller names match
+  scenario "by seller name" do
+    @tracking_jobs.each do |tj|
+      tj.update_column(:old_owner, "Bill Cosby")
+    end
+    job = @tracking_jobs.first
+
+    within(:css, "form#job_search") do
+      fill_in "q_file_number_or_new_owner_or_old_owner_or_address_cont", with: "Bill"
+      click_on "search"
+    end
+
+    expect(page).to have_link(job.file_number, href: job_path(job))
+  end
+
+  # Scenario: search for a buyer name
+  #   As a processor
+  #   When I search for a name
+  #   I expect to see job results of where buyer names match
+  scenario "by buyer name" do
+    @tracking_jobs.each do |tj|
+      tj.update_column(:new_owner, "Bart Simpson")
+    end
+    job = @tracking_jobs.first
+
+    within(:css, "form#job_search") do
+      fill_in "q_file_number_or_new_owner_or_old_owner_or_address_cont", with: "Bart"
+      click_on "search"
+    end
+
+    expect(page).to have_link(job.file_number, href: job_path(job))
+  end
+
+  # Scenario: search for an address
+  #   As a processor
+  #   When I search for an address
+  #   I expect to see job results of where address match
+  scenario "by address" do
+    @tracking_jobs.each do |tj|
+      tj.update_column(:address, "5107 Thomas")
+    end
+    job = @tracking_jobs.first
+
+    within(:css, "form#job_search") do
+      fill_in "q_file_number_or_new_owner_or_old_owner_or_address_cont", with: "5107 Th"
+      click_on "search"
+    end
+
+    expect(page).to have_link(job.file_number, href: job_path(job))
+  end
+end
