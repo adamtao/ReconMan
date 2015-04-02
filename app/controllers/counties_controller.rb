@@ -80,8 +80,8 @@ class CountiesController < ApplicationController
         format.html { redirect_to @state, notice: 'County was successfully destroyed.' }
         format.json { head :no_content }
       end
-    rescue => e
-      redirect_to [@state, @county], alert: e
+    rescue Exception => e
+      redirect_to [@state, @county], alert: e.message
     end
   end
 

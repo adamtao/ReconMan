@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.0.0'
-gem 'rails', '4.1.10'
+gem 'rails', '4.2.1'
+gem 'responders', '~> 2.0'
 gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
@@ -36,6 +37,7 @@ group :production do
 end
 
 group :development do
+  gem 'web-console', '~> 2.0'
   gem 'mysql2'
   gem 'spring'
   # Not using capistrano, since using heroku
