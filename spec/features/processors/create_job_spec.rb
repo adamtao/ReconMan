@@ -47,6 +47,31 @@ feature 'Create job', :devise do
     expect(page).to have_content(@lender.name)
 	end
 
+	# Scenario: Create a new job after errors
+	#   Given I filled out the new job form with errors
+	#   When I correct those errors on the subsequent form
+	#   Then I see the newly created tracking job
+	scenario 'create new job after errors' do
+    product = FactoryGirl.create(:product, job_type: 'tracking')
+
+    within("ul#job-types") do
+      click_on "Tracking"
+    end
+		click_on 'Create Job'
+		fill_in_common_fields
+		fill_in	'Close Date', with: 2.days.ago
+		fill_in 'Deed of trust number', with: "55555"
+    select @lender.name, from: 'Lender'
+		fill_in 'Beneficiary Account', with: "12345"
+		fill_in 'Payoff Amount', with: "10000.00"
+		click_on 'Create Job'
+
+		expect(page).to have_content("Job was successfully created")
+		expect(page).to have_content(product.name)
+		expect(page).to have_content("File: 9191919")
+    expect(page).to have_content(@lender.name)
+	end
+
 	# Scenario: Creating a new tracking job, it should estimate when it might be complete
 	#    Given I create a tracking job
 	#    And the lender has job history
