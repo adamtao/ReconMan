@@ -125,6 +125,7 @@ class JobsController < ApplicationController
         :file_number, :close_on, :beneficiary_name, :payoff_amount, :beneficiary_account, :underwriter_name,
         :short_sale, :file_type, :job_type, :parcel_legal_description, :deed_of_trust_number, :developer,
         tasks_attributes: [
+          :id,
           :product_id,
           :_destroy,
           :deed_of_trust_number,
