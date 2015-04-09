@@ -280,11 +280,15 @@ class Task < ActiveRecord::Base
   end
 
   def first_notice_date
-    @first_notice_date ||= self.base_date.advance(days: (self.job.state.time_to_dispute_days.to_i + 5)).to_date
+    @first_notice_date ||= self.first_notice_sent_on.present? ?
+      self.first_notice_sent_on :
+      self.base_date.advance(days: (self.job.state.time_to_dispute_days.to_i + 5)).to_date
   end
 
   def second_notice_date
-    @second_notice_date ||= self.base_date.advance(days: (self.job.state.time_to_dispute_days.to_i + self.job.state.time_to_record_days + 15)).to_date
+    @second_notice_date ||= self.second_notice_sent_on.present? ?
+      self.second_notice_sent_on :
+      self.base_date.advance(days: (self.job.state.time_to_dispute_days.to_i + self.job.state.time_to_record_days + 15)).to_date
   end
 
   protected
