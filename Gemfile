@@ -40,6 +40,7 @@ group :development do
   gem 'web-console', '~> 2.0'
   gem 'mysql2'
   gem 'spring'
+  gem 'spring-commands-rspec'
   # Not using capistrano, since using heroku
   # gem 'capistrano', '~> 3.0.1'
   # gem 'capistrano-bundler'
