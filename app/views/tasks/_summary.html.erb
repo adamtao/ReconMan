@@ -8,6 +8,18 @@
   <div class="large-6 columns">
 
     <table class="no-border">
+      <% if task.first_notice_sent_on.present? %>
+      <tr>
+        <td><strong>First Notice sent on</strong></td>
+        <td><%=l task.first_notice_sent_on, format: :long %></td>
+      </tr>
+      <% end %>
+      <% if task.second_notice_sent_on.present? %>
+      <tr>
+        <td><strong>Second Notice sent on</strong></td>
+        <td><%=l task.second_notice_sent_on, format: :long %></td>
+      </tr>
+      <% end %>
       <% if task.deed_of_trust_number.present? %>
       <tr>
         <td><strong>Deed of Trust Number</strong></td>
@@ -203,5 +215,14 @@
         <%= link_to 'Mark Complete', toggle_job_task_path(task.job, task), method: :post, class: "small success button" %>
       <% end %>
     <% end %>
+
+    <% if task.can_send_first_notice? %>
+      <%= button_to "First Notice Sent", first_notice_sent_job_task_path(task.job, task), method: :patch, class: "small success button" %>
+    <% end %>
+
+    <% if task.can_send_second_notice? %>
+      <%= button_to "Second Notice Sent", second_notice_sent_job_task_path(task.job, task), method: :patch, class: "small success button" %>
+    <% end %>
+
   </div>
 </div>

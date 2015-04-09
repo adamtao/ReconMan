@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150325203747) do
+ActiveRecord::Schema.define(version: 20150409151633) do
 
   create_table "branches", force: :cascade do |t|
     t.string   "name",           limit: 255
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20150325203747) do
     t.integer  "client_id",      limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "headquarters",   limit: 1
+    t.boolean  "headquarters",   limit: 1,   default: false
     t.integer  "created_by_id",  limit: 4
     t.integer  "modified_by_id", limit: 4
   end
@@ -89,8 +89,8 @@ ActiveRecord::Schema.define(version: 20150325203747) do
     t.string   "contact_email",       limit: 255
     t.string   "assessor_webpage",    limit: 255
     t.text     "zip_codes",           limit: 65535
-    t.boolean  "co_fee_schedule",     limit: 1
-    t.boolean  "simplifile",          limit: 1
+    t.boolean  "co_fee_schedule",     limit: 1,     default: false
+    t.boolean  "simplifile",          limit: 1,     default: false
     t.string   "s_contact_name",      limit: 255
     t.string   "s_contact_phone",     limit: 255
     t.string   "s_contact_email",     limit: 255
@@ -132,7 +132,7 @@ ActiveRecord::Schema.define(version: 20150325203747) do
     t.string   "file_number",      limit: 255
     t.date     "close_on"
     t.string   "underwriter_name", limit: 255
-    t.boolean  "short_sale",       limit: 1
+    t.boolean  "short_sale",       limit: 1,   default: false
     t.string   "file_type",        limit: 255
     t.integer  "created_by_id",    limit: 4
     t.integer  "modified_by_id",   limit: 4
@@ -159,8 +159,8 @@ ActiveRecord::Schema.define(version: 20150325203747) do
     t.string   "price_currency",  limit: 255,   default: "USD", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "default",         limit: 1
-    t.boolean  "performs_search", limit: 1
+    t.boolean  "default",         limit: 1,     default: false
+    t.boolean  "performs_search", limit: 1,     default: false
     t.integer  "created_by_id",   limit: 4
     t.integer  "modified_by_id",  limit: 4
     t.string   "job_type",        limit: 255
@@ -222,6 +222,8 @@ ActiveRecord::Schema.define(version: 20150325203747) do
     t.date     "docs_delivered_on"
     t.boolean  "reconveyance_filed",       limit: 1
     t.string   "type",                     limit: 255
+    t.date     "first_notice_sent_on"
+    t.date     "second_notice_sent_on"
   end
 
   add_index "tasks", ["cleared_on"], name: "index_tasks_on_cleared_on", using: :btree
@@ -243,12 +245,12 @@ ActiveRecord::Schema.define(version: 20150325203747) do
   add_index "title_search_caches", ["task_id"], name: "index_title_search_caches_on_task_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 255, default: "", null: false
+    t.string   "email",                  limit: 255, default: "",    null: false
     t.string   "encrypted_password",     limit: 255, default: ""
     t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          limit: 4,   default: 0,  null: false
+    t.integer  "sign_in_count",          limit: 4,   default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip",     limit: 255
@@ -270,8 +272,8 @@ ActiveRecord::Schema.define(version: 20150325203747) do
     t.string   "invited_by_type",        limit: 255
     t.integer  "invitations_count",      limit: 4,   default: 0
     t.integer  "branch_id",              limit: 4
-    t.boolean  "primary_contact",        limit: 1
-    t.boolean  "billing_contact",        limit: 1
+    t.boolean  "primary_contact",        limit: 1,   default: false
+    t.boolean  "billing_contact",        limit: 1,   default: false
     t.string   "phone",                  limit: 255
   end
 

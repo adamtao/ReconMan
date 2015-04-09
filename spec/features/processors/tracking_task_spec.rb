@@ -2,13 +2,12 @@ require 'rails_helper'
 include Warden::Test::Helpers
 Warden.test_mode!
 
-# Feature: Search tracking job product
+# Feature: Search tracking task
 #   As a processor
-#   I want to record a search performed
-feature 'Record search for job product' do
+#   I want to work with tracking tasks
+feature 'Work with tracking task' do
 	before(:each) do
-		@me = sign_in_as_processor
-    @product = FactoryGirl.create(:tracking_product)
+		sign_in_as_processor
 	end
 
   after(:each) do
@@ -18,11 +17,11 @@ feature 'Record search for job product' do
 	# Scenario: Processor performs and records a search
 	# 	Given I have a tracking job for a county with ONLINE tracking
 	#   When I provide the search URL
-	#   Then I see the job product is "In progress"
-	scenario 'processor records search' do
+	#   Then I see the task is "In progress"
+	scenario 'records search' do
     county = FactoryGirl.create(:county, search_url: "http://foo.bar.com/")
-    @job = FactoryGirl.create(:tracking_job, county: county)
-		visit job_path(@job)
+    job = FactoryGirl.create(:tracking_job, county: county)
+		visit job_path(job)
 
 		fill_in 'tracking_task_search_url', with: 'http://yomama.lvh.me'
 		click_on 'Save'
@@ -30,15 +29,35 @@ feature 'Record search for job product' do
 		expect(page).to have_content("Status: In progress")
 	end
 
-	# Scenario: Offline job automatically moves to in_progress
-	# 	Given I have a tracking job for a county with OFFLINE tracking
-	#   Then I see the job product is "To be searched manually"
-	#scenario 'offline job moves to in_progress' do
-	#	county = create(:county, search_url: nil)
-	#	@job = create(:tracking_job, county: county)
-	#	visit job_path(@job)
-#
-#		expect(page).to have_content("Status: To be searched manually")
-#	end
+	# Scenario: Processor advances to first notice
+	# 	Given I have a tracking job
+	#   When I indicate the first notice is sent
+	#   Then I see the task is "First Notice"
+	scenario 'sends first notice' do
+    job = FactoryGirl.create(:tracking_job)
+		visit job_path(job)
 
+		click_on 'First Notice Sent'
+
+		expect(page).to have_content("Status: First notice")
+    expect(page).to have_content("First Notice sent on")
+	end
+
+	# Scenario: Processor advances to second notice
+	# 	Given I have a tracking job where the first notice is sent
+	#   When I indicate the second notice is sent
+	#   Then I see the task is "Second Notice"
+	scenario 'sends second notice' do
+    job = FactoryGirl.create(:tracking_job)
+    job.reload
+    task = job.tasks.first
+    task.send_first_notice!
+		visit job_path(job)
+
+		click_on 'Second Notice Sent'
+
+		expect(page).to have_content("Status: Second notice")
+    expect(page).to have_content("First Notice sent on")
+    expect(page).to have_content("Second Notice sent on")
+	end
 end

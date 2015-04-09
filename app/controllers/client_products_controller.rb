@@ -74,7 +74,7 @@ class ClientProductsController < ApplicationController
     def set_client
       @client = Client.find(params[:client_id])
     end
-    
+
     # Use callbacks to share common setup or constraints between actions.
     def set_client_product
       @client_product = ClientProduct.find(params[:id])

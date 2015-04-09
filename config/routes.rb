@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       member do
         get :toggle
         post :toggle
+        patch :first_notice_sent, :second_notice_sent
         get :research
       end
       resources :title_search_caches

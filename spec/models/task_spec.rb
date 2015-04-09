@@ -17,6 +17,8 @@ describe Task do
   it { should respond_to(:name) } # from related job
   it { should respond_to(:county) } # from related job
   it { should respond_to(:quick_search_url) } # from self or related county
+  it { should respond_to(:first_notice_sent_on) }
+  it { should respond_to(:second_notice_sent_on) }
 
   it "should determine the due date" do
   	@task.determine_due_date
@@ -271,6 +273,32 @@ describe Task do
     end
 
   end
+
+  describe "#send_first_notice!" do
+
+    it "updates the first_notice_sent_on field" do
+      @task.save
+      @task.send_first_notice!
+      @task.reload
+
+      expect(@task.first_notice_sent_on).to eq(Date.today)
+    end
+
+  end
+
+  describe "#send_second_notice!" do
+
+    it "updates the second_notice_sent_on field" do
+      @task.save
+      @task.send_first_notice!
+      @task.send_second_notice!
+      @task.reload
+
+      expect(@task.second_notice_sent_on).to eq(Date.today)
+    end
+
+  end
+
   # it "should perform automated search" # later, when implementing cached search results
   # it "should log search results" # later, when implementing cached search results
   # it "should determine is search changed" # later, when implementing cached search results

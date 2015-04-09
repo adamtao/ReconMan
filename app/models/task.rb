@@ -169,6 +169,14 @@ class Task < ActiveRecord::Base
     end
   end
 
+  def send_first_notice
+    self.update_column(:first_notice_sent_on, Date.today)
+  end
+
+  def send_second_notice
+    self.update_column(:second_notice_sent_on, Date.today)
+  end
+
 	# When this product is complete, mark the parent job complete unless
 	# it has other incomplete products
 	def mark_complete

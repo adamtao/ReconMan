@@ -192,4 +192,49 @@ RSpec.describe TasksController do
     end
   end
 
+  describe "PATCH first_notice_sent" do
+
+    before do
+      patch :first_notice_sent, job_id: @job.id, id: @task.id
+    end
+
+    it "should set the status of the task to 'first_notice'" do
+      @task.reload
+      expect(@task.workflow_state).to eq("first_notice")
+    end
+
+    it "should set the first_notice_sent_on date" do
+      @task.reload
+      expect(@task.first_notice_sent_on).to eq(Date.today)
+    end
+
+    it "should redirect to the task path" do
+      expect(response).to redirect_to(job_url(@task.job))
+    end
+
+  end
+
+  describe "PATCH second_notice_sent" do
+
+    before do
+      @task.update_column(:workflow_state, 'first_notice')
+      patch :second_notice_sent, job_id: @job.id, id: @task.id
+    end
+
+    it "should set the status of the task to 'second_notice'" do
+      @task.reload
+      expect(@task.workflow_state).to eq("second_notice")
+    end
+
+    it "should set the second_notice_sent_on date" do
+      @task.reload
+      expect(@task.second_notice_sent_on).to eq(Date.today)
+    end
+
+    it "should redirect to the task path" do
+      expect(response).to redirect_to(job_url(@task.job))
+    end
+
+  end
+
 end

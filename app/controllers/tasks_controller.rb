@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
   before_action :get_type
   before_action :set_job, except: :toggle_billing
-  before_action :set_task, only: [:show, :edit, :update, :toggle, :toggle_billing, :destroy, :research]
+  before_action :set_task, except: [:index, :new, :create]
 
   # GET /tasks
   # GET /tasks.json
@@ -84,6 +84,18 @@ class TasksController < ApplicationController
   def toggle_billing
     @task.update_column(:billed, !@task.billed?)
     render nothing: true
+  end
+
+  # PATCH /tasks/:id/first_notice_sent
+  def first_notice_sent
+    @task.send_first_notice!
+    redirect_to @job
+  end
+
+  # PATCH /tasks/:id/second_notice_sent
+  def second_notice_sent
+    @task.send_second_notice!
+    redirect_to @job
   end
 
   # GET /job/:job_id/task/:id/research
