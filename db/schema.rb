@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150409151633) do
+ActiveRecord::Schema.define(version: 20150424152809) do
 
   create_table "branches", force: :cascade do |t|
     t.string   "name",           limit: 255
@@ -106,7 +106,7 @@ ActiveRecord::Schema.define(version: 20150409151633) do
   create_table "documents", force: :cascade do |t|
     t.integer  "task_id",           limit: 4
     t.string   "file_file_name",    limit: 255
-    t.integer  "file_file_size",    limit: 4
+    t.integer  "file_file_size",    limit: 8
     t.datetime "file_updated_at"
     t.string   "file_content_type", limit: 255
     t.datetime "created_at"
@@ -210,7 +210,7 @@ ActiveRecord::Schema.define(version: 20150409151633) do
     t.string   "developer",                limit: 255
     t.string   "parcel_number",            limit: 255
     t.string   "beneficiary_name",         limit: 255
-    t.integer  "payoff_amount_cents",      limit: 4,   default: 0,     null: false
+    t.integer  "payoff_amount_cents",      limit: 8,   default: 0,     null: false
     t.string   "payoff_amount_currency",   limit: 255, default: "USD", null: false
     t.string   "beneficiary_account",      limit: 255
     t.string   "parcel_legal_description", limit: 255
