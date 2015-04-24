@@ -199,19 +199,51 @@ describe Task do
       expect(@task.send(:base_date)).to eq(close_date)
     end
 
-    # (rule is 5 days + state's time to dispute)
+    # rule is 5 days + state's time to dispute
     it ".first_notice_date should be a date 35 days after close" do
       expected_date = @task.send(:base_date).advance(days: 35).to_date
 
       expect(@task.first_notice_date).to eq(expected_date)
     end
 
-    # (rule is 15 days + time to dispute + time to record)
+    # rule is 15 days + time to dispute + time to record
+    # or first_notice_date + 10 days + time to record
     it ".second_notice_date should be a date 15+dispute+record after close" do
       expected_date = @task.send(:base_date).advance(days: 75).to_date
 
       expect(@task.second_notice_date).to eq(expected_date)
     end
+
+    describe "auto-advancing" do
+      context "from no notice" do
+
+        it "self-updates status to needs_first_notice" do
+          @task.save
+          @task.job.update_column(:close_on, 36.days.ago) # time to dispute + 5 + 1
+
+          @task.reload
+
+          expect(@task.workflow_state).to eq 'needs_first_notice'
+        end
+
+      end
+
+      context "from first notice" do
+
+        it "self-updates status to needs_second_notice" do
+          @task.save
+          @task.send_first_notice!
+          @task.update_column(:first_notice_sent_on, 41.days.ago) # time to record + 10 + 1
+          @task.job.update_column(:close_on, 76.days.ago)
+
+          @task.reload
+
+          expect(@task.workflow_state).to eq 'needs_second_notice'
+        end
+
+      end
+    end
+
   end
 
   context "generated search URL" do

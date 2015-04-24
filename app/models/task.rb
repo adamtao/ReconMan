@@ -7,18 +7,28 @@ class Task < ActiveRecord::Base
     state :in_progress do
       event :change_in_cached_response, transitions_to: :needs_review
       event :mark_complete, transitions_to: :complete
+      event :first_notice_time_passed, transitions_to: :needs_first_notice
       event :send_first_notice, transitions_to: :first_notice
     end
     state :to_be_searched_manually do
       event :send_first_notice, transitions_to: :first_notice
       event :mark_complete, transitions_to: :complete
+      event :first_notice_time_passed, transitions_to: :needs_first_notice
     end
     state :to_be_processed_manually do
       event :mark_complete, transitions_to: :complete
+      event :first_notice_time_passed, transitions_to: :needs_first_notice
+      event :send_first_notice, transitions_to: :first_notice
+    end
+    state :needs_first_notice do
       event :send_first_notice, transitions_to: :first_notice
     end
     state :first_notice do
       event :mark_complete, transitions_to: :complete
+      event :send_second_notice, transitions_to: :second_notice
+      event :second_notice_time_passed, transitions_to: :needs_second_notice
+    end
+    state :needs_second_notice do
       event :send_second_notice, transitions_to: :second_notice
     end
     state :second_notice do
@@ -56,6 +66,7 @@ class Task < ActiveRecord::Base
 	after_save :advance_state
 	before_create :determine_due_date, :set_price
   before_save :generate_search_url
+  after_initialize :auto_advance_to_next_notice_stage
 
   def self.for_report_between(start_on, end_on, job_status, exclude_billed)
     tasks = self.send("#{job_status.parameterize.gsub(/\-/, "_")}_between", start_on, end_on)
@@ -89,6 +100,16 @@ class Task < ActiveRecord::Base
 			self.mark_complete!
 		end
 	end
+
+  def auto_advance_to_next_notice_stage
+    if !self.new_record? && self.job && self.job.close_on.present?
+      if (self.can_first_notice_time_passed? && self.first_notice_date <= Date.today)
+        self.first_notice_time_passed!
+      elsif (self.can_second_notice_time_passed? && self.second_notice_date <= Date.today)
+        self.second_notice_time_passed!
+      end
+    end
+  end
 
 	def determine_due_date
 		ref = self.job.close_on.present? ? self.job.close_on : Date.today
@@ -288,7 +309,7 @@ class Task < ActiveRecord::Base
   def second_notice_date
     @second_notice_date ||= self.second_notice_sent_on.present? ?
       self.second_notice_sent_on :
-      self.base_date.advance(days: (self.job.state.time_to_dispute_days.to_i + self.job.state.time_to_record_days + 15)).to_date
+      self.first_notice_date.advance(days: (self.job.state.time_to_record_days + 10)).to_date
   end
 
   protected

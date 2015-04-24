@@ -11,7 +11,7 @@ describe Job do
   end
 
   describe "general functions" do
-    before(:each) { @job = FactoryGirl.build(:job, tasks_attributes: FactoryGirl.build(:task).attributes) }
+    before(:each) { @job = FactoryGirl.create(:job, tasks_attributes: FactoryGirl.build(:task).attributes) }
 
     subject { @job }
     it { should respond_to(:dashboard_product) }
@@ -28,8 +28,6 @@ describe Job do
     end
 
     it "#mark_complete! should record the completion date" do
-      @job.save!
-
       @job.mark_complete!
 
       expect(@job.completed_at).not_to be nil
@@ -37,7 +35,6 @@ describe Job do
     end
 
     it '#re_open should open a closed job' do
-      @job.save!
       @job.mark_complete!
 
       @job.re_open!
@@ -47,21 +44,15 @@ describe Job do
     end
 
     it ".dashboard_jobs should include job" do
-      @job.save!
-
       expect(Job.dashboard_jobs(user: create(:user), complete: false)).to include(@job)
     end
 
     it "should have open tasks (tasks)" do
-      @job.save!
-
       expect(@job.open_products.length).to be > 0
       expect(@job.open_products.first).to be_instance_of(Task)
     end
 
     it "should create a new zipcode" do
-      @job.save!
-
       expect(Zipcode.exists?(zipcode: @job.zipcode)).to be(true)
     end
   end
@@ -89,14 +80,14 @@ describe Job do
   end
 
   describe "tracking job_type" do
-    before(:all) { @job = build_stubbed(:tracking_job) }
+    before(:all) { @job = FactoryGirl.build_stubbed(:tracking_job) }
 
     it "should initialize with a tracking task" do
       expect(@job.default_tasks).to include(@tracking_product)
       expect(@job.default_task_id).to eq(@tracking_product.id)
     end
 
-    it "#dashboard_product should return one task (task)" do
+    it "#dashboard_product should return one task" do
       setup_job_with_tasks(@job)
 
       expect(@job.dashboard_product).to be_instance_of(TrackingTask)
@@ -105,14 +96,14 @@ describe Job do
   end
 
   describe "search job_type" do
-    before(:all) { @job = build_stubbed(:search_job)  }
+    before(:all) { @job = FactoryGirl.build_stubbed(:search_job)  }
 
     it "should initialize with a search task" do
       expect(@job.default_tasks).to include(@search_product)
       expect(@job.default_task_id).to eq(@search_product.id)
     end
 
-    it "#dashboard_product should return one task (task)" do
+    it "#dashboard_product should return one task" do
       setup_job_with_tasks(@job)
 
       expect(@job.dashboard_product).to be_instance_of(SearchTask)
@@ -121,7 +112,7 @@ describe Job do
   end
 
   describe "special job_type" do
-    before(:all) { @job = build_stubbed(:special_job) }
+    before(:all) { @job = FactoryGirl.build_stubbed(:special_job) }
 
     it "should initialize with a special task" do
       expect(@job.default_tasks).to include(@special_product)
@@ -146,7 +137,7 @@ describe Job do
       expect(@job.default_task_id).to eq(@documentation_product.id)
     end
 
-    it "#dashboard_product should return one task (task)" do
+    it "#dashboard_product should return one task" do
       setup_job_with_tasks(@job)
 
       expect(@job.dashboard_product).to be_instance_of(DocumentationTask)
