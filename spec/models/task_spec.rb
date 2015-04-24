@@ -217,28 +217,46 @@ describe Task do
     describe "auto-advancing" do
       context "from no notice" do
 
-        it "self-updates status to needs_first_notice" do
+        before do
           @task.save
           @task.job.update_column(:close_on, 36.days.ago) # time to dispute + 5 + 1
+        end
 
+        it "self-updates status to needs_first_notice" do
           @task.reload
 
           expect(@task.workflow_state).to eq 'needs_first_notice'
+        end
+
+        it "#mark_complete! skips to complete status" do
+          @task.reload
+          @task.mark_complete!
+
+          expect(@task.workflow_state).to eq 'complete'
         end
 
       end
 
       context "from first notice" do
 
-        it "self-updates status to needs_second_notice" do
+        before do
           @task.save
           @task.send_first_notice!
           @task.update_column(:first_notice_sent_on, 41.days.ago) # time to record + 10 + 1
           @task.job.update_column(:close_on, 76.days.ago)
+        end
 
+        it "self-updates status to needs_second_notice" do
           @task.reload
 
           expect(@task.workflow_state).to eq 'needs_second_notice'
+        end
+
+        it "#mark_complete! skips to complete status" do
+          @task.reload
+          @task.mark_complete!
+
+          expect(@task.workflow_state).to eq 'complete'
         end
 
       end

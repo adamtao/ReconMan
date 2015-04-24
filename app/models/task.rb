@@ -21,6 +21,7 @@ class Task < ActiveRecord::Base
       event :send_first_notice, transitions_to: :first_notice
     end
     state :needs_first_notice do
+      event :mark_complete, transitions_to: :complete
       event :send_first_notice, transitions_to: :first_notice
     end
     state :first_notice do
@@ -29,6 +30,7 @@ class Task < ActiveRecord::Base
       event :second_notice_time_passed, transitions_to: :needs_second_notice
     end
     state :needs_second_notice do
+      event :mark_complete, transitions_to: :complete
       event :send_second_notice, transitions_to: :second_notice
     end
     state :second_notice do
