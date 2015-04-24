@@ -26,8 +26,8 @@
           <td><%= link_to job.client.name, job.client %></td>
           <td><%= link_to job.requestor.name, job.requestor %></td>
           <td><% if job.close_on.present? %><%=l job.close_on, format: :short %><% end %></td>
-          <td><% if job.dashboard_product && job.dashboard_product.due_on.present? %>
-              <%=l job.dashboard_product.due_on, format: :short %>
+          <td><% if job.dashboard_task && job.dashboard_task.due_on.present? %>
+              <%=l job.dashboard_task.due_on, format: :short %>
             <% end %>
           </td>
           <td><% if job.county %><%= link_to job.county.name, [job.state, job.county] %><% end %></td>

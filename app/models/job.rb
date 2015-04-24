@@ -100,7 +100,7 @@ class Job < ActiveRecord::Base
 
 	def deed_or_parcel_number
 		begin
-			dashboard_product.deed_of_trust_number.present? ? dashboard_product.deed_of_trust_number : dashboard_product.parcel_number
+			dashboard_task.deed_of_trust_number.present? ? dashboard_task.deed_of_trust_number : dashboard_task.parcel_number
 		rescue
 			"unknown #{self.id}"
 		end
@@ -132,8 +132,8 @@ class Job < ActiveRecord::Base
     end
 	end
 
-	def dashboard_product
-		@dashboard_product ||= self.tasks.where(product_id: default_task_id).first
+	def dashboard_task
+		@dashboard_task ||= self.tasks.where(product_id: default_task_id).first
 	end
 
 	def open_products

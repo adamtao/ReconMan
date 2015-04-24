@@ -14,7 +14,7 @@ describe Job do
     before(:each) { @job = FactoryGirl.create(:job, tasks_attributes: FactoryGirl.build(:task).attributes) }
 
     subject { @job }
-    it { should respond_to(:dashboard_product) }
+    it { should respond_to(:dashboard_task) }
     it { should respond_to(:link_name) }
     it { should respond_to(:deed_or_parcel_number) }
     it { should respond_to(:total_price_cents) }
@@ -87,11 +87,11 @@ describe Job do
       expect(@job.default_task_id).to eq(@tracking_product.id)
     end
 
-    it "#dashboard_product should return one task" do
+    it "#dashboard_task should return one task" do
       setup_job_with_tasks(@job)
 
-      expect(@job.dashboard_product).to be_instance_of(TrackingTask)
-      expect(@job.dashboard_product.product).to eq(@tracking_product)
+      expect(@job.dashboard_task).to be_instance_of(TrackingTask)
+      expect(@job.dashboard_task.product).to eq(@tracking_product)
     end
   end
 
@@ -103,11 +103,11 @@ describe Job do
       expect(@job.default_task_id).to eq(@search_product.id)
     end
 
-    it "#dashboard_product should return one task" do
+    it "#dashboard_task should return one task" do
       setup_job_with_tasks(@job)
 
-      expect(@job.dashboard_product).to be_instance_of(SearchTask)
-      expect(@job.dashboard_product.product).to eq(@search_product)
+      expect(@job.dashboard_task).to be_instance_of(SearchTask)
+      expect(@job.dashboard_task.product).to eq(@search_product)
     end
   end
 
@@ -119,11 +119,11 @@ describe Job do
       expect(@job.default_task_id).to eq(@special_product.id)
     end
 
-    it "#dashboard_product should return one task (task)" do
+    it "#dashboard_task should return one task" do
       setup_job_with_tasks(@job)
 
-      expect(@job.dashboard_product).to be_instance_of(SpecialTask)
-      expect(@job.dashboard_product.product).to eq(@special_product)
+      expect(@job.dashboard_task).to be_instance_of(SpecialTask)
+      expect(@job.dashboard_task.product).to eq(@special_product)
     end
   end
 
@@ -137,11 +137,11 @@ describe Job do
       expect(@job.default_task_id).to eq(@documentation_product.id)
     end
 
-    it "#dashboard_product should return one task" do
+    it "#dashboard_task should return one task" do
       setup_job_with_tasks(@job)
 
-      expect(@job.dashboard_product).to be_instance_of(DocumentationTask)
-      expect(@job.dashboard_product.product).to eq(@documentation_product)
+      expect(@job.dashboard_task).to be_instance_of(DocumentationTask)
+      expect(@job.dashboard_task.product).to eq(@documentation_product)
     end
   end
 
