@@ -29,6 +29,21 @@ feature 'Work with tracking task' do
 		expect(page).to have_content("Status: In progress")
 	end
 
+  # Scenario: Processor edits a tracking task
+  #   Given I have a tracking task
+  #   When I edit that task
+  #   Then I see the updated info and it is not complete
+  scenario 'edits task does not change the status' do
+    job = FactoryGirl.create(:tracking_job)
+    job.reload
+    task = job.tasks.first
+    visit edit_job_task_path(job, task)
+
+    click_on 'Update'
+
+    expect(page).not_to have_content("Status: Complete")
+  end
+
 	# Scenario: Processor advances to first notice
 	# 	Given I have a tracking job
 	#   When I indicate the first notice is sent

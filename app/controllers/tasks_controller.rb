@@ -55,7 +55,7 @@ class TasksController < ApplicationController
       if @task.update(task_params)
         if task_params[:search_url] && !@task.search_url.blank?
           search_log.save
-        elsif task_params[:new_deed_of_trust_number] && task_params[:recorded_on]
+        elsif task_params[:new_deed_of_trust_number].present? && task_params[:recorded_on].present?
           if @task.search_logs.length > 0
             search_log = @task.search_logs.last
           end
