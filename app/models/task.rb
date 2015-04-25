@@ -68,7 +68,7 @@ class Task < ActiveRecord::Base
 	after_save :advance_state
 	before_create :determine_due_date, :set_price
   before_save :generate_search_url
-  after_initialize :auto_advance_to_next_notice_stage
+  #after_initialize :auto_advance_to_next_notice_stage
 
   def self.for_report_between(start_on, end_on, job_status, exclude_billed)
     tasks = self.send("#{job_status.parameterize.gsub(/\-/, "_")}_between", start_on, end_on)
