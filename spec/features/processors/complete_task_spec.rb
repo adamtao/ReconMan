@@ -34,6 +34,22 @@ feature 'Complete task', :devise do
     expect(page).not_to have_css("form.edit_task")
 	end
 
+  scenario "mark a task complete that already had dot and date" do
+    task = @job.tasks.first
+    task.update_column(:new_deed_of_trust_number, "777777")
+    task.update_column(:recorded_on, 1.day.ago)
+    task.update_column(:workflow_state, 'needs_first_notice')
+    visit job_path(@job)
+
+		#fill_in 'Release Number', with: "777777"
+    #fill_in 'Recorded on', with: I18n.l(Date.today, format: :long)
+		click_on 'Mark Complete'
+
+		expect(page).to have_content("Status: Complete")
+		expect(page).to have_content("Job Status: Complete")
+    expect(page).not_to have_css("form.edit_task")
+  end
+
 	# Scenario: Complete a task but not the parent job
 	# 	Given I complete a task
 	#   And it is one of many for the job

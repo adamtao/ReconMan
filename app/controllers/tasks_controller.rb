@@ -61,6 +61,10 @@ class TasksController < ApplicationController
           end
           search_log.status = "Cleared"
           search_log.save
+          @task.reload
+          unless @task.workflow_state == 'complete'
+            @task.mark_complete!
+          end
         end
         format.html { redirect_to @job, notice: 'Task was successfully updated.' }
         format.json { render :show, status: :ok, location: @task }
