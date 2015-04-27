@@ -89,7 +89,7 @@ class Report
       "Lender", "DOT #", "Release #", "Release Date"]
 
     if self.job_status.match(/complete/i)
-      h << "Branch"
+      h << "Product"
     else
       h += ["1st Notice", "2nd Notice"]
     end
@@ -98,14 +98,14 @@ class Report
     h
   end
 
-  # Columns for the report's job products--used in both HTML and XLS outputs.
+  # Columns for the report's tasks--used in both HTML and XLS outputs.
   def columns
     c = [:file_number, :county_name, :state_abbreviation, :client_name, :requestor_name,
          :close_date, :lender_name, :deed_of_trust_number, :new_deed_of_trust_number,
          :recorded_on]
 
     if self.job_status.match(/complete/i)
-      c << :branch_name
+      c << :product_name
     else
       c += [:first_notice_date, :second_notice_date]
     end

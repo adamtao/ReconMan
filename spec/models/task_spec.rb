@@ -349,6 +349,13 @@ describe Task do
 
   end
 
+  describe "attributes for reports" do
+
+    it "#product_name" do
+      expect(@task.product_name).to eq(@task.product.name)
+    end
+  end
+
   # it "should perform automated search" # later, when implementing cached search results
   # it "should log search results" # later, when implementing cached search results
   # it "should determine is search changed" # later, when implementing cached search results

@@ -93,9 +93,9 @@ describe "reports/show.html.erb" do
       get_report
     end
 
-    it "has the branch columns" do
-      expect(table_header).to have_css("th:eq(11)", text: "Branch")
-      expect(table_row).to have_css("td:eq(11)", text: @branch.name)
+    it "has the product columns" do
+      expect(table_header).to have_css("th:eq(11)", text: "Product")
+      expect(table_row).to have_css("td:eq(11)", text: @tracking_task.product.name)
     end
 
     it "should have pricing column" do

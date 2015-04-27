@@ -246,9 +246,9 @@ class Task < ActiveRecord::Base
     end
   end
 
-  def branch_name
+  def product_name
     begin
-      self.job.branch.name
+      self.product.name
     rescue
       ""
     end
