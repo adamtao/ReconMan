@@ -2,6 +2,7 @@
   <%= f.input :job_type, as: :hidden %>
   <div class="row">
     <%= f.error_notification %>
+    <%= errors_for(f) %>
   </div>
 
   <div class="form-inputs">

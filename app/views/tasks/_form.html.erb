@@ -1,9 +1,10 @@
 <%= simple_form_for([@job, @task]) do |f| %>
-  <div class="row">
-    <%= f.error_notification %>
-  </div>
 
 <div class="row"><div class="large-8 columns large-offset-2">
+  <div class="row">
+    <%= f.error_notification %>
+    <%= errors_for(f) %>
+  </div>
   <div class="form-inputs">
     <%= f.association :product,
     	collection: Product.all.map{ |p|

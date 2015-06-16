@@ -1,4 +1,8 @@
 <div class="panel item-fields">
+  <div class="row">
+    <%= f.error_notification %>
+    <%= errors_for(f) %>
+  </div>
   <% if f.object.product_id.present? %>
     <h5><%= f.object.product.name %></h5>
     <%= f.input :product_id, as: :hidden %>

@@ -19,11 +19,11 @@ $header-top-margin: .4em;
 
 // Heading font sizes
 
-$h1-font-size: emCalc(38px);
-$h2-font-size: emCalc(26px);
-$h3-font-size: emCalc(21px);
-$h4-font-size: emCalc(18px);
-$h5-font-size: emCalc(15px);
+$h1-font-size: rem-calc(38);
+$h2-font-size: rem-calc(26);
+$h3-font-size: rem-calc(21);
+$h4-font-size: rem-calc(18);
+$h5-font-size: rem-calc(15);
 $h6-font-size: 1em;
 
 // $paragraph-font-family: inherit;
@@ -62,11 +62,11 @@ $button-border-style: none;
 $topbar-bg: lighten($light-gray, 14%);
 
 /* Height and margin */
-$topbar-height: 44px;
+$topbar-height: rem-calc(44);
 $topbar-margin-bottom: rem-calc(30);
 
 /* Control Input height for top bar */
-$topbar-input-height: 2.45em;
+$topbar-input-height: rem-calc(30);
 
 /* Controlling the styles for the title in the top bar */
 //$topbar-title-weight: bold;
@@ -243,7 +243,7 @@ section {
   @extend .row;
 }
 label.boolean {
-  line-height: rem-calc(6px);
+  line-height: rem-calc(6);
   margin-bottom: 10px;
 }
 @mixin main_content {
@@ -341,13 +341,13 @@ label.boolean {
   @extend .radius;
   ul {
     li {
-      font-size: emCalc(14px);
+      font-size: rem-calc(14);
     }
   }
 }
 .hint {
   display: block;
-  font-size: emCalc(12px);
+  font-size: rem-calc(12);
   color: $medium-gray;
   font-style: oblique;
   margin-top: -8px;
@@ -363,8 +363,8 @@ dl.accordion dd.accordion-navigation {
 }
 .smaller {
   font-weight: 300;
-  font-size: emCalc(13px);
-  line-height: emCalc(17px);
+  font-size: rem-calc(13);
+  line-height: rem-calc(17);
   color: $dark-gray;
 }
 @media only screen and (min-width: 680px) {

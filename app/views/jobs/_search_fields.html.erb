@@ -7,6 +7,6 @@
 	</div>
 </div>
 
-<%= f.simple_fields_for :tasks do |jp| %>
-	<%= render "tasks/#{f.object.job_type}_fields", f: jp %>
+<%= f.simple_fields_for :tasks do |t| %>
+	<%= render "tasks/#{f.object.job_type}_fields", f: t %>
 <% end %>
