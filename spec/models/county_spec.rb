@@ -122,7 +122,7 @@ describe County do
     end
 
     it "should complain if there are ANY jobs associated" do
-      expect{@county.destroy}.to raise_error
+      expect{@county.destroy}.to raise_error(StandardError, "Cannot delete a county with associated jobs.")
     end
   end
 end
