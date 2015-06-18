@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.2.1'
 gem 'rails', '4.2.2'
+gem 'rack', '< 1.6.3' # 6/2015 rack 1.6.3 is broken
 gem 'responders', '~> 2.0'
 gem 'sass-rails'
 gem 'uglifier', '>= 1.3.0'
