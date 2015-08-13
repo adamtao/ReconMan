@@ -18,6 +18,7 @@ class TasksController < ApplicationController
   def new
     @task = @klass.new(job: @job)
     @task.lender = Lender.new
+    @task.worker = current_user
   end
 
   # GET /tasks/1/edit

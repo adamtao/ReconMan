@@ -50,9 +50,10 @@ RSpec.describe TasksController do
       get :new, job_id: @job.id
     end
 
-    it "assigns @job, @task" do
+    it "assigns @job, @task, @task.worker" do
       expect(assigns(:job)).to eq(@job)
       expect(assigns(:task)).to be_a_new(Task)
+      expect(assigns(:task).worker).to eq(@user)
     end
 
     it "renders new template" do
