@@ -2,11 +2,14 @@ require 'rails_helper'
 
 RSpec.describe CountiesController do
 
-  before do
+  before :all do
     @user = FactoryGirl.create(:user, :processor)
-    sign_in(@user)
     @state = FactoryGirl.create(:state)
     @county = FactoryGirl.create(:county, state: @state)
+  end
+
+  before :each do
+    sign_in(@user)
   end
 
   describe "GET index" do

@@ -4,19 +4,25 @@ Warden.test_mode!
 
 feature 'View user' do
 
-	before(:each) do
+	before(:all) do
     @client = create(:client)
     @branch = create(:branch, client: @client)
     @employee = create(:user, :client,
                        branch: @branch)
     create_list(:tracking_job, 30, client: @client,
                 requestor: @employee)
+  end
 
+  before :each do
 		sign_in_as_admin
 	end
 
   after(:each) do
     Warden.test_reset!
+  end
+
+  after :all do
+    DatabaseCleaner.clean_with :truncation
   end
 
 	scenario 'shows only 20 jobs on the requestor page' do

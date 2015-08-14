@@ -4,16 +4,23 @@ Warden.test_mode!
 
 feature 'Pagination' do
 
-	before(:each) do
-		@me = sign_in_as_processor
+	before(:all) do
 		@tracking_product = create(:tracking_product)
 		@search_product = create(:search_product)
 		@special_product = create(:special_product)
+  end
+
+	before(:each) do
+		@me = sign_in_as_processor
     create_list(:tracking_task, 30, worker: @me)
 	end
 
   after(:each) do
     Warden.test_reset!
+  end
+
+  after :all do
+    DatabaseCleaner.clean_with :truncation
   end
 
   scenario "Only see 20 jobs at a time" do

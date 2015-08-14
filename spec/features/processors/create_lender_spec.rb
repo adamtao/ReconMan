@@ -30,16 +30,23 @@ end
 #   I want to create a new lender when creating a job
 #   So that I can create more jobs quickly
 feature "Create lender inline", :devise do
-  before do
+  before :all do
     @client = FactoryGirl.create(:client)
     @branch = FactoryGirl.create(:branch, client: @client)
     @employee = FactoryGirl.create(:user, branch: @branch)
     @tracking_job = FactoryGirl.create(:tracking_job, client: @client, requestor: @employee)
+  end
+
+  before :each do
     sign_in_as_processor
   end
 
   after(:each) do
     Warden.test_reset!
+  end
+
+  after :all do
+    DatabaseCleaner.clean_with :truncation
   end
 
   # Scenario: visit new job form, create lender inline
@@ -105,14 +112,21 @@ feature "Create lender inline", :devise do
 end
 
 feature "Edit lender", :devise do
+  before :all do
+    @lender = FactoryGirl.create(:lender, name: "Mr. Foo's Lending")
+  end
+
   before(:each) do
-    @lender = create(:lender, name: "Mr. Foo's Lending")
     sign_in_as_processor
     visit lender_path(@lender)
   end
 
   after(:each) do
     Warden.test_reset!
+  end
+
+  after :all do
+    DatabaseCleaner.clean_with :truncation
   end
 
   scenario "Visiting a lender should have an edit button" do

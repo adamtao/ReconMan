@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Document do
-  before do
+  before :all do
     @document = FactoryGirl.build_stubbed(:document)
   end
 

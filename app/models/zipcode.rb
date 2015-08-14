@@ -23,7 +23,8 @@ class Zipcode < ActiveRecord::Base
 	end
 
 	def lookup_county
-		@county ||= County.find_by(name: self.county.gsub(/\s?County$/i, ''), state: self.state_id)
+    t = County.arel_table
+    @county ||= County.where(state: state_id).where(t[:name].matches("%#{county.gsub(/\s?County$/i, '')}")).first
 	end
 
 	def state_id

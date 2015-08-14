@@ -7,10 +7,17 @@ Warden.test_mode!
 #   I want to update Document type Jobs
 #   So that work gets done and client can be billed
 feature 'Update Document job', :devise do
-	before(:each) do
-		@me = sign_in_as_processor
+	before(:all) do
     @task = FactoryGirl.create(:documentation_task)
     @job = @task.job
+  end
+
+  after :all do
+    DatabaseCleaner.clean_with :truncation
+  end
+
+  before :each do
+		@me = sign_in_as_processor
 		visit job_path(@job)
 	end
 

@@ -29,16 +29,15 @@ gem 'aws-sdk', '< 2.0'
 gem 'active_attr'
 gem 'to_xls'
 gem 'exception_notification'
+gem 'pg'
 
 # Heroku gems...
 group :production do
   gem 'rails_12factor'
-  gem 'pg'
 end
 
 group :development do
   gem 'web-console', '~> 2.0'
-  gem 'mysql2'
   gem 'spring'
   gem 'spring-commands-rspec'
   # Not using capistrano, since using heroku

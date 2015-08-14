@@ -7,8 +7,7 @@ Warden.test_mode!
 #   I want to checkout a county
 #   So I can process that county's jobs
 feature "Checkout a County", :devise do
-  before do
-    @me = sign_in_as_processor
+  before :all do
     @county = FactoryGirl.create(:county)
     @tracking_tasks = FactoryGirl.create_list(:tracking_task, 5)
     @tracking_tasks.each_with_index do |task,i|
@@ -16,11 +15,19 @@ feature "Checkout a County", :devise do
       task.job.update_column(:county_id, @county.id)
     end
     @tracking_jobs = @tracking_tasks.map{|tjp| tjp.job}
+  end
+
+  before :each do
+    @me = sign_in_as_processor
     visit root_path
   end
 
   after do
     Warden.test_reset!
+  end
+
+  after :all do
+    DatabaseCleaner.clean_with :truncation
   end
 
   # Scenario: See counties on dashboard
@@ -37,6 +44,7 @@ feature "Checkout a County", :devise do
   #   I want to checkout a county and go directly to its first job
   #   So that I can process the job
   scenario "successfully" do
+    select "#{@county.name}, #{@county.state.abbreviation} (5)", from: 'id'
     click_on "checkout"
 
     expect(current_path).to eq(job_path(@tracking_jobs.last))
@@ -47,6 +55,7 @@ feature "Checkout a County", :devise do
   #   I want to see a "next job" button
   #   So that I can quickly continue work in that county
   scenario "go to next job" do
+    select "#{@county.name}, #{@county.state.abbreviation} (5)", from: 'id'
     click_on "checkout"
     click_on "next job"
     click_on "next job"
@@ -59,6 +68,7 @@ feature "Checkout a County", :devise do
   #   I want my checkout time updated each time I update the job
   #   So that I can continue to work on that county
   scenario "perpetuates checkout time" do
+    select "#{@county.name}, #{@county.state.abbreviation} (5)", from: 'id'
     click_on "checkout"
     @county.update_column(:checked_out_at, 2.minutes.ago)
     original_checkout_time = @county.checked_out_at
@@ -75,6 +85,7 @@ feature "Checkout a County", :devise do
   #   So that I don't clobber someone else who has started working on the job
   #   And I can checkout a different county
   scenario "checks timeout before loading next job" do
+    select "#{@county.name}, #{@county.state.abbreviation} (5)", from: 'id'
     click_on "checkout"
     @county.update_column(:checked_out_at, 1.day.ago)
 

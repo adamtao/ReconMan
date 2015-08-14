@@ -9,10 +9,10 @@ class Branch < ActiveRecord::Base
 	validates :name, presence: true, uniqueness: { scope: :client }
 
 	def jobs
-		self.client.jobs.where(requestor_id: self.users.pluck(:id))
+		client.jobs.where(requestor_id: self.users.pluck(:id))
 	end
 
   def current_jobs
-    jobs.where.not(workflow_state: 'complete') #.joins(:tasks).order("tasks.due_on DESC")
+    @current_jobs ||= client.current_jobs.where(requestor_id: self.users.pluck(:id))
   end
 end

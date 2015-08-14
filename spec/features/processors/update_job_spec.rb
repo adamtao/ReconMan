@@ -6,14 +6,16 @@ Warden.test_mode!
 #   As a processor
 #   I want to edit and update Jobs
 feature 'Update tracking job' do
-	before(:each) do
-		@me = sign_in_as_processor
+	before(:all) do
     @client = FactoryGirl.create(:client)
     @branch = FactoryGirl.create(:branch, client: @client)
     @employee = FactoryGirl.create(:user, branch: @branch)
     @tracking_job = FactoryGirl.create(:tracking_job, client: @client, requestor: @employee)
     @tracking_job.reload
+  end
 
+	before(:each) do
+		@me = sign_in_as_processor
 		visit edit_job_path(@tracking_job)
 	end
 
@@ -21,6 +23,9 @@ feature 'Update tracking job' do
     Warden.test_reset!
   end
 
+  after :all do
+    DatabaseCleaner.clean_with :truncation
+  end
 	# Scenario: Edit an existing tracking job
 	scenario 'successfully' do
     products_count = @tracking_job.tasks.length

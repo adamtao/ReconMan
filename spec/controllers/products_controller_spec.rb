@@ -2,10 +2,13 @@ require 'rails_helper'
 
 RSpec.describe ProductsController do
 
-  before do
-    @user = FactoryGirl.create(:user, :processor)
-    sign_in(@user)
+  before :all do
     @product = FactoryGirl.create(:product)
+    @user = FactoryGirl.create(:user, :processor)
+  end
+
+  before :each do
+    sign_in(@user)
   end
 
   describe "GET index" do

@@ -207,7 +207,7 @@ namespace :testdata do
           modifier: employees.sample
         )
         begin
-          reconveyance = job.dashboard_product
+          reconveyance = job.dashboard_task
           reconveyance.mark_complete!
           # this should also make the job complete
         end

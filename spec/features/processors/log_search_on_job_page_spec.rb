@@ -4,16 +4,23 @@ Warden.test_mode!
 
 feature "Log a title search" do
 
-  before(:each) do
-    @me = sign_in_as_processor
+  before :all do
     county = FactoryGirl.create(:county, search_url: "http://county.lvh.me")
     @task = FactoryGirl.create(:tracking_task)
     @job = @task.job
     @job.update_column(:county_id, county.id)
   end
 
+  before(:each) do
+    @me = sign_in_as_processor
+  end
+
   after do
     Warden.test_reset!
+  end
+
+  after :all do
+    DatabaseCleaner.clean_with :truncation
   end
 
   scenario "first search performed, record URL, search is logged" do

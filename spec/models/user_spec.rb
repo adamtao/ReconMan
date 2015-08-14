@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe User do
 
-  before(:each) { @user = User.new(email: 'user@example.com') }
+  before(:all) { @user = User.new(email: 'user@example.com') }
 
   subject { @user }
 

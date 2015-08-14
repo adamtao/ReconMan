@@ -11,6 +11,10 @@ feature "Attach document on job page", :devise do
     visit job_path(@job)
   end
 
+  after :all do
+    DatabaseCleaner.clean_with :truncation
+  end
+
   after do
     Warden.test_reset!
   end

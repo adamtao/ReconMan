@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Lender, :type => :model do
 
-  before do
+  before :all do
     @lender = FactoryGirl.create(:lender)
   end
 

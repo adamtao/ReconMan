@@ -2,10 +2,13 @@ require 'rails_helper'
 
 RSpec.describe BranchesController do
 
-  before do
+  before :all do
     @client = FactoryGirl.create(:client)
     @branch = FactoryGirl.create(:branch, client: @client)
     @user = FactoryGirl.create(:user, :processor)
+  end
+
+  before :each do
     sign_in(@user)
   end
 

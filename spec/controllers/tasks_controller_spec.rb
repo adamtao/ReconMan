@@ -2,11 +2,14 @@ require 'rails_helper'
 
 RSpec.describe TasksController do
 
-  before do
+  before :all do
     @job = FactoryGirl.create(:job)
     @product = FactoryGirl.create(:product)
     @task = FactoryGirl.create(:task, product: @product, job: @job)
     @user = FactoryGirl.create(:user, :processor)
+  end
+
+  before :each do
     sign_in(@user)
   end
 

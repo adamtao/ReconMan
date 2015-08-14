@@ -3,7 +3,7 @@ class AddExtraFieldsToJobs < ActiveRecord::Migration
     add_column :jobs, :escrow_number, :string
     add_column :jobs, :close_on, :date
     add_column :jobs, :beneficiary_name, :string
-    add_money :jobs, :payoff_amount
+    add_monetize :jobs, :payoff_amount
     add_column :jobs, :beneficiary_account, :string
     add_column :jobs, :underwriter_name, :string
     add_column :jobs, :short_sale, :boolean, default: false

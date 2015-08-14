@@ -8,9 +8,11 @@ Warden.test_mode!
 #   So that processors can perform the work
 feature 'Manage tasks', :devise do
 
-	before(:each) do
+	before(:all) do
     @tracking_task = FactoryGirl.create(:tracking_task, deed_of_trust_number: "ABC12345")
+  end
 
+  before :each do
 		sign_in_as_admin
     visit job_path(@tracking_task.job)
 	end

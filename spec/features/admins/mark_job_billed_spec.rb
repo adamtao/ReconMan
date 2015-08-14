@@ -9,6 +9,7 @@ Warden.test_mode!
 feature "Toggle task billing status", :devise, :js do
 
   before do
+    skip "Slow test"
     sign_in_as_admin
   end
 

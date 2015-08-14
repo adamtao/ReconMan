@@ -1,7 +1,7 @@
 <hr/>
 <h3 class="subheader">Comments</h3>
 
-<% item.comments.each do |comment| %>
+<% item.comments.reverse.each do |comment| %>
 <div>
 	<h6><i>From: <%= comment.user.name %></i> <small><%=l comment.created_at, format: :short %></small></h6>
 

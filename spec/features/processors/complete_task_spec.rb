@@ -7,14 +7,21 @@ Warden.test_mode!
 #   I want to complete a Task
 feature 'Complete task', :devise do
 
-	before(:each) do
-		@me = sign_in_as_processor
+  before :all do
     @job = FactoryGirl.create(:tracking_job)
     @job.reload
+  end
+
+	before(:each) do
+		@me = sign_in_as_processor
 	end
 
   after(:each) do
     Warden.test_reset!
+  end
+
+  after :all do
+    DatabaseCleaner.clean_with :truncation
   end
 
 	# Scenario: Complete a job by completing its only task

@@ -2,17 +2,36 @@ require 'rails_helper'
 
 RSpec.describe Branch do
 
-  before(:each) { @branch = FactoryGirl.create(:branch) }
+  before(:all) do
+    @branch = FactoryGirl.create(:branch)
+    branch_user = FactoryGirl.create(:user, branch: @branch)
+    @oldest_job = FactoryGirl.create(:job, requestor: branch_user, client: @branch.client)
+    FactoryGirl.create(:task, job: @oldest_job, due_on: 1.year.ago)
+    @newest_job = FactoryGirl.create(:job, requestor: branch_user, client: @branch.client)
+    FactoryGirl.create(:task, job: @newest_job, due_on: 1.day.ago)
+  end
 
   subject { @branch }
 
   it { should respond_to(:client) }
 
   it "#jobs returns a filtered set of jobs" do
-		branch_user = FactoryGirl.create(:user, branch: @branch)
-		job = FactoryGirl.create(:job, requestor: branch_user, client: @branch.client)
+	  expect(@branch.jobs).to include(@newest_job)
+  end
 
-	  expect(@branch.jobs).to include(job)
+  describe "current_jobs" do
+    it "collectsjobs with current tasks" do
+      expect(@branch.current_jobs).to include(@oldest_job)
+      expect(@branch.current_jobs).to include(@newest_job)
+    end
+
+    it "has them in the right order" do
+      cj = @branch.current_jobs
+
+      expect(cj.length).to eq(2)
+      expect(cj.first).to eq(@oldest_job)
+      expect(cj.last).to eq(@newest_job)
+    end
   end
 
   describe "users" do

@@ -4,15 +4,15 @@ Warden.test_mode!
 
 feature "Merge lenders", :devise do
 
-  before do
+  before :all do
     @me = sign_in_as_admin
     @lender1 = FactoryGirl.create(:lender)
     @lender2 = FactoryGirl.create(:lender)
     @tracking_task = FactoryGirl.create(:tracking_task, lender: @lender2)
   end
 
-  after(:each) do
-    Warden.test_reset!
+  after :all do
+    DatabaseCleaner.clean_with :truncation
   end
 
   scenario 'successfully' do

@@ -21,7 +21,7 @@ class Client < ActiveRecord::Base
 	end
 
   def current_jobs
-    jobs.where.not(workflow_state: 'complete')#.joins(:tasks).order("tasks.due_on DESC")
+    @current_jobs ||= jobs.where.not(workflow_state: 'complete').order("tasks.due_on ASC").order("tasks.created_at ASC").order("jobs.created_at ASC")
   end
 
 end

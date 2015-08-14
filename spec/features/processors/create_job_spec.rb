@@ -6,8 +6,7 @@ Warden.test_mode!
 #   As a processor
 #   I want to create Jobs
 feature 'Create job', :devise do
-	before(:each) do
-		@me = sign_in_as_processor
+	before(:all) do
     @state = FactoryGirl.create(:state)
     @county = FactoryGirl.create(:county, state: @state)
     @zipcode = FactoryGirl.create(:zipcode, state: @state.abbreviation)
@@ -15,12 +14,20 @@ feature 'Create job', :devise do
     @client = FactoryGirl.create(:client)
     @branch = FactoryGirl.create(:branch, client: @client)
     @employee = FactoryGirl.create(:user, branch: @branch)
+  end
 
+	before(:each) do
+    Product.delete_all
+		@me = sign_in_as_processor
 		visit root_path
 	end
 
   after(:each) do
     Warden.test_reset!
+  end
+
+  after :all do
+    DatabaseCleaner.clean_with :truncation
   end
 
 	# Scenario: Create a new tracking job

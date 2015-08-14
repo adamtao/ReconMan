@@ -2,8 +2,11 @@ require 'rails_helper'
 
 RSpec.describe ZipcodesController do
 
-  before do
+  before :all do
     @user = FactoryGirl.create(:user, :processor)
+  end
+
+  before :each do
     sign_in(@user)
   end
 

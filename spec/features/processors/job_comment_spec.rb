@@ -7,15 +7,21 @@ Warden.test_mode!
 #   I want to add a comment to a Job
 feature 'Comment on a Job', :devise do
 
+  before(:all) do
+    @job = FactoryGirl.create(:job)
+  end
+
 	before(:each) do
 		@me = sign_in_as_processor
-		@job = create(:job)
 	end
 
   after(:each) do
     Warden.test_reset!
   end
 
+  after :all do
+    DatabaseCleaner.clean_with :truncation
+  end
 	# Scenario: Processor posts a comment
 	# 	Given I complete the comment form
 	#   When I submit the form
@@ -68,7 +74,7 @@ feature 'Comment on a Job', :devise do
 		add_another_comment
 		visit job_path(@job)
 
-		expect(page).not_to have_link('Edit Comment')
+		expect(page).not_to have_link('Edit Comment', href: edit_comment_path(@comment))
 	end
 
 	# Scenario: Processor deletes the last comment
@@ -114,7 +120,7 @@ feature 'Comment on a Job', :devise do
 	end
 
 	def add_another_comment
-		FactoryGirl.create(:comment, related_id: @job.id, related_type: @job.class.name)
+    FactoryGirl.create(:comment, related_id: @job.id, related_type: @job.class.name, created_at: 1.day.from_now)
 	end
 
 end

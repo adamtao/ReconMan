@@ -2,9 +2,12 @@ require 'rails_helper'
 
 RSpec.describe DashboardController do
 
-  before do
-    user = FactoryGirl.create(:user, :processor)
-    sign_in(user)
+  before :all do
+    @user = FactoryGirl.create(:user, :processor)
+  end
+
+  before :each do
+    sign_in(@user)
   end
 
   describe "GET index" do

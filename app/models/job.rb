@@ -51,17 +51,27 @@ class Job < ActiveRecord::Base
 		case options[:complete]
 		when true
 			if user.completed_job_ids.length > 0
-				where(id: user.completed_job_ids).limit(options[:limit])
+				where(id: user.completed_job_ids).
+          order("completed_at DESC").
+          limit(options[:limit])
 			elsif options[:fallback_to_all]
-				where(workflow_state: "complete").order("completed_at DESC").limit(options[:limit])
+				where(workflow_state: "complete").
+          order("completed_at DESC").
+          limit(options[:limit])
 			else
 				nil
 			end
 		when false
   		if user.current_job_ids.length > 0
-        where(id: user.current_job_ids).paginate(page: options[:page], per_page: options[:per_page])
+        where(id: user.current_job_ids).
+          includes(:tasks).
+          order("tasks.due_on ASC").order("tasks.created_at ASC").order("jobs.created_at ASC").
+          paginate(page: options[:page], per_page: options[:per_page])
   		elsif options[:fallback_to_all]
-        where.not(workflow_state: "complete").joins(:tasks).order("tasks.due_on ASC").paginate(page: options[:page], per_page: options[:per_page])
+        where.not(workflow_state: "complete").
+          includes(:tasks).
+          order("tasks.due_on ASC").order("tasks.created_at ASC").order("jobs.created_at ASC").
+          paginate(page: options[:page], per_page: options[:per_page])
   		else
   			nil
   		end

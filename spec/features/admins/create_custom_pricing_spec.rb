@@ -8,15 +8,21 @@ Warden.test_mode!
 #   So clients can be charged differently
 feature 'Create client product', :devise do
 
-	before(:each) do
+	before(:all) do
     @product = create(:product, price_cents: 19995)
     @client = create(:client)
+  end
 
+	before(:each) do
 		sign_in_as_admin
 	end
 
   after(:each) do
     Warden.test_reset!
+  end
+
+  after :all do
+    DatabaseCleaner.clean_with :truncation
   end
 
   # Scenario: Admin creates a custom price for a client

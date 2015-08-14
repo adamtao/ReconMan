@@ -4,7 +4,7 @@ Warden.test_mode!
 
 feature "Admin runs report in excel format" do
 
-  before do
+  before :all do
     @task = FactoryGirl.create(:tracking_task,
       workflow_state: 'complete',
       deed_of_trust_number: "1234",
@@ -16,12 +16,19 @@ feature "Admin runs report in excel format" do
     @incomplete_job = FactoryGirl.create(:tracking_job, client: @client, file_number: "9999")
     other_client = FactoryGirl.create(:client)
     @other_job = FactoryGirl.create(:tracking_job, client: other_client, file_number: "8888")
+  end
+
+  before :each do
     sign_in_as_admin
     visit root_path
   end
 
   after(:each) do
     Warden.test_reset!
+  end
+
+  after :all do
+    DatabaseCleaner.clean_with :truncation
   end
 
   scenario "successfully" do

@@ -11,7 +11,7 @@ class ClientsController < ApplicationController
   # GET /clients/1
   # GET /clients/1.json
   def show
-    @current_jobs = @client.current_jobs.paginate(page: params[:page], per_page: 20)
+    @current_jobs = Job.paginate(page: params[:page], per_page: 20)
   end
 
   # GET /clients/new

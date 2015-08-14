@@ -1,6 +1,6 @@
 <div class="container clearfix">
   <div class="large-7 small-7 columns">
-    <h1><%= @branch.name %> 
+    <h1><%= @branch.name %>
       <small><% if @branch.headquarters? %>headquarters for <% else %> a branch of <% end %>
         <%= link_to @client.name, @client %>
       </small>
@@ -10,13 +10,13 @@
     <br/>
     <ul class="button-group right">
       <li><%= link_to 'Edit Branch', edit_client_branch_path(@client, @branch), class: "tiny button" %></li>
-    </ul>    
+    </ul>
   </div>
 </div>
 
 <div class="container">
   <div class="main_content">
-    
+
     <h3>Jobs <small><%= link_to 'new job', new_job_path(client_id: @client.id) %></small></h3>
 
     <%= render 'shared/jobs' %>

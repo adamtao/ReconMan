@@ -8,13 +8,20 @@ Warden.test_mode!
 #   So jobs aren't added for it
 feature 'Deletes a county', :devise do
 
-	before(:each) do
+	before(:all) do
     @county = FactoryGirl.create(:county)
+  end
+
+  before(:each) do
 		sign_in_as_admin
 	end
 
   after(:each) do
     Warden.test_reset!
+  end
+
+  after :all do
+    DatabaseCleaner.clean_with :truncation
   end
 
   scenario "successfully" do

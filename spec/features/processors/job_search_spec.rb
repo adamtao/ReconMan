@@ -8,14 +8,19 @@ Warden.test_mode!
 #   So I can process the job
 feature "Search", :devise do
 
-  before do
-    @me = sign_in_as_processor
+  before :all do
+    DatabaseCleaner.clean_with :truncation
     @tracking_jobs = FactoryGirl.create_list(:tracking_job, 21)
+  end
+
+  before :each do
+    @me = sign_in_as_processor
     visit root_path
   end
 
-  after do
+  after :all do
     Warden.test_reset!
+    DatabaseCleaner.clean_with :truncation
   end
 
   # Scenario: Search successfully one result
@@ -67,6 +72,7 @@ feature "Search", :devise do
       fill_in "q_file_number_or_new_owner_or_old_owner_or_address_cont", with: "Bill"
       click_on "search"
     end
+    job.reload
 
     expect(page).to have_link(job.file_number, href: job_path(job))
   end
@@ -85,6 +91,7 @@ feature "Search", :devise do
       fill_in "q_file_number_or_new_owner_or_old_owner_or_address_cont", with: "Bart"
       click_on "search"
     end
+    job.reload
 
     expect(page).to have_link(job.file_number, href: job_path(job))
   end
@@ -103,6 +110,7 @@ feature "Search", :devise do
       fill_in "q_file_number_or_new_owner_or_old_owner_or_address_cont", with: "5107 Th"
       click_on "search"
     end
+    job.reload
 
     expect(page).to have_link(job.file_number, href: job_path(job))
   end

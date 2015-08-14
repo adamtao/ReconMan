@@ -4,18 +4,24 @@ Warden.test_mode!
 
 feature 'View County' do
 
-	before(:each) do
+	before(:all) do
     @client = FactoryGirl.create(:client)
     @state = FactoryGirl.create(:state)
     @county = FactoryGirl.create(:county, state: @state)
     FactoryGirl.create_list(:tracking_job, 30, county: @county)
+  end
 
+	before(:each) do
 		sign_in_as_processor
 		visit state_county_path(@state, @county)
 	end
 
   after(:each) do
     Warden.test_reset!
+  end
+
+  after :all do
+    DatabaseCleaner.clean_with :truncation
   end
 
 	scenario 'shows only 20 jobs' do

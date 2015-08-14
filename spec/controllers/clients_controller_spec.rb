@@ -2,10 +2,13 @@ require 'rails_helper'
 
 RSpec.describe ClientsController do
 
-  before do
+  before :all do
     @user = FactoryGirl.create(:user, :processor)
-    sign_in(@user)
     @client = FactoryGirl.create(:client)
+  end
+
+  before :each do
+    sign_in(@user)
   end
 
   describe "GET index" do

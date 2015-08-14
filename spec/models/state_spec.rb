@@ -2,11 +2,11 @@ require 'rails_helper'
 
 describe State do
 
-  before(:each) do
+  before(:all) do
   	@ttnd = 30
   	@ttdd = 45
   	@ttrd = 60
-  	@state = build(:state,
+    @state = FactoryGirl.build(:state,
   		time_to_notify_days: @ttnd,
   		time_to_dispute_days: @ttdd,
   		time_to_record_days: @ttrd

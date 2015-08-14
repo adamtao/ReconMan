@@ -2,10 +2,13 @@ require 'rails_helper'
 
 RSpec.describe DocumentsController do
 
-  before do
+  before :all do
     @task = FactoryGirl.create(:tracking_task)
-    user = FactoryGirl.create(:user, :processor)
-    sign_in(user)
+    @user = FactoryGirl.create(:user, :processor)
+  end
+
+  before :each do
+    sign_in(@user)
   end
 
   describe "POST create" do

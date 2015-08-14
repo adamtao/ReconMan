@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Zipcode do
 
-  before(:each) do
+  before :each do
     @county = FactoryGirl.create(:county)
   	@state = @county.state
     @zipcode = FactoryGirl.build(:zipcode, state: @state.abbreviation, county: @county.name)
