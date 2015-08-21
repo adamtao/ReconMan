@@ -59,7 +59,7 @@ describe "jobs/show.html.erb" do
     end
 
     it "shows a next button" do
-      expect(rendered).to have_link("next job", job_path(@job2))
+      expect(rendered).to have_link("next job", href: job_path(@job2))
     end
 
   end

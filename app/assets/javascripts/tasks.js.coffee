@@ -24,6 +24,7 @@ jQuery ->
       if selected_product_id > 0 and (selected_product_id == product_ids or selected_product_id in product_ids)
         #console.log("SHOW Product ids are: #{ product_ids }")
         $(@).show()
+        $('div.task_lender_name').hide()
       else
         #console.log("HIDE Product ids are: #{ product_ids }")
         $(@).hide()
@@ -44,6 +45,7 @@ jQuery ->
   $('#task_product_id').change -> set_price()
 
   $('div.job_tasks_lender_name').hide()
+  $('div.task_lender_name').hide()
 
   $('form').on 'click', '.toggle-lender', (e) ->
     e.preventDefault()
@@ -53,7 +55,9 @@ jQuery ->
     else
       $(@).html('new lender')
     $(@).closest('div.row').find('div.job_tasks_lender_name').toggle()
+    $(@).closest('div.row').find('div.task_lender_name').toggle()
     $(@).closest('div.row').find('div.job_tasks_lender').toggle()
+    $(@).closest('div.row').find('div.task_lender').toggle()
 
   $('form').on 'click', '.remove_fields', (event) ->
     $(@).closest('div.item-fields').find('input[type=hidden].deleter').val('1')

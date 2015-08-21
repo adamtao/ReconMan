@@ -8,146 +8,142 @@
 <% end %>
 
 <h1><%= link_to @job.client.name, @job.client %></h1>
-<div class="section job-container">
-  <div class="full-width row">
-    <div class="job-header section-header row clearfix">
-      <div class="large-7 small-7 columns">
-        <h2>File: <%= @job.file_number %></h2>
-        <p>
-        <%= link_to @job.client.name, @job.client %>
-        <% if @job.requestor %>
-          | <%= link_to @job.requestor.name, @job.requestor %>
-        <% end %>
-        </p>
-      </div>
-      <div class="large-5 small-5 columns">
-          <br/>
-        <ul class="button-group right">
-          <li><%= link_to "Add product/service", new_job_task_path(@job), class: "tiny success button" %></li>
-          <li><%= link_to 'Edit Job', edit_job_path(@job), class: "secondary tiny button" %></li>
-        </ul>
-      </div>
+
+<div class="full-width row">
+  <div class="job-header section-header row clearfix">
+    <div class="large-7 small-7 columns">
+      <h2>File: <%= @job.file_number %></h2>
+      <p>
+      <%= link_to @job.client.name, @job.client %>
+      <% if @job.requestor %>
+        | <%= link_to @job.requestor.name, @job.requestor %>
+      <% end %>
+      </p>
+    </div>
+    <div class="large-5 small-5 columns">
+        <br/>
+      <ul class="button-group right">
+        <li><%= link_to "Add product/service", new_job_task_path(@job), class: "tiny success button" %></li>
+        <li><%= link_to 'Edit Job', edit_job_path(@job), class: "secondary tiny button" %></li>
+      </ul>
     </div>
   </div>
+</div>
 
-  <% if @job.tasks.length > 1 %>
-    <div data-magellan-expedition="fixed">
-      <dl class="sub-nav">
-        <dt>Jump To:</dt>
-        <% @job.tasks.each_with_index do |task,i| %>
-          <dd data-magellan-arrival="jp_<%= i+1 %>">
-            <a href="#jp_<%= i+1 %>"><%= task.name %> #<%= i+1 %> </a>
-          </dd>
-        <% end %>
-      </dl>
-    </div>
-  <% else %>
-    <br/>
+<% if @job.tasks.length > 1 %>
+  <div data-magellan-expedition="fixed">
+    <dl class="sub-nav">
+      <dt>Jump To:</dt>
+      <% @job.tasks.each_with_index do |task,i| %>
+        <dd data-magellan-arrival="jp_<%= i+1 %>">
+          <a href="#jp_<%= i+1 %>"><%= task.name %> #<%= i+1 %> </a>
+        </dd>
+      <% end %>
+    </dl>
+  </div>
+<% else %>
+  <br/>
+<% end %>
+
+
+<div class="main_content">
+
+  <% @job.tasks.each_with_index do |task,i| %>
+    <a name="jp_<%= i + 1 %>"></a>
+    <%= render 'task', task: task, i: i %>
   <% end %>
 
-  <div class="full-width row">
-
-    <div class="main_content">
-
-      <% @job.tasks.each_with_index do |task,i| %>
-        <a name="jp_<%= i + 1 %>"></a>
-        <%= render 'task', task: task, i: i %>
-      <% end %>
-
-      <div class="large-12 columns text-right">
-        <strong>total: <%= humanized_money_with_symbol @job.total_price %></strong>
-      </div>
-
-      <% if @job.completed_at.present? %>
-        <p>
-          <strong>Completed at:</strong>
-          <%=l @job.completed_at, format: :long %>
-        </p>
-      <% end %>
-
-      <br/>
-      <%= render 'shared/comments_with_form', item: @job %>
-
-      <%= render 'shared/ownable_stats', item: @job %>
-
-    </div>
-
-    <div class="side_content">
-      <p>Job Status: <%= @job.workflow_state.titleize %></p>
-
-      <h2>Property Information</h2>
-
-      <p>
-        <%= @job.address %><br/>
-        <%= @job.city %>,
-        <%= link_to @job.state.name, @job.state %>
-        <%= @job.zipcode %><br/>
-        <% if @job.county %>
-          <%= link_to "#{@job.county.name} County", [@job.state, @job.county] %>
-          <%= link_to image_tag("notes.png", alt: "County Notes"), '#',
-            id: 'county_notes_icon',
-            data: {:'reveal-id' => @job.county.notes.present? ? "view_county_notes" : "edit_county_notes"} %>
-        <% end %>
-      </p>
-
-      <div id="view_county_notes" class="reveal-modal" data-reveal>
-        <h2><%= @job.county.name %> County Notes</h2>
-        <div id="county_notes_content"><%=raw textilize(@job.county.notes) %></div>
-        <%= link_to "Edit", edit_state_county_path(@job.state, @job.county),
-          class: "medium button",
-          data: {:'reveal-id' => "edit_county_notes"} %>
-        <a class="close-reveal-modal">&#215;</a>
-      </div>
-
-      <div id="edit_county_notes" class="reveal-modal" data-reveal>
-        <h2>Edit <%= @job.county.name %> County Notes</h2>
-        <%= simple_form_for [@job.state, @job.county], remote: true  do |f| %>
-          <%= f.label :notes, "Helpful Tips & Notes" %>
-          <%= f.textile_editor :notes, rows: 15 %>
-          <span class="hint">What would be helpful for a new person to know about working with this county?</span>
-
-          <%= f.button :submit %>
-        <% end %>
-        <a class="close-reveal-modal">&#215;</a>
-      </div>
-
-      <% if @job.county %>
-        <ul class="button-group">
-          <% if @job.county.webpage.present? %>
-            <li><%= link_to "County Home Page", @job.county.webpage, target: "_blank", class: "tiny secondary button" %></li>
-          <% end %>
-          <% if @job.county.search_url.present? %>
-            <li><%= link_to "County Search Page", @job.county.search_url, target: "_blank", class: "tiny secondary button" %></li>
-          <% end %>
-        </ul>
-      <% end %>
-
-      <table>
-        <tr>
-          <td>Seller</td><td><strong><%= @job.old_owner %></strong></td>
-        </tr>
-        <tr>
-          <td>Buyer</td><td><strong><%= @job.new_owner %></strong></td>
-        </tr>
-        <tr>
-          <td>Close Date</td><td><strong>
-              <% if @job.close_on.present? && @job.close_on.is_a?(Date) %>
-                <%= l @job.close_on, format: :long %><br/>
-              <% end %>
-            </strong>
-          </td>
-        </tr>
-      </table>
-
-      <% if current_user.admin? %>
-        <div class="text-right">
-          <%= link_to 'Delete Job', @job, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
-        </div>
-      <% end %>
-
-    </div>
-
+  <div class="large-12 columns text-right">
+    <strong>total: <%= humanized_money_with_symbol @job.total_price %></strong>
   </div>
+
+  <% if @job.completed_at.present? %>
+    <p>
+      <strong>Completed at:</strong>
+      <%=l @job.completed_at, format: :long %>
+    </p>
+  <% end %>
+
+  <br/>
+  <%= render 'shared/comments_with_form', item: @job %>
+
+  <%= render 'shared/ownable_stats', item: @job %>
+
+</div>
+
+<div class="side_content">
+  <p>Job Status: <%= @job.workflow_state.titleize %></p>
+
+  <h2>Property Information</h2>
+
+  <p>
+    <%= @job.address %><br/>
+    <%= @job.city %>,
+    <%= link_to @job.state.name, @job.state %>
+    <%= @job.zipcode %><br/>
+    <% if @job.county %>
+      <%= link_to "#{@job.county.name} County", [@job.state, @job.county] %>
+      <%= link_to image_tag("notes.png", alt: "County Notes"), '#',
+        id: 'county_notes_icon',
+        data: {:'reveal-id' => @job.county.notes.present? ? "view_county_notes" : "edit_county_notes"} %>
+    <% end %>
+  </p>
+
+  <div id="view_county_notes" class="reveal-modal" data-reveal>
+    <h2><%= @job.county.name %> County Notes</h2>
+    <div id="county_notes_content"><%=raw textilize(@job.county.notes) %></div>
+    <%= link_to "Edit", edit_state_county_path(@job.state, @job.county),
+      class: "medium button",
+      data: {:'reveal-id' => "edit_county_notes"} %>
+    <a class="close-reveal-modal">&#215;</a>
+  </div>
+
+  <div id="edit_county_notes" class="reveal-modal" data-reveal>
+    <h2>Edit <%= @job.county.name %> County Notes</h2>
+    <%= simple_form_for [@job.state, @job.county], remote: true  do |f| %>
+      <%= f.label :notes, "Helpful Tips & Notes" %>
+      <%= f.textile_editor :notes, rows: 15 %>
+      <span class="hint">What would be helpful for a new person to know about working with this county?</span>
+
+      <%= f.button :submit %>
+    <% end %>
+    <a class="close-reveal-modal">&#215;</a>
+  </div>
+
+  <% if @job.county %>
+    <ul class="button-group">
+      <% if @job.county.webpage.present? %>
+        <li><%= link_to "County Home Page", @job.county.webpage, target: "_blank", class: "tiny secondary button" %></li>
+      <% end %>
+      <% if @job.county.search_url.present? %>
+        <li><%= link_to "County Search Page", @job.county.search_url, target: "_blank", class: "tiny secondary button" %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <table>
+    <tr>
+      <td>Seller</td><td><strong><%= @job.old_owner %></strong></td>
+    </tr>
+    <tr>
+      <td>Buyer</td><td><strong><%= @job.new_owner %></strong></td>
+    </tr>
+    <tr>
+      <td>Close Date</td><td><strong>
+          <% if @job.close_on.present? && @job.close_on.is_a?(Date) %>
+            <%= l @job.close_on, format: :long %><br/>
+          <% end %>
+        </strong>
+      </td>
+    </tr>
+  </table>
+
+  <% if current_user.admin? %>
+    <div class="text-right">
+      <%= link_to 'Delete Job', @job, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
+    </div>
+  <% end %>
+
 </div>
 
 <%= textile_editor_initialize %>

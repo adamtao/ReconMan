@@ -1,11 +1,10 @@
-<% if task.expected_completion_on %>
-  <p>Expected completion date:
-    <%=l task.expected_completion_on, format: :long %>
-  </p>
-<% end %>
-
 <div class="row">
   <div class="large-6 columns">
+    <% if task.expected_completion_on %>
+      <p>Expected completion date:
+        <%=l task.expected_completion_on, format: :long %>
+      </p>
+    <% end %>
 
     <table class="no-border">
       <% if task.first_notice_sent_on.present? %>
@@ -136,12 +135,12 @@
 
           <%= simple_form_for [task.job, task] do |f| %>
             <div class="row collapse">
-              <div class="large-10 small-8 columns">
+              <div class="large-9 small-8 columns">
                 <%= f.input :search_url, label: false,
                       as: :url, placeholder: 'http://' %>
               </div>
-              <div class="large-2 small-4 columns">
-                <%= f.button :submit, "Save", class: "small button postfix" %>
+              <div class="large-3 small-4 columns">
+                <%= f.button :submit, "Save", class: "postfix button" %>
               </div>
             </div>
           <% end %>
