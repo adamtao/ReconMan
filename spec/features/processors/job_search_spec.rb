@@ -48,11 +48,13 @@ feature "Search", :devise do
       tj.update_column(:file_number, "AAA#{tj.file_number}")
     end
     job = @tracking_jobs.first
+    job.update_column(:file_number, "AAA#{job.file_number}") # weighing first on higher
 
     within(:css, "form#job_search") do
       fill_in "q_file_number_or_new_owner_or_old_owner_or_address_cont", with: "AAA"
       click_on "search"
     end
+    #save_and_open_page
 
     expect(page).to have_link(job.file_number, href: job_path(job))
     expect(page).to have_link("Next")

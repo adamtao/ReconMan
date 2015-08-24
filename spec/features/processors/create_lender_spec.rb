@@ -56,7 +56,7 @@ feature "Create lender inline", :devise do
   #   Then the new lender is created and associated with the tracking job product
   scenario "on the new job form" do
     new_tj = FactoryGirl.attributes_for(:tracking_job)
-    new_tjp = FactoryGirl.attributes_for(:tracking_task)
+    new_tp = FactoryGirl.attributes_for(:tracking_task)
     lender = FactoryGirl.attributes_for(:lender)
     visit client_path(@tracking_job.client)
 
@@ -75,10 +75,10 @@ feature "Create lender inline", :devise do
     select @tracking_job.county.name, from: "County"
     fill_in "Buyer", with: new_tj[:buyer]
     fill_in "Seller", with: new_tj[:seller]
-    fill_in "Deed of trust number", with: new_tjp[:deed_of_trust_number]
+    fill_in "Deed of trust number", with: new_tp[:deed_of_trust_number]
     select "", from: "Lender"
-    fill_in "Beneficiary Account", with: new_tjp[:beneficiary_account]
-    fill_in "Payoff Amount", with: new_tjp[:payoff_amount_cents].to_i / 100
+    fill_in "Beneficiary Account", with: new_tp[:beneficiary_account]
+    fill_in "Payoff Amount", with: new_tp[:payoff_amount_cents].to_i / 100
 
     #click_on "New lender"
     fill_in "New Lender Name", with: lender[:name]
@@ -92,22 +92,22 @@ feature "Create lender inline", :devise do
   #   When I add a product to an existing job
   #   I can fill out the new lender portion
   #   Then I expect the new lender to be created and associated with the new job product
-  scenario "on the new job product form" do
-    new_tjp = FactoryGirl.attributes_for(:tracking_product)
+  scenario "on the new task form", js: true do
+    new_tp = FactoryGirl.attributes_for(:tracking_product)
     lender = FactoryGirl.attributes_for(:lender)
     visit job_path(@tracking_job)
     click_on "Add product"
 
     select Product.first.name, from: "Product"
     select @employee.name, from: "Worker"
-    fill_in "Deed of trust number", with: new_tjp[:deed_of_trust_number]
+    fill_in "Deed of trust number", with: new_tp[:deed_of_trust_number]
     fill_in "Beneficiary Account", with: "76543"
     fill_in "Payoff Amount", with: "3408.23"
+    click_on "new lender"
     fill_in "New Lender Name", with: lender[:name]
     click_on "Create Task"
 
     expect(page).to have_content(lender[:name])
-    expect(Lender.last.name).to eq(lender[:name])
   end
 end
 

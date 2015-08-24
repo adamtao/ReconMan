@@ -74,13 +74,20 @@ RSpec.describe TasksController do
       task_params[:product_id] = @product.id
       task_params[:payoff_amount] = task_params.delete(:payoff_amount_cents) / 100
       task_params[:price] = task_params.delete(:price_cents) / 100
+      task_params[:deed_of_trust_number] = "12345"
+      task_params[:beneficiary_account] = "5678"
       post :create, job_id: @job.id, task: task_params.except(:due_on)
     end
 
     it "builds @task" do
-      expect(assigns(:task)).to be_an_instance_of(Task)
-      expect(assigns(:task).job).to eq(@job)
-      expect(assigns(:task).creator).to eq(@user)
+      task = assigns(:task)
+
+      expect(task.new_record?).to be(false)
+      expect(task).to be_an_instance_of(Task)
+      expect(task.deed_of_trust_number).to eq("12345")
+      expect(task.beneficiary_account).to eq("5678")
+      expect(task.job).to eq(@job)
+      expect(task.creator).to eq(@user)
     end
 
     it "redirects to show action" do

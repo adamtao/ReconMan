@@ -49,7 +49,7 @@ feature 'Manage tasks', :devise do
   #   Given I am a logged in administrator
   #   When I complete the form to add a product to a job
   #   Then it appears on the job page
-  scenario "admin adds a product to a job" do
+  scenario "admin adds a product to a job", js: true do
     np = FactoryGirl.attributes_for(:task, deed_of_trust_number: "YOMAMA")
     click_on "Add product"
 

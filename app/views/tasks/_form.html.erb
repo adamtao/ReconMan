@@ -11,7 +11,9 @@
     			[
     				p.name,
     				p.id,
-    				data: { price: @job.client.product_price(p).dollars }
+            data: {
+              price: @job.client.product_price(p).dollars
+            }
     			]
     		}
     	 %>
@@ -21,11 +23,18 @@
     <%= f.association :worker, collection: User.processors %>
     <%= f.input :price, hint: "#{@job.client.name} pricing loads automatically when you select/change a product." %>
 
+    <div id='product-specific-fields'></div>
+
     <% Job.job_types.each do |jt| %>
       <% if Product.where(job_type: jt.to_s).length > 0 %>
-        <div class="product-specific-fields" data-products="<%= Product.where(job_type: jt.to_s).pluck(:id).join(',') %>">
-          <%= render "#{jt.to_s}_fields", f: f %>
-        </div>
+        <%=
+          content_tag :div, '',
+            class: 'product-specific-fields',
+            data: {
+              products: Product.where(job_type: jt.to_s).pluck(:id).join(','),
+              fields: escape_once(render("#{jt.to_s}_fields", f: f ))
+            }
+        %>
       <% end %>
     <% end %>
 

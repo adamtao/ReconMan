@@ -18,16 +18,13 @@ jQuery ->
         $search_url_field.parent().hide()
 
   show_product_fields = ->
+    $('#product-specific-fields').html('')
     selected_product_id = $("#task_product_id option").filter(':selected').val()
     $('.product-specific-fields').each ->
       product_ids = $(@).data('products').toString().split(',')
       if selected_product_id > 0 and (selected_product_id == product_ids or selected_product_id in product_ids)
-        #console.log("SHOW Product ids are: #{ product_ids }")
-        $(@).show()
-        $('div.task_lender_name').hide()
-      else
-        #console.log("HIDE Product ids are: #{ product_ids }")
-        $(@).hide()
+        $('#product-specific-fields').html( $(@).data('fields') )
+    $('div.task_lender_name').hide()
 
   show_url_field()
   show_product_fields()
