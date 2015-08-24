@@ -395,6 +395,3 @@ DEPENDENCIES
   web-console (~> 2.0)
   will_paginate
   workflow
-
-BUNDLED WITH
-   1.10.5
