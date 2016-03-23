@@ -15,18 +15,19 @@ ActiveRecord::Schema.define(version: 20150424152809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_stat_statements"
 
   create_table "branches", force: :cascade do |t|
-    t.string   "name"
-    t.string   "address"
-    t.string   "city"
+    t.string   "name",           limit: 255
+    t.string   "address",        limit: 255
+    t.string   "city",           limit: 255
     t.integer  "state_id"
-    t.string   "zipcode"
-    t.string   "phone"
+    t.string   "zipcode",        limit: 255
+    t.string   "phone",          limit: 255
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "headquarters",   default: false
+    t.boolean  "headquarters"
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
   end
@@ -36,7 +37,8 @@ ActiveRecord::Schema.define(version: 20150424152809) do
   create_table "client_products", force: :cascade do |t|
     t.integer  "client_id"
     t.integer  "product_id"
-    t.monetize "price",          scale: 2
+    t.integer  "price_cents",                default: 0,     null: false
+    t.string   "price_currency", limit: 255, default: "USD", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "created_by_id"
@@ -47,15 +49,15 @@ ActiveRecord::Schema.define(version: 20150424152809) do
   add_index "client_products", ["product_id"], name: "index_client_products_on_product_id", using: :btree
 
   create_table "clients", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",             limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "client_type"
-    t.string   "website"
-    t.string   "billing_address"
-    t.string   "billing_city"
+    t.string   "client_type",      limit: 255
+    t.string   "website",          limit: 255
+    t.string   "billing_address",  limit: 255
+    t.string   "billing_city",     limit: 255
     t.integer  "billing_state_id"
-    t.string   "billing_zipcode"
+    t.string   "billing_zipcode",  limit: 255
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
   end
@@ -67,7 +69,7 @@ ActiveRecord::Schema.define(version: 20150424152809) do
     t.text     "message"
     t.integer  "user_id"
     t.integer  "related_id"
-    t.string   "related_type"
+    t.string   "related_type", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -76,29 +78,29 @@ ActiveRecord::Schema.define(version: 20150424152809) do
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "counties", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",                limit: 255
     t.integer  "state_id"
-    t.string   "search_url"
-    t.string   "search_params"
-    t.string   "search_method"
+    t.string   "search_url",          limit: 255
+    t.string   "search_params",       limit: 255
+    t.string   "search_method",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "phone"
-    t.string   "fax"
-    t.string   "webpage"
-    t.string   "contact_name"
-    t.string   "contact_phone"
-    t.string   "contact_email"
-    t.string   "assessor_webpage"
+    t.string   "phone",               limit: 255
+    t.string   "fax",                 limit: 255
+    t.string   "webpage",             limit: 255
+    t.string   "contact_name",        limit: 255
+    t.string   "contact_phone",       limit: 255
+    t.string   "contact_email",       limit: 255
+    t.string   "assessor_webpage",    limit: 255
     t.text     "zip_codes"
-    t.boolean  "co_fee_schedule",     default: false
-    t.boolean  "simplifile",          default: false
-    t.string   "s_contact_name"
-    t.string   "s_contact_phone"
-    t.string   "s_contact_email"
+    t.boolean  "co_fee_schedule"
+    t.boolean  "simplifile"
+    t.string   "s_contact_name",      limit: 255
+    t.string   "s_contact_phone",     limit: 255
+    t.string   "s_contact_email",     limit: 255
     t.integer  "checked_out_to_id"
     t.datetime "checked_out_at"
-    t.string   "search_template_url"
+    t.string   "search_template_url", limit: 255
     t.text     "notes"
   end
 
@@ -107,10 +109,10 @@ ActiveRecord::Schema.define(version: 20150424152809) do
 
   create_table "documents", force: :cascade do |t|
     t.integer  "task_id"
-    t.string   "file_file_name"
+    t.string   "file_file_name",    limit: 255
     t.integer  "file_file_size",    limit: 8
     t.datetime "file_updated_at"
-    t.string   "file_content_type"
+    t.string   "file_content_type", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -119,26 +121,26 @@ ActiveRecord::Schema.define(version: 20150424152809) do
 
   create_table "jobs", force: :cascade do |t|
     t.integer  "client_id"
-    t.string   "address"
-    t.string   "city"
+    t.string   "address",          limit: 255
+    t.string   "city",             limit: 255
     t.integer  "state_id"
-    t.string   "zipcode"
+    t.string   "zipcode",          limit: 255
     t.integer  "county_id"
     t.datetime "completed_at"
-    t.string   "old_owner"
-    t.string   "new_owner"
-    t.string   "workflow_state"
+    t.string   "old_owner",        limit: 255
+    t.string   "new_owner",        limit: 255
+    t.string   "workflow_state",   limit: 255
     t.integer  "requestor_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "file_number"
+    t.string   "file_number",      limit: 255
     t.date     "close_on"
-    t.string   "underwriter_name"
-    t.boolean  "short_sale",       default: false
-    t.string   "file_type"
+    t.string   "underwriter_name", limit: 255
+    t.boolean  "short_sale"
+    t.string   "file_type",        limit: 255
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
-    t.string   "job_type",         default: "tracking"
+    t.string   "job_type",         limit: 255, default: "tracking"
   end
 
   add_index "jobs", ["client_id"], name: "index_jobs_on_client_id", using: :btree
@@ -148,23 +150,24 @@ ActiveRecord::Schema.define(version: 20150424152809) do
   add_index "jobs", ["requestor_id"], name: "index_jobs_on_requestor_id", using: :btree
 
   create_table "lenders", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",                     limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "average_days_to_complete"
   end
 
   create_table "products", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",            limit: 255
     t.text     "description"
-    t.monetize "price",           scale: 2
+    t.integer  "price_cents",                 default: 0,     null: false
+    t.string   "price_currency",  limit: 255, default: "USD", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "default",                   default: false
-    t.boolean  "performs_search",           default: false
+    t.boolean  "default"
+    t.boolean  "performs_search"
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
-    t.string   "job_type"
+    t.string   "job_type",        limit: 255
   end
 
   add_index "products", ["job_type"], name: "index_products_on_job_type", using: :btree
@@ -172,7 +175,7 @@ ActiveRecord::Schema.define(version: 20150424152809) do
   create_table "search_logs", force: :cascade do |t|
     t.integer  "task_id"
     t.integer  "user_id"
-    t.string   "status"
+    t.string   "status",     limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -180,48 +183,49 @@ ActiveRecord::Schema.define(version: 20150424152809) do
   add_index "search_logs", ["task_id"], name: "index_search_logs_on_task_id", using: :btree
 
   create_table "states", force: :cascade do |t|
-    t.string   "name"
-    t.string   "abbreviation"
+    t.string   "name",                        limit: 255
+    t.string   "abbreviation",                limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "time_to_record_days"
-    t.boolean  "active",                      default: false
-    t.integer  "time_to_notify_days",         default: 30
-    t.integer  "time_to_dispute_days",        default: 30
-    t.boolean  "can_force_reconveyance",      default: true
-    t.boolean  "allow_sub_of_trustee",        default: false
-    t.boolean  "record_reconveyance_request", default: false
+    t.boolean  "active",                                  default: false
+    t.integer  "time_to_notify_days",                     default: 30
+    t.integer  "time_to_dispute_days",                    default: 30
+    t.boolean  "can_force_reconveyance",                  default: true
+    t.boolean  "allow_sub_of_trustee",                    default: false
+    t.boolean  "record_reconveyance_request",             default: false
   end
 
   create_table "tasks", force: :cascade do |t|
     t.integer  "product_id"
     t.integer  "job_id"
-    t.monetize "price",                              scale: 2
-    t.string   "workflow_state"
+    t.integer  "price_cents",                          default: 0,     null: false
+    t.string   "price_currency",           limit: 255, default: "USD", null: false
+    t.string   "workflow_state",           limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "last_search_at"
-    t.string   "search_url"
+    t.string   "search_url",               limit: 255
     t.date     "due_on"
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
     t.integer  "worker_id"
-    t.string   "deed_of_trust_number"
-    t.string   "developer"
-    t.string   "parcel_number"
-    t.string   "beneficiary_name"
-    t.integer  "payoff_amount_cents",      limit: 8,           default: 0,     null: false
-    t.string   "payoff_amount_currency",                       default: "USD", null: false
-    t.string   "beneficiary_account"
-    t.string   "parcel_legal_description"
-    t.string   "new_deed_of_trust_number"
+    t.string   "deed_of_trust_number",     limit: 255
+    t.string   "developer",                limit: 255
+    t.string   "parcel_number",            limit: 255
+    t.string   "beneficiary_name",         limit: 255
+    t.integer  "payoff_amount_cents",      limit: 8,   default: 0,     null: false
+    t.string   "payoff_amount_currency",   limit: 255, default: "USD", null: false
+    t.string   "beneficiary_account",      limit: 255
+    t.string   "parcel_legal_description", limit: 255
+    t.string   "new_deed_of_trust_number", limit: 255
     t.date     "recorded_on"
     t.integer  "lender_id"
     t.date     "cleared_on"
-    t.boolean  "billed",                                       default: false
+    t.boolean  "billed",                               default: false
     t.date     "docs_delivered_on"
     t.boolean  "reconveyance_filed"
-    t.string   "type"
+    t.string   "type",                     limit: 255
     t.date     "first_notice_sent_on"
     t.date     "second_notice_sent_on"
   end
@@ -245,36 +249,36 @@ ActiveRecord::Schema.define(version: 20150424152809) do
   add_index "title_search_caches", ["task_id"], name: "index_title_search_caches_on_task_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "",    null: false
-    t.string   "encrypted_password",     default: ""
-    t.string   "reset_password_token"
+    t.string   "email",                  limit: 255, default: "", null: false
+    t.string   "encrypted_password",     limit: 255, default: ""
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
+    t.integer  "sign_in_count",                      default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
-    t.string   "confirmation_token"
+    t.string   "name",                   limit: 255
+    t.string   "confirmation_token",     limit: 255
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
+    t.string   "unconfirmed_email",      limit: 255
     t.integer  "role"
-    t.string   "invitation_token"
+    t.string   "invitation_token",       limit: 255
     t.datetime "invitation_created_at"
     t.datetime "invitation_sent_at"
     t.datetime "invitation_accepted_at"
     t.integer  "invitation_limit"
     t.integer  "invited_by_id"
-    t.string   "invited_by_type"
-    t.integer  "invitations_count",      default: 0
+    t.string   "invited_by_type",        limit: 255
+    t.integer  "invitations_count",                  default: 0
     t.integer  "branch_id"
-    t.boolean  "primary_contact",        default: false
-    t.boolean  "billing_contact",        default: false
-    t.string   "phone"
+    t.boolean  "primary_contact"
+    t.boolean  "billing_contact"
+    t.string   "phone",                  limit: 255
   end
 
   add_index "users", ["branch_id"], name: "index_users_on_branch_id", using: :btree
@@ -285,19 +289,19 @@ ActiveRecord::Schema.define(version: 20150424152809) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "zipcodes", force: :cascade do |t|
-    t.string   "zipcode"
-    t.string   "zip_type"
-    t.string   "primary_city"
+    t.string   "zipcode",              limit: 255
+    t.string   "zip_type",             limit: 255
+    t.string   "primary_city",         limit: 255
     t.text     "acceptable_cities"
     t.text     "unacceptable_cities"
-    t.string   "state"
-    t.string   "county"
-    t.string   "timezone"
+    t.string   "state",                limit: 255
+    t.string   "county",               limit: 255
+    t.string   "timezone",             limit: 255
     t.text     "area_codes"
     t.float    "latitude"
     t.float    "longitude"
-    t.string   "world_region"
-    t.string   "country"
+    t.string   "world_region",         limit: 255
+    t.string   "country",              limit: 255
     t.boolean  "decommissioned"
     t.integer  "estimated_population"
     t.text     "notes"
