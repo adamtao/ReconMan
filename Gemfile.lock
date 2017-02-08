@@ -2,7 +2,6 @@ GEM
   remote: https://rubygems.org/
   specs:
     RedCloth (4.3.2)
-    ZenTest (4.11.0)
     actionmailer (4.2.7.1)
       actionpack (= 4.2.7.1)
       actionview (= 4.2.7.1)
@@ -50,8 +49,6 @@ GEM
       nokogiri (>= 1.4.4)
     bazaar (0.0.2)
     bcrypt (3.1.10)
-    binding_of_caller (0.7.2)
-      debug_inspector (>= 0.0.1)
     builder (3.2.3)
     capybara (2.12.0)
       addressable
@@ -78,7 +75,6 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.4)
     database_cleaner (1.5.3)
-    debug_inspector (0.0.2)
     devise (3.5.2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -161,7 +157,7 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
-    mimemagic (0.3.0)
+    mimemagic (0.3.2)
     mini_portile2 (2.1.0)
     minitest (5.10.1)
     monetize (1.6.0)
@@ -182,12 +178,12 @@ GEM
       nenv (~> 0.1)
       shellany (~> 0.0)
     orm_adapter (0.5.0)
-    paperclip (4.3.0)
-      activemodel (>= 3.2.0)
-      activesupport (>= 3.2.0)
+    paperclip (5.1.0)
+      activemodel (>= 4.2.0)
+      activesupport (>= 4.2.0)
       cocaine (~> 0.5.5)
       mime-types
-      mimemagic (= 0.3.0)
+      mimemagic (~> 0.3.0)
     pg (0.19.0)
     polyamorous (1.3.1)
       activerecord (>= 3.0)
@@ -197,7 +193,7 @@ GEM
       slop (~> 3.4)
     pundit (1.0.1)
       activesupport (>= 3.0.0)
-    rabl (0.11.6)
+    rabl (0.13.1)
       activesupport (>= 2.3.14)
     rack (1.6.5)
     rack-test (0.6.3)
@@ -255,8 +251,6 @@ GEM
       rspec-core (~> 3.3.0)
       rspec-expectations (~> 3.3.0)
       rspec-mocks (~> 3.3.0)
-    rspec-autotest (1.0.0)
-      rspec-core (>= 2.99.0.beta1, < 4.0.0)
     rspec-core (3.3.2)
       rspec-support (~> 3.3.0)
     rspec-expectations (3.3.1)
@@ -333,11 +327,6 @@ GEM
       raindrops (~> 0.7)
     warden (1.2.3)
       rack (>= 1.0)
-    web-console (2.2.1)
-      activemodel (>= 4.0)
-      binding_of_caller (>= 0.7.2)
-      railties (>= 4.0)
-      sprockets-rails (>= 2.0, < 4.0)
     websocket (1.2.2)
     will_paginate (3.1.5)
     workflow (1.2.0)
@@ -349,7 +338,6 @@ PLATFORMS
 
 DEPENDENCIES
   RedCloth
-  ZenTest
   active_attr
   aws-sdk (< 2.0)
   bazaar
@@ -385,7 +373,6 @@ DEPENDENCIES
   rb-inotify
   redcloth-rails
   responders (~> 2.0)
-  rspec-autotest
   rspec-rails
   sass-rails
   sdoc (~> 0.4.0)
@@ -398,7 +385,6 @@ DEPENDENCIES
   to_xls
   uglifier (>= 1.3.0)
   unicorn
-  web-console (~> 2.0)
   will_paginate
   workflow
 

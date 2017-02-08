@@ -37,7 +37,7 @@ group :production do
 end
 
 group :development do
-  gem 'web-console', '~> 2.0'
+  #gem 'web-console', '~> 2.0'
   gem 'spring'
   gem 'spring-commands-rspec'
   # Not using capistrano, since using heroku
@@ -67,9 +67,7 @@ group :test do
   gem 'capybara'
   gem 'capybara-webkit'
   gem 'database_cleaner'
-  gem 'ZenTest'
   gem 'simplecov', require: false
-  gem 'rspec-autotest'
   gem 'faker'
   gem 'launchy'
   gem 'selenium-webdriver'
