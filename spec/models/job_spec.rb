@@ -80,7 +80,7 @@ describe Job do
   end
 
   describe "tracking job_type" do
-    before(:all) { @job = FactoryGirl.build_stubbed(:tracking_job) }
+    before(:all) { @job = FactoryGirl.build(:tracking_job) }
 
     it "should initialize with a tracking task" do
       expect(@job.default_tasks).to include(@tracking_product)
@@ -96,7 +96,7 @@ describe Job do
   end
 
   describe "search job_type" do
-    before(:all) { @job = FactoryGirl.build_stubbed(:search_job)  }
+    before(:all) { @job = FactoryGirl.build(:search_job)  }
 
     it "should initialize with a search task" do
       expect(@job.default_tasks).to include(@search_product)
@@ -112,7 +112,7 @@ describe Job do
   end
 
   describe "special job_type" do
-    before(:all) { @job = FactoryGirl.build_stubbed(:special_job) }
+    before(:all) { @job = FactoryGirl.build(:special_job) }
 
     it "should initialize with a special task" do
       expect(@job.default_tasks).to include(@special_product)
@@ -129,7 +129,7 @@ describe Job do
 
   describe "documentation job_type" do
     before(:all) do
-      @job = FactoryGirl.build_stubbed(:documentation_job)
+      @job = FactoryGirl.build(:documentation_job)
     end
 
     it "should initialize with a document task" do
