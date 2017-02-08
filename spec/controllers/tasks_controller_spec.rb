@@ -15,7 +15,7 @@ RSpec.describe TasksController do
 
   describe "GET index" do
     before do
-      get :index, job_id: @job.id
+      get :index, params: { job_id: @job.id }
     end
 
     it "assigns @job" do
@@ -34,7 +34,7 @@ RSpec.describe TasksController do
   describe "GET show" do
 
     before do
-      get :show, job_id: @job.id, id: @task.id
+      get :show, params: { job_id: @job.id, id: @task.id }
     end
 
     it "assigns @job, @task" do
@@ -50,7 +50,7 @@ RSpec.describe TasksController do
   describe "GET new" do
 
     before do
-      get :new, job_id: @job.id
+      get :new, params: { job_id: @job.id }
     end
 
     it "assigns @job, @task, @task.worker" do
@@ -76,7 +76,7 @@ RSpec.describe TasksController do
       task_params[:price] = task_params.delete(:price_cents) / 100
       task_params[:deed_of_trust_number] = "12345"
       task_params[:beneficiary_account] = "5678"
-      post :create, job_id: @job.id, task: task_params.except(:due_on)
+      post :create, params: { job_id: @job.id, task: task_params.except(:due_on) }
     end
 
     it "builds @task" do
@@ -97,7 +97,7 @@ RSpec.describe TasksController do
 
   describe "POST create (with errors)" do
     before do
-      post :create, job_id: @job.id, task: {phone: "1234"}
+      post :create, params: { job_id: @job.id, task: {phone: "1234"} }
     end
 
     it "renders the new template" do
@@ -108,7 +108,7 @@ RSpec.describe TasksController do
   describe "GET edit" do
 
     before do
-      get :edit, job_id: @job.id, id: @task.id
+      get :edit, params: { job_id: @job.id, id: @task.id }
     end
 
     it "assigns @job, @task" do
@@ -126,7 +126,7 @@ RSpec.describe TasksController do
     before do
       @new_task_params = FactoryGirl.attributes_for(:task)
 
-      put :update, job_id: @job.id, id: @task.id, task: @new_task_params.except(:payoff_amount_cents, :due_on, :price_cents)
+      put :update, params: { job_id: @job.id, id: @task.id, task: @new_task_params.except(:payoff_amount_cents, :due_on, :price_cents) }
     end
 
     it "updates @task" do
@@ -141,7 +141,7 @@ RSpec.describe TasksController do
   describe "PUT update (with errors)" do
 
     before do
-      put :update, job_id: @job.id, id: @task.id, task: {product_id: ""}
+      put :update, params: { job_id: @job.id, id: @task.id, task: {product_id: ""} }
     end
 
     it "should render the edit form" do
@@ -152,7 +152,7 @@ RSpec.describe TasksController do
   describe "DELETE destroy" do
 
     before do
-      delete :destroy, job_id: @job.id, id: @task.id
+      delete :destroy, params: { job_id: @job.id, id: @task.id }
     end
 
     it "should delete the task" do
@@ -168,7 +168,7 @@ RSpec.describe TasksController do
 
     before do
       @task.update_column(:search_url, "http://county.lvh.me")
-      get :research, job_id: @job.id, id: @task.id
+      get :research, params: { job_id: @job.id, id: @task.id }
     end
 
     it "should log a search" do
@@ -186,7 +186,7 @@ RSpec.describe TasksController do
     it "should mark the task billed" do
       @task.update_column(:billed, false)
 
-      post :toggle_billing, id: @task.id, format: :js
+      post :toggle_billing, params: { id: @task.id, format: :js }
 
       @task.reload
       expect(@task.billed?).to be(true)
@@ -195,7 +195,7 @@ RSpec.describe TasksController do
     it "should mark the task NOT billed" do
       @task.update_column(:billed, true)
 
-      post :toggle_billing, id: @task.id, format: :js
+      post :toggle_billing, params: { id: @task.id, format: :js }
 
       @task.reload
       expect(@task.billed?).to be(false)
@@ -206,7 +206,7 @@ RSpec.describe TasksController do
   describe "PATCH first_notice_sent" do
 
     before do
-      patch :first_notice_sent, job_id: @job.id, id: @task.id
+      patch :first_notice_sent, params: { job_id: @job.id, id: @task.id }
     end
 
     it "should set the status of the task to 'first_notice'" do
@@ -229,7 +229,7 @@ RSpec.describe TasksController do
 
     before do
       @task.update_column(:workflow_state, 'first_notice')
-      patch :second_notice_sent, job_id: @job.id, id: @task.id
+      patch :second_notice_sent, params: { job_id: @job.id, id: @task.id }
     end
 
     it "should set the status of the task to 'second_notice'" do

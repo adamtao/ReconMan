@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 ruby '2.2.2'
-gem 'rails', '4.2.7.1'
+gem 'rails', '~> 5.0'
 gem 'responders', '~> 2.0'
 gem 'sass-rails'
 gem 'uglifier', '>= 1.3.0'
@@ -17,6 +17,7 @@ gem 'simple_form'
 gem 'therubyracer', :platform=>:ruby
 gem 'foundation-rails', '~> 5.5' #, '5.4.5'
 gem 'will_paginate'
+gem 'will_paginate-foundation'
 gem 'workflow'
 gem 'money-rails'
 gem 'ransack'
@@ -71,4 +72,8 @@ group :test do
   gem 'faker'
   gem 'launchy'
   gem 'selenium-webdriver'
+  # This brings back the 'assigns' method I used a lot in testing which DHH
+  # now discourages. But, requiring it here breaks other tests. So I do the
+  # require in spec/rails_helper.rb
+  gem 'rails-controller-testing', require: false
 end

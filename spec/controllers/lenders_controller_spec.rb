@@ -28,7 +28,7 @@ RSpec.describe LendersController do
   describe "GET show" do
 
     before do
-      get :show, id: @lender.id
+      get :show, params: { id: @lender.id }
     end
 
     it "assigns @lender" do
@@ -56,7 +56,7 @@ RSpec.describe LendersController do
 
   describe "GET edit" do
     before do
-      get :edit, id: @lender.id
+      get :edit, params: { id: @lender.id }
     end
 
     it "assigns @lender" do
@@ -72,7 +72,7 @@ RSpec.describe LendersController do
     before do
       @lender_params = FactoryGirl.attributes_for(:lender)
 
-      post :create, lender: @lender_params
+      post :create, params: { lender: @lender_params }
     end
 
     it "creates the new lender" do
@@ -86,7 +86,7 @@ RSpec.describe LendersController do
 
   describe "POST create invalid data" do
     before do
-      post :create, lender: {name: ""}
+      post :create, params: { lender: {name: ""} }
     end
 
     it "renders the new form" do
@@ -98,7 +98,7 @@ RSpec.describe LendersController do
     before do
       @new_lender_params = FactoryGirl.attributes_for(:lender)
 
-      put :update, id: @lender.id, lender: @new_lender_params
+      put :update, params: { id: @lender.id, lender: @new_lender_params }
     end
 
     it "updates the lender" do
@@ -113,7 +113,7 @@ RSpec.describe LendersController do
 
   describe "PUT update invalid params" do
     before do
-      put :update, id: @lender.id, lender: { name: '' }
+      put :update, params: { id: @lender.id, lender: { name: '' } }
     end
 
     it "renders the edit form" do
@@ -130,7 +130,7 @@ RSpec.describe LendersController do
     before do
       @lender2 = FactoryGirl.create(:lender)
       @tracking_task = FactoryGirl.create(:tracking_task, lender: @lender2)
-      post :merge, id: @lender.id, merge_with_id: @lender2.id
+      post :merge, params: { id: @lender.id, merge_with_id: @lender2.id }
     end
 
     it "merges the lenders" do
@@ -143,7 +143,7 @@ RSpec.describe LendersController do
 
   describe "DELETE destroy" do
     before do
-      delete :destroy, id: @lender.id
+      delete :destroy, params: { id: @lender.id }
     end
 
     it "deletes the lender" do

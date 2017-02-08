@@ -14,7 +14,7 @@ RSpec.describe DocumentsController do
   describe "POST create" do
     it "creates a new document" do
       file_data = Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "test_file.doc"), "text/plain")
-      post :create, task_id: @task.id, job_id: @task.job_id, document: {file: file_data}
+      post :create, params: { task_id: @task.id, job_id: @task.job_id, document: {file: file_data} }
 
       expect(@task.documents.length).to eq(1)
       expect(response).to redirect_to(job_path(@task.job))
@@ -25,7 +25,7 @@ RSpec.describe DocumentsController do
     before do
       @document = FactoryGirl.create(:document, task: @task)
 
-      delete :destroy, id: @document.id, task_id: @task.id, job_id: @task.job_id
+      delete :destroy, params: { id: @document.id, task_id: @task.id, job_id: @task.job_id }
     end
 
     it "deletes the document" do

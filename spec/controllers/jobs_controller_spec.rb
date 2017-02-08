@@ -18,13 +18,13 @@ RSpec.describe JobsController do
     end
 
     it "assigns @jobs" do
-      post :index, q: { file_number_cont: "1" }
+      post :index, params: { q: { file_number_cont: "1" } }
 
       expect(assigns(:jobs)).to include(@job1)
     end
 
     it "redirects to view job when single result found" do
-      post :index, q: { file_number_cont: "222" }
+      post :index, params: { q: { file_number_cont: "222" } }
 
       expect(response).to redirect_to(job_path(@job2))
     end
@@ -32,7 +32,7 @@ RSpec.describe JobsController do
 
   describe "POST create invalid data" do
     before do
-      post :create, job: {client_id: ""}
+      post :create, params: { job: {client_id: ""} }
     end
 
     it "renders the new form" do
@@ -43,7 +43,7 @@ RSpec.describe JobsController do
   describe "PUT update invalid params" do
     before do
       @job = FactoryGirl.create(:tracking_job)
-      put :update, id: @job.id, job: { client_id: '' }
+      put :update, params: { id: @job.id, job: { client_id: '' } }
     end
 
     it "renders the edit form" do
@@ -60,7 +60,7 @@ RSpec.describe JobsController do
 
     before do
       @job = FactoryGirl.create(:tracking_job)
-      get :file_number, id: @job.file_number, format: :json
+      get :file_number, params: { id: @job.file_number, format: :json }
     end
 
     it "assigns @job_id" do
@@ -71,7 +71,7 @@ RSpec.describe JobsController do
   describe "DELETE destroy" do
     before do
       @job = FactoryGirl.create(:tracking_job)
-      delete :destroy, id: @job.id
+      delete :destroy, params: { id: @job.id }
     end
 
     it "deletes the job" do

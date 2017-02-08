@@ -28,7 +28,7 @@ RSpec.describe ProductsController do
   describe "GET show" do
 
     before do
-      get :show, id: @product.id
+      get :show, params: { id: @product.id }
     end
 
     it "assigns @product" do
@@ -56,7 +56,7 @@ RSpec.describe ProductsController do
 
   describe "GET edit" do
     before do
-      get :edit, id: @product.id
+      get :edit, params: { id: @product.id }
     end
 
     it "assigns @product" do
@@ -72,7 +72,7 @@ RSpec.describe ProductsController do
     before do
       @product_params = FactoryGirl.attributes_for(:product)
 
-      post :create, product: @product_params
+      post :create, params: { product: @product_params }
     end
 
     it "creates the new product" do
@@ -86,7 +86,7 @@ RSpec.describe ProductsController do
 
   describe "POST create invalid data" do
     before do
-      post :create, product: {name: ""}
+      post :create, params: { product: {name: ""} }
     end
 
     it "renders the new form" do
@@ -98,7 +98,7 @@ RSpec.describe ProductsController do
     before do
       @new_product_params = FactoryGirl.attributes_for(:product)
 
-      put :update, id: @product.id, product: @new_product_params
+      put :update, params: { id: @product.id, product: @new_product_params }
     end
 
     it "updates the product" do
@@ -113,7 +113,7 @@ RSpec.describe ProductsController do
 
   describe "PUT update invalid params" do
     before do
-      put :update, id: @product.id, product: { name: '' }
+      put :update, params: { id: @product.id, product: { name: '' } }
     end
 
     it "renders the edit form" do
@@ -128,7 +128,7 @@ RSpec.describe ProductsController do
 
   describe "DELETE destroy" do
     before do
-      delete :destroy, id: @product.id
+      delete :destroy, params: { id: @product.id }
     end
 
     it "deletes the product" do

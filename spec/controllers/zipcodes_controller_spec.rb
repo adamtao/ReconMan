@@ -14,7 +14,7 @@ RSpec.describe ZipcodesController do
 
     before do
       @zipcode = FactoryGirl.create(:zipcode, zipcode: "90210")
-      get :show, id: @zipcode.zipcode, format: :json
+      get :show, params: { id: @zipcode.zipcode, format: :json }
     end
 
     it "assigns @zipcode" do
@@ -26,7 +26,7 @@ RSpec.describe ZipcodesController do
 
     before do
       @zipcode = FactoryGirl.create(:zipcode, zipcode: "90210-1234")
-      get :show, id: @zipcode.zipcode, format: :json
+      get :show, params: { id: @zipcode.zipcode, format: :json }
     end
 
     it "does not match @zipcode" do

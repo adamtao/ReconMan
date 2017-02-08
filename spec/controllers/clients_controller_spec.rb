@@ -28,7 +28,7 @@ RSpec.describe ClientsController do
   describe "GET show" do
 
     before do
-      get :show, id: @client.id
+      get :show, params: { id: @client.id }
     end
 
     it "assigns @client" do
@@ -56,7 +56,7 @@ RSpec.describe ClientsController do
 
   describe "GET edit" do
     before do
-      get :edit, id: @client.id
+      get :edit, params: { id: @client.id }
     end
 
     it "assigns @client" do
@@ -72,7 +72,7 @@ RSpec.describe ClientsController do
     before do
       @client_params = FactoryGirl.attributes_for(:client)
 
-      post :create, client: @client_params
+      post :create, params: { client: @client_params }
     end
 
     it "creates the new client" do
@@ -86,7 +86,7 @@ RSpec.describe ClientsController do
 
   describe "POST create invalid data" do
     before do
-      post :create, client: {name: ""}
+      post :create, params: { client: {name: ""} }
     end
 
     it "renders the new form" do
@@ -98,7 +98,7 @@ RSpec.describe ClientsController do
     before do
       @new_client_params = FactoryGirl.attributes_for(:client)
 
-      put :update, id: @client.id, client: @new_client_params
+      put :update, params: { id: @client.id, client: @new_client_params }
     end
 
     it "updates the client" do
@@ -113,7 +113,7 @@ RSpec.describe ClientsController do
 
   describe "PUT update invalid params" do
     before do
-      put :update, id: @client.id, client: { name: '' }
+      put :update, params: { id: @client.id, client: { name: '' } }
     end
 
     it "renders the edit form" do
@@ -128,7 +128,7 @@ RSpec.describe ClientsController do
 
   describe "DELETE destroy" do
     before do
-      delete :destroy, id: @client.id
+      delete :destroy, params: { id: @client.id }
     end
 
     it "deletes the client" do

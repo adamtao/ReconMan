@@ -81,14 +81,14 @@ class TasksController < ApplicationController
     @task.toggle!
     respond_to do |format|
       format.html { redirect_to @job, notice: "The #{@task.product.name} for this job is complete." }
-      format.js { render nothing: true }
+      format.js { head :ok }
     end
   end
 
   # POST /tasks/:id/toggle_billing
   def toggle_billing
     @task.update_column(:billed, !@task.billed?)
-    render nothing: true
+    head :ok
   end
 
   # PATCH /tasks/:id/first_notice_sent

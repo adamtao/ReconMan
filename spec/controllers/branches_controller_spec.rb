@@ -14,7 +14,7 @@ RSpec.describe BranchesController do
 
   describe "GET index" do
     before do
-      get :index, client_id: @client.id
+      get :index, params: { client_id: @client.id }
     end
 
     it "assigns @client" do
@@ -36,7 +36,7 @@ RSpec.describe BranchesController do
       @agent = FactoryGirl.create(:user, branch: @branch)
       @tracking_job = FactoryGirl.create(:tracking_job, client: @client, requestor: @agent)
 
-      get :show, client_id: @client.id, id: @branch.id
+      get :show, params: { client_id: @client.id, id: @branch.id }
     end
 
     it "assigns @client, @branch" do
@@ -56,7 +56,7 @@ RSpec.describe BranchesController do
   describe "GET new" do
 
     before do
-      get :new, client_id: @client.id
+      get :new, params: { client_id: @client.id }
     end
 
     it "assigns @client, @branch" do
@@ -75,7 +75,7 @@ RSpec.describe BranchesController do
     before do
       branch_params = FactoryGirl.attributes_for(:branch)
 
-      post :create, client_id: @client.id, branch: branch_params
+      post :create, params: { client_id: @client.id, branch: branch_params }
     end
 
     it "builds @branch" do
@@ -91,7 +91,7 @@ RSpec.describe BranchesController do
 
   describe "POST create (with errors)" do
     before do
-      post :create, client_id: @client.id, branch: {phone: "1234"}
+      post :create, params: { client_id: @client.id, branch: {phone: "1234"} }
     end
 
     it "renders the new template" do
@@ -102,7 +102,7 @@ RSpec.describe BranchesController do
   describe "GET edit" do
 
     before do
-      get :edit, client_id: @client.id, id: @branch.id
+      get :edit, params: { client_id: @client.id, id: @branch.id }
     end
 
     it "assigns @client, @branch" do
@@ -120,7 +120,7 @@ RSpec.describe BranchesController do
     before do
       @new_branch_params = FactoryGirl.attributes_for(:branch)
 
-      put :update, client_id: @client.id, id: @branch.id, branch: @new_branch_params
+      put :update, params: { client_id: @client.id, id: @branch.id, branch: @new_branch_params }
     end
 
     it "updates @branch" do
@@ -135,7 +135,7 @@ RSpec.describe BranchesController do
   describe "PUT update (with errors)" do
 
     before do
-      put :update, client_id: @client.id, id: @branch.id, branch: {name: ""}
+      put :update, params: { client_id: @client.id, id: @branch.id, branch: {name: ""} }
     end
 
     it "should render the edit form" do
@@ -146,7 +146,7 @@ RSpec.describe BranchesController do
   describe "DELETE destroy" do
 
     before do
-      delete :destroy, client_id: @client.id, id: @branch.id
+      delete :destroy, params: { client_id: @client.id, id: @branch.id }
     end
 
     it "should delete the branch" do

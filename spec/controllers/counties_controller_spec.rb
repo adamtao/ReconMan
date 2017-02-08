@@ -14,7 +14,7 @@ RSpec.describe CountiesController do
 
   describe "GET index" do
     before do
-      get :index, state_id: @state.id
+      get :index, params: { state_id: @state.id }
     end
 
     it "assigns @state and its @counties" do
@@ -30,7 +30,7 @@ RSpec.describe CountiesController do
   describe "GET show" do
 
     before do
-      get :show, state_id: @state.id, id: @county.id
+      get :show, params: { state_id: @state.id, id: @county.id }
     end
 
     it "assigns @county" do
@@ -45,7 +45,7 @@ RSpec.describe CountiesController do
 
   describe "GET new" do
     before do
-      get :new, state_id: @state.id
+      get :new, params: { state_id: @state.id }
     end
 
     it "builds @county belonging to @state" do
@@ -60,7 +60,7 @@ RSpec.describe CountiesController do
 
   describe "GET edit" do
     before do
-      get :edit, state_id: @state.id, id: @county.id
+      get :edit, params: { state_id: @state.id, id: @county.id }
     end
 
     it "assigns @state and @county" do
@@ -78,7 +78,7 @@ RSpec.describe CountiesController do
     before do
       @job = FactoryGirl.create(:tracking_job, county: @county)
 
-      put :checkout, id: @county.id
+      put :checkout, params: { id: @county.id }
     end
 
     it "redirects to @job" do
@@ -99,7 +99,7 @@ RSpec.describe CountiesController do
       @county.update_column(:checked_out_to_id, user.id)
       @county.update_column(:checked_out_at, 2.minutes.ago)
 
-      put :checkin, id: @county.id
+      put :checkin, params: { id: @county.id }
     end
 
     it "redirects to root path" do
@@ -117,7 +117,7 @@ RSpec.describe CountiesController do
     before do
       @county_params = FactoryGirl.attributes_for(:county)
 
-      post :create, state_id: @state.id, county: @county_params
+      post :create, params: { state_id: @state.id, county: @county_params }
     end
 
     it "creates the new county" do
@@ -132,7 +132,7 @@ RSpec.describe CountiesController do
 
   describe "POST create invalid data" do
     before do
-      post :create, state_id: @state.id, county: {name: ""}
+      post :create, params: { state_id: @state.id, county: {name: ""} }
     end
 
     it "renders the new form" do
@@ -144,7 +144,7 @@ RSpec.describe CountiesController do
     before do
       @new_county_params = FactoryGirl.attributes_for(:county)
 
-      put :update, state_id: @state.id, id: @county.id, county: @new_county_params
+      put :update, params: { state_id: @state.id, id: @county.id, county: @new_county_params }
     end
 
     it "updates the county" do
@@ -159,7 +159,7 @@ RSpec.describe CountiesController do
 
   describe "PUT update invalid params" do
     before do
-      put :update, state_id: @state.id, id: @county.id, county: { name: '' }
+      put :update, params: { state_id: @state.id, id: @county.id, county: { name: '' } }
     end
 
     it "renders the edit form" do
@@ -174,7 +174,7 @@ RSpec.describe CountiesController do
 
   describe "DELETE destroy successfuly" do
     before do
-      delete :destroy, state_id: @state.id, id: @county.id
+      delete :destroy, params: { state_id: @state.id, id: @county.id }
     end
 
     it "deletes the county" do
@@ -190,7 +190,7 @@ RSpec.describe CountiesController do
     before do
       FactoryGirl.create(:job, county: @county)
 
-      delete :destroy, state_id: @state.id, id: @county.id
+      delete :destroy, params: { state_id: @state.id, id: @county.id }
     end
 
     it "doesn't delete county with jobs" do

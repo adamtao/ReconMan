@@ -1,5 +1,5 @@
 class ReportsController < ApplicationController
-  before_filter :load_report
+  before_action :load_report
 
   def index
   end
