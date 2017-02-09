@@ -26,7 +26,7 @@ gem "RedCloth"
 gem "redcloth-rails"
 gem 'unicorn'
 gem 'paperclip'
-gem 'aws-sdk', '< 2.0'
+gem 'aws-sdk', '~> 2.3'
 gem 'active_attr'
 gem 'to_xls'
 gem 'exception_notification'

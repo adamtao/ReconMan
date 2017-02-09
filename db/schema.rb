@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -30,9 +29,8 @@ ActiveRecord::Schema.define(version: 20150424152809) do
     t.boolean  "headquarters"
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
+    t.index ["client_id"], name: "index_branches_on_client_id", using: :btree
   end
-
-  add_index "branches", ["client_id"], name: "index_branches_on_client_id", using: :btree
 
   create_table "client_products", force: :cascade do |t|
     t.integer  "client_id"
@@ -43,10 +41,9 @@ ActiveRecord::Schema.define(version: 20150424152809) do
     t.datetime "updated_at"
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
+    t.index ["client_id"], name: "index_client_products_on_client_id", using: :btree
+    t.index ["product_id"], name: "index_client_products_on_product_id", using: :btree
   end
-
-  add_index "client_products", ["client_id"], name: "index_client_products_on_client_id", using: :btree
-  add_index "client_products", ["product_id"], name: "index_client_products_on_product_id", using: :btree
 
   create_table "clients", force: :cascade do |t|
     t.string   "name",             limit: 255
@@ -60,10 +57,9 @@ ActiveRecord::Schema.define(version: 20150424152809) do
     t.string   "billing_zipcode",  limit: 255
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
+    t.index ["created_by_id"], name: "index_clients_on_created_by_id", using: :btree
+    t.index ["modified_by_id"], name: "index_clients_on_modified_by_id", using: :btree
   end
-
-  add_index "clients", ["created_by_id"], name: "index_clients_on_created_by_id", using: :btree
-  add_index "clients", ["modified_by_id"], name: "index_clients_on_modified_by_id", using: :btree
 
   create_table "comments", force: :cascade do |t|
     t.text     "message"
@@ -72,10 +68,9 @@ ActiveRecord::Schema.define(version: 20150424152809) do
     t.string   "related_type", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["related_id", "related_type"], name: "index_comments_on_related_id_and_related_type", using: :btree
+    t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
-
-  add_index "comments", ["related_id", "related_type"], name: "index_comments_on_related_id_and_related_type", using: :btree
-  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "counties", force: :cascade do |t|
     t.string   "name",                limit: 255
@@ -102,22 +97,20 @@ ActiveRecord::Schema.define(version: 20150424152809) do
     t.datetime "checked_out_at"
     t.string   "search_template_url", limit: 255
     t.text     "notes"
+    t.index ["checked_out_to_id"], name: "index_counties_on_checked_out_to_id", using: :btree
+    t.index ["state_id"], name: "index_counties_on_state_id", using: :btree
   end
-
-  add_index "counties", ["checked_out_to_id"], name: "index_counties_on_checked_out_to_id", using: :btree
-  add_index "counties", ["state_id"], name: "index_counties_on_state_id", using: :btree
 
   create_table "documents", force: :cascade do |t|
     t.integer  "task_id"
     t.string   "file_file_name",    limit: 255
-    t.integer  "file_file_size",    limit: 8
+    t.bigint   "file_file_size"
     t.datetime "file_updated_at"
     t.string   "file_content_type", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["task_id"], name: "index_documents_on_task_id", using: :btree
   end
-
-  add_index "documents", ["task_id"], name: "index_documents_on_task_id", using: :btree
 
   create_table "jobs", force: :cascade do |t|
     t.integer  "client_id"
@@ -141,13 +134,12 @@ ActiveRecord::Schema.define(version: 20150424152809) do
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
     t.string   "job_type",         limit: 255, default: "tracking"
+    t.index ["client_id"], name: "index_jobs_on_client_id", using: :btree
+    t.index ["county_id"], name: "index_jobs_on_county_id", using: :btree
+    t.index ["created_by_id"], name: "index_jobs_on_created_by_id", using: :btree
+    t.index ["modified_by_id"], name: "index_jobs_on_modified_by_id", using: :btree
+    t.index ["requestor_id"], name: "index_jobs_on_requestor_id", using: :btree
   end
-
-  add_index "jobs", ["client_id"], name: "index_jobs_on_client_id", using: :btree
-  add_index "jobs", ["county_id"], name: "index_jobs_on_county_id", using: :btree
-  add_index "jobs", ["created_by_id"], name: "index_jobs_on_created_by_id", using: :btree
-  add_index "jobs", ["modified_by_id"], name: "index_jobs_on_modified_by_id", using: :btree
-  add_index "jobs", ["requestor_id"], name: "index_jobs_on_requestor_id", using: :btree
 
   create_table "lenders", force: :cascade do |t|
     t.string   "name",                     limit: 255
@@ -168,9 +160,8 @@ ActiveRecord::Schema.define(version: 20150424152809) do
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
     t.string   "job_type",        limit: 255
+    t.index ["job_type"], name: "index_products_on_job_type", using: :btree
   end
-
-  add_index "products", ["job_type"], name: "index_products_on_job_type", using: :btree
 
   create_table "search_logs", force: :cascade do |t|
     t.integer  "task_id"
@@ -178,9 +169,8 @@ ActiveRecord::Schema.define(version: 20150424152809) do
     t.string   "status",     limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["task_id"], name: "index_search_logs_on_task_id", using: :btree
   end
-
-  add_index "search_logs", ["task_id"], name: "index_search_logs_on_task_id", using: :btree
 
   create_table "states", force: :cascade do |t|
     t.string   "name",                        limit: 255
@@ -214,7 +204,7 @@ ActiveRecord::Schema.define(version: 20150424152809) do
     t.string   "developer",                limit: 255
     t.string   "parcel_number",            limit: 255
     t.string   "beneficiary_name",         limit: 255
-    t.integer  "payoff_amount_cents",      limit: 8,   default: 0,     null: false
+    t.bigint   "payoff_amount_cents",                  default: 0,     null: false
     t.string   "payoff_amount_currency",   limit: 255, default: "USD", null: false
     t.string   "beneficiary_account",      limit: 255
     t.string   "parcel_legal_description", limit: 255
@@ -228,25 +218,23 @@ ActiveRecord::Schema.define(version: 20150424152809) do
     t.string   "type",                     limit: 255
     t.date     "first_notice_sent_on"
     t.date     "second_notice_sent_on"
+    t.index ["cleared_on"], name: "index_tasks_on_cleared_on", using: :btree
+    t.index ["created_by_id"], name: "index_tasks_on_created_by_id", using: :btree
+    t.index ["job_id"], name: "index_tasks_on_job_id", using: :btree
+    t.index ["lender_id"], name: "index_tasks_on_lender_id", using: :btree
+    t.index ["modified_by_id"], name: "index_tasks_on_modified_by_id", using: :btree
+    t.index ["product_id"], name: "index_tasks_on_product_id", using: :btree
+    t.index ["type"], name: "index_tasks_on_type", using: :btree
+    t.index ["worker_id"], name: "index_tasks_on_worker_id", using: :btree
   end
-
-  add_index "tasks", ["cleared_on"], name: "index_tasks_on_cleared_on", using: :btree
-  add_index "tasks", ["created_by_id"], name: "index_tasks_on_created_by_id", using: :btree
-  add_index "tasks", ["job_id"], name: "index_tasks_on_job_id", using: :btree
-  add_index "tasks", ["lender_id"], name: "index_tasks_on_lender_id", using: :btree
-  add_index "tasks", ["modified_by_id"], name: "index_tasks_on_modified_by_id", using: :btree
-  add_index "tasks", ["product_id"], name: "index_tasks_on_product_id", using: :btree
-  add_index "tasks", ["type"], name: "index_tasks_on_type", using: :btree
-  add_index "tasks", ["worker_id"], name: "index_tasks_on_worker_id", using: :btree
 
   create_table "title_search_caches", force: :cascade do |t|
     t.integer  "task_id"
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["task_id"], name: "index_title_search_caches_on_task_id", using: :btree
   end
-
-  add_index "title_search_caches", ["task_id"], name: "index_title_search_caches_on_task_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -279,14 +267,13 @@ ActiveRecord::Schema.define(version: 20150424152809) do
     t.boolean  "primary_contact"
     t.boolean  "billing_contact"
     t.string   "phone",                  limit: 255
+    t.index ["branch_id"], name: "index_users_on_branch_id", using: :btree
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
+    t.index ["invitations_count"], name: "index_users_on_invitations_count", using: :btree
+    t.index ["invited_by_id"], name: "index_users_on_invited_by_id", using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
-
-  add_index "users", ["branch_id"], name: "index_users_on_branch_id", using: :btree
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
-  add_index "users", ["invitations_count"], name: "index_users_on_invitations_count", using: :btree
-  add_index "users", ["invited_by_id"], name: "index_users_on_invited_by_id", using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "zipcodes", force: :cascade do |t|
     t.string   "zipcode",              limit: 255
@@ -307,8 +294,7 @@ ActiveRecord::Schema.define(version: 20150424152809) do
     t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["zipcode"], name: "index_zipcodes_on_zipcode", using: :btree
   end
-
-  add_index "zipcodes", ["zipcode"], name: "index_zipcodes_on_zipcode", using: :btree
 
 end
