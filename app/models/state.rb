@@ -1,4 +1,4 @@
-class State < ActiveRecord::Base
+class State < ApplicationRecord
 	has_many :counties, -> { order('name') }
 
 	validates :name, presence: true, uniqueness: true

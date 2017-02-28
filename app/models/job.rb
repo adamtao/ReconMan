@@ -1,4 +1,4 @@
-class Job < ActiveRecord::Base
+class Job < ApplicationRecord
 	include RelatedCountyState
 	include Ownable
 	include Commentable

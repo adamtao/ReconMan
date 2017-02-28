@@ -12,7 +12,7 @@
 # zipcode.
 #
 require 'csv'
-class Zipcode < ActiveRecord::Base
+class Zipcode < ApplicationRecord
 
 	def self.lookup(zipcode)
 		find_by(zipcode: zipcode)

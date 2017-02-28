@@ -1,4 +1,4 @@
-class County < ActiveRecord::Base
+class County < ApplicationRecord
 	belongs_to :state
 	has_many :jobs, dependent: :nullify
 

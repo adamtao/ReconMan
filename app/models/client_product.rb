@@ -1,4 +1,4 @@
-class ClientProduct < ActiveRecord::Base
+class ClientProduct < ApplicationRecord
 	include Ownable
 	belongs_to :client
 	belongs_to :product

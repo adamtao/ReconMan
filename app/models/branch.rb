@@ -1,4 +1,4 @@
-class Branch < ActiveRecord::Base
+class Branch < ApplicationRecord
 	include Ownable
 
 	belongs_to :client

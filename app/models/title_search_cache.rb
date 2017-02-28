@@ -1,4 +1,4 @@
-class TitleSearchCache < ActiveRecord::Base
+class TitleSearchCache < ApplicationRecord
 	belongs_to :task
 
 	after_create :send_changed_response_alert

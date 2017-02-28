@@ -1,4 +1,4 @@
-class Client < ActiveRecord::Base
+class Client < ApplicationRecord
 	include Ownable
 	has_many :jobs, -> { includes(:tasks) }, dependent: :destroy
 	has_many :branches, dependent: :destroy

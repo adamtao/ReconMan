@@ -1,4 +1,4 @@
-class SearchLog < ActiveRecord::Base
+class SearchLog < ApplicationRecord
   belongs_to :task
   belongs_to :user
 
