@@ -24,7 +24,7 @@ class Zipcode < ApplicationRecord
 
 	def lookup_county
     t = County.arel_table
-    @county ||= County.where(state: state_id).where(t[:name].matches("%#{county.gsub(/\s?County$/i, '')}")).first
+    @county ||= County.where(state: state_id).where(t[:name].matches("%#{county.to_s.gsub(/\s?County$/i, '')}")).first
 	end
 
 	def state_id
