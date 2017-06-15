@@ -32,7 +32,7 @@ feature "Search", :devise do
     job.update_column(:file_number, "UNIQUENUMBER123")
 
     within(:css, "form#job_search") do
-      fill_in "q_file_number_or_new_owner_or_old_owner_or_address_cont", with: job.file_number
+      fill_in "q_attributes_cont", with: job.file_number
       click_on "search"
     end
 
@@ -51,7 +51,7 @@ feature "Search", :devise do
     job.update_column(:file_number, "AAA#{job.file_number}") # weighing first on higher
 
     within(:css, "form#job_search") do
-      fill_in "q_file_number_or_new_owner_or_old_owner_or_address_cont", with: "AAA"
+      fill_in "q_attributes_cont", with: "AAA"
       click_on "search"
     end
     #save_and_open_page
@@ -71,7 +71,7 @@ feature "Search", :devise do
     job = @tracking_jobs.first
 
     within(:css, "form#job_search") do
-      fill_in "q_file_number_or_new_owner_or_old_owner_or_address_cont", with: "Bill"
+      fill_in "q_attributes_cont", with: "Bill"
       click_on "search"
     end
     job.reload
@@ -90,7 +90,7 @@ feature "Search", :devise do
     job = @tracking_jobs.first
 
     within(:css, "form#job_search") do
-      fill_in "q_file_number_or_new_owner_or_old_owner_or_address_cont", with: "Bart"
+      fill_in "q_attributes_cont", with: "Bart"
       click_on "search"
     end
     job.reload
@@ -109,7 +109,7 @@ feature "Search", :devise do
     job = @tracking_jobs.first
 
     within(:css, "form#job_search") do
-      fill_in "q_file_number_or_new_owner_or_old_owner_or_address_cont", with: "5107 Th"
+      fill_in "q_attributes_cont", with: "5107 Th"
       click_on "search"
     end
     job.reload

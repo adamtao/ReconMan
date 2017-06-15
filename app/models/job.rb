@@ -14,6 +14,8 @@ class Job < ApplicationRecord
 		state :canceled
 	end
 
+  ransack_alias :attributes, :file_number_or_new_owner_or_old_owner_or_address_or_tasks_deed_of_trust_number
+
 	belongs_to :client, touch: true
 	belongs_to :requestor, class_name: "User", foreign_key: :requestor_id
 	has_many :tasks, dependent: :destroy, inverse_of: :job

@@ -97,7 +97,7 @@ class Task < ApplicationRecord
   end
 
 	def advance_state
-		if (new_deed_of_trust_number_changed? && new_deed_of_trust_number.present?) && self.can_mark_complete?
+		if (saved_change_to_attribute?(:new_deed_of_trust_number) && new_deed_of_trust_number.present?) && self.can_mark_complete?
 			self.recorded_on ||= Date.today
 			self.mark_complete!
 		end

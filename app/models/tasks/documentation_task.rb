@@ -30,9 +30,9 @@ class DocumentationTask < Task
 	def advance_state
     if self.job_complete? && self.can_mark_complete?
       self.mark_complete!
-    elsif (reconveyance_filed_changed? && !!reconveyance_filed) && self.can_file_reconveyance?
+    elsif (saved_change_to_attribute?(:reconveyance_filed) && !!reconveyance_filed) && self.can_file_reconveyance?
       self.file_reconveyance!
-    elsif (docs_delivered_on_changed? && docs_delivered_on.present?) && self.can_deliver_docs?
+    elsif (saved_change_to_attribute?(:docs_delivered_on) && docs_delivered_on.present?) && self.can_deliver_docs?
       self.deliver_docs!
     end
 	end
