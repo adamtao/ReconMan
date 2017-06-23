@@ -38,47 +38,52 @@ class Job < ApplicationRecord
 		[:tracking, :search, :special, :documentation]
 	end
 
-	def self.dashboard_jobs(options)
+  def self.dashboard_jobs(options)
     default_options = {
       complete: false,
       user: User.new,
       fallback_to_all: true,
+      hide_old: true,
       page: 1,
       per_page: 20,
       limit: 20
     }
-		options = default_options.merge options
-		user = options[:user]
+    options = default_options.merge options
+    user = options[:user]
 
-		case options[:complete]
-		when true
-			if user.completed_job_ids.length > 0
-				where(id: user.completed_job_ids).
+    case options[:complete]
+    when true
+      if user.completed_job_ids.length > 0
+        where(id: user.completed_job_ids).
           order("completed_at DESC").
           limit(options[:limit])
-			elsif options[:fallback_to_all]
-				where(workflow_state: "complete").
+      elsif options[:fallback_to_all]
+        where(workflow_state: "complete").
           order("completed_at DESC").
           limit(options[:limit])
-			else
-				nil
-			end
-		when false
-  		if user.current_job_ids.length > 0
-        where(id: user.current_job_ids).
-          includes(:tasks).
-          order("tasks.due_on ASC").order("tasks.created_at ASC").order("jobs.created_at ASC").
+      else
+        nil
+      end
+    when false
+      if user.current_job_ids.length > 0
+        jobs = where(id: user.current_job_ids).includes(:tasks, clients).where(clients: { active: true })
+        if options[:hide_old]
+          jobs = jobs.where.not(["tasks.due_on < ?", 1.year.ago] )
+        end
+        jobs.order("tasks.due_on ASC").order("tasks.created_at ASC").order("jobs.created_at ASC").
           paginate(page: options[:page], per_page: options[:per_page])
-  		elsif options[:fallback_to_all]
-        where.not(workflow_state: "complete").
-          includes(:tasks).
-          order("tasks.due_on ASC").order("tasks.created_at ASC").order("jobs.created_at ASC").
+      elsif options[:fallback_to_all]
+        jobs = where.not(workflow_state: "complete").includes(:tasks, :client).where(clients: { active: true })
+        if options[:hide_old]
+          jobs = jobs.where.not(["tasks.due_on < ?", 1.year.ago] )
+        end
+        jobs.order("tasks.due_on ASC").order("tasks.created_at ASC").order("jobs.created_at ASC").
           paginate(page: options[:page], per_page: options[:per_page])
-  		else
-  			nil
-  		end
-		end
-	end
+      else
+        nil
+      end
+    end
+  end
 
   def create_zipcode
     unless Zipcode.exists?(zipcode: zipcode)
@@ -98,9 +103,9 @@ class Job < ApplicationRecord
     cj.length > pos ? cj[pos + 1] : false
   end
 
-	def link_name
-		file_number.present? ? file_number : deed_or_parcel_number
-	end
+  def link_name
+    file_number.present? ? file_number : deed_or_parcel_number
+  end
 
   def branch
     begin
@@ -110,20 +115,20 @@ class Job < ApplicationRecord
     end
   end
 
-	def deed_or_parcel_number
-		begin
-			dashboard_task.deed_of_trust_number.present? ? dashboard_task.deed_of_trust_number : dashboard_task.parcel_number
-		rescue
-			"unknown #{self.id}"
-		end
-	end
+  def deed_or_parcel_number
+    begin
+      dashboard_task.deed_of_trust_number.present? ? dashboard_task.deed_of_trust_number : dashboard_task.parcel_number
+    rescue
+      "unknown #{self.id}"
+    end
+  end
 
-	def total_price_cents
+  def total_price_cents
     tasks.inject(0){|total,task| total += task.price_cents.to_i}
-	end
+  end
 
-	# Base on the 'job_type', determine which default product type to build when
-	# initializing a new job
+  # Base on the 'job_type', determine which default product type to build when
+  # initializing a new job
 	def default_tasks
 		@default_tasks ||= Product.where(job_type: self.job_type.to_s)
 	end

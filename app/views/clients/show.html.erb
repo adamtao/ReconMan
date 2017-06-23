@@ -1,6 +1,8 @@
 <div class="container clearfix">
 	<div class="large-7 small-7 columns">
-		<h1><%= @client.name %></h1>
+    <h1><%= @client.name %>
+    <% unless @client.active? %><small>(inactive)</small><% end %>
+    </h1>
 	</div>
 	<div class="large-5 small-5 columns">
 		<br/>

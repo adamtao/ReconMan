@@ -121,6 +121,8 @@ $topbar-menu-icon-color: $medium-gray;
 // import the CSS framework
 @import "foundation";
 
+a { color: lighten($primary-color, 20%); }
+
 div.top-bar-section {
   li:not(.has-form) a:not(.button) {
     padding-left: rem-calc(10);

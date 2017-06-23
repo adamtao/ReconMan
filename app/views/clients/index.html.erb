@@ -16,7 +16,9 @@
 	<div class="large-4 columns">
 		<ul>
 		  <% group.each do |client| %>
-		    <li><%= link_to client.name, client %> (<%= client.jobs.count %>)</li>
+        <li><%= link_to client.name, client %> (<%= client.jobs.count %>)
+          <% unless client.active? %><small><i>inactive</i></small><% end %>
+        </li>
 		  <% end %>
 		</ul>
 	</div>

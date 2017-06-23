@@ -6,6 +6,10 @@ class LendersController < ApplicationController
   end
 
   def show
+    @current_jobs = Job.where(id: @lender.tasks.where.not(workflow_state: 'complete').pluck(:id).uniq).
+      includes(:tasks).
+      order("tasks.due_on ASC").order("tasks.created_at ASC").order("jobs.created_at ASC").
+      paginate(page: params[:page], per_page: 20)
   end
 
   def new

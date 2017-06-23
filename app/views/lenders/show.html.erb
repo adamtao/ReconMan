@@ -11,7 +11,14 @@
 
 <div class="container">
   <div class="main_content">
-    (job info/reports for the lender go here)
+    <%= render 'shared/jobs' %>
+
+    <p>
+      <%= pluralize @lender.tasks.where.not(workflow_state: 'complete').count, 'open task' %> in
+      <%= pluralize @lender.tasks.where.not(workflow_state: 'complete').pluck(:job_id).uniq.count, 'job' %>.<br/>
+      <%= pluralize @lender.tasks.where(workflow_state: 'complete').count, 'completed task' %> in
+      <%= pluralize @lender.tasks.where(workflow_state: 'complete').pluck(:job_id).uniq.count, 'job' %>.<br/>
+    </p>
   </div>
 
   <div class="side_content">
