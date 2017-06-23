@@ -11,7 +11,7 @@ class BranchesController < ApplicationController
   # GET /branches/1
   # GET /branches/1.json
   def show
-    @current_jobs = @branch.current_jobs.paginate(page: params[:page], per_page: 20)
+    @current_jobs = @branch.current_jobs.page(params[:page])
   end
 
   # GET /branches/new

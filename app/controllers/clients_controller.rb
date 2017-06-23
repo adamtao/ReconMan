@@ -11,7 +11,9 @@ class ClientsController < ApplicationController
   # GET /clients/1
   # GET /clients/1.json
   def show
-    @current_jobs = Job.paginate(page: params[:page], per_page: 20)
+    @current_jobs = @client.jobs.includes(:tasks).
+      order("tasks.due_on ASC, jobs.created_at ASC").
+      page(params[:page])
   end
 
   # GET /clients/new

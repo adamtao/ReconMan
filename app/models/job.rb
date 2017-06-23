@@ -44,8 +44,6 @@ class Job < ApplicationRecord
       user: User.new,
       fallback_to_all: true,
       hide_old: true,
-      page: 1,
-      per_page: 20,
       limit: 20
     }
     options = default_options.merge options
@@ -70,15 +68,13 @@ class Job < ApplicationRecord
         if options[:hide_old]
           jobs = jobs.where.not(["tasks.due_on < ?", 1.year.ago] )
         end
-        jobs.order("tasks.due_on ASC").order("tasks.created_at ASC").order("jobs.created_at ASC").
-          paginate(page: options[:page], per_page: options[:per_page])
+        jobs.order("tasks.due_on ASC").order("jobs.created_at ASC")
       elsif options[:fallback_to_all]
         jobs = where.not(workflow_state: "complete").includes(:tasks, :client).where(clients: { active: true })
         if options[:hide_old]
           jobs = jobs.where.not(["tasks.due_on < ?", 1.year.ago] )
         end
-        jobs.order("tasks.due_on ASC").order("tasks.created_at ASC").order("jobs.created_at ASC").
-          paginate(page: options[:page], per_page: options[:per_page])
+        jobs.order("tasks.due_on ASC").order("jobs.created_at ASC")
       else
         nil
       end

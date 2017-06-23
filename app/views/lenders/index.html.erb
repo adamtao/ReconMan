@@ -11,6 +11,25 @@
 
 <div class="container">
 	<div class="main_content">
+    <h4>Top Lenders</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Open Tasks</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @top_lenders.each do |lender| %>
+        <tr>
+          <td><%= link_to truncate(lender.name, length: 50), lender %></td>
+          <td><%= lender.tasks.where.not(workflow_state: 'complete').count %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <h4>The Rest</h4>
     <table>
       <thead>
         <tr>

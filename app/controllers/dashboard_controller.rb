@@ -8,10 +8,8 @@ class DashboardController < ApplicationController
     @current_jobs = Job.dashboard_jobs(
       user: current_user,
       complete: false,
-      hide_old: @hide_old,
-      per_page: 20,
-      page: params[:page]
-    )
+      hide_old: @hide_old
+    ).page(params[:page])
     @clients = Client.where(active: true).order("updated_at DESC").limit(10)
   	@products = Product.all
     @counties_needing_work = County.needing_work

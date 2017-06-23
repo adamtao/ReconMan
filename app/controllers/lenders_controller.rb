@@ -2,14 +2,19 @@ class LendersController < ApplicationController
   before_action :set_lender, only: [:show, :edit, :update, :merge, :destroy]
 
   def index
+    @top_lenders = Lender.joins(:tasks).
+      where.not(tasks: { workflow_state: 'complete'}).
+      group(:id, :lender_id).
+      order("count(lender_id) desc").
+      limit(10)
     @lenders = Lender.order(:name)
   end
 
   def show
-    @current_jobs = Job.where(id: @lender.tasks.where.not(workflow_state: 'complete').pluck(:id).uniq).
+    @current_jobs = Job.where(id: @lender.tasks.where.not(workflow_state: 'complete').pluck(:job_id).uniq).
       includes(:tasks).
-      order("tasks.due_on ASC").order("tasks.created_at ASC").order("jobs.created_at ASC").
-      paginate(page: params[:page], per_page: 20)
+      order("tasks.due_on ASC").order("jobs.created_at ASC").
+      page(params[:page])
   end
 
   def new

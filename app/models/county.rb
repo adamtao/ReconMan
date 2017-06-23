@@ -11,7 +11,7 @@ class County < ApplicationRecord
 
   def self.needing_work
     timeout_checkouts!
-    jobs_needing_work = Job.dashboard_jobs(limit: 9000, per_page: 9000)
+    jobs_needing_work = Job.dashboard_jobs(limit: 9000)
     where(checked_out_at: nil).where(id: jobs_needing_work.pluck(:county_id))
   end
 

@@ -11,7 +11,7 @@ class CountiesController < ApplicationController
   # GET /counties/1
   # GET /counties/1.json
   def show
-    @current_jobs = @county.current_jobs.paginate(page: params[:page], per_page: 20)
+    @current_jobs = @county.current_jobs.page(params[:page])
   end
 
   # GET /counties/new

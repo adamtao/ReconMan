@@ -4,7 +4,7 @@
   <% if @jobs.length > 0 %>
 
     <div>
-      <%= will_paginate @jobs, renderer: FoundationPagination::Rails %>
+      <%= paginate @jobs %>
     </div>
     <table>
       <thead>
