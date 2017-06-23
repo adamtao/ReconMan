@@ -64,7 +64,7 @@ class Job < ApplicationRecord
       end
     when false
       if user.current_job_ids.length > 0
-        jobs = where(id: user.current_job_ids).includes(:tasks, clients).where(clients: { active: true })
+        jobs = where(id: user.current_job_ids).includes(:tasks, :client).where(clients: { active: true })
         if options[:hide_old]
           jobs = jobs.where.not(["tasks.due_on < ?", 1.year.ago] )
         end
