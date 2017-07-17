@@ -6,7 +6,7 @@
   </div>
   <div class="large-4 small-5 columns">
     <br/>
-    <ul class="button-group right">
+    <ul class="radius button-group right">
 	<% Job.job_types.each do |t| %>
 		<li><%= link_to "+ #{t.to_s.titleize} Job", new_job_path(job_type: t), class: "tiny success button" %></li>
 	<% end %>

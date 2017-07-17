@@ -12,7 +12,7 @@
         <%= f.input :client_id, as: :hidden %>
         <%= f.input :lender_id, as: :hidden %>
         <%= f.input :show_pricing, as: :hidden %>
-        <%= f.button :submit, 'Mark All As Billed', class: 'tiny success button' %>
+        <%= f.button :submit, 'Mark All As Billed', class: 'tiny success radius button' %>
       <% end %>
       <%= simple_form_for @report, url: reports_path(format: :xls) do |f| %>
         <%= f.input :job_status, as: :hidden %>
@@ -21,7 +21,7 @@
         <%= f.input :client_id, as: :hidden %>
         <%= f.input :lender_id, as: :hidden %>
         <%= f.input :show_pricing, as: :hidden %>
-        <%= f.button :submit, 'Export to Excel', class: 'tiny button' %>
+        <%= f.button :submit, 'Export to Excel', class: 'tiny radius button' %>
       <% end %>
     </div>
   </div>

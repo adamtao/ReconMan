@@ -3,7 +3,7 @@
     <h1><%= @lender.name %></h1>
   </div>
   <div class="large-5 small-5 columns">
-    <ul class="button-group right">
+    <ul class="radius button-group right">
       <li><%= link_to 'Edit Lender', edit_lender_path(@lender), class: "tiny button" %></li>
     </ul>
   </div>
@@ -38,7 +38,7 @@
               :name
             ) %>
 
-          <%= submit_tag "Merge", class: "small button", data: {confirm: "Are you sure?"} %>
+          <%= submit_tag "Merge", class: "small radius button", data: {confirm: "Are you sure?"} %>
 
           <p><small><i>This cannot be undone.</i></small></p>
 

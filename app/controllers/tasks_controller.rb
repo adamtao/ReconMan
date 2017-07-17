@@ -91,6 +91,11 @@ class TasksController < ApplicationController
     head :ok
   end
 
+  # GET /tasks/:id/first_notice_cover_letter
+  def first_notice_cover_letter
+    render layout: 'letterhead'
+  end
+
   # PATCH /tasks/:id/first_notice_sent
   def first_notice_sent
     @task.send_first_notice!

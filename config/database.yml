@@ -1,3 +1,32 @@
+<%
+  # This works pretty well to keep a separate copy of the database for different
+  # branches of the project. By default, a new branch will just use the standard
+  # development/test databases. But, if you are working on a major change which
+  # involves major database changes, this file will use a new database if you
+  # simply run this command after checking out your branch:
+  #
+  # $ git config --bool branch.feature.database true
+  #
+  # (where 'feature' is the name of your branch)
+  #
+  # You'll need to create the new database and load the schema and data (if needed),
+  # which sounds like a lot of work, but you just do it once and then it is set
+  # for your branch from then on. It isn't actually too bad if you do this:
+  #
+  # $ bin/rails db:setup
+  #
+  # In order for these to work, you'll need to edit the script and add the
+  # modified database name:
+  #
+  # $ notes/refresh.sh  # to load the new dev database with production data
+  #  - or -
+  # $ notes/reload_db.sh  # if you already have a recent database dump
+  #
+  # (replace BRANCH with the name of the git branch)
+  #
+  branch = `git symbolic-ref HEAD 2>/dev/null`.chomp.sub('refs/heads/', '')
+  suffix = `git config --bool branch.#{branch}.database`.chomp == 'true' ? "_#{branch}" : ""
+%>
 # PostgreSQL. Versions 8.2 and up are supported.
 #
 # Install the pg driver:
@@ -23,8 +52,8 @@ default: &default
 
 development:
   <<: *default
-  database: reconman_development
-  url: postgres:reconman_development
+  database: reconman_development<%= suffix %>
+  url: postgres:reconman_development<%= suffix %>
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -58,8 +87,8 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: reconman_test
-  url: postgres:reconman_test
+  database: reconman_test<%= suffix %>
+  url: postgres:reconman_test<%= suffix %>
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is

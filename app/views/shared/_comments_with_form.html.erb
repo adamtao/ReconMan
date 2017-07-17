@@ -9,8 +9,8 @@
 
 	<% if comment.user == current_user && item.comments.last == comment %>
 	<div>
-		<%= link_to 'Edit Comment', edit_comment_path(comment), class: "tiny secondary button" %>
-		<%= link_to 'Delete Comment', comment, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
+		<%= link_to 'Edit Comment', edit_comment_path(comment), class: "tiny secondary radius button" %>
+		<%= link_to 'Delete Comment', comment, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert radius button" %>
 	</div>
 	<% end %>
 

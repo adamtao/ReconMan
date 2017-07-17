@@ -4,7 +4,7 @@
   </div>
   <div class="large-4 small-5 columns">
     <br/>
-      <ul class="button-group right">
+      <ul class="radius button-group right">
         <li><%= link_to "Edit #{@task.product.name}", edit_job_task_path(@job, @task), class: "tiny button" %></li>
         <li><%= link_to 'Delete', [@job, @task], method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %></li>
       </ul>

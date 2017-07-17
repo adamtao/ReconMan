@@ -6,8 +6,8 @@
 	</div>
 	<div class="large-5 small-5 columns">
 		<br/>
-		<%= link_to 'Edit Client', edit_client_path(@client), class: "right tiny button" %>
-    <button href="#" data-dropdown="job-types" aria-controls="job-types" aria-expanded="false" class="right tiny success button dropdown">+ New Job</button>
+		<%= link_to 'Edit Client', edit_client_path(@client), class: "right tiny radius button" %>
+    <button href="#" data-dropdown="job-types" aria-controls="job-types" aria-expanded="false" class="right tiny success radius button dropdown">+ New Job</button>
     <ul id="job-types" data-dropdown-content class="f-dropdown" aria-hidden="true" tabindex="-1">
       <% Job.job_types.each do |t| %>
         <li><%= link_to t.to_s.titleize, new_job_path(client_id: @client.id, job_type: t) %></li>
@@ -69,7 +69,7 @@
     <% if current_user.admin? && @client.jobs.length == 0 %>
 		<div class="text-right">
 			<%= link_to 'Delete Client', @client, method: :delete, data: { confirm: 'Are you sure?' }, 
-				class: "tiny alert button" %>
+				class: "tiny alert radius button" %>
 		</div>
 		<% end %>
 

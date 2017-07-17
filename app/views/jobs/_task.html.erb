@@ -24,7 +24,7 @@
         <br/>
         Worker: <%= task.worker.name if task.worker_id.present? %>
       </p>
-      <ul class="button-group">
+      <ul class="radius button-group">
         <li><%= link_to "Edit #{task.name} Task", edit_job_task_path(task.job, task), class: "tiny button" %></li>
         <li><%= link_to "Delete #{task.name} Task", job_task_path(task.job, task), method: :delete, confirm: "Are you sure?", class: "tiny alert button" %></li>
       </ul>

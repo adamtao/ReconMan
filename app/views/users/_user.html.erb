@@ -8,7 +8,7 @@
     		<%= f.select(:role, User.roles.keys.map {|role| [role.titleize,role]}) %>
     	</div>
     	<div class="large-4 small-4 columns">
-    		<%= f.submit 'Change Role', :class => 'tiny button' %>
+    		<%= f.submit 'Change Role', :class => 'tiny radius button' %>
     	</div>
     </div>
   <% end %>

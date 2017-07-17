@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       member do
         get :toggle
         post :toggle
+        get :first_notice_cover_letter
         patch :first_notice_sent, :second_notice_sent
         get :research
       end

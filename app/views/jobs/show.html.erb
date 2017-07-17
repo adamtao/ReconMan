@@ -1,5 +1,5 @@
 <% if current_user.checked_out_county %>
-  <ul class="button-group">
+  <ul class="radius button-group">
     <% if current_user.checked_out_county.next_job(@job) %>
       <li><%= link_to "next job", current_user.checked_out_county.next_job(@job), class: "tiny success button" %></li>
     <% end %>
@@ -22,7 +22,7 @@
     </div>
     <div class="large-5 small-5 columns">
         <br/>
-      <ul class="button-group right">
+      <ul class="radius button-group right">
         <li><%= link_to "Add product/service", new_job_task_path(@job), class: "tiny success button" %></li>
         <li><%= link_to 'Edit Job', edit_job_path(@job), class: "secondary tiny button" %></li>
       </ul>
@@ -93,7 +93,7 @@
     <h2><%= @job.county.name %> County Notes</h2>
     <div id="county_notes_content"><%=raw textilize(@job.county.notes) %></div>
     <%= link_to "Edit", edit_state_county_path(@job.state, @job.county),
-      class: "medium button",
+      class: "medium radius button",
       data: {:'reveal-id' => "edit_county_notes"} %>
     <a class="close-reveal-modal">&#215;</a>
   </div>
@@ -111,7 +111,7 @@
   </div>
 
   <% if @job.county %>
-    <ul class="button-group">
+    <ul class="radius button-group">
       <% if @job.county.webpage.present? %>
         <li><%= link_to "County Home Page", @job.county.webpage, target: "_blank", class: "tiny secondary button" %></li>
       <% end %>
@@ -140,7 +140,7 @@
 
   <% if current_user.admin? %>
     <div class="text-right">
-      <%= link_to 'Delete Job', @job, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert button" %>
+      <%= link_to 'Delete Job', @job, method: :delete, data: { confirm: 'Are you sure?' }, class: "tiny alert radius button" %>
     </div>
   <% end %>
 
