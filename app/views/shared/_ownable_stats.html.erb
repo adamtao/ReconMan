@@ -1,12 +1,12 @@
 <hr/>
 <div class="smaller">
 
-  <%= item.class.name.titleize %> Created: <%=l item.created_at, format: :long %> 
+  <%= item.class.name.titleize %> Created: <%=l item.created_at, format: :long %>
   <% if item.is_ownable? && item.creator %>
     by <%= item.creator.name %>
   <% end %>
 
-  <% if item.updated_at.present? %>
+  <% if item.updated_at.present? && item.updated_at > item.created_at %>
     <br/> Updated: <%= l item.updated_at, format: :long %>
     <% if item.is_ownable? && item.modifier %>
       by <%= item.modifier.name %>

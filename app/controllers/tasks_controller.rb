@@ -91,9 +91,18 @@ class TasksController < ApplicationController
     head :ok
   end
 
-  # GET /tasks/:id/first_notice_cover_letter
-  def first_notice_cover_letter
-    render layout: 'letterhead'
+  # GET /tasks/:id/generate_document
+  def generate_document
+    doctype = params[:doctype] || "first_notice"
+    if DocumentTemplate.exists?(doctype: doctype)
+      document_template = DocumentTemplate.where(doctype: doctype).first
+      @template = Liquid::Template.parse(document_template.content)
+      render layout: document_template.layout.present? ? document_template.layout : 'letterhead'
+    elsif File.exists?(Rails.root.join("app", "views", "document_templates", "#{doctype}.html.erb"))
+      render template: "document_templates/#{doctype}", layout: 'letterhead'
+    else
+      render plain: "Sorry, I couldn't find a #{doctype} template."
+    end
   end
 
   # PATCH /tasks/:id/first_notice_sent

@@ -217,18 +217,29 @@
 
     <% if task.can_send_first_notice? %>
       <ul class="radius button-group">
-        <li><%= link_to "Generate First Notice", first_notice_cover_letter_job_task_path(task.job, task), class: "small button", target: "_blank" %></li>
         <li><%= link_to "First Notice Sent", first_notice_sent_job_task_path(task.job, task), method: :patch, class: "small success button" %></li>
       </ul>
 
-      <p class="hint">When generating the first notice cover letter, a new window will appear and should open your browser's print
-      dialog. From there you can change your printer selection to save the file as a PDF. Please verify all the information is
-      correct.</p>
     <% end %>
 
     <% if task.can_send_second_notice? %>
       <%= button_to "Second Notice Sent", second_notice_sent_job_task_path(task.job, task), method: :patch, class: "small success radius button" %>
     <% end %>
+
+    <h5>Generate Documents:</h5>
+    <%= simple_form_for [:generate_document, task.job, task], method: :get, html: { id: "generate_form", target: "_blank"} do |f| %>
+      <div class="row collapse">
+        <div class="small-7 medium-8 large-9 columns">
+          <%= select_tag :doctype, options_from_collection_for_select(DocumentTemplate.all.order('doctype'), 'doctype', 'name') %>
+        </div>
+        <div class="small-5 medium-4 large-3 columns">
+          <%= f.submit "Generate", class: "small button" %>
+        </div>
+      </div>
+    <% end %>
+    <p class="hint">When generating documents, a new window will appear and should open your browser's print
+    dialog. From there you can change your printer selection to save the file as a PDF. Please verify all the information is
+    correct.</p>
 
   </div>
 </div>

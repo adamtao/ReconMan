@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :document_templates
   resources :comments, only: [:new, :create, :edit, :update, :destroy]
 
   get 'reports' => 'reports#index', as: :reports_index
@@ -25,7 +26,7 @@ Rails.application.routes.draw do
       member do
         get :toggle
         post :toggle
-        get :first_notice_cover_letter
+        get :generate_document
         patch :first_notice_sent, :second_notice_sent
         get :research
       end

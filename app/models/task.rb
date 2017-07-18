@@ -1,4 +1,5 @@
 class Task < ApplicationRecord
+  include LiquidMethods
 	include Ownable
 	include Workflow
 
@@ -53,6 +54,25 @@ class Task < ApplicationRecord
   has_many :documents
   has_many :search_logs
 	has_many :title_search_caches, class_name: "TitleSearchCache"
+
+  liquid_methods :job,
+    :workflow_state,
+    :last_search_at,
+    :due_on,
+    :deed_of_trust_number,
+    :developer,
+    :parcel_number,
+    :beneficiary_name,
+    :payoff_amount_string,
+    :beneficiary_account,
+    :parcel_legal_description,
+    :new_deed_of_trust_number,
+    :recorded_on,
+    :lender,
+    :docs_delivered_on,
+    :reconveyance_filed,
+    :first_notice_sent_on,
+    :second_notice_sent_on
 
 	monetize :price_cents, allow_nil: true
 	monetize :payoff_amount_cents, allow_nil: true
@@ -312,6 +332,10 @@ class Task < ApplicationRecord
     @second_notice_date ||= self.second_notice_sent_on.present? ?
       self.second_notice_sent_on :
       self.first_notice_date.advance(days: (self.job.state.time_to_record_days + 10)).to_date
+  end
+
+  def payoff_amount_string
+    self.payoff_amount.format
   end
 
   protected

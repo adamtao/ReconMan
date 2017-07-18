@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170623150944) do
+ActiveRecord::Schema.define(version: 20170718152720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,16 @@ ActiveRecord::Schema.define(version: 20170623150944) do
     t.text "notes"
     t.index ["checked_out_to_id"], name: "index_counties_on_checked_out_to_id"
     t.index ["state_id"], name: "index_counties_on_state_id"
+  end
+
+  create_table "document_templates", force: :cascade do |t|
+    t.string "doctype"
+    t.string "layout"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "created_by_id"
+    t.integer "modified_by_id"
   end
 
   create_table "documents", id: :serial, force: :cascade do |t|

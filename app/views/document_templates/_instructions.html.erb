@@ -1,0 +1,96 @@
+<div class="panel">
+  <h3>Instructions</h3>
+
+  <p>The document templating system uses "liquid templates."
+  Generally, you can use HTML and variables surrounded in
+  double curly braces like so: <pre>{{ job.file_number }}</pre></p>
+
+  <h5>Job Object Reference</h5>
+  <ul class="no-bullet code code-labels">
+    <li>job.job_type</li>
+    <li>job.file_number</li>
+    <li>job.address</li>
+    <li>job.city</li>
+    <li>job.state.xxxx (see below)</li>
+    <li>job.zipcode</li>
+    <li>job.county.xxxxx</li>
+    <li>job.old_owner</li>
+    <li>job.new_owner</li>
+    <li>job.client.xxxxx</li>
+    <li>job.requestor.xxxx</li>
+    <li>job.close_on</li>
+    <li>job.underwriter_name</li>
+    <li>job.short_sale</li>
+    <li>job.file_type</li>
+  </ul>
+
+  <h5>Task Object Reference</h5>
+  <ul class="no-bullet code code-labels">
+    <li>task.job.xxxx</li>
+    <li>task.workflow_state</li>
+    <li>task.due_on</li>
+    <li>task.deed_of_trust_number</li>
+    <li>task.new_deed_of_trust_number</li>
+    <li>task.developer</li>
+    <li>task.parcel_number</li>
+    <li>task.parcel_legal_description</li>
+    <li>task.payoff_amount_string</li>
+    <li>task.beneficiary_name</li>
+    <li>task.beneficiary_account</li>
+    <li>task.lender.xxxx</li>
+    <li>task.recorded_on</li>
+    <li>task.docs_delivered_on</li>
+    <li>task.reconveyance_filed</li>
+    <li>task.first_notice_sent_on</li>
+    <li>task.second_notice_sent_on</li>
+    <li>task.last_search_at</li>
+  </ul>
+
+  <h5>User <small>(current logged-in user)</small></h5>
+  <ul class="no-bullet code code-labels">
+    <li>user.name</li>
+    <li>user.email</li>
+  </ul>
+
+  <h5>State Object Reference</h5>
+  <p>A state is a child of something else:</p>
+  <ul class="no-bullet code code-labels">
+    <li>job.state.name</li>
+    <li>job.state.abbreviation</li>
+    <li>job.state.counties</li>
+  </ul>
+
+  <h5>County Object Reference</h5>
+  <p>A county is a child of something else:</p>
+  <ul class="no-bullet code code-labels">
+    <li>job.county.name</li>
+    <li>job.county.state.xxxx</li>
+  </ul>
+
+  <h5>Lender Object Reference</h5>
+  <p>A lender is a child of the task:</p>
+  <ul class="no-bullet code code-labels">
+    <li>task.lender.name</li>
+    <li>task.lender.average_days_to_complete</li>
+  </ul>
+
+  <h5>Client Object Reference</h5>
+  <p>A client is a child of the job:</p>
+  <ul class="no-bullet code code-labels">
+    <li>job.client.name</li>
+    <li>job.client.website</li>
+    <li>job.client.billing_address</li>
+    <li>job.client.billing_city</li>
+    <li>job.client.billing_state.xxxxx</li>
+    <li>job.client.billing.zipcode</li>
+  </ul>
+
+  <h5>Requestor Object Reference</h5>
+  <p>A requestor is a child of the job:</p>
+  <ul class="no-bullet code code-labels">
+    <li>job.requestor.name</li>
+    <li>job.requestor.email</li>
+  </ul>
+
+</div>
+

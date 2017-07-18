@@ -1,0 +1,20 @@
+<div class="container clearfix">
+  <div class="small-12 medium-8 columns">
+    <h1>Editing Document Template</h1>
+
+    <%= render 'form' %>
+
+    <%= link_to "Delete", @document_template,
+        method: :delete,
+        data: {
+          confirm: "Are you sure? Any documents that use the #{ @document_template.doctype } template will not be able to generate."
+        },
+        class: "tiny alert button" %>
+
+    <%= render 'shared/ownable_stats', item: @document_template %>
+
+  </div>
+  <div class="small-12 medium-4 columns">
+    <%= render 'instructions' %>
+  </div>
+</div>

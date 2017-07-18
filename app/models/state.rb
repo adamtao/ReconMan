@@ -1,10 +1,13 @@
 class State < ApplicationRecord
+  include LiquidMethods
 	has_many :counties, -> { order('name') }
 
 	validates :name, presence: true, uniqueness: true
 	validates :abbreviation, presence: true, uniqueness: true
 
 	after_initialize :load_defaults if :new_record?
+
+  liquid_methods :name, :abbreviation, :counties
 
 	scope :active, -> { where(active: true).order('UPPER(name)') }
 	scope :inactive, -> { where(active: false).order('UPPER(name)') }

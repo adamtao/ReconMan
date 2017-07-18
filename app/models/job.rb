@@ -1,4 +1,5 @@
 class Job < ApplicationRecord
+  include LiquidMethods
 	include RelatedCountyState
 	include Ownable
 	include Commentable
@@ -15,6 +16,22 @@ class Job < ApplicationRecord
 	end
 
   ransack_alias :attributes, :file_number_or_new_owner_or_old_owner_or_address_or_tasks_deed_of_trust_number
+
+  liquid_methods :job_type,
+    :client,
+    :file_number,
+    :address,
+    :city,
+    :state,
+    :zipcode,
+    :county,
+    :old_owner,
+    :new_owner,
+    :requestor,
+    :close_on,
+    :underwriter_name,
+    :short_sale,
+    :file_type
 
 	belongs_to :client, touch: true
 	belongs_to :requestor, class_name: "User", foreign_key: :requestor_id

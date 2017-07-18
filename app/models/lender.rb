@@ -1,7 +1,10 @@
 class Lender < ApplicationRecord
+  include LiquidMethods
   has_many :tasks
 
   validates :name, presence: true, uniqueness: true
+
+  liquid_methods :name, :average_days_to_complete
 
   def merge_with!(other_lender)
     other_lender.tasks.update_all(lender_id: self.id)

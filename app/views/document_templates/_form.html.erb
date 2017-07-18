@@ -1,0 +1,17 @@
+<%= simple_form_for @document_template, html: { id: "edit_document_template" } do |f| %>
+  <div class="row">
+    <div class="small-12 medium-6 columns">
+      <%= f.input :doctype %>
+    </div>
+    <div class="small-12 medium-6 columns">
+      <%= f.input :layout, collection: DocumentTemplate.layout_options %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 columns">
+      <%= f.input :content, label: "Template", input_html: { rows: 30 } %>
+      <div class="code_editor" id="content_editor"></div>
+      <%= f.button :submit %>
+    </div>
+  </div>
+<% end %>

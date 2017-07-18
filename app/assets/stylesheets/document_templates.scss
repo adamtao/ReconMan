@@ -1,0 +1,29 @@
+// Place all the styles related to the DocumentTemplates controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.code {
+  color: black;
+  font-family: Monospace;
+}
+.code-labels {
+  color: blue;
+  font-family: Monospace;
+  font-size: 80%;
+}
+.code-keys {
+  color: red;
+  font-family: Monospace;
+  font-size: 80%;
+}
+
+.code_editor {
+  border: 1px solid #CCC;
+  height: auto;
+  min-height: 600px;
+  margin-bottom: 10px;
+}
+
+#attrlist {
+  height: 650px;
+  overflow-y: scroll;
+}

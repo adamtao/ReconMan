@@ -15,6 +15,9 @@
 //= require jquery_ujs
 //= require textile-editor
 //= require foundation
+//= require ace-rails-ap
+//= require ace/mode-liquid
+//= require ace/theme-textmate
 //= require_tree .
 //= require vendor/modernizr
 

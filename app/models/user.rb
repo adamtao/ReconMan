@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  include LiquidMethods
   enum role: [:admin, :client, :manager, :processor]
   after_initialize :set_default_role, :if => :new_record?
 
@@ -8,6 +9,8 @@ class User < ApplicationRecord
   belongs_to :branch # (if user works for a Client)
 
   validates :name, presence: true
+
+  liquid_methods :name, :email
 
   def set_default_role
     self.role ||= :processor

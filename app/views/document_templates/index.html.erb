@@ -1,0 +1,9 @@
+<h1>Document Templates</h1>
+
+<%= link_to 'New Document Template', new_document_template_path, class: "small radius button" %>
+
+<ul>
+  <% @document_templates.each do |document_template| %>
+    <li><%= link_to document_template.name, edit_document_template_path(document_template) %></li>
+  <% end %>
+</ul>

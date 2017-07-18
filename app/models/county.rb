@@ -1,9 +1,13 @@
 class County < ApplicationRecord
+  include LiquidMethods
+
 	belongs_to :state
 	has_many :jobs, dependent: :nullify
 
   validates :state, presence: true
 	validates :name, presence: true, uniqueness: { scope: :state }
+
+  liquid_methods :name, :state
 
   def self.checkout_inactivity_limit
     15.minutes

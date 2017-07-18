@@ -1,4 +1,5 @@
 class Client < ApplicationRecord
+  include LiquidMethods
 	include Ownable
 	has_many :jobs, -> { includes(:tasks) }, dependent: :destroy
 	has_many :branches, dependent: :destroy
@@ -7,6 +8,13 @@ class Client < ApplicationRecord
 	belongs_to :billing_state, :class_name => "State", :foreign_key => "billing_state_id"
 
 	validates :name, presence: true, uniqueness: true
+
+  liquid_methods :name,
+    :website,
+    :billing_address,
+    :billing_city,
+    :billing_state,
+    :billing_zipcode
 
 	def product_price(product)
 		self.client_products.find_or_initialize_by(product_id: product.id).price

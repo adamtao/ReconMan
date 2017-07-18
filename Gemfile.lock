@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     RedCloth (4.3.2)
+    ace-rails-ap (4.1.2)
     actioncable (5.1.2)
       actionpack (= 5.1.2)
       nio4r (~> 2.0)
@@ -45,13 +46,13 @@ GEM
     addressable (2.5.1)
       public_suffix (~> 2.0, >= 2.0.2)
     arel (8.0.0)
-    aws-sdk (2.10.12)
-      aws-sdk-resources (= 2.10.12)
-    aws-sdk-core (2.10.12)
+    aws-sdk (2.10.13)
+      aws-sdk-resources (= 2.10.13)
+    aws-sdk-core (2.10.13)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.10.12)
-      aws-sdk-core (= 2.10.12)
+    aws-sdk-resources (2.10.13)
+      aws-sdk-core (= 2.10.13)
     aws-sigv4 (1.0.1)
     bazaar (0.0.2)
     bcrypt (3.1.11)
@@ -162,6 +163,7 @@ GEM
     kgio (2.11.0)
     launchy (2.4.3)
       addressable (~> 2.3)
+    liquid (4.0.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -351,6 +353,7 @@ PLATFORMS
 
 DEPENDENCIES
   RedCloth
+  ace-rails-ap
   active_attr
   aws-sdk (~> 2.3)
   bazaar
@@ -374,6 +377,7 @@ DEPENDENCIES
   jquery-ui-rails
   kaminari
   launchy
+  liquid
   money-rails
   paperclip
   pg
@@ -404,4 +408,4 @@ RUBY VERSION
    ruby 2.4.0p0
 
 BUNDLED WITH
-   1.15.1
+   1.15.2
