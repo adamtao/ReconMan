@@ -93,7 +93,7 @@ class Task < ApplicationRecord
   def self.for_report_between(start_on, end_on, job_status, exclude_billed)
     tasks = self.send("#{job_status.parameterize.gsub(/\-/, "_")}_between", start_on, end_on)
     tasks = tasks.where(billed: false) if exclude_billed
-    tasks
+    tasks.preload(job: [:client, :state, :county, :requestor]).preload(:lender)
   end
 
   def self.complete_between(start_on, end_on)
