@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   private
 
   def setup_search
-    @q ||= Job.search(params[:q])
+    @q ||= Job.ransack(params[:q])
   end
 
   def all_clients

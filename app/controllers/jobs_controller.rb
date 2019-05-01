@@ -4,7 +4,7 @@ class JobsController < ApplicationController
   # GET /jobs
   # GET /jobs.json
   def index
-    @q = Job.search(params[:q])
+    @q = Job.ransack(params[:q])
     @jobs = @q.result(distinct: true).page(params[:page])
     if @jobs.length == 1 && !@jobs.first.new_record?
       redirect_to @jobs.first
