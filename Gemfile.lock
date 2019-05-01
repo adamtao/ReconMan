@@ -47,13 +47,19 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     arel (8.0.0)
     aws-eventstream (1.0.3)
-    aws-sdk (2.11.266)
-      aws-sdk-resources (= 2.11.266)
-    aws-sdk-core (2.11.266)
-      aws-sigv4 (~> 1.0)
+    aws-partitions (1.156.0)
+    aws-sdk-core (3.49.0)
+      aws-eventstream (~> 1.0, >= 1.0.2)
+      aws-partitions (~> 1.0)
+      aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.11.266)
-      aws-sdk-core (= 2.11.266)
+    aws-sdk-kms (1.17.0)
+      aws-sdk-core (~> 3, >= 3.48.2)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-s3 (1.36.1)
+      aws-sdk-core (~> 3, >= 3.48.2)
+      aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.0)
     aws-sigv4 (1.1.0)
       aws-eventstream (~> 1.0, >= 1.0.2)
     bazaar (0.0.2)
@@ -356,7 +362,7 @@ DEPENDENCIES
   RedCloth
   ace-rails-ap
   active_attr
-  aws-sdk (~> 2.3)
+  aws-sdk-s3
   bazaar
   capybara
   capybara-webkit
