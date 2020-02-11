@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170718152720) do
+ActiveRecord::Schema.define(version: 2020_02_11_182307) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
   enable_extension "pg_stat_statements"
+  enable_extension "plpgsql"
 
   create_table "branches", id: :serial, force: :cascade do |t|
     t.string "name", limit: 255
@@ -278,6 +278,7 @@ ActiveRecord::Schema.define(version: 20170718152720) do
     t.boolean "primary_contact"
     t.boolean "billing_contact"
     t.string "phone", limit: 255
+    t.string "cell_phone"
     t.index ["branch_id"], name: "index_users_on_branch_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true

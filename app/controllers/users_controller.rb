@@ -56,7 +56,8 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     authorize @user
-    if @user.update_attributes(secure_params)
+    updates = secure_params.select{|k,v| v.present?}
+    if @user.update_attributes!(updates)
       redirect_to users_path, :notice => "User updated."
     else
       redirect_to users_path, :alert => "Unable to update user."
@@ -73,7 +74,7 @@ class UsersController < ApplicationController
   private
 
   def secure_params
-    params.require(:user).permit(:name, :email, :role, :branch_id, :password, :password_confirmation,
+    params.require(:user).permit(:name, :email, :cell_phone, :role, :branch_id, :password, :password_confirmation,
       :primary_contact, :billing_contact, :phone)
   end
 

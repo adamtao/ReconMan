@@ -46,10 +46,12 @@
       </div>
     <% end %>
     <% if @lender.average_days_to_complete.present? %>
-    <p>
-      <strong>Calculated average days to complete reconveyance:</strong>
-      <%= @lender.average_days_to_complete %>
-    </p>
+      <div class="calculated_average text-center">
+        <h3><%= @lender.average_days_to_complete %> <small>days</small></h3>
+        <p>
+          calculated average to complete reconveyance
+        </p>
+      </div>
     <% end %>
   </div>
 </div>

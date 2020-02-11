@@ -6,10 +6,10 @@ $primary-color: #3a4d81;
 $body-bg: #FFF;
 $body-font-color: $dark-gray;
 $body-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-$body-font-weight: 300;
+$body-font-weight: 400;
 
 $header-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-$header-font-weight: 400;
+$header-font-weight: 600;
 // $header-font-style: normal;
 $header-font-color: $dark-gray;
 // $header-line-height: 1.4;
@@ -27,7 +27,7 @@ $h5-font-size: rem-calc(15);
 $h6-font-size: 1em;
 
 // $paragraph-font-family: inherit;
-$paragraph-font-weight: 300;
+$paragraph-font-weight: 400;
 // $paragraph-font-size: 1em;
 // $paragraph-line-height: 1.6;
 // $paragraph-margin-bottom: emCalc(20px);
@@ -50,7 +50,7 @@ $button-lrg: rem-calc(14);
 // $button-font-tny: emCalc(11px);
 // $button-font-sml: emCalc(13px);
 // $button-font-lrg: emCalc(20px);
-$button-font-weight: 300;
+$button-font-weight: 400;
 // $button-font-align: center;
 // $button-function-factor: 10%;
 // $button-border-width: 1px;
@@ -304,7 +304,7 @@ label.boolean {
     color: white;
     font-weight: 100;
     font-size: 12px;
-    letter-spacing: 1px;
+    //letter-spacing: 1px;
     line-height: 12px;
     margin:0;
     padding:0;
@@ -379,3 +379,12 @@ table.full_width {
 .strong {
   font-weight: bold;
 }
+div.calculated_average {
+  width: 50%;
+  margin-right: auto;
+  margin-left: auto;
+  h3 {
+    font-size: rem-calc(46px);
+  }
+}
+

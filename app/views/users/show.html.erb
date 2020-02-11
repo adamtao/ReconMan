@@ -13,6 +13,7 @@
 
 <div class="main_content">
 	<p>Email: <%= mail_to(@user.email, @user.email) if @user.email %></p>
+  <p>Cell phone: <%= @user.cell_phone %></p>
 	<p>Role: <%= @user.role if @user.role %></p>
 
 	<% if @user.client? && @user.branch.present? %>
