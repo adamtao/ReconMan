@@ -278,8 +278,19 @@ label.boolean {
   .container {
     margin-bottom: 50px;
   }
+  form.new_document {
+    padding: 8px 8px 0px 8px;
+    background-color: #CCC;
+    outline: 1px solid $medium-gray;
+  }
 }
-
+.documents-container {
+  ul {
+    li {
+      list-style-type: none;
+    }
+  }
+}
 .section {
   outline: 1px solid $medium-gray;
 }
@@ -295,7 +306,7 @@ label.boolean {
   }
   h3,h4,h5,h6 {
     letter-spacing: 1px;
-    font-weight: 100;
+    font-weight: 200;
   }
 }
 .task-container .section-header {

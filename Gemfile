@@ -17,9 +17,9 @@ gem 'ace-rails-ap'
 gem 'simple_form'
 gem 'liquid'
 #gem 'therubyracer', :platform=>:ruby
-gem 'foundation-rails', '~> 5.5' #, '5.4.5'
+gem 'foundation-rails', '5.5.1' #, '5.5.3' has a magellan bug
 gem 'kaminari'
-gem 'workflow'
+gem 'workflow', '< 2.0'
 gem 'money-rails'
 gem 'ransack'
 gem "rabl"

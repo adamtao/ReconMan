@@ -65,24 +65,13 @@
 
     <div class="section documents-container">
       <div class="section-header">
-        <div class="row collapse">
-          <div class="large-6 small-6 columns"><h3>Documents</h3></div>
-          <div class="large-6 small-6 columns text-right">
-            <%= link_to "New Document", '#',
-              class: "tiny secondary radius button",
-              data: {:"reveal-id" => "new_document_form_#{task.id}"} %>
+        <div class="row">
+          <div class="small-12 columns">
+            <h3>&nbsp; Documents</h3>
           </div>
         </div>
       </div>
       <div class="fixed-height">
-        <div id="new_document_form_<%= task.id %>" class="reveal-modal small" data-reveal>
-          <h2>Choose a file to upload</h2>
-          <%= simple_form_for [task.job, task, Document.new], html: {multipart: true} do |f| %>
-            <%= f.input :file, label: false, required: false %>
-            <%= f.button :submit, "Upload", class: "tiny secondary radius button" %>
-          <% end %>
-          <a class="close-reveal-modal">&#215;</a>
-        </div>
         <ul class="documents">
           <% task.documents.reverse.each do |document| %>
             <li id="document_<%= document.id %>">
@@ -96,6 +85,16 @@
         </ul>
       </div>
     </div>
+    <%= simple_form_for [task.job, task, Document.new], html: {multipart: true} do |f| %>
+      <div class="row">
+        <div class="small-8 columns">
+          <%= f.input :file, label: "Attach a file to this task:", required: false %>
+        </div>
+        <div class="small-4 columns text-right">
+          <%= f.button :submit, "Upload", class: "secondary radius button" %>
+        </div>
+      </div>
+    <% end %>
   </div>
 
   <div class="large-6 columns">
@@ -233,7 +232,7 @@
           <%= select_tag :doctype, options_from_collection_for_select(DocumentTemplate.all.order('doctype'), 'doctype', 'name') %>
         </div>
         <div class="small-5 medium-4 large-3 columns">
-          <%= f.submit "Generate", class: "small button" %>
+          <%= f.submit "Generate", class: "postfix button" %>
         </div>
       </div>
     <% end %>
