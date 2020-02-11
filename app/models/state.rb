@@ -1,6 +1,6 @@
 class State < ApplicationRecord
   include LiquidMethods
-	has_many :counties, -> { order('name') }
+  has_many :counties, -> { order(Arel.sql('name')) }
 
 	validates :name, presence: true, uniqueness: true
 	validates :abbreviation, presence: true, uniqueness: true
@@ -9,8 +9,8 @@ class State < ApplicationRecord
 
   liquid_methods :name, :abbreviation, :counties
 
-	scope :active, -> { where(active: true).order('UPPER(name)') }
-	scope :inactive, -> { where(active: false).order('UPPER(name)') }
+  scope :active, -> { where(active: true).order(Arel.sql('UPPER(name)')) }
+  scope :inactive, -> { where(active: false).order(Arel.sql('UPPER(name)')) }
 
 	def self.due_within_options
 		[30, 60, 90]

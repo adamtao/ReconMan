@@ -199,7 +199,7 @@ RSpec.describe TasksController do
 
       @task.reload
       expect(@task.billed?).to be(false)
-      expect(response).to be_success
+      expect(response).to have_http_status(200)
     end
   end
 

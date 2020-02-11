@@ -5,7 +5,7 @@ class LendersController < ApplicationController
     @top_lenders = Lender.joins(:tasks).
       where.not(tasks: { workflow_state: 'complete'}).
       group(:id, :lender_id).
-      order("count(lender_id) desc").
+      order(Arel.sql("count(lender_id) desc")).
       limit(10)
     @lenders = Lender.order(:name)
   end
@@ -13,7 +13,7 @@ class LendersController < ApplicationController
   def show
     @current_jobs = Job.where(id: @lender.tasks.where.not(workflow_state: 'complete').pluck(:job_id).uniq).
       includes(:tasks).
-      order("tasks.due_on ASC").order("jobs.created_at ASC").
+      order(Arel.sql("tasks.due_on ASC")).order(Arel.sql("jobs.created_at ASC")).
       page(params[:page])
   end
 
