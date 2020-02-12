@@ -20,7 +20,6 @@ feature "Attach document on job page", :devise do
   end
 
   scenario "successfully" do
-    click_on 'New Document'
     attach_file 'document_file', @tempfile
     click_on 'Upload'
 
