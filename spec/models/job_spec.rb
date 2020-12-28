@@ -4,14 +4,17 @@ describe Job do
 
   before(:all) do
     Product.delete_all
-    @tracking_product = FactoryGirl.create(:tracking_product)
-    @search_product   = FactoryGirl.create(:search_product)
-    @special_product  = FactoryGirl.create(:special_product)
-    @documentation_product = FactoryGirl.create(:documentation_product)
+    @tracking_product = create(:tracking_product)
+    @search_product   = create(:search_product)
+    @special_product  = create(:special_product)
+    @documentation_product = create(:documentation_product)
   end
 
   describe "general functions" do
-    before(:each) { @job = FactoryGirl.create(:job, tasks_attributes: FactoryGirl.build(:task).attributes) }
+    before(:each) {
+      @job = create(:job)
+      create(:task, job: @job)
+    }
 
     subject { @job }
     it { should respond_to(:dashboard_task) }
@@ -59,8 +62,8 @@ describe Job do
 
   describe "navigating" do
     before do
-      @county = FactoryGirl.create(:county)
-      @tracking_tasks = FactoryGirl.create_list(:tracking_task, 5)
+      @county = create(:county)
+      @tracking_tasks = create_list(:tracking_task, 5)
       @tracking_tasks.each_with_index do |task,i|
         task.update_column(:due_on, (i+1).weeks.ago)
         task.job.update_column(:county_id, @county.id)
@@ -80,7 +83,7 @@ describe Job do
   end
 
   describe "tracking job_type" do
-    before(:all) { @job = FactoryGirl.build(:tracking_job) }
+    before(:all) { @job = build(:tracking_job) }
 
     it "should initialize with a tracking task" do
       expect(@job.default_tasks).to include(@tracking_product)
@@ -96,7 +99,7 @@ describe Job do
   end
 
   describe "search job_type" do
-    before(:all) { @job = FactoryGirl.build(:search_job)  }
+    before(:all) { @job = build(:search_job)  }
 
     it "should initialize with a search task" do
       expect(@job.default_tasks).to include(@search_product)
@@ -112,7 +115,7 @@ describe Job do
   end
 
   describe "special job_type" do
-    before(:all) { @job = FactoryGirl.build(:special_job) }
+    before(:all) { @job = build(:special_job) }
 
     it "should initialize with a special task" do
       expect(@job.default_tasks).to include(@special_product)
@@ -129,7 +132,7 @@ describe Job do
 
   describe "documentation job_type" do
     before(:all) do
-      @job = FactoryGirl.build(:documentation_job)
+      @job = build(:documentation_job)
     end
 
     it "should initialize with a document task" do

@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe LendersController do
 
   before :all do
-    @lender = FactoryGirl.create(:lender)
-    @user = FactoryGirl.create(:user, :processor)
+    @lender = create(:lender)
+    @user = create(:user, :processor)
   end
 
   before :each do
@@ -70,7 +70,7 @@ RSpec.describe LendersController do
 
   describe "POST create successfully" do
     before do
-      @lender_params = FactoryGirl.attributes_for(:lender)
+      @lender_params = attributes_for(:lender)
 
       post :create, params: { lender: @lender_params }
     end
@@ -96,7 +96,7 @@ RSpec.describe LendersController do
 
   describe "PUT update successfully" do
     before do
-      @new_lender_params = FactoryGirl.attributes_for(:lender)
+      @new_lender_params = attributes_for(:lender)
 
       put :update, params: { id: @lender.id, lender: @new_lender_params }
     end
@@ -128,8 +128,8 @@ RSpec.describe LendersController do
 
   describe "POST merge successfully" do
     before do
-      @lender2 = FactoryGirl.create(:lender)
-      @tracking_task = FactoryGirl.create(:tracking_task, lender: @lender2)
+      @lender2 = create(:lender)
+      @tracking_task = create(:tracking_task, lender: @lender2)
       post :merge, params: { id: @lender.id, merge_with_id: @lender2.id }
     end
 

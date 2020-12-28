@@ -3,7 +3,7 @@ require 'rails_helper'
 describe DocumentationTask do
 
 	before do
-    @task = FactoryGirl.create(:documentation_task)
+    @task = create(:documentation_task)
   end
 
   subject { @task }

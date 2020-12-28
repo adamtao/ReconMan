@@ -3,10 +3,10 @@ require 'rails_helper'
 describe "jobs/_task.html.erb" do
 
   before do
-    current_user = FactoryGirl.build_stubbed(:user, :admin)
+    current_user = build_stubbed(:user, :admin)
     allow(view).to receive_messages(:current_user => current_user)
 
-    @task = FactoryGirl.create(:tracking_task)
+    @task = create(:tracking_task)
     @task.update_column(:price_cents, "1498")
 
     render partial: 'jobs/task', locals: { task: @task }

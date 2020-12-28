@@ -1,20 +1,20 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :user do
     sequence(:name) {|n| "Test User #{n}"}
     sequence(:email) {|n| "user#{n}@example.com"}
-    password "please123"
+    password { "please123" }
 
     trait :admin do
-      role 'admin'
+      role { 'admin' }
     end
 
     trait :client do
-    	role 'client'
+    	role { 'client' }
       branch
     end
 
     trait :processor do
-      role 'processor'
+      role { 'processor' }
     end
 
   end

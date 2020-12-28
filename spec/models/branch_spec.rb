@@ -3,12 +3,12 @@ require 'rails_helper'
 RSpec.describe Branch do
 
   before(:all) do
-    @branch = FactoryGirl.create(:branch)
-    branch_user = FactoryGirl.create(:user, branch: @branch)
-    @oldest_job = FactoryGirl.create(:job, requestor: branch_user, client: @branch.client)
-    FactoryGirl.create(:task, job: @oldest_job, due_on: 1.year.ago)
-    @newest_job = FactoryGirl.create(:job, requestor: branch_user, client: @branch.client)
-    FactoryGirl.create(:task, job: @newest_job, due_on: 1.day.ago)
+    @branch = create(:branch)
+    branch_user = create(:user, branch: @branch)
+    @oldest_job = create(:job, requestor: branch_user, client: @branch.client)
+    create(:task, job: @oldest_job, due_on: 1.year.ago)
+    @newest_job = create(:job, requestor: branch_user, client: @branch.client)
+    create(:task, job: @newest_job, due_on: 1.day.ago)
   end
 
   subject { @branch }
@@ -36,8 +36,8 @@ RSpec.describe Branch do
 
   describe "users" do
     before do
-      @zachary = FactoryGirl.create(:user, name: "Zachary John Taylor")
-      @aaron   = FactoryGirl.create(:user, name: "Aaron The Aardvark")
+      @zachary = create(:user, name: "Zachary John Taylor")
+      @aaron   = create(:user, name: "Aaron The Aardvark")
       @branch.users << @zachary
       @branch.users << @aaron
     end

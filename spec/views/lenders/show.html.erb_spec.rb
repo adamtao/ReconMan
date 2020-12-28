@@ -4,15 +4,15 @@ describe "lenders/show.html.erb" do
 
   context "merge form" do
     before do
-      @lender1 = FactoryGirl.create(:lender)
-      @lender2 = FactoryGirl.create(:lender)
+      @lender1 = create(:lender)
+      @lender2 = create(:lender)
       assign(:lender, @lender1)
     end
 
     context "for admins" do
 
       before do
-        @current_user = FactoryGirl.build_stubbed(:user, :admin)
+        @current_user = build_stubbed(:user, :admin)
         allow(view).to receive_messages(:current_user => @current_user)
 
         render
@@ -40,7 +40,7 @@ describe "lenders/show.html.erb" do
     context "for processors" do
 
       before do
-        @current_user = FactoryGirl.build_stubbed(:user, :processor)
+        @current_user = build_stubbed(:user, :processor)
         allow(view).to receive_messages(:current_user => @current_user)
 
         render

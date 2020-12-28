@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe ProductsController do
 
   before :all do
-    @product = FactoryGirl.create(:product)
-    @user = FactoryGirl.create(:user, :processor)
+    @product = create(:product)
+    @user = create(:user, :processor)
   end
 
   before :each do
@@ -70,7 +70,7 @@ RSpec.describe ProductsController do
 
   describe "POST create successfully" do
     before do
-      @product_params = FactoryGirl.attributes_for(:product)
+      @product_params = attributes_for(:product)
 
       post :create, params: { product: @product_params }
     end
@@ -96,7 +96,7 @@ RSpec.describe ProductsController do
 
   describe "PUT update successfully" do
     before do
-      @new_product_params = FactoryGirl.attributes_for(:product)
+      @new_product_params = attributes_for(:product)
 
       put :update, params: { id: @product.id, product: @new_product_params }
     end

@@ -3,12 +3,12 @@ require 'rails_helper'
 describe "jobs/show.html.erb" do
 
   before do
-    @current_user = FactoryGirl.build_stubbed(:user, :processor)
+    @current_user = build_stubbed(:user, :processor)
     allow(view).to receive_messages(:current_user => @current_user)
-    @job = FactoryGirl.create(:tracking_job, address: "123 street")
-    @job2 = FactoryGirl.create(:tracking_job, county: @job.county)
+    @job = create(:tracking_job, address: "123 street")
+    @job2 = create(:tracking_job, county: @job.county)
     assign(:job, @job)
-    assign(:comment, FactoryGirl.build_stubbed(:comment))
+    assign(:comment, build_stubbed(:comment))
   end
 
   context "standard view" do

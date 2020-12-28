@@ -7,13 +7,13 @@ Warden.test_mode!
 #   I want to create Jobs
 feature 'Create job', :devise do
 	before(:all) do
-    @state = FactoryGirl.create(:state)
-    @county = FactoryGirl.create(:county, state: @state)
-    @zipcode = FactoryGirl.create(:zipcode, state: @state.abbreviation)
-    @lender = FactoryGirl.create(:lender)
-    @client = FactoryGirl.create(:client)
-    @branch = FactoryGirl.create(:branch, client: @client)
-    @employee = FactoryGirl.create(:user, branch: @branch)
+    @state = create(:state)
+    @county = create(:county, state: @state)
+    @zipcode = create(:zipcode, state: @state.abbreviation)
+    @lender = create(:lender)
+    @client = create(:client)
+    @branch = create(:branch, client: @client)
+    @employee = create(:user, branch: @branch)
   end
 
 	before(:each) do
@@ -35,7 +35,7 @@ feature 'Create job', :devise do
 	#   When I complete the form
 	#   Then I see the newly created tracking job
 	scenario 'fill in new tracking job form' do
-    product = FactoryGirl.create(:product, job_type: 'tracking')
+    product = create(:product, job_type: 'tracking')
 
     within("ul#job-types") do
       click_on "Tracking"
@@ -59,7 +59,7 @@ feature 'Create job', :devise do
 	#   When I correct those errors on the subsequent form
 	#   Then I see the newly created tracking job
 	scenario 'create new job after errors' do
-    product = FactoryGirl.create(:product, job_type: 'tracking')
+    product = create(:product, job_type: 'tracking')
 
     within("ul#job-types") do
       click_on "Tracking"
@@ -85,11 +85,11 @@ feature 'Create job', :devise do
 	#    When I submit the form
 	#    Then I see the estimated date of completion
 	scenario 'estimated time to complete appears' do
-    tracking_product = FactoryGirl.create(:product, job_type: 'tracking', performs_search: true)
+    tracking_product = create(:product, job_type: 'tracking', performs_search: true)
     20.times do
        close_on = [60,45,90,100].sample.days.ago
-       job = FactoryGirl.create(:job, job_type: 'tracking', close_on: close_on)
-       FactoryGirl.create(:task,
+       job = create(:job, job_type: 'tracking', close_on: close_on)
+       create(:task,
                           job: job,
                           lender: @lender,
                           product: tracking_product,
@@ -111,12 +111,12 @@ feature 'Create job', :devise do
 	#    And the lender does not have enough job history
 	#    Then I don't see the estimated date of completion
   scenario 'estimated time to complete does not appear when limited history available' do
-    tracking_product = FactoryGirl.create(:product, job_type: 'tracking', performs_search: true)
-    new_lender = FactoryGirl.create(:lender)
+    tracking_product = create(:product, job_type: 'tracking', performs_search: true)
+    new_lender = create(:lender)
     3.times do
        close_on = [60,45,90,100].sample.days.ago
-       job = FactoryGirl.create(:job, job_type: 'tracking', close_on: close_on)
-       FactoryGirl.create(:task,
+       job = create(:job, job_type: 'tracking', close_on: close_on)
+       create(:task,
                           job: job,
                           lender: new_lender,
                           product: tracking_product,
@@ -138,7 +138,7 @@ feature 'Create job', :devise do
 	#   When I click 'Save & New Job'
 	#   Then I see the new job form again
 	scenario 'save and new job form' do
-    FactoryGirl.create(:product, job_type: 'tracking')
+    create(:product, job_type: 'tracking')
 
     within("ul#job-types") do
       click_on "Tracking"
@@ -159,7 +159,7 @@ feature 'Create job', :devise do
 	#   When I complete the form
 	#   Then I see the newly created special job
 	scenario 'fill in new special job form' do
-    product = FactoryGirl.create(:product, job_type: 'special')
+    product = create(:product, job_type: 'special')
 
     within("ul#job-types") do
       click_on "Special"
@@ -206,12 +206,12 @@ feature 'Create job', :devise do
   #   When I create the job
   #   Then a new zipcode is created
   scenario 'create a new zipcode when unknown zipcode is entered' do
-    FactoryGirl.create(:product, job_type: 'tracking')
+    create(:product, job_type: 'tracking')
 
     within("ul#job-types") do
       click_on "Tracking"
     end
-    @zipcode = FactoryGirl.build(:zipcode)
+    @zipcode = build(:zipcode)
 		fill_in_common_fields
 		fill_in	'Close Date', with: 2.days.ago
 		fill_in 'Deed of trust number', with: "55555"

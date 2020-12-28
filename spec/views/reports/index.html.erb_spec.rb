@@ -3,10 +3,10 @@ require 'rails_helper'
 describe "reports/index.html.erb" do
 
   before do
-    current_user = FactoryGirl.build_stubbed(:user, :admin)
+    current_user = build_stubbed(:user, :admin)
     allow(view).to receive_messages(:current_user => current_user)
-    FactoryGirl.create_list(:client, 2)
-    FactoryGirl.create_list(:lender, 2)
+    create_list(:client, 2)
+    create_list(:lender, 2)
     @report = Report.new
     assign(:report, @report)
 

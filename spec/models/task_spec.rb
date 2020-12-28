@@ -3,14 +3,14 @@ require 'rails_helper'
 describe Task do
 
 	before(:all) do
-    @product = FactoryGirl.create(:tracking_product)
-    @client = FactoryGirl.create(:client)
-    @state = FactoryGirl.create(:state)
-    @job = FactoryGirl.create(:job, client: @client, state: @state)
+    @product = create(:tracking_product)
+    @client = create(:client)
+    @state = create(:state)
+    @job = create(:job, client: @client, state: @state)
 	end
 
   before(:each) do
-    @task = FactoryGirl.build(:task, job: @job, product: @product)
+    @task = build(:task, job: @job, product: @product)
   end
 
   subject { @task }
@@ -78,13 +78,13 @@ describe Task do
 
 		it "should have an estimated reconveyance time" do
       @task.save
-      lender = FactoryGirl.create(:lender)
+      lender = create(:lender)
       @task.update_column(:lender_id, lender.id)
-      tracking_product = FactoryGirl.create(:tracking_product)
+      tracking_product = create(:tracking_product)
       20.times do
         close_on = [60,45,90,100].sample.days.ago
-        job = FactoryGirl.create(:job, job_type: 'tracking', close_on: close_on)
-        FactoryGirl.create(:task,
+        job = create(:job, job_type: 'tracking', close_on: close_on)
+        create(:task,
                            job: job,
                            lender: lender,
                            product: tracking_product,
@@ -267,7 +267,7 @@ describe Task do
   context "generated search URL" do
 
     before do
-      @county = FactoryGirl.create(:county,
+      @county = create(:county,
                                    state: @state,
                                    search_template_url: 'http://foo.bar/search{{params}}#tab=2',
                                    search_params: 'searchstring={{deed_of_trust_number}}',
@@ -286,14 +286,14 @@ describe Task do
     end
 
     it "generates different urls for a multi-item job" do
-      task2 = FactoryGirl.create(:tracking_task, job: @job, deed_of_trust_number: "9999")
+      task2 = create(:tracking_task, job: @job, deed_of_trust_number: "9999")
 
       expect(task2.search_url).not_to eq(@task.search_url)
       expect(task2.search_url).to eq('http://foo.bar/search?searchstring=9999#tab=2')
     end
 
     it "wont generate the url if any of the need params are blank" do
-      task2 = FactoryGirl.create(:tracking_task, job: @job, deed_of_trust_number: "")
+      task2 = create(:tracking_task, job: @job, deed_of_trust_number: "")
 
       expect(task2.search_url).to eq(nil)
     end
@@ -306,7 +306,7 @@ describe Task do
       end
 
       it "generates unique search params for a multi-item job" do
-        task2 = FactoryGirl.create(:tracking_task, job: @job, deed_of_trust_number: "9999")
+        task2 = create(:tracking_task, job: @job, deed_of_trust_number: "9999")
         params = task2.send(:generate_search_params)
 
         expect(params).not_to eq(@task.send(:generate_search_params))
@@ -316,7 +316,7 @@ describe Task do
 
     describe "#validate_fields_for_url_generation" do
       it "raises an exception when missing data" do
-        task2 = FactoryGirl.build(:tracking_task, job: @job, deed_of_trust_number: "")
+        task2 = build(:tracking_task, job: @job, deed_of_trust_number: "")
 
         expect { task2.send(:validate_fields_for_url_generation) }.to raise_error("required fields are empty")
       end

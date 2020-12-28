@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe ClientsController do
 
   before :all do
-    @user = FactoryGirl.create(:user, :processor)
-    @client = FactoryGirl.create(:client)
+    @user = create(:user, :processor)
+    @client = create(:client)
   end
 
   before :each do
@@ -70,7 +70,7 @@ RSpec.describe ClientsController do
 
   describe "POST create successfully" do
     before do
-      @client_params = FactoryGirl.attributes_for(:client)
+      @client_params = attributes_for(:client)
 
       post :create, params: { client: @client_params }
     end
@@ -96,7 +96,7 @@ RSpec.describe ClientsController do
 
   describe "PUT update successfully" do
     before do
-      @new_client_params = FactoryGirl.attributes_for(:client)
+      @new_client_params = attributes_for(:client)
 
       put :update, params: { id: @client.id, client: @new_client_params }
     end

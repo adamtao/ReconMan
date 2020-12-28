@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe CountiesController do
 
   before :all do
-    @user = FactoryGirl.create(:user, :processor)
-    @state = FactoryGirl.create(:state)
-    @county = FactoryGirl.create(:county, state: @state)
+    @user = create(:user, :processor)
+    @state = create(:state)
+    @county = create(:county, state: @state)
   end
 
   before :each do
@@ -76,7 +76,7 @@ RSpec.describe CountiesController do
   describe "PUT checkout" do
 
     before do
-      @job = FactoryGirl.create(:tracking_job, county: @county)
+      @job = create(:tracking_job, county: @county)
 
       put :checkout, params: { id: @county.id }
     end
@@ -95,7 +95,7 @@ RSpec.describe CountiesController do
   describe "PUT checkin" do
 
     before do
-      user = FactoryGirl.create(:user, :processor)
+      user = create(:user, :processor)
       @county.update_column(:checked_out_to_id, user.id)
       @county.update_column(:checked_out_at, 2.minutes.ago)
 
@@ -115,7 +115,7 @@ RSpec.describe CountiesController do
 
   describe "POST create successfully" do
     before do
-      @county_params = FactoryGirl.attributes_for(:county)
+      @county_params = attributes_for(:county)
 
       post :create, params: { state_id: @state.id, county: @county_params }
     end
@@ -142,7 +142,7 @@ RSpec.describe CountiesController do
 
   describe "PUT update successfully" do
     before do
-      @new_county_params = FactoryGirl.attributes_for(:county)
+      @new_county_params = attributes_for(:county)
 
       put :update, params: { state_id: @state.id, id: @county.id, county: @new_county_params }
     end
@@ -188,7 +188,7 @@ RSpec.describe CountiesController do
 
   describe "DELETE destroy when county has jobs" do
     before do
-      FactoryGirl.create(:job, county: @county)
+      create(:job, county: @county)
 
       delete :destroy, params: { state_id: @state.id, id: @county.id }
     end

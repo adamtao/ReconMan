@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Product do
 
   before(:all) do
-    @product = FactoryGirl.build(:product)
+    @product = build(:product)
   end
 
   subject { @product }

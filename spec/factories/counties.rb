@@ -1,6 +1,4 @@
-# Read about factories at https://github.com/thoughtbot/factory_girl
-
-FactoryGirl.define do
+FactoryBot.define do
   factory :county do
     sequence(:name) { |n| "County #{n}" }
     state

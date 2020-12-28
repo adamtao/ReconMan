@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe DashboardController do
 
   before :all do
-    @user = FactoryGirl.create(:user, :processor)
+    @user = create(:user, :processor)
   end
 
   before :each do
@@ -13,7 +13,7 @@ RSpec.describe DashboardController do
   describe "GET index" do
 
     before do
-      @current_jobs = FactoryGirl.create_list(:tracking_job, 3)
+      @current_jobs = create_list(:tracking_job, 3)
 
       get :index
     end

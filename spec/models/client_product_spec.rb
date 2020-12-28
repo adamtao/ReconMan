@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ClientProduct do
 
-  before(:all) { @client_product = FactoryGirl.build_stubbed(:client_product) }
+  before(:all) { @client_product = build_stubbed(:client_product) }
 
   subject { @client_product }
 

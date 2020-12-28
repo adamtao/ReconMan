@@ -14,18 +14,18 @@ describe User do
 
   context "processors" do
     before do
-      @processor = FactoryGirl.create(:user, :processor)
+      @processor = create(:user, :processor)
     end
 
     it "#checkout_county should checkout the county to a user" do
-      county = FactoryGirl.create(:county)
+      county = create(:county)
       @processor.checkout_county(county)
 
       expect(@processor.checked_out_county).to eq(county)
     end
 
     it "#check_in_county should check in the county" do
-      county = FactoryGirl.create(:county)
+      county = create(:county)
       @processor.checkout_county(county)
 
       @processor.check_in_county

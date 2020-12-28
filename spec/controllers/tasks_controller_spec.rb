@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe TasksController do
 
   before :all do
-    @job = FactoryGirl.create(:job)
-    @product = FactoryGirl.create(:product)
-    @task = FactoryGirl.create(:task, product: @product, job: @job)
-    @user = FactoryGirl.create(:user, :processor)
+    @job = create(:job)
+    @product = create(:product)
+    @task = create(:task, product: @product, job: @job)
+    @user = create(:user, :processor)
   end
 
   before :each do
@@ -68,7 +68,7 @@ RSpec.describe TasksController do
   describe "POST create" do
 
     before do
-      task_params = FactoryGirl.attributes_for(:task)
+      task_params = attributes_for(:task)
 
       task_params[:worker_id] = @user.id
       task_params[:product_id] = @product.id
@@ -124,7 +124,7 @@ RSpec.describe TasksController do
   describe "PUT update" do
 
     before do
-      @new_task_params = FactoryGirl.attributes_for(:task)
+      @new_task_params = attributes_for(:task)
 
       put :update, params: { job_id: @job.id, id: @task.id, task: @new_task_params.except(:payoff_amount_cents, :due_on, :price_cents) }
     end

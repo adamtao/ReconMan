@@ -17,7 +17,7 @@ feature 'User index page', :devise do
   #   When I visit the user index page
   #   Then I see my own email address
   scenario 'user sees own email address' do
-    user = FactoryGirl.create(:user, :admin)
+    user = create(:user, :admin)
     login_as(user, scope: :user)
 
     visit users_path

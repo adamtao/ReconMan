@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe JobsController do
 
   before :all do
-    @user = FactoryGirl.create(:user, :processor)
+    @user = create(:user, :processor)
   end
 
   before :each do
@@ -13,8 +13,8 @@ RSpec.describe JobsController do
   describe "POST index (search)" do
 
     before do
-      @job1 = FactoryGirl.create(:tracking_job, file_number: "11111")
-      @job2 = FactoryGirl.create(:tracking_job, file_number: "12222")
+      @job1 = create(:tracking_job, file_number: "11111")
+      @job2 = create(:tracking_job, file_number: "12222")
     end
 
     it "assigns @jobs" do
@@ -42,7 +42,7 @@ RSpec.describe JobsController do
 
   describe "PUT update invalid params" do
     before do
-      @job = FactoryGirl.create(:tracking_job)
+      @job = create(:tracking_job)
       put :update, params: { id: @job.id, job: { client_id: '' } }
     end
 
@@ -59,7 +59,7 @@ RSpec.describe JobsController do
   describe "GET file_number/FILE.json successfully" do
 
     before do
-      @job = FactoryGirl.create(:tracking_job)
+      @job = create(:tracking_job)
       get :file_number, params: { id: @job.file_number, format: :json }
     end
 
@@ -70,7 +70,7 @@ RSpec.describe JobsController do
 
   describe "DELETE destroy" do
     before do
-      @job = FactoryGirl.create(:tracking_job)
+      @job = create(:tracking_job)
       delete :destroy, params: { id: @job.id }
     end
 
