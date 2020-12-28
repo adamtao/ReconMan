@@ -17,7 +17,7 @@ describe "jobs/_task.html.erb" do
   # so check its specs for more.
 
   it "shows the title of the job product" do
-    expect(rendered).to have_css(:h3, text: @task.product.name)
+    expect(rendered).to have_css('h3', text: @task.product.name)
   end
 
   it "shows the price of the job product" do
