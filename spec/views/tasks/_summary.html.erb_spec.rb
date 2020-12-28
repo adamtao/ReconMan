@@ -3,12 +3,12 @@ require 'rails_helper'
 describe "tasks/_summary.html.erb" do
 
   before do
-    current_user = FactoryGirl.build_stubbed(:user, :admin)
+    current_user = build_stubbed(:user, :admin)
     allow(view).to receive_messages(:current_user => current_user)
 
-    @task = FactoryGirl.create(:tracking_task)
-    FactoryGirl.create(:search_log, task: @task)
-    @document = FactoryGirl.create(:document, task: @task)
+    @task = create(:tracking_task)
+    create(:search_log, task: @task)
+    @document = create(:document, task: @task)
 
     render partial: 'tasks/summary', locals: { task: @task }
   end

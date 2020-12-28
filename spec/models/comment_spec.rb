@@ -5,8 +5,8 @@ RSpec.describe Comment do
   describe "on jobs" do
 
 	  before(:all) do
-      @job = FactoryGirl.create(:job)
-      @comment = FactoryGirl.build(:comment, related_type: "Job", related_id: @job.id)
+      @job = create(:job)
+      @comment = build(:comment, related_type: "Job", related_id: @job.id)
 	  end
 
 	  subject { @comment }

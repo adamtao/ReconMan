@@ -3,9 +3,9 @@ require 'rails_helper'
 describe "reports/show.html.erb" do
 
   before do
-    current_user = FactoryGirl.build_stubbed(:user, :admin)
+    current_user = build_stubbed(:user, :admin)
     allow(view).to receive_messages(:current_user => current_user)
-    @tracking_task = FactoryGirl.create(
+    @tracking_task = create(
       :tracking_task,
       workflow_state: 'complete',
       recorded_on: 2.weeks.ago,
@@ -16,7 +16,7 @@ describe "reports/show.html.erb" do
     @tracking_task.reload
     @job = @tracking_task.job
     @client = @job.client
-    @branch = FactoryGirl.create(:branch, client: @client)
+    @branch = create(:branch, client: @client)
     @requestor = @job.requestor
     @requestor.update_column(:branch_id, @branch.id)
 

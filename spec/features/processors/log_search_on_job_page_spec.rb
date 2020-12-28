@@ -5,8 +5,8 @@ Warden.test_mode!
 feature "Log a title search" do
 
   before :all do
-    county = FactoryGirl.create(:county, search_url: "http://county.lvh.me")
-    @task = FactoryGirl.create(:tracking_task)
+    county = create(:county, search_url: "http://county.lvh.me")
+    @task = create(:tracking_task)
     @job = @task.job
     @job.update_column(:county_id, county.id)
   end
@@ -38,7 +38,7 @@ feature "Log a title search" do
 
   scenario "second search performed, search is logged" do
     @task.update_column(:search_url, 'http://county.lvh.me')
-    FactoryGirl.create(:search_log, task: @task, status: "Not Cleared")
+    create(:search_log, task: @task, status: "Not Cleared")
     visit job_path(@job)
 
     click_on "Perform Search"
@@ -49,7 +49,7 @@ feature "Log a title search" do
 
   scenario "mark complete, updates final search if one exists" do
     @task.update_column(:search_url, 'http://county.lvh.me')
-    FactoryGirl.create(:search_log, task: @task, status: "Not Cleared")
+    create(:search_log, task: @task, status: "Not Cleared")
     visit job_path(@job)
 
     fill_in "Release Number", with: "12345"

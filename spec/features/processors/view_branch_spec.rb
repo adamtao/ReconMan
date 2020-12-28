@@ -5,11 +5,11 @@ Warden.test_mode!
 feature 'View branch' do
 
 	before(:all) do
-    @client = FactoryGirl.create(:client)
-    @branch = FactoryGirl.create(:branch, client: @client)
-    @employee = FactoryGirl.create(:user, :client,
+    @client = create(:client)
+    @branch = create(:branch, client: @client)
+    @employee = create(:user, :client,
                        branch: @branch)
-    FactoryGirl.create_list(:job, 30, client: @client,
+    create_list(:job, 30, client: @client,
                 requestor: @employee)
   end
 

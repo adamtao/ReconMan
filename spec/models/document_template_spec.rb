@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe DocumentTemplate, type: :model do
 
   before :all do
-    @document_template = FactoryGirl.create(:document_template)
+    @document_template = create(:document_template)
   end
 
   subject { @document_template }

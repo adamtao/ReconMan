@@ -3,7 +3,7 @@ require 'rails_helper'
 describe TrackingTask do
 
 	before do
-    @task = FactoryGirl.build(:tracking_task)
+    @task = build(:tracking_task)
   end
 
   it "should have a related Lender" do

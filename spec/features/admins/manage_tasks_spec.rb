@@ -9,7 +9,7 @@ Warden.test_mode!
 feature 'Manage tasks', :devise do
 
 	before(:all) do
-    @tracking_task = FactoryGirl.create(:tracking_task, deed_of_trust_number: "ABC12345")
+    @tracking_task = create(:tracking_task, deed_of_trust_number: "ABC12345")
   end
 
   before :each do
@@ -50,7 +50,7 @@ feature 'Manage tasks', :devise do
   #   When I complete the form to add a product to a job
   #   Then it appears on the job page
   scenario "admin adds a product to a job", js: true do
-    np = FactoryGirl.attributes_for(:task, deed_of_trust_number: "YOMAMA")
+    np = attributes_for(:task, deed_of_trust_number: "YOMAMA")
     click_on "Add product"
 
     select @tracking_task.product.name, from: "Product"

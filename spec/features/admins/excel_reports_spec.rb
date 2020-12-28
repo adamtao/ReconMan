@@ -5,7 +5,7 @@ Warden.test_mode!
 feature "Admin runs report in excel format" do
 
   before :all do
-    @task = FactoryGirl.create(:tracking_task,
+    @task = create(:tracking_task,
       workflow_state: 'complete',
       deed_of_trust_number: "1234",
       new_deed_of_trust_number: "5678",
@@ -13,9 +13,9 @@ feature "Admin runs report in excel format" do
       recorded_on: 2.weeks.ago
     )
     @client = @task.job.client
-    @incomplete_job = FactoryGirl.create(:tracking_job, client: @client, file_number: "9999")
-    other_client = FactoryGirl.create(:client)
-    @other_job = FactoryGirl.create(:tracking_job, client: other_client, file_number: "8888")
+    @incomplete_job = create(:tracking_job, client: @client, file_number: "9999")
+    other_client = create(:client)
+    @other_job = create(:tracking_job, client: other_client, file_number: "8888")
   end
 
   before :each do

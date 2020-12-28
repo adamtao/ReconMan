@@ -31,10 +31,10 @@ end
 #   So that I can create more jobs quickly
 feature "Create lender inline", :devise do
   before :all do
-    @client = FactoryGirl.create(:client)
-    @branch = FactoryGirl.create(:branch, client: @client)
-    @employee = FactoryGirl.create(:user, branch: @branch)
-    @tracking_job = FactoryGirl.create(:tracking_job, client: @client, requestor: @employee)
+    @client = create(:client)
+    @branch = create(:branch, client: @client)
+    @employee = create(:user, branch: @branch)
+    @tracking_job = create(:tracking_job, client: @client, requestor: @employee)
   end
 
   before :each do
@@ -55,9 +55,9 @@ feature "Create lender inline", :devise do
   #   And I fill out the new lender section
   #   Then the new lender is created and associated with the tracking job product
   scenario "on the new job form" do
-    new_tj = FactoryGirl.attributes_for(:tracking_job)
-    new_tp = FactoryGirl.attributes_for(:tracking_task)
-    lender = FactoryGirl.attributes_for(:lender)
+    new_tj = attributes_for(:tracking_job)
+    new_tp = attributes_for(:tracking_task)
+    lender = attributes_for(:lender)
     visit client_path(@tracking_job.client)
 
     within("ul#job-types") do
@@ -93,8 +93,8 @@ feature "Create lender inline", :devise do
   #   I can fill out the new lender portion
   #   Then I expect the new lender to be created and associated with the new job product
   scenario "on the new task form", js: true do
-    new_tp = FactoryGirl.attributes_for(:tracking_product)
-    lender = FactoryGirl.attributes_for(:lender)
+    new_tp = attributes_for(:tracking_product)
+    lender = attributes_for(:lender)
     visit job_path(@tracking_job)
     click_on "Add product"
 
@@ -113,7 +113,7 @@ end
 
 feature "Edit lender", :devise do
   before :all do
-    @lender = FactoryGirl.create(:lender, name: "Mr. Foo's Lending")
+    @lender = create(:lender, name: "Mr. Foo's Lending")
   end
 
   before(:each) do

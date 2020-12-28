@@ -20,13 +20,13 @@ module Features
     end
 
     def sign_in_as_processor
-      user = FactoryGirl.create(:user, :processor)
+      user = FactoryBot.create(:user, :processor)
       login_as(user, scope: :user)
       user
     end
 
     def sign_in_as_admin
-      user = FactoryGirl.create(:user, :admin)
+      user = FactoryBot.create(:user, :admin)
       login_as(user, scope: :user)
       user
     end

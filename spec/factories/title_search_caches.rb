@@ -1,8 +1,6 @@
-# Read about factories at https://github.com/thoughtbot/factory_girl
-
-FactoryGirl.define do
+FactoryBot.define do
   factory :title_search_cach, :class => 'TitleSearchCache' do
     task
-    content "MyText"
+    content { "MyText" }
   end
 end

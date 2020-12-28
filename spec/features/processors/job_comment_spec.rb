@@ -8,7 +8,7 @@ Warden.test_mode!
 feature 'Comment on a Job', :devise do
 
   before(:all) do
-    @job = FactoryGirl.create(:job)
+    @job = create(:job)
   end
 
 	before(:each) do
@@ -116,11 +116,11 @@ feature 'Comment on a Job', :devise do
 	end
 
 	def preload_my_comment
-		@comment = FactoryGirl.create(:comment, related_id: @job.id, related_type: @job.class.name, user: @me)
+		@comment = create(:comment, related_id: @job.id, related_type: @job.class.name, user: @me)
 	end
 
 	def add_another_comment
-    FactoryGirl.create(:comment, related_id: @job.id, related_type: @job.class.name, created_at: 1.day.from_now)
+    create(:comment, related_id: @job.id, related_type: @job.class.name, created_at: 1.day.from_now)
 	end
 
 end

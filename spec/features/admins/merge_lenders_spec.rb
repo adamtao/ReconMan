@@ -6,9 +6,9 @@ feature "Merge lenders", :devise do
 
   before :all do
     @me = sign_in_as_admin
-    @lender1 = FactoryGirl.create(:lender)
-    @lender2 = FactoryGirl.create(:lender)
-    @tracking_task = FactoryGirl.create(:tracking_task, lender: @lender2)
+    @lender1 = create(:lender)
+    @lender2 = create(:lender)
+    @tracking_task = create(:tracking_task, lender: @lender2)
   end
 
   after :all do

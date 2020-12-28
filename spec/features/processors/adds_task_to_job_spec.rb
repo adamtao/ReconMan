@@ -4,7 +4,7 @@ Warden.test_mode!
 
 feature 'Processor adds task to existing job', :devise do
   before :each do
-    @task = FactoryGirl.create(:tracking_task, deed_of_trust_number: "ABC12345")
+    @task = create(:tracking_task, deed_of_trust_number: "ABC12345")
     @job = @task.job
 
 		sign_in_as_processor

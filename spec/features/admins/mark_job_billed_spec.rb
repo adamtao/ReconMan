@@ -15,7 +15,7 @@ feature "Toggle task billing status", :devise, :js do
 
   # Scenario: Show task as not billed
   scenario "not billed -> billed" do
-    @tracking_task = FactoryGirl.create(:tracking_task)
+    @tracking_task = create(:tracking_task)
     visit job_path(@tracking_task.job)
 
     check "Billed"
@@ -26,7 +26,7 @@ feature "Toggle task billing status", :devise, :js do
   end
 
   scenario "billed -> not billed" do
-    @tracking_task = FactoryGirl.create(:tracking_task, billed: true)
+    @tracking_task = create(:tracking_task, billed: true)
     visit job_path(@tracking_task.job)
 
     uncheck "Billed"

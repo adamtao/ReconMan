@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe BranchesController do
 
   before :all do
-    @client = FactoryGirl.create(:client)
-    @branch = FactoryGirl.create(:branch, client: @client)
-    @user = FactoryGirl.create(:user, :processor)
+    @client = create(:client)
+    @branch = create(:branch, client: @client)
+    @user = create(:user, :processor)
   end
 
   before :each do
@@ -33,8 +33,8 @@ RSpec.describe BranchesController do
   describe "GET show" do
 
     before do
-      @agent = FactoryGirl.create(:user, branch: @branch)
-      @tracking_job = FactoryGirl.create(:tracking_job, client: @client, requestor: @agent)
+      @agent = create(:user, branch: @branch)
+      @tracking_job = create(:tracking_job, client: @client, requestor: @agent)
 
       get :show, params: { client_id: @client.id, id: @branch.id }
     end
@@ -73,7 +73,7 @@ RSpec.describe BranchesController do
   describe "POST create" do
 
     before do
-      branch_params = FactoryGirl.attributes_for(:branch)
+      branch_params = attributes_for(:branch)
 
       post :create, params: { client_id: @client.id, branch: branch_params }
     end
@@ -118,7 +118,7 @@ RSpec.describe BranchesController do
   describe "PUT update" do
 
     before do
-      @new_branch_params = FactoryGirl.attributes_for(:branch)
+      @new_branch_params = attributes_for(:branch)
 
       put :update, params: { client_id: @client.id, id: @branch.id, branch: @new_branch_params }
     end

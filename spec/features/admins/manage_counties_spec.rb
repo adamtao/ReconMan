@@ -9,7 +9,7 @@ Warden.test_mode!
 feature 'Manages a county', :devise do
 
 	before(:each) do
-    @county = FactoryGirl.create(:county)
+    @county = create(:county)
 		sign_in_as_admin
 	end
 

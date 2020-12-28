@@ -10,7 +10,7 @@ feature "Search", :devise do
 
   before :all do
     DatabaseCleaner.clean_with :truncation
-    @tracking_jobs = FactoryGirl.create_list(:tracking_job, 21)
+    @tracking_jobs = create_list(:tracking_job, 21)
   end
 
   before :each do

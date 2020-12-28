@@ -19,8 +19,8 @@ feature 'Work with tracking task' do
 	#   When I provide the search URL
 	#   Then I see the task is "In progress"
 	scenario 'records search' do
-    county = FactoryGirl.create(:county, search_url: "http://foo.bar.com/")
-    job = FactoryGirl.create(:tracking_job, county: county)
+    county = create(:county, search_url: "http://foo.bar.com/")
+    job = create(:tracking_job, county: county)
 		visit job_path(job)
 
 		fill_in 'tracking_task_search_url', with: 'http://yomama.lvh.me'
@@ -34,7 +34,7 @@ feature 'Work with tracking task' do
   #   When I edit that task
   #   Then I see the updated info and it is not complete
   scenario 'edits task does not change the status' do
-    job = FactoryGirl.create(:tracking_job)
+    job = create(:tracking_job)
     job.reload
     task = job.tasks.first
     visit edit_job_task_path(job, task)
@@ -49,7 +49,7 @@ feature 'Work with tracking task' do
 	#   When I indicate the first notice is sent
 	#   Then I see the task is "First Notice"
 	scenario 'sends first notice' do
-    job = FactoryGirl.create(:tracking_job)
+    job = create(:tracking_job)
 		visit job_path(job)
 
 		click_on 'First Notice Sent'
@@ -63,7 +63,7 @@ feature 'Work with tracking task' do
 	#   When I indicate the second notice is sent
 	#   Then I see the task is "Second Notice"
 	scenario 'sends second notice' do
-    job = FactoryGirl.create(:tracking_job)
+    job = create(:tracking_job)
     job.reload
     task = job.tasks.first
     task.send_first_notice!

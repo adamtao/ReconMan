@@ -4,7 +4,7 @@ describe County do
 
   context "with offline search" do
     before(:each) do
-      @county = FactoryGirl.build_stubbed(:county)
+      @county = build_stubbed(:county)
     end
 
     subject { @county }
@@ -14,14 +14,14 @@ describe County do
 
   describe "checkout county" do
     before do
-      @county = FactoryGirl.create(:county)
-      @tracking_tasks = FactoryGirl.create_list(:tracking_task, 5)
+      @county = create(:county)
+      @tracking_tasks = create_list(:tracking_task, 5)
       @tracking_tasks.each_with_index do |task,i|
         task.update_column(:due_on, (i+1).weeks.ago)
         task.job.update_column(:county_id, @county.id)
       end
       @tracking_jobs = @tracking_tasks.map{|tjp| tjp.job}
-      @processor = FactoryGirl.create(:user, :processor)
+      @processor = create(:user, :processor)
     end
 
     it ".needing_work should include @county" do
@@ -35,7 +35,7 @@ describe County do
     end
 
     it ".needing_work should not include counties with no jobs" do
-      no_job_county = FactoryGirl.create(:county)
+      no_job_county = create(:county)
 
       expect(County.needing_work).not_to include(no_job_county)
     end
@@ -105,7 +105,7 @@ describe County do
 
     it ".checkout_county expires previously checked out county" do
       @county.checkout_to(@processor)
-      county2 = FactoryGirl.create(:county)
+      county2 = create(:county)
 
       county2.checkout_to(@processor)
 
@@ -117,7 +117,7 @@ describe County do
 
   context "deleting" do
     before do
-      @job = FactoryGirl.create(:job)
+      @job = create(:job)
       @county = @job.county
     end
 

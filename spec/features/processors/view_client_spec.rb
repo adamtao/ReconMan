@@ -5,8 +5,8 @@ Warden.test_mode!
 feature 'View client' do
 
 	before(:all) do
-    @client = FactoryGirl.create(:client)
-    FactoryGirl.create_list(:job, 30, client: @client)
+    @client = create(:client)
+    create_list(:job, 30, client: @client)
   end
 
   before(:each) do

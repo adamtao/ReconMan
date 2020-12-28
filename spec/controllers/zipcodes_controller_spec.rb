@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ZipcodesController do
 
   before :all do
-    @user = FactoryGirl.create(:user, :processor)
+    @user = create(:user, :processor)
   end
 
   before :each do
@@ -13,7 +13,7 @@ RSpec.describe ZipcodesController do
   describe "GET show.json successfully" do
 
     before do
-      @zipcode = FactoryGirl.create(:zipcode, zipcode: "90210")
+      @zipcode = create(:zipcode, zipcode: "90210")
       get :show, params: { id: @zipcode.zipcode, format: :json }
     end
 
@@ -25,7 +25,7 @@ RSpec.describe ZipcodesController do
   describe "GET show.json with dashed zipcode" do
 
     before do
-      @zipcode = FactoryGirl.create(:zipcode, zipcode: "90210-1234")
+      @zipcode = create(:zipcode, zipcode: "90210-1234")
       get :show, params: { id: @zipcode.zipcode, format: :json }
     end
 

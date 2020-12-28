@@ -7,10 +7,10 @@ Warden.test_mode!
 #   I want to edit and update Jobs
 feature 'Update tracking job' do
 	before(:all) do
-    @client = FactoryGirl.create(:client)
-    @branch = FactoryGirl.create(:branch, client: @client)
-    @employee = FactoryGirl.create(:user, branch: @branch)
-    @tracking_job = FactoryGirl.create(:tracking_job, client: @client, requestor: @employee)
+    @client = create(:client)
+    @branch = create(:branch, client: @client)
+    @employee = create(:user, branch: @branch)
+    @tracking_job = create(:tracking_job, client: @client, requestor: @employee)
     @tracking_job.reload
   end
 
@@ -43,10 +43,10 @@ end
 feature 'Update search job' do
 	before(:each) do
 		@me = sign_in_as_processor
-    @client = FactoryGirl.create(:client)
-    @branch = FactoryGirl.create(:branch, client: @client)
-    @employee = FactoryGirl.create(:user, branch: @branch)
-    @search_job = FactoryGirl.create(:search_job, client: @client, requestor: @employee)
+    @client = create(:client)
+    @branch = create(:branch, client: @client)
+    @employee = create(:user, branch: @branch)
+    @search_job = create(:search_job, client: @client, requestor: @employee)
     @search_job.reload
 
 		visit edit_job_path(@search_job)

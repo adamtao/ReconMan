@@ -3,19 +3,19 @@ require 'rails_helper'
 RSpec.describe Client do
 
   before(:all) do
-    @client = FactoryGirl.create(:client)
-    @branch = FactoryGirl.create(:branch, client: @client)
-    branch_user = FactoryGirl.create(:user, branch: @branch)
-    @oldest_job = FactoryGirl.create(:job, requestor: branch_user, client: @branch.client)
-    FactoryGirl.create(:task, job: @oldest_job, due_on: 1.year.ago)
-    @newest_job = FactoryGirl.create(:job, requestor: branch_user, client: @branch.client)
-    FactoryGirl.create(:task, job: @newest_job, due_on: 1.day.ago)
+    @client = create(:client)
+    @branch = create(:branch, client: @client)
+    branch_user = create(:user, branch: @branch)
+    @oldest_job = create(:job, requestor: branch_user, client: @branch.client)
+    create(:task, job: @oldest_job, due_on: 1.year.ago)
+    @newest_job = create(:job, requestor: branch_user, client: @branch.client)
+    create(:task, job: @newest_job, due_on: 1.day.ago)
   end
 
   subject { @client }
 
   it "should lookup a price for product" do
-  	client_product = build(:client_product, client: @client)
+  	client_product = create(:client_product, client: @client)
   	product = client_product.product
 
   	expect(@client.product_price(product)).to eq(client_product.price)
@@ -35,10 +35,10 @@ RSpec.describe Client do
 
   describe "users" do
     before do
-      @zachary = FactoryGirl.create(:user, name: "Zachary John Taylor")
-      @aaron   = FactoryGirl.create(:user, name: "Aaron The Aardvark")
+      @zachary = create(:user, name: "Zachary John Taylor")
+      @aaron   = create(:user, name: "Aaron The Aardvark")
       @branch.users << @zachary
-      @branch2 = FactoryGirl.create(:branch, client: @client)
+      @branch2 = create(:branch, client: @client)
       @branch2.users << @aaron
     end
 

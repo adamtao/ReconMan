@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe DocumentsController do
 
   before :all do
-    @task = FactoryGirl.create(:tracking_task)
-    @user = FactoryGirl.create(:user, :processor)
+    @task = create(:tracking_task)
+    @user = create(:user, :processor)
   end
 
   before :each do
@@ -23,7 +23,7 @@ RSpec.describe DocumentsController do
 
   describe "DELETE destroy" do
     before do
-      @document = FactoryGirl.create(:document, task: @task)
+      @document = create(:document, task: @task)
 
       delete :destroy, params: { id: @document.id, task_id: @task.id, job_id: @task.job_id }
     end

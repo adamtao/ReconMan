@@ -1,7 +1,7 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :document_template do
-    doctype "MyString"
-    layout "MyString"
-    content "MyText"
+    doctype { "MyString" }
+    layout { "MyString" }
+    content { "MyText" }
   end
 end

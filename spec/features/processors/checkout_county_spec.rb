@@ -8,8 +8,8 @@ Warden.test_mode!
 #   So I can process that county's jobs
 feature "Checkout a County", :devise do
   before :all do
-    @county = FactoryGirl.create(:county)
-    @tracking_tasks = FactoryGirl.create_list(:tracking_task, 5)
+    @county = create(:county)
+    @tracking_tasks = create_list(:tracking_task, 5)
     @tracking_tasks.each_with_index do |task,i|
       task.update_column(:due_on, (i+1).weeks.ago)
       task.job.update_column(:county_id, @county.id)
@@ -103,8 +103,8 @@ feature "Checkout a County", :devise do
   #   So that I can work on the new one and others can work on the other
   scenario "only one county at a time" do
     @me.checkout_county(@county)
-    county2 = FactoryGirl.create(:county)
-    FactoryGirl.create(:tracking_job, county: county2)
+    county2 = create(:county)
+    create(:tracking_job, county: county2)
     visit root_path
 
     select county2.name, from: "id"

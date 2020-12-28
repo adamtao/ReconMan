@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Report do
 
   before do
-    @tasks = FactoryGirl.create_list(
+    @tasks = create_list(
       :tracking_task, 2,
       cleared_on: 1.week.ago,
       workflow_state: 'complete',
@@ -77,7 +77,7 @@ describe Report do
 
     context "billed jobs" do
       before do
-        @billed_task = FactoryGirl.create(
+        @billed_task = create(
           :tracking_task,
           cleared_on: 1.week.ago,
           workflow_state: 'complete',
@@ -126,38 +126,38 @@ describe Report do
     end
 
     it "should include jobs to be searched manually" do
-      tracking_job = FactoryGirl.create(:tracking_task, workflow_state: "to_be_processed_manually")
+      tracking_job = create(:tracking_task, workflow_state: "to_be_processed_manually")
 
       expect(@report.tasks).to include(tracking_job)
     end
 
     it "should include jobs that need review" do
-      tracking_job = FactoryGirl.create(:tracking_task, workflow_state: "needs_review")
+      tracking_job = create(:tracking_task, workflow_state: "needs_review")
 
       expect(@report.tasks).to include(tracking_job)
     end
 
     it "should include jobs to be searched manually" do
-      tracking_job = FactoryGirl.create(:tracking_task, workflow_state: "to_be_searched_manually")
+      tracking_job = create(:tracking_task, workflow_state: "to_be_searched_manually")
 
       expect(@report.tasks).to include(tracking_job)
     end
 
     it "should NOT include completed jobs" do
-      tracking_job = FactoryGirl.create(:tracking_task, workflow_state: "complete")
+      tracking_job = create(:tracking_task, workflow_state: "complete")
 
       expect(@report.tasks).not_to include(tracking_job)
     end
 
     it "should NOT include new jobs" do
-      tracking_job = FactoryGirl.create(:tracking_task)
+      tracking_job = create(:tracking_task)
       tracking_job.update_column(:workflow_state, 'new')
 
       expect(@report.tasks).not_to include(tracking_job)
     end
 
     it "should NOT include canceled jobs" do
-      tracking_job = FactoryGirl.create(:tracking_task, workflow_state: "canceled")
+      tracking_job = create(:tracking_task, workflow_state: "canceled")
 
       expect(@report.tasks).not_to include(tracking_job)
     end

@@ -7,13 +7,13 @@ Warden.test_mode!
 #   I want to create Document type Jobs
 feature 'Create Document job', :devise do
 	before(:all) do
-    @state = FactoryGirl.create(:state)
-    @county = FactoryGirl.create(:county, state: @state)
-    @zipcode = FactoryGirl.create(:zipcode, state: @state.abbreviation)
-    @lender = FactoryGirl.create(:lender)
-    @client = FactoryGirl.create(:client)
-    @branch = FactoryGirl.create(:branch, client: @client)
-    @employee = FactoryGirl.create(:user, branch: @branch)
+    @state = create(:state)
+    @county = create(:county, state: @state)
+    @zipcode = create(:zipcode, state: @state.abbreviation)
+    @lender = create(:lender)
+    @client = create(:client)
+    @branch = create(:branch, client: @client)
+    @employee = create(:user, branch: @branch)
   end
 
 	before(:each) do
@@ -30,7 +30,7 @@ feature 'Create Document job', :devise do
   end
 
   scenario "successfully" do
-    product = FactoryGirl.create(:product, job_type: 'documentation')
+    product = create(:product, job_type: 'documentation')
 
     within("ul#job-types") do
       click_on "Documentation"

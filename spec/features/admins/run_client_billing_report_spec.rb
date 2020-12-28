@@ -5,7 +5,7 @@ Warden.test_mode!
 feature "Admin runs monthly report for client" do
 
   before :all do
-    @task = FactoryGirl.create(:tracking_task,
+    @task = create(:tracking_task,
       workflow_state: 'complete',
       deed_of_trust_number: "1234",
       new_deed_of_trust_number: "5678",
@@ -14,9 +14,9 @@ feature "Admin runs monthly report for client" do
     )
     @task.job.update_column(:file_number, "foobar45")
     @client = @task.job.client
-    @incomplete_job = FactoryGirl.create(:tracking_job, client: @client, file_number: "9999")
-    other_client = FactoryGirl.create(:client)
-    @other_job = FactoryGirl.create(:tracking_job, client: other_client, file_number: "8888")
+    @incomplete_job = create(:tracking_job, client: @client, file_number: "9999")
+    other_client = create(:client)
+    @other_job = create(:tracking_job, client: other_client, file_number: "8888")
   end
 
   before :each do
@@ -51,9 +51,9 @@ feature "Admin runs monthly report for client" do
   # I want to filter reports by lender
   # So that I can let clients know how lenders are performing
   scenario "filtered by lender successfully" do
-    new_job = FactoryGirl.create(:tracking_job, client: @client, file_number: "9999b")
+    new_job = create(:tracking_job, client: @client, file_number: "9999b")
     new_job.reload
-    lender = FactoryGirl.create(:lender)
+    lender = create(:lender)
     jp = new_job.tasks.first
     jp.update_column(:lender_id, lender.id)
     jp.mark_complete!
@@ -72,7 +72,7 @@ feature "Admin runs monthly report for client" do
   # I want to filter reports by pending jobs
   # So I can show clients what is happening with open jobs
   scenario "filtered by job status (pending)" do
-    new_job = FactoryGirl.create(:tracking_job, client: @client, file_number: "9999p")
+    new_job = create(:tracking_job, client: @client, file_number: "9999p")
     new_job.reload
     jp = new_job.tasks.first
     jp.update_column(:workflow_state, "in_progress")
@@ -132,7 +132,7 @@ feature "Admin runs monthly report for client" do
   # I want to exclude already billed jobs from reports
   # So I don't double-bill a client
   scenario "exclude already billed jobs" do
-    billed_task = FactoryGirl.create(
+    billed_task = create(
       :tracking_task,
       cleared_on: 1.week.ago,
       workflow_state: 'complete',

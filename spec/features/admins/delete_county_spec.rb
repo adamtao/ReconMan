@@ -9,7 +9,7 @@ Warden.test_mode!
 feature 'Deletes a county', :devise do
 
 	before(:all) do
-    @county = FactoryGirl.create(:county)
+    @county = create(:county)
   end
 
   before(:each) do
@@ -33,7 +33,7 @@ feature 'Deletes a county', :devise do
   end
 
   scenario "with associated jobs, sees an error" do
-    FactoryGirl.create(:job, county: @county)
+    create(:job, county: @county)
 
     visit state_county_path(@county.state, @county)
     click_on "Delete"

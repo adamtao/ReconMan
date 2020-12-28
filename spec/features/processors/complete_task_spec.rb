@@ -8,7 +8,7 @@ Warden.test_mode!
 feature 'Complete task', :devise do
 
   before :all do
-    @job = FactoryGirl.create(:tracking_job)
+    @job = create(:tracking_job)
     @job.reload
   end
 

@@ -6,7 +6,7 @@ describe State do
   	@ttnd = 30
   	@ttdd = 45
   	@ttrd = 60
-    @state = FactoryGirl.build(:state,
+    @state = build(:state,
   		time_to_notify_days: @ttnd,
   		time_to_dispute_days: @ttdd,
   		time_to_record_days: @ttrd

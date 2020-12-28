@@ -8,7 +8,7 @@ Warden.test_mode!
 #   So that work gets done and client can be billed
 feature 'Update Document job', :devise do
 	before(:all) do
-    @task = FactoryGirl.create(:documentation_task)
+    @task = create(:documentation_task)
     @job = @task.job
   end
 
