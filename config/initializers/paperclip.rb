@@ -1,6 +1,6 @@
 # monkeypatch to get around paperclip's horrible spoof detector
 require 'paperclip/media_type_spoof_detector'
-require 'addressable'
+
 module Paperclip
   class MediaTypeSpoofDetector
     def spoofed?
@@ -13,7 +13,7 @@ module Paperclip
       if url.respond_to?(:escape)
         url.escape
       else
-        Addressable::URI.parse(url).normalize.to_str.gsub(escape_regex){|m| "%#{m.ord.to_s(16).upcase}" }
+        ::Addressable::URI.parse(url).normalize.to_str.gsub(escape_regex){|m| "%#{m.ord.to_s(16).upcase}" }
       end
     end
   end
