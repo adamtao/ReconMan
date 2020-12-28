@@ -368,6 +368,7 @@ DEPENDENCIES
   RedCloth
   ace-rails-ap
   active_attr
+  addressable
   aws-sdk-s3
   bazaar
   capybara (~> 2.0)

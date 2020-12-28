@@ -26,6 +26,7 @@ gem "rabl"
 gem "RedCloth"
 gem "redcloth-rails"
 gem 'unicorn'
+gem 'addressable'
 gem 'paperclip'
 #gem 'aws-sdk', '~> 2.3'
 gem 'aws-sdk-s3'
