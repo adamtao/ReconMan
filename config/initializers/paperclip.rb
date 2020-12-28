@@ -1,5 +1,6 @@
 # monkeypatch to get around paperclip's horrible spoof detector
 require 'paperclip/media_type_spoof_detector'
+require 'addressable'
 module Paperclip
   class MediaTypeSpoofDetector
     def spoofed?
