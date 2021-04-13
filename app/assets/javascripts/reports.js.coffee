@@ -13,3 +13,6 @@ jQuery ($) ->
   if $('select#report_job_status').length > 0
     hide_report_dates()
     $('select#report_job_status').change -> hide_report_dates()
+
+  $('form#mark-all-billed').submit ->
+    confirm "Are you sure you want to mark all these jobs billed?"
