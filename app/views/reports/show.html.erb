@@ -39,10 +39,10 @@
     <% @report.tasks.each do |task| %>
       <tr>
         <% @report.columns.each do |col| %>
-          <td <% if (col == :first_notice_date && task.first_notice_sent_on.present?) ||
+          <td class="<% if (col == :first_notice_date && task.first_notice_sent_on.present?) ||
               (col == :second_notice_date && task.second_notice_sent_on.present?) %>
-            class="strong"<% end %>>
-            <%= task.send(col) %>
+            strong<% end %> <%= "text-center" if col == :billed %>">
+            <%= report_field(task, col) %>
           </td>
         <% end %>
       </tr>
@@ -51,11 +51,11 @@
   <% if @report.show_pricing? %>
     <tfoot>
       <tr>
-        <td colspan="<%= @report.columns.length - 1 %>" class="text-right">
+        <td colspan="<%= @report.columns.length - 2 %>" class="text-right">
           Total
         </td>
-        <td class="text-right">
-          <%= @report.total %>
+        <td colspan="2">
+          <%=number_to_currency @report.total %>
         </td>
       </tr>
     </tfoot>

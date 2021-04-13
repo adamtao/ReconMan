@@ -95,6 +95,7 @@ class Report
     end
 
     h << "Price" if self.show_pricing?
+    h << "Billed?"
     h
   end
 
@@ -111,6 +112,7 @@ class Report
     end
 
     c << :report_price if self.show_pricing?
+    c << :billed
     c
   end
 
